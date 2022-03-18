@@ -3,27 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package optiuam.bc.model;
+package optiuam.bc.modelo;
 
 import java.util.ArrayList;
 
-public class PotencyMeter extends Component {
+public class MedidorPotencia extends Componente {
     
-    private Double sensitivity = 0.0;
+    private Double sensibilidad = 0.0;
     
-    public PotencyMeter(String name, int id) {
-        this.name = name;
+    public MedidorPotencia(String name, int id) {
+        this.nombre = name;
         this.id = id;
     }
 
-    public PotencyMeter() {
+    public MedidorPotencia() {
     }
     
     public double calcularPerdidas(){
         return  0.0;
     }
 
-    public double calcularPotencia(ArrayList<Component> elementos){
+    public double calcularPotencia(ArrayList<Componente> elementos){
         double Dt= 0.0; //dispersion cromatica total
         double Pa= 0.0; //perdida por atenuacion de la fibra L*Fa 
         double S = 0.0; // anchura espectral
@@ -44,11 +44,11 @@ public class PotencyMeter extends Component {
         int    Se=0;    //salidas del splitter
        // boolean isSplitter=false; //para saber si hubo un splitter en el enlace
         for(int i = elementos.size()-1;i>=0;i--){
-            if(elementos.get(i).getName().contains("splitter")){
+            if(elementos.get(i).getNombre().contains("splitter")){
                 //isSplitter=true;
                 Splitter splitter_aux = (Splitter)elementos.get(i);
-                Ps= splitter_aux.getInsertion_loss();
-                Se=splitter_aux.getOutputs();
+                Ps= splitter_aux.getPerdidaInsercion();
+                Se=splitter_aux.getSalidas();
                 Dt = Dc * S *L; // picosegungo x10-12
                 Pd = -10 * Math.log10(1-((0.5)*Math.pow((Math.PI*(B*Math.pow(10, 9))),2)* Math.pow((Dt*Math.pow(10, -12)),2)));
                System.out.println("Splitter ---Perdida por dispersion ="+ Pd);
@@ -69,28 +69,28 @@ public class PotencyMeter extends Component {
                 
             } 
             
-            if(elementos.get(i).getName().contains("source")){
-                Source fuente_aux = (Source)elementos.get(i);
-                B=fuente_aux.getVelocity();
-                S=fuente_aux.getWidth();
-                Tp=fuente_aux.getPotency();
+            if(elementos.get(i).getNombre().contains("source")){
+                Fuente fuente_aux = (Fuente)elementos.get(i);
+                B=fuente_aux.getVelocidad();
+                S=fuente_aux.getAnchura();
+                Tp=fuente_aux.getPotencia();
             } 
             
-            if(elementos.get(i).getName().contains("connector")){
-                Connector conector_aux = (Connector)elementos.get(i);
-                conectores.add(conector_aux.getInsertion_loss());
+            if(elementos.get(i).getNombre().contains("connector")){
+                Conector conector_aux = (Conector)elementos.get(i);
+                conectores.add(conector_aux.getPerdidaInsercion());
             }
             
-            if(elementos.get(i).getName().contains("fiber")){
-                Fiber fibra_aux = (Fiber)elementos.get(i);
+            if(elementos.get(i).getNombre().contains("fiber")){
+                Fibra fibra_aux = (Fibra)elementos.get(i);
                 Dc = fibra_aux.getDispersion();
-                Fa = fibra_aux.getAttenuation();
-                L = L + fibra_aux.getKm_length();
+                Fa = fibra_aux.getAtenuacion();
+                L = L + fibra_aux.getLongitud_km();
             }
             
-            if(elementos.get(i).getName().contains("splice")){
-                Splice empalme_aux = (Splice)elementos.get(i);
-                empalmes.add(empalme_aux.getInsertion_loss());
+            if(elementos.get(i).getNombre().contains("splice")){
+                Empalme empalme_aux = (Empalme)elementos.get(i);
+                empalmes.add(empalme_aux.getPerdidaInsercion());
             }
         }
         
@@ -104,7 +104,7 @@ public class PotencyMeter extends Component {
            // System.out.println("Perdida empalmes="+Pe);
             Pa = L*Fa;
            // System.out.println("Perdida atenuacion fibra="+Pa);
-            Pt=(Tp-(sensitivity))-(Pd + Pc + Pe + Pa);
+            Pt=(Tp-(sensibilidad))-(Pd + Pc + Pe + Pa);
             BigDecimal auxPt = BigDecimal.valueOf(Pt); // convierte los valores tipo x10^# a x10^0
             
             return (Math.floor(Pt*100)/100);
@@ -121,7 +121,7 @@ public class PotencyMeter extends Component {
             System.out.println("Perdida empalmes="+Pe);
             Pa = L*Fa;
             System.out.println("Perdida atenuacion fibra="+Pa);
-            Pt=(Tp-(sensitivity))-(Pd + Pc + Pe + Pa);
+            Pt=(Tp-(sensibilidad))-(Pd + Pc + Pe + Pa);
             //BigDecimal auxPt = BigDecimal.valueOf(Pt); // convierte los valores tipo x10^# a x10^0
             System.out.println("Potencia ="+Pt);
             System.out.println("Potencia ="+Math.floor(Pt*100)/100);
@@ -143,18 +143,18 @@ public class PotencyMeter extends Component {
     
     @Override
     public String toString() {
-        return super.toString()+","+sensitivity;
+        return super.toString()+","+sensibilidad;
     }
 
     
     /*Getter and Setter*/
     
-    public Double getSensitivity() {
-        return sensitivity;
+    public Double getSensibilidad() {
+        return sensibilidad;
     }
 
-    public void setSensitivity(Double sensitivity) {
-        this.sensitivity = sensitivity;
+    public void setSensibilidad(Double sensibilidad) {
+        this.sensibilidad = sensibilidad;
     }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package optiuam.bc.model;
+package optiuam.bc.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +111,7 @@ public class FFT {
 		    	int aux2 = aux1+sizeGrupo/2;
 		    	for(int k=0;k<sizeGrupo/2;k++) {
 		    		arregloComplejos.multiplicar(aux2, raices.getRaizUnitaria(sizeGrupo, k));
-		    		ComplexNumber complejo = arregloComplejos.getNumeroComplejo(aux2);
+		    		NumeroComplejo complejo = arregloComplejos.getNumeroComplejo(aux2);
 		    		arregloComplejos.setNumeroComplejo(aux2, arregloComplejos.getParteReal(aux1), arregloComplejos.getParteImaginaria(aux1));
 		    		arregloComplejos.sumar(aux1, complejo);
 		    		arregloComplejos.restar(aux2, complejo);
@@ -135,7 +135,7 @@ public class FFT {
 		    	int aux1 = j*sizeGrupo;
 		    	int aux2 = aux1+sizeGrupo/2;
 		    	for(int k=0;k<sizeGrupo/2;k++) {
-		    		ComplexNumber cNum = arrayComplejos.getNumeroComplejo(aux2);
+		    		NumeroComplejo cNum = arrayComplejos.getNumeroComplejo(aux2);
 		    		arrayComplejos.setNumeroComplejo(aux2, arrayComplejos.getParteReal(aux1), arrayComplejos.getParteImaginaria(aux1));
 		    		arrayComplejos.sumar(aux1, cNum);
 		    		arrayComplejos.restar(aux2, cNum);
@@ -300,7 +300,7 @@ public class FFT {
         
         class RaizUnitaria {
         	private int n;
-	private List<ComplexNumber> raices;
+	private List<NumeroComplejo> raices;
 	
 	public RaizUnitaria(int n) {
 		this.n = n;
@@ -311,15 +311,15 @@ public class FFT {
 	private void generarRaices() {
 		for(int k=0;k<=n;k++) {
 			float unit = (float) (2 * Math.PI  * k / n);
-			raices.add(new ComplexNumber((float)Math.cos(unit), -(float)Math.sin(unit)));
+			raices.add(new NumeroComplejo((float)Math.cos(unit), -(float)Math.sin(unit)));
 		}
 	}
 	
-	public List<ComplexNumber> getRaices(){
+	public List<NumeroComplejo> getRaices(){
 		return raices;
 	}
 	
-	public ComplexNumber getRaizUnitaria(int n ,int k) {
+	public NumeroComplejo getRaizUnitaria(int n ,int k) {
 		if(this.n == n) {
 			return raices.get(k);
 		}else if(this.n>n) {
@@ -354,18 +354,18 @@ public class FFT {
         partesImaginarias[posicion] = imaginaria;
     }
 
-    public void setNumeroComplejo(int posicion, ComplexNumber numero) {
+    public void setNumeroComplejo(int posicion, NumeroComplejo numero) {
         if (numero != null) {
-            partesReales[posicion] = numero.getRealPart();
-            partesImaginarias[posicion] = numero.getImaginaryPart();
+            partesReales[posicion] = numero.getParteReal();
+            partesImaginarias[posicion] = numero.getParteImaginaria();
         }
     }
 
-    public void setNumerosComplejos(ComplexNumber[] array) {
+    public void setNumerosComplejos(NumeroComplejo[] array) {
         if (array != null) {
             for (int i = 0; i < size; i++) {
-                partesReales[i] = array[i].getRealPart();
-                partesImaginarias[i] = array[i].getImaginaryPart();
+                partesReales[i] = array[i].getParteReal();
+                partesImaginarias[i] = array[i].getParteImaginaria();
             }
         }
     }
@@ -395,8 +395,8 @@ public class FFT {
         }
     }
 
-    public ComplexNumber getNumeroComplejo(int posicion) {
-        return new ComplexNumber(partesReales[posicion], partesImaginarias[posicion]);
+    public NumeroComplejo getNumeroComplejo(int posicion) {
+        return new NumeroComplejo(partesReales[posicion], partesImaginarias[posicion]);
     }
 
     public float getParteReal(int posicion) {
@@ -459,15 +459,15 @@ public class FFT {
         return fases;
     }
 
-    public void sumar(int posicion, ComplexNumber sumando) {
+    public void sumar(int posicion, NumeroComplejo sumando) {
         if (sumando != null) {
-            partesReales[posicion] += sumando.getRealPart();
-            partesImaginarias[posicion] += sumando.getImaginaryPart();
+            partesReales[posicion] += sumando.getParteReal();
+            partesImaginarias[posicion] += sumando.getParteImaginaria();
         }
     }
 
     //este metodo suma todos los numeros del array con el sumando
-    public void sumarTodo(ComplexNumber sumando) {
+    public void sumarTodo(NumeroComplejo sumando) {
         if (sumando != null) {
             for (int i = 0; i < size; i++) {
                 sumar(i, sumando);
@@ -475,15 +475,15 @@ public class FFT {
         }
     }
 
-    public void restar(int posicion, ComplexNumber sustraendo) {
+    public void restar(int posicion, NumeroComplejo sustraendo) {
         if (sustraendo != null) {
-            partesReales[posicion] -= sustraendo.getRealPart();
-            partesImaginarias[posicion] -= sustraendo.getImaginaryPart();
+            partesReales[posicion] -= sustraendo.getParteReal();
+            partesImaginarias[posicion] -= sustraendo.getParteImaginaria();
         }
     }
     
 
-    public void restarTodo(ComplexNumber sustraendo) {
+    public void restarTodo(NumeroComplejo sustraendo) {
         if (sustraendo != null) {
             for (int i = 0; i < size; i++) {
                 restar(i, sustraendo);
@@ -491,17 +491,17 @@ public class FFT {
         }
     }
    
-    public void multiplicar(int posicion, ComplexNumber multiplicador) {
+    public void multiplicar(int posicion, NumeroComplejo multiplicador) {
         if (multiplicador != null) {
-            float auxReal = partesReales[posicion] * multiplicador.getRealPart() - partesImaginarias[posicion] * multiplicador.getImaginaryPart();
-            float auxImaginario = partesReales[posicion] * multiplicador.getImaginaryPart() + partesImaginarias[posicion] * multiplicador.getRealPart();
+            float auxReal = partesReales[posicion] * multiplicador.getParteReal() - partesImaginarias[posicion] * multiplicador.getParteImaginaria();
+            float auxImaginario = partesReales[posicion] * multiplicador.getParteImaginaria() + partesImaginarias[posicion] * multiplicador.getParteReal();
             partesReales[posicion] = auxReal;
             partesImaginarias[posicion] = auxImaginario;
         }
     }
     
 
-    public void multiplicarTodo(ComplexNumber multiplicador) {
+    public void multiplicarTodo(NumeroComplejo multiplicador) {
         if (multiplicador != null) {
             for (int i = 0; i < size; i++) {
                 multiplicar(i, multiplicador);
@@ -523,11 +523,11 @@ public class FFT {
     }
     
 
-    public void dividir(int posicion, ComplexNumber divisor) {
+    public void dividir(int posicion, NumeroComplejo divisor) {
         if (divisor != null) {
-            float sumBase = (float) (Math.pow(divisor.getRealPart(), 2) + Math.pow(divisor.getImaginaryPart(), 2));
-            float auxReal = (partesReales[posicion] * divisor.getRealPart() + partesImaginarias[posicion] * divisor.getImaginaryPart()) / sumBase;
-            float auxImaginario = (partesImaginarias[posicion] * divisor.getRealPart() - partesReales[posicion] * divisor.getImaginaryPart()) / sumBase;
+            float sumBase = (float) (Math.pow(divisor.getParteReal(), 2) + Math.pow(divisor.getParteImaginaria(), 2));
+            float auxReal = (partesReales[posicion] * divisor.getParteReal() + partesImaginarias[posicion] * divisor.getParteImaginaria()) / sumBase;
+            float auxImaginario = (partesImaginarias[posicion] * divisor.getParteReal() - partesReales[posicion] * divisor.getParteImaginaria()) / sumBase;
             partesReales[posicion] = auxReal;
             partesImaginarias[posicion] = auxImaginario;
         }
