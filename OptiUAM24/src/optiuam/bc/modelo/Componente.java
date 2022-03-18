@@ -16,6 +16,10 @@ public class Componente {
     protected String elementoConectado = "";
     protected boolean conectado;
 
+    public Componente() {
+    }
+    
+    
     
     /*Getter and Setter*/
     
@@ -51,6 +55,9 @@ public class Componente {
         this.conectado = conectado;
     }
     
+    public void crearNuevoComponente(){
+        System.out.println("hola");
+    }
     
     /*toString*/
 
