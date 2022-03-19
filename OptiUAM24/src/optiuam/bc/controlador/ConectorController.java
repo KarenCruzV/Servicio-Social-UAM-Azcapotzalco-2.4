@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 
 
 /**
@@ -21,23 +22,40 @@ import javafx.scene.control.*;
 public class ConectorController implements Initializable {
 
     @FXML
-        private Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, labelConectarA;
+        protected Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, labelConectarA, lblPropiedades;
     @FXML
-        private RadioButton rbtn1310, rbtn1550, rbtnMono, rbtnMulti;
+        protected RadioButton rbtn1310, rbtn1550, rbtnMono, rbtnMulti;
     @FXML
-        private TextField txtPerdida;
+        protected TextField txtPerdida;
     @FXML
-        private Button btnDesconectar, btnCancelar, btnCrear;
+        protected Button btnDesconectar, btnCancelar, btnCrear;
     @FXML
-        private ComboBox cmbConectarA;
+        protected ComboBox cmbConectarA;
+    @FXML
+        protected AnchorPane ConectorVentana;
+    
     
     
     public void getLongitudOnda(ActionEvent ev){
         if(rbtn1310.isSelected()){
-            
+            lblPropiedades.setText(rbtn1310.getText()+"\t"+getModo());
+            System.out.println(rbtn1310.getText()+"\t"+getModo());
+        }else{
+            lblPropiedades.setText(rbtn1550.getText()+"\t"+getModo());
+            System.out.println(rbtn1550.getText()+"\t"+getModo());
         }
     }
+    public String getModo(){
+        String modo="";
+        if(rbtnMono.isSelected()){
+            modo= rbtnMono.getText();
+        }else{
+            modo= rbtnMulti.getText();
+        }
+        return modo;
+    }
     
+       
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
