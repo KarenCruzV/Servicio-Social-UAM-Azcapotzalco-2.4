@@ -16,17 +16,17 @@
       <Label fx:id="lblTitulo" layoutX="148.0" layoutY="25.0" text="Connector Configuration" />
       <Separator layoutX="1.0" layoutY="53.0" prefHeight="8.0" prefWidth="401.0" />
       <Label fx:id="lblLongitudOnda" layoutX="62.0" layoutY="84.0" text="Wavelength" />
-      <RadioButton fx:id="rbtn1310" layoutX="146.0" layoutY="84.0" mnemonicParsing="false" selected="true" text="1310 nm">
+      <RadioButton fx:id="rbtn1310" layoutX="146.0" layoutY="84.0" mnemonicParsing="false" onAction="#getLongitudOnda" selected="true" text="1310 nm">
          <toggleGroup>
             <ToggleGroup fx:id="LongitudOnda" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="rbtn1550" layoutX="246.0" layoutY="84.0" mnemonicParsing="false" text="1550 nm" toggleGroup="$LongitudOnda" />
+      <RadioButton fx:id="rbtn1550" layoutX="246.0" layoutY="84.0" mnemonicParsing="false" onAction="#getLongitudOnda" text="1550 nm" toggleGroup="$LongitudOnda" />
       <Label fx:id="lblModo" layoutX="94.0" layoutY="125.0" text="Mode" />
-      <RadioButton fx:id="rbtnMono" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" selected="true" text="monomode">
+      <RadioButton fx:id="rbtnMono" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" onAction="#getLongitudOnda" selected="true" text="monomode">
          <toggleGroup>
             <ToggleGroup fx:id="Modo" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="rbtnMulti" layoutX="246.0" layoutY="124.0" mnemonicParsing="false" text="multimode" toggleGroup="$Modo" />
+      <RadioButton fx:id="rbtnMulti" layoutX="246.0" layoutY="124.0" mnemonicParsing="false" onAction="#getLongitudOnda" text="multimode" toggleGroup="$Modo" />
       <Label fx:id="lblPerdida" layoutX="54.0" layoutY="163.0" text="Insertion Loss" />
       <TextField fx:id="txtPerdida" layoutX="147.0" layoutY="158.0" prefHeight="25.0" prefWidth="84.0" promptText="-Into-" />
       <Label fx:id="lbldB" layoutX="239.0" layoutY="163.0" text="dB" />
@@ -39,5 +39,6 @@
             <Font name="Arial Black" size="9.0" />
          </font>
       </Button>
+      <Label fx:id="lblPropiedades" layoutX="87.0" layoutY="270.0" prefHeight="17.0" prefWidth="204.0" text="..." textFill="#ee1919" />
    </children>
 </AnchorPane>
