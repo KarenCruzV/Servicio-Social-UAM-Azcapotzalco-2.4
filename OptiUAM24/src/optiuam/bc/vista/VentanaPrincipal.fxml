@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: lightskyblue; -fx-border-color: darkblue;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.vista.VentanaPrincipal">
+   <children>
+      <MenuBar layoutX="1.0" layoutY="2.0" prefHeight="20.0" prefWidth="804.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Open" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help" />
+          <Menu mnemonicParsing="false" text="About" />
+        </menus>
+      </MenuBar>
+      <TitledPane animated="false" layoutX="1.0" layoutY="24.0" prefHeight="140.0" prefWidth="804.0" text="Components">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="802.0" style="-fx-background-color: lavender;">
+               <children>
+                  <Button fx:id="btn_fibra" layoutX="28.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaFibra" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_fibra" layoutX="46.0" layoutY="80.0" text="Fiber">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btn_fuente" layoutX="112.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaFuente" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_fuente" layoutX="127.0" layoutY="80.0" text="Source">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btn_splitter" layoutX="196.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaSplitter" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_splitter" layoutX="209.0" layoutY="80.0" text="Splitter">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btn_conector" layoutX="281.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaConector" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_conector" layoutX="287.0" layoutY="80.0" text="Connector">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btn_empalme" layoutX="366.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaEmpalme" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_empalme" layoutX="383.0" layoutY="80.0" text="Splice">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btn_potencia" layoutX="450.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaPotencia" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_potencia" layoutX="462.0" layoutY="80.0" text="Potency">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_potencia1" layoutX="467.0" layoutY="92.0" text="Meter">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btn_espectro" layoutX="534.0" layoutY="11.0" mnemonicParsing="false" onAction="#abrirVentanaEspectro" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: blue;" />
+                  <Label fx:id="lbl_espectro" layoutX="542.0" layoutY="80.0" text="Spectrum">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_espectro1" layoutX="551.0" layoutY="92.0" text="Meter">
+                     <font>
+                        <Font name="Candara Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutY="175.0" text="Work Area">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="802.0" style="-fx-background-color: aliceblue;" />
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

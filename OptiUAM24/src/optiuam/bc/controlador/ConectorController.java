@@ -35,13 +35,10 @@ public class ConectorController implements Initializable {
         protected AnchorPane ConectorVentana;
     
     
-    
     public void getLongitudOnda(ActionEvent ev){
         if(rbtn1310.isSelected()){
-            lblPropiedades.setText(rbtn1310.getText()+"\t"+getModo());
             System.out.println(rbtn1310.getText()+"\t"+getModo());
         }else{
-            lblPropiedades.setText(rbtn1550.getText()+"\t"+getModo());
             System.out.println(rbtn1550.getText()+"\t"+getModo());
         }
     }
