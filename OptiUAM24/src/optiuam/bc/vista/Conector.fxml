@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.ConectorController">
-    
+<AnchorPane id="VentanaConector" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.ConectorController">
+   <children>
+      <Label layoutX="148.0" layoutY="25.0" text="Connector Configuration" />
+      <Separator layoutX="1.0" layoutY="53.0" prefHeight="8.0" prefWidth="401.0" />
+      <Label layoutX="62.0" layoutY="84.0" text="Wavelength" />
+      <RadioButton layoutX="146.0" layoutY="84.0" mnemonicParsing="false" text="1310 nm" />
+      <RadioButton layoutX="246.0" layoutY="84.0" mnemonicParsing="false" text="1550 nm" />
+      <Label layoutX="94.0" layoutY="125.0" text="Mode" />
+      <RadioButton layoutX="147.0" layoutY="124.0" mnemonicParsing="false" text="monomode" />
+      <RadioButton layoutX="246.0" layoutY="124.0" mnemonicParsing="false" text="multimode" />
+      <Label layoutX="54.0" layoutY="163.0" text="Insertion Loss" />
+      <TextField layoutX="147.0" layoutY="158.0" prefHeight="25.0" prefWidth="84.0" />
+      <Label layoutX="239.0" layoutY="163.0" text="dB" />
+      <Label layoutX="64.0" layoutY="207.0" text="Connect to" />
+      <ComboBox layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="84.0" />
+      <Button layoutX="274.0" layoutY="203.0" mnemonicParsing="false" text="Disconnect" />
+      <Button layoutX="28.0" layoutY="253.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="314.0" layoutY="253.0" mnemonicParsing="false" text="Create" />
+   </children>
 </AnchorPane>
