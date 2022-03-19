@@ -7,7 +7,11 @@ package optiuam.bc.controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+
 
 /**
  * FXML Controller class
@@ -16,12 +20,28 @@ import javafx.fxml.Initializable;
  */
 public class ConectorController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+        private Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, labelConectarA;
+    @FXML
+        private RadioButton rbtn1310, rbtn1550, rbtnMono, rbtnMulti;
+    @FXML
+        private TextField txtPerdida;
+    @FXML
+        private Button btnDesconectar, btnCancelar, btnCrear;
+    @FXML
+        private ComboBox cmbConectarA;
+    
+    
+    public void getLongitudOnda(ActionEvent ev){
+        if(rbtn1310.isSelected()){
+            
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        
     }    
     
 }
