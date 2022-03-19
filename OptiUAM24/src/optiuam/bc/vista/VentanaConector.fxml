@@ -6,25 +6,39 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="VentanaConector" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.ConectorController">
+<AnchorPane id="VentanaConector" fx:id="ConectorVentana" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.ConectorController">
    <children>
-      <Label layoutX="148.0" layoutY="25.0" text="Connector Configuration" />
+      <Button fx:id="btnCrear" layoutX="314.0" layoutY="253.0" mnemonicParsing="false" text="Create" />
+      <Label fx:id="lblTitulo" layoutX="148.0" layoutY="25.0" text="Connector Configuration" />
       <Separator layoutX="1.0" layoutY="53.0" prefHeight="8.0" prefWidth="401.0" />
-      <Label layoutX="62.0" layoutY="84.0" text="Wavelength" />
-      <RadioButton layoutX="146.0" layoutY="84.0" mnemonicParsing="false" text="1310 nm" />
-      <RadioButton layoutX="246.0" layoutY="84.0" mnemonicParsing="false" text="1550 nm" />
-      <Label layoutX="94.0" layoutY="125.0" text="Mode" />
-      <RadioButton layoutX="147.0" layoutY="124.0" mnemonicParsing="false" text="monomode" />
-      <RadioButton layoutX="246.0" layoutY="124.0" mnemonicParsing="false" text="multimode" />
-      <Label layoutX="54.0" layoutY="163.0" text="Insertion Loss" />
-      <TextField layoutX="147.0" layoutY="158.0" prefHeight="25.0" prefWidth="84.0" />
-      <Label layoutX="239.0" layoutY="163.0" text="dB" />
-      <Label layoutX="64.0" layoutY="207.0" text="Connect to" />
-      <ComboBox layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="84.0" />
-      <Button layoutX="274.0" layoutY="203.0" mnemonicParsing="false" text="Disconnect" />
-      <Button layoutX="28.0" layoutY="253.0" mnemonicParsing="false" text="Cancel" />
-      <Button layoutX="314.0" layoutY="253.0" mnemonicParsing="false" text="Create" />
+      <Label fx:id="lblLongitudOnda" layoutX="62.0" layoutY="84.0" text="Wavelength" />
+      <RadioButton fx:id="rbtn1310" layoutX="146.0" layoutY="84.0" mnemonicParsing="false" onAction="#getLongitudOnda" selected="true" text="1310 nm">
+         <toggleGroup>
+            <ToggleGroup fx:id="LongitudOnda" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbtn1550" layoutX="246.0" layoutY="84.0" mnemonicParsing="false" onAction="#getLongitudOnda" text="1550 nm" toggleGroup="$LongitudOnda" />
+      <Label fx:id="lblModo" layoutX="94.0" layoutY="125.0" text="Mode" />
+      <RadioButton fx:id="rbtnMono" layoutX="147.0" layoutY="124.0" mnemonicParsing="false" onAction="#getLongitudOnda" selected="true" text="monomode">
+         <toggleGroup>
+            <ToggleGroup fx:id="Modo" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbtnMulti" layoutX="246.0" layoutY="124.0" mnemonicParsing="false" onAction="#getLongitudOnda" text="multimode" toggleGroup="$Modo" />
+      <Label fx:id="lblPerdida" layoutX="54.0" layoutY="163.0" text="Insertion Loss" />
+      <TextField fx:id="txtPerdida" layoutX="147.0" layoutY="158.0" prefHeight="25.0" prefWidth="84.0" promptText="-Into-" />
+      <Label fx:id="lbldB" layoutX="239.0" layoutY="163.0" text="dB" />
+      <Label fx:id="lblConectarA" layoutX="64.0" layoutY="207.0" text="Connect to" />
+      <ComboBox fx:id="cmbConectarA" layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="84.0" promptText="-Select-" />
+      <Button fx:id="btnDesconectar" layoutX="274.0" layoutY="203.0" mnemonicParsing="false" text="Disconnect" />
+      <Button fx:id="btnCancelar" layoutX="28.0" layoutY="253.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="btnCerrar" alignment="TOP_CENTER" cancelButton="true" layoutX="379.0" layoutY="-2.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="24.0" style="-fx-background-color: red;" text="x" textFill="#f5f5f2">
+         <font>
+            <Font name="Arial Black" size="9.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblPropiedades" layoutX="87.0" layoutY="270.0" prefHeight="17.0" prefWidth="204.0" text="..." textFill="#ee1919" />
    </children>
 </AnchorPane>
