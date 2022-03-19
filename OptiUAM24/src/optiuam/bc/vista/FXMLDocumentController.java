@@ -36,7 +36,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void abrirVentanaConector(ActionEvent event) throws IOException{
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Conector.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
         stage.setScene(scene);
