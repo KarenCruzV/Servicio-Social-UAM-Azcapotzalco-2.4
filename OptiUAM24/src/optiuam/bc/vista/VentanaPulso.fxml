@@ -4,7 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="450.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.VentanaPulsoController">
    <children>
@@ -22,7 +24,14 @@
       <Label layoutX="361.0" layoutY="174.0" text="M:" />
       <TextField layoutX="381.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
       <Button layoutX="202.0" layoutY="225.0" mnemonicParsing="false" text="Apply" />
-      <Button layoutX="20.0" layoutY="261.0" mnemonicParsing="false" text="Exit" />
-      <Button layoutX="361.0" layoutY="261.0" mnemonicParsing="false" text="Plot Pulse" />
+      <Button layoutX="347.0" layoutY="263.0" mnemonicParsing="false" text="Plot Pulse" />
+      <Button fx:id="btnCancelar" layoutX="38.0" layoutY="263.0" mnemonicParsing="false" onAction="#cerrarVentana" style="-fx-background-color: red;" text="Cancel" textFill="#f5e8e8">
+         <font>
+            <Font size="11.0" />
+         </font>
+         <effect>
+            <InnerShadow choke="0.09" color="#d3cfcf" />
+         </effect>
+      </Button>
    </children>
 </AnchorPane>
