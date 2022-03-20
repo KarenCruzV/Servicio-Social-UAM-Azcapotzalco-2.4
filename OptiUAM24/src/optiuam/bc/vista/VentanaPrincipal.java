@@ -13,13 +13,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 public class VentanaPrincipal implements Initializable {
- 
+    @FXML
+        private ImageView viewFibra,viewFuente, viewConector,viewSplitter,viewEmpalme, viewPotencia,viewEspectro;
+    @FXML
+        private Button btnFibra, btnFuente, btnConector, btnSplitter, btnEmpalme, btnPotencia, btnEspectro;
+    
+    private Image fibraI, fuenteI, conectorI, splitterI, empalmeI, potenciaI, espectroI, fondo;
+    
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
         Stage stage = new Stage();
@@ -128,7 +138,23 @@ public class VentanaPrincipal implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        fibraI=new Image("/images/ico_fibra.png"); 
+        fuenteI=new Image("/images/ico_fuente.png"); 
+        conectorI=new Image("/images/ico_conector.png"); 
+        potenciaI=new Image("/images/ico_potencia.png"); 
+        espectroI=new Image("/images/ico_espectro.png"); 
+        empalmeI=new Image("/images/ico_empalme.png"); 
+        splitterI=new Image("/images/ico_splitter.png"); 
+        //fondo= new Image("/images/fondo.png"); 
+        
+        viewFibra.setImage(fibraI);
+        viewFuente.setImage(fuenteI);
+        viewConector.setImage(conectorI);
+        viewPotencia.setImage(potenciaI);
+        viewEspectro.setImage(espectroI);
+        viewEmpalme.setImage(empalmeI);
+        viewSplitter.setImage(splitterI);
+        
     }    
     
 }
