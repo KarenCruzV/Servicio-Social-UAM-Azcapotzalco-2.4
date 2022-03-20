@@ -4,9 +4,7 @@ package optiuam.bc.vista;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,11 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 public class VentanaPrincipal implements Initializable {
     @FXML
@@ -36,9 +31,9 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-
+        
         stage.setTitle("OptiUAM BC Fibra");
         stage.setScene(scene);
         stage.show();
@@ -51,7 +46,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Fuente");
@@ -65,7 +60,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Splitter");
@@ -79,7 +74,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Conector");
@@ -93,7 +88,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Empalme");
@@ -107,7 +102,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaPotencia.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Medidor Potencia");
@@ -122,7 +117,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEspectro.fxml"));
         Scene scene = new Scene(root);
         stage = new Stage(StageStyle.DECORATED);
-        Image ico = new Image("/images/acercaDe.png"); 
+        Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Medidor Espectro");
@@ -138,13 +133,13 @@ public class VentanaPrincipal implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fibraI=new Image("/images/ico_fibra.png"); 
-        fuenteI=new Image("/images/ico_fuente.png"); 
-        conectorI=new Image("/images/ico_conector.png"); 
-        potenciaI=new Image("/images/ico_potencia.png"); 
-        espectroI=new Image("/images/ico_espectro.png"); 
-        empalmeI=new Image("/images/ico_empalme.png"); 
-        splitterI=new Image("/images/ico_splitter.png"); 
+        fibraI=new Image("images/ico_fibra.png"); 
+        fuenteI=new Image("images/ico_fuente.png"); 
+        conectorI=new Image("images/ico_conector.png"); 
+        potenciaI=new Image("images/ico_potencia.png"); 
+        espectroI=new Image("images/ico_espectro.png"); 
+        empalmeI=new Image("images/ico_empalme.png"); 
+        splitterI=new Image("images/ico_splitter.png"); 
         //fondo= new Image("/images/fondo.png"); 
         
         viewFibra.setImage(fibraI);
