@@ -7,7 +7,9 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.VentanaFibraController">
    <children>
@@ -41,11 +43,18 @@
       <Label layoutX="34.0" layoutY="285.0" text="Dispersion" />
       <TextField layoutX="118.0" layoutY="281.0" prefHeight="25.0" prefWidth="64.0" />
       <Label layoutX="193.0" layoutY="285.0" text="ps/(nm*km)" />
-      <Button layoutX="26.0" layoutY="355.0" mnemonicParsing="false" text="Cancel" />
-      <Button layoutX="293.0" layoutY="355.0" mnemonicParsing="false" text="Create" />
+      <Button layoutX="293.0" layoutY="343.0" mnemonicParsing="false" text="Create" />
       <Separator layoutX="371.0" layoutY="58.0" orientation="VERTICAL" prefHeight="257.0" prefWidth="3.0" />
       <Label layoutX="394.0" layoutY="118.0" text="Connect to:" />
       <ComboBox layoutX="394.0" layoutY="144.0" prefHeight="25.0" prefWidth="80.0" />
       <Button layoutX="396.0" layoutY="226.0" mnemonicParsing="false" text="Disconnect" />
+      <Button fx:id="btnCancelar" layoutX="50.0" layoutY="343.0" mnemonicParsing="false" onAction="#cerrarVentana" style="-fx-background-color: red;" text="Cancel" textFill="#f5e8e8">
+         <font>
+            <Font size="11.0" />
+         </font>
+         <effect>
+            <InnerShadow choke="0.09" color="#d3cfcf" />
+         </effect>
+      </Button>
    </children>
 </AnchorPane>
