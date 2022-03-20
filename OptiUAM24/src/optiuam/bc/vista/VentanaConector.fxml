@@ -7,7 +7,9 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="VentanaConector" fx:id="ConectorVentana" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.ConectorController">
    <children>
@@ -32,6 +34,12 @@
       <Label fx:id="lblConectarA" layoutX="64.0" layoutY="207.0" text="Connect to" />
       <ComboBox fx:id="cmbConectarA" layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="84.0" promptText="-Select-" />
       <Button fx:id="btnDesconectar" layoutX="274.0" layoutY="203.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCancelar" layoutX="28.0" layoutY="253.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="btnCancelar" layoutX="38.0" layoutY="254.0" mnemonicParsing="false" onAction="#cerrarVentana" style="-fx-background-color: red;" text="Cancel" textFill="#f5e8e8">
+         <font>
+            <Font size="11.0" />
+         </font>
+         <effect>
+            <InnerShadow choke="0.09" color="#d3cfcf" />
+         </effect></Button>
    </children>
 </AnchorPane>
