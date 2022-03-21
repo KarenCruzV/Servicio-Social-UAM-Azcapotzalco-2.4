@@ -8,6 +8,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -15,7 +16,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: lightskyblue; -fx-border-color: darkblue;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.vista.VentanaPrincipal">
    <children>
-      <MenuBar layoutY="0.0" maxHeight="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar layoutY="0.0" maxHeight="27.0" style="-fx-background-color: lightblue;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -39,7 +40,7 @@
                   </Label>
                   <Button fx:id="btn_fuente" layoutX="112.0" layoutY="11.0" maxHeight="64.0" maxWidth="64.0" minHeight="64.0" minWidth="64.0" mnemonicParsing="false" onAction="#abrirVentanaFuente" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: transparent;">
                      <graphic>
-                        <ImageView fx:id="viewFuente" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fx:id="viewFuente" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
@@ -52,7 +53,7 @@
                   </Label>
                   <Button fx:id="btn_splitter" layoutX="196.0" layoutY="11.0" maxHeight="64.0" maxWidth="64.0" minHeight="64.0" minWidth="64.0" mnemonicParsing="false" onAction="#abrirVentanaSplitter" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: transparent;">
                      <graphic>
-                        <ImageView fx:id="viewSplitter" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fx:id="viewSplitter" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
@@ -65,7 +66,7 @@
                   </Label>
                   <Button fx:id="btn_conector" layoutX="281.0" layoutY="11.0" maxHeight="64.0" maxWidth="64.0" minHeight="64.0" minWidth="64.0" mnemonicParsing="false" onAction="#abrirVentanaConector" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: transparent;">
                      <graphic>
-                        <ImageView fx:id="viewConector" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fx:id="viewConector" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
@@ -78,7 +79,7 @@
                   </Label>
                   <Button fx:id="btn_empalme" layoutX="366.0" layoutY="11.0" maxHeight="64.0" maxWidth="64.0" minHeight="64.0" minWidth="64.0" mnemonicParsing="false" onAction="#abrirVentanaEmpalme" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: transparent;">
                      <graphic>
-                        <ImageView fx:id="viewEmpalme" fitHeight="62.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fx:id="viewEmpalme" fitHeight="62.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
@@ -91,7 +92,7 @@
                   </Label>
                   <Button fx:id="btn_potencia" layoutX="451.0" layoutY="11.0" maxHeight="64.0" maxWidth="64.0" minHeight="64.0" minWidth="64.0" mnemonicParsing="false" onAction="#abrirVentanaPotencia" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: transparent;">
                      <graphic>
-                        <ImageView fx:id="viewPotencia" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fx:id="viewPotencia" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
@@ -109,7 +110,7 @@
                   </Label>
                   <Button fx:id="btn_espectro" layoutX="534.0" layoutY="11.0" maxHeight="64.0" maxWidth="64.0" minHeight="64.0" minWidth="64.0" mnemonicParsing="false" onAction="#abrirVentanaEspectro" prefHeight="64.0" prefWidth="64.0" style="-fx-border-color: transparent;">
                      <graphic>
-                        <ImageView fx:id="viewEspectro" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" >
+                        <ImageView fx:id="viewEspectro" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
@@ -139,7 +140,17 @@
       </TitledPane>
       <ScrollPane layoutX="2.0" layoutY="178.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
          <content>
-            <Pane id="Pane1" fx:id="Pane1" prefHeight="2000.0" prefWidth="4000.0" style="-fx-background-color: White;" />
+            <Pane id="Pane1" fx:id="Pane1" prefHeight="2000.0" prefWidth="2500.0" style="-fx-background-color: White;">
+               <children>
+                  <ImageView fx:id="viewFibra11" fitHeight="2500.0" fitWidth="2500.0" pickOnBounds="true" smooth="false">
+                     <effect>
+                        <InnerShadow color="#b2b2b2" />
+                     </effect>
+                     <image>
+                        <Image url="@../../../images/fondo.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
          </content>
       </ScrollPane>
    </children>
