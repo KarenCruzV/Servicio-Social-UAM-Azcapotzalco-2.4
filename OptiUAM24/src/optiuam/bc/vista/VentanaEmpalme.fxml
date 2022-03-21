@@ -8,13 +8,23 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.VentanaEmpalmeController">
    <children>
-      <Label layoutX="126.0" layoutY="14.0" text="Optical Splice Configuration" />
-      <Separator layoutY="38.0" prefHeight="6.0" prefWidth="400.0" />
+      <ImageView fitHeight="306.0" fitWidth="403.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../images/FondoAzul.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutY="14.0" prefHeight="27.0" prefWidth="403.0" text="Optical Splice Configuration">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font></Label>
+      <Separator layoutX="2.0" layoutY="45.0" prefHeight="6.0" prefWidth="400.0" />
       <Label fx:id="lblLongitudOnda" layoutX="40.0" layoutY="69.0" text="Wavelenght" />
       <RadioButton fx:id="rbtn1310" layoutX="139.0" layoutY="69.0" mnemonicParsing="false" selected="true" text="1310 nm">
          <toggleGroup>
@@ -43,4 +53,7 @@
          </effect>
       </Button>
    </children>
+   <effect>
+      <InnerShadow />
+   </effect>
 </AnchorPane>
