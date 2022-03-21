@@ -63,6 +63,12 @@ public class Componente {
         System.out.println("hola");
     }
     
+    public String getId_nombre(){
+        String idN = String.valueOf(id);
+        String idNombre = nombre + idN;
+        return idNombre;
+    }
+    
     /*toString*/
 
     @Override
