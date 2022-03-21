@@ -8,12 +8,22 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="380.0" prefWidth="500.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.VentanaFuenteController">
    <children>
-      <Label layoutX="189.0" layoutY="21.0" text="Optical Source Configuration" />
+      <ImageView fitHeight="380.0" fitWidth="500.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../images/FondoAzul.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutY="21.0" prefHeight="17.0" prefWidth="500.0" text="Optical Source Configuration">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font></Label>
       <Separator layoutY="51.0" prefHeight="4.0" prefWidth="500.0" />
       <Label layoutX="62.0" layoutY="77.0" text="Wavelength" />
       <RadioButton layoutX="149.0" layoutY="77.0" mnemonicParsing="false" selected="true" text="1310 nm">
@@ -51,4 +61,7 @@
          </effect>
       </Button>
    </children>
+   <effect>
+      <InnerShadow />
+   </effect>
 </AnchorPane>
