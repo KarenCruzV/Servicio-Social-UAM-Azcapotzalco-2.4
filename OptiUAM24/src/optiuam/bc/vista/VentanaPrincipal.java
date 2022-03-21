@@ -14,10 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class VentanaPrincipal implements Initializable {
+    
     @FXML
         private ImageView viewFibra,viewFuente, viewConector,viewSplitter,viewEmpalme, viewPotencia,viewEspectro;
     @FXML
@@ -30,10 +32,9 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        
         stage.setTitle("OptiUAM BC Fibra");
         stage.setScene(scene);
         stage.show();
@@ -45,13 +46,14 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Fuente");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
     
     @FXML
@@ -59,13 +61,14 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Splitter");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
     
     @FXML
@@ -73,13 +76,13 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-
         stage.setTitle("OptiUAM BC Conector");
         stage.setScene(scene);
         stage.show();
+        //stage.setResizable(false);
     }
     
     @FXML
@@ -87,13 +90,14 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Empalme");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
     
     @FXML
@@ -101,13 +105,14 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("VentanaPotencia.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Medidor Potencia");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
     
     @FXML
@@ -116,13 +121,14 @@ public class VentanaPrincipal implements Initializable {
         
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEspectro.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.DECORATED);
+        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Medidor Espectro");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
     @FXML
     public void cerrarVentana(ActionEvent event){
