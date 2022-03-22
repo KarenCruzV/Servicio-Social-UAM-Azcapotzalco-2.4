@@ -7,11 +7,14 @@ package optiuam.bc.vista;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -31,7 +34,10 @@ public class OptiUAM24 extends Application {
         
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(e-> Platform.exit());
+        stage.setOnCloseRequest(e-> System.exit(0));
     }
+    
 
     /**
      * @param args the command line arguments
@@ -39,5 +45,6 @@ public class OptiUAM24 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
     
 }
