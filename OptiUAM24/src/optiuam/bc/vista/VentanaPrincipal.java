@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import optiuam.bc.controlador.ControladorGeneral;
 
 public class VentanaPrincipal implements Initializable {
     
@@ -30,6 +31,10 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     public Pane Pane1;
     
+    
+    ControladorGeneral cont= new ControladorGeneral();
+    
+    
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
         Stage stage = new Stage();
@@ -42,6 +47,8 @@ public class VentanaPrincipal implements Initializable {
         stage.setScene(scene);
         stage.show();
         stage.setResizable(false);
+        
+        
     }
     
     @FXML
@@ -140,6 +147,9 @@ public class VentanaPrincipal implements Initializable {
         stage.close();
         
     }
+    public VentanaPrincipal selecVentana(){
+        return this;
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fibraI=new Image("images/ico_fibra.png"); 
@@ -160,5 +170,8 @@ public class VentanaPrincipal implements Initializable {
         viewSplitter.setImage(splitterI);
         
     }    
+    public Pane setVentanaTrabajo(){
+        return this.Pane1;
+    }
     
 }
