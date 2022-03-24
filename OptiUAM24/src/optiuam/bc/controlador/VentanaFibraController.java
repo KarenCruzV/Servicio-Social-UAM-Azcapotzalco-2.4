@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -27,27 +28,38 @@ import optiuam.bc.vista.VentanaPrincipal;
  *
  * @author karen
  */
-public class VentanaFibraController implements Initializable {
+public class VentanaFibraController extends ControladorGeneral implements Initializable {
     @FXML
-            private TextField txtAtenue, txtDisp, txtDistancia;
+    private TextField txtAtenue, txtDisp, txtDistancia;
+    
     @FXML 
-            private RadioButton rbtnMono, rbtnMulti, rbtn1310, rbtn1550, rbtnOtro, rbtn28, rbtn50;
+    private RadioButton rbtnMono, rbtnMulti, rbtn1310, rbtn1550, rbtnOtro, rbtn28, rbtn50;
+    
+    @FXML
+    private Pane Pane1;
     
     ControladorGeneral cont;
     VentanaPrincipal ven;
+    
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //cont.setControlador();
         
     }    
-    public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion) {
-        Fibra fibra_aux = new Fibra(longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion, "fibra", 0);
+    public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion, int id) {
+        Fibra fibra_aux = new Fibra(longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion, "fibra", contadorElemento);
         System.out.println(fibra_aux.toString());
+        elementos.add(fibra_aux);
+        manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "fibra");
+        dibujos.add(manejadorElementos);
+        manejadorElementos.dibujarFibra();
+        contadorElemento++;
         //cont.getElementos().add(fibra_aux);
         //cont.getManejadorElementos() = new ElementoGrafico(ventana_principal.getPnl_trabajo(), "fibra" + String.valueOf(contadorElemento), "fibra", this,"fibra");
         //cont.setManejadorElementos(new ElementoGrafico());
@@ -64,7 +76,7 @@ public class VentanaFibraController implements Initializable {
         
     }
     public void imprimir(){
-        int modo=0, longitudOnda=0, tipo=0;
+        int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
         if(rbtnMono.isSelected()){
             modo=0;
@@ -93,7 +105,7 @@ public class VentanaFibraController implements Initializable {
         longitudKm= Double.parseDouble(txtDistancia.getText());
         atenue= Double.parseDouble(txtAtenue.getText());
         dispersion= Double.parseDouble(txtDisp.getText());
-        crearFibra(longitudOnda, modo, tipo, longitudKm,atenue, dispersion);
+        crearFibra(longitudOnda, modo, tipo, longitudKm,atenue, dispersion, id);
         //Stage stage= VenFibra;
     }
    

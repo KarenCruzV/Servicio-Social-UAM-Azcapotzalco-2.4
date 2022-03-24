@@ -15,11 +15,11 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author Arturo Borja
  */
 public class ControladorGeneral {
-    private ArrayList<Componente> elementos; // contiene los elementos creados en la simulacion
-    private ArrayList<ElementoGrafico> dibujos; //Contiene los elementos mostrados en el panel
-    private int contadorElemento; // contador para asignar id a un elemento
-    private VentanaPrincipal ventana_principal;//para tener la comunicacion vista-controlador
-    private ElementoGrafico manejadorElementos; // para crear los elementos graficos
+    public ArrayList<Componente> elementos; // contiene los elementos creados en la simulacion
+    public ArrayList<ElementoGrafico> dibujos; //Contiene los elementos mostrados en el panel
+    public int contadorElemento; // contador para asignar id a un elemento
+    public VentanaPrincipal ventana_principal;//para tener la comunicacion vista-controlador
+    public ElementoGrafico manejadorElementos; // para crear los elementos graficos
 
     public ControladorGeneral() {
         contadorElemento = 0;

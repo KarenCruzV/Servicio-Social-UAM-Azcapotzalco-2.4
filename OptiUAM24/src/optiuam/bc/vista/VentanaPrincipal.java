@@ -170,8 +170,14 @@ public class VentanaPrincipal implements Initializable {
         viewSplitter.setImage(splitterI);
         
     }    
-    public Pane setVentanaTrabajo(){
-        return this.Pane1;
+
+    public Pane getPane1() {
+        return Pane1;
     }
+
+    public void setPane1(Pane Pane1) {
+        this.Pane1 = Pane1;
+    }
+    
     
 }
