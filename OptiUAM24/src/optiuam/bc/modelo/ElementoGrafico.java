@@ -97,7 +97,16 @@ public class ElementoGrafico extends VentanaPrincipal {
         imageView1.setX(50);
         imageView1.setY(50);
         Pane1.getChildren().add(imageView1);*/
+        Stage stage = new Stage();
+        Pane pane = new Pane();
         
+        Scene scene = new Scene(pane, 200, 100);
+        stage.setScene(scene);
+        stage.show();
+        
+        Image image = new Image(getClass().getResourceAsStream("/images/dibujo_fibra.png"));
+        ImageView imgView = new ImageView(image);
+        pane.getChildren().add(imgView);
     }
     
     public void dibujarComponente(){
