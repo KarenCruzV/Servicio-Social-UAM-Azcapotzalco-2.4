@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.controlador.ControladorGeneral;
@@ -90,6 +89,7 @@ public class ElementoGrafico extends VentanaPrincipal {
         
     }
     
+    // Intento de dibujae fibra
     public void dibujarFibra(){
         //dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_fibra.png")));
         /*Image image1 = new Image(getClass().getResourceAsStream("iconos/dibujo_fibra.png"));
