@@ -8,6 +8,7 @@ package optiuam.bc.controlador;
 import java.util.ArrayList;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Fibra;
 import optiuam.bc.vista.VentanaPrincipal;
 
 /**
@@ -15,6 +16,7 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author Arturo Borja
  */
 public class ControladorGeneral {
+    
     public ArrayList<Componente> elementos; // contiene los elementos creados en la simulacion
     public ArrayList<ElementoGrafico> dibujos; //Contiene los elementos mostrados en el panel
     public int contadorElemento; // contador para asignar id a un elemento
@@ -27,6 +29,8 @@ public class ControladorGeneral {
         dibujos = new ArrayList();
     }
     
+    
+    
     public ControladorGeneral setControlador(){
         return this;
     }
@@ -37,6 +41,13 @@ public class ControladorGeneral {
 
     public void setElementos(ArrayList<Componente> elementos) {
         this.elementos = elementos;
+    }
+    
+    public void listaFibra(Fibra fibra){
+        System.out.println("\nLista de fibras creadas: ");
+        for(int i = 0; i < getElementos().size(); i++){
+            System.out.println(getElementos().get(i));
+        }
     }
 
     public ArrayList<ElementoGrafico> getDibujos() {

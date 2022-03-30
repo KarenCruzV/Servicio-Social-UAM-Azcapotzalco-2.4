@@ -11,12 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -38,8 +35,19 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     @FXML
     private Pane Pane1;
     
+    @FXML
+            public Button btnCrear;
+    
     ControladorGeneral cont;
     VentanaPrincipal ven;
+
+    public Button getBtnCrear() {
+        return btnCrear;
+    }
+
+    public void setBtnCrear(Button btnCrear) {
+        this.btnCrear = btnCrear;
+    }
     
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
@@ -54,11 +62,12 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     }    
     public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion, int id) {
         Fibra fibra_aux = new Fibra(longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion, "fibra", contadorElemento);
-        System.out.println(fibra_aux.toString());
+        System.out.println("\nFibra creada: " + fibra_aux.toString());
         elementos.add(fibra_aux);
         manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "fibra");
         dibujos.add(manejadorElementos);
         manejadorElementos.dibujarFibra();
+        listaFibra(fibra_aux);
         contadorElemento++;
         //cont.getElementos().add(fibra_aux);
         //cont.getManejadorElementos() = new ElementoGrafico(ventana_principal.getPnl_trabajo(), "fibra" + String.valueOf(contadorElemento), "fibra", this,"fibra");
@@ -75,7 +84,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         */
         
     }
-    public void imprimir(){
+    public void imprimir(ActionEvent event){
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
         if(rbtnMono.isSelected()){
@@ -106,6 +115,15 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         atenue= Double.parseDouble(txtAtenue.getText());
         dispersion= Double.parseDouble(txtDisp.getText());
         crearFibra(longitudOnda, modo, tipo, longitudKm,atenue, dispersion, id);
+        
+        if(event.getSource() == btnCrear){
+            //Pane pane = new Pane();
+            //Image image = new Image(getClass().getResourceAsStream("/images/dibujo_fibra.png"));
+            //ImageView imgView = new ImageView(image);
+            //pane.getChildren().add(imgView);
+            //pane.setVisible(true);
+            //System.out.println("Fibra creada");
+        }
         //Stage stage= VenFibra;
     }
    

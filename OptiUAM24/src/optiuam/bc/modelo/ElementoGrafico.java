@@ -6,20 +6,17 @@
 package optiuam.bc.modelo;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import optiuam.bc.controlador.ControladorGeneral;
-import optiuam.bc.vista.VentanaPrincipal;
 
 /**
  *
  * @author Arturo Borja
  */
-public class ElementoGrafico extends VentanaPrincipal {
+public class ElementoGrafico {
     private ControladorGeneral controlador; 
     @FXML
     private Label dibujo; //etiqueta para colocar el elemento
@@ -89,7 +86,6 @@ public class ElementoGrafico extends VentanaPrincipal {
         
     }
     
-    // Intento de dibujae fibra
     public void dibujarFibra(){
         //dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_fibra.png")));
         /*Image image1 = new Image(getClass().getResourceAsStream("iconos/dibujo_fibra.png"));
@@ -97,16 +93,12 @@ public class ElementoGrafico extends VentanaPrincipal {
         imageView1.setX(50);
         imageView1.setY(50);
         Pane1.getChildren().add(imageView1);*/
-        Stage stage = new Stage();
         Pane pane = new Pane();
-        
-        Scene scene = new Scene(pane, 200, 100);
-        stage.setScene(scene);
-        stage.show();
         
         Image image = new Image(getClass().getResourceAsStream("/images/dibujo_fibra.png"));
         ImageView imgView = new ImageView(image);
         pane.getChildren().add(imgView);
+        
     }
     
     public void dibujarComponente(){

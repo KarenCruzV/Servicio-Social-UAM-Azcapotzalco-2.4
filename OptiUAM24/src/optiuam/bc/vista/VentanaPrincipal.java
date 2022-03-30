@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import optiuam.bc.controlador.ControladorGeneral;
+import optiuam.bc.controlador.VentanaFibraController;
 
 public class VentanaPrincipal implements Initializable {
     
@@ -31,8 +32,8 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     public Pane Pane1;
     
-    
     ControladorGeneral cont= new ControladorGeneral();
+    VentanaFibraController ventFibra = new VentanaFibraController();
     
     
     @FXML
@@ -47,7 +48,6 @@ public class VentanaPrincipal implements Initializable {
         stage.setScene(scene);
         stage.show();
         stage.setResizable(false);
-        
         
     }
     
@@ -179,5 +179,9 @@ public class VentanaPrincipal implements Initializable {
         this.Pane1 = Pane1;
     }
     
-    
+    //public void obtenerPanel(Node e){
+        //getPane1().getChildren().add(e);
+    //}
+
+
 }
