@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: lightcyan;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="optiuam.bc.controlador.VentanaPotenciaController">
@@ -36,13 +40,28 @@
       <Label layoutX="32.0" layoutY="227.0" text="Sensitivity" />
       <TextField layoutX="97.0" layoutY="223.0" prefHeight="25.0" prefWidth="53.0" />
       <Label layoutX="159.0" layoutY="227.0" text="dBm" />
-      <Button fx:id="btnCancelar" layoutX="344.0" layoutY="257.0" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="24.0" prefWidth="44.0" style="-fx-background-color: red;" text="Exit" textFill="#f5e8e8">
-         <font>
-            <Font size="11.0" />
-         </font>
+      <Button fx:id="btnCrear" layoutX="335.0" layoutY="257.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: #ff0000;" text="EXIT">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
          <effect>
-            <InnerShadow choke="0.09" color="#d3cfcf" />
+            <DropShadow color="#111bd0">
+               <input>
+                  <InnerShadow color="#598d71" />
+               </input>
+            </DropShadow>
          </effect>
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.9428571428571428">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Button>
    </children>
    <effect>

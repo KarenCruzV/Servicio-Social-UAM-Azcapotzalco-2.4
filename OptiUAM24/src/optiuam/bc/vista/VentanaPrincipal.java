@@ -38,10 +38,9 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);
         Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Fibra");
@@ -53,10 +52,9 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaFuente(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);
         Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
@@ -68,10 +66,9 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaSplitter(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);
         Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
@@ -83,24 +80,22 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaConector(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);
         Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Conector");
         stage.setScene(scene);
         stage.show();
-        //stage.setResizable(false);
+        stage.setResizable(false);
     }
     
     @FXML
     private void abrirVentanaEmpalme(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);;
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
@@ -112,10 +107,9 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaPotencia(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);
         Parent root = FXMLLoader.load(getClass().getResource("VentanaPotencia.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
@@ -127,11 +121,10 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaEspectro(ActionEvent event) throws IOException{
-        Stage stage = new Stage();
+        Stage stage = new Stage(StageStyle.UTILITY);
         
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEspectro.fxml"));
         Scene scene = new Scene(root);
-        stage = new Stage(StageStyle.UNDECORATED);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
 
