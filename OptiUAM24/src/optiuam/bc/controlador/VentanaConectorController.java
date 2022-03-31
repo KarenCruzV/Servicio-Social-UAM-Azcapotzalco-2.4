@@ -121,7 +121,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
             System.out.println("\nValor de la pérdida invalido");
         }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0 ){
             System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

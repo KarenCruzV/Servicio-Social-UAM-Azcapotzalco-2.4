@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -29,7 +30,7 @@
           <Menu mnemonicParsing="false" text="About" />
         </menus>
       </MenuBar>
-      <TitledPane animated="false" layoutX="1.0" layoutY="24.0" maxHeight="-Infinity" minHeight="154.0" minWidth="900.0" text="Components" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <TitledPane fx:id="idCom" animated="false" layoutX="1.0" layoutY="24.0" maxHeight="-Infinity" minHeight="154.0" minWidth="900.0" text="Components" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <content>
           <AnchorPane focusTraversable="true" style="-fx-background-color: lavender;">
                <children>
@@ -44,8 +45,14 @@
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label fx:id="lbl_fuente" layoutX="127.0" layoutY="80.0" text="Source">
                      <font>
                         <Font name="Candara Bold Italic" size="12.0" />
@@ -57,8 +64,14 @@
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label fx:id="lbl_splitter" layoutX="209.0" layoutY="80.0" text="Splitter">
                      <font>
                         <Font name="Candara Bold Italic" size="12.0" />
@@ -70,8 +83,14 @@
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label fx:id="lbl_conector" layoutX="287.0" layoutY="80.0" text="Connector">
                      <font>
                         <Font name="Candara Bold Italic" size="12.0" />
@@ -83,8 +102,14 @@
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label fx:id="lbl_empalme" layoutX="383.0" layoutY="80.0" text="Splice">
                      <font>
                         <Font name="Candara Bold Italic" size="12.0" />
@@ -96,8 +121,14 @@
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label fx:id="lbl_potencia" layoutX="462.0" layoutY="80.0" text="Potency">
                      <font>
                         <Font name="Candara Bold Italic" size="12.0" />
@@ -114,8 +145,14 @@
                             <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label fx:id="lbl_espectro" layoutX="542.0" layoutY="80.0" text="Spectrum">
                      <font>
                         <Font name="Candara Bold Italic" size="12.0" />
@@ -132,8 +169,14 @@
                            <effect>
                               <InnerShadow color="#b2b2b2" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
-                     </graphic></Button>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </AnchorPane>
         </content>

@@ -40,7 +40,7 @@
       <Label layoutX="32.0" layoutY="227.0" text="Sensitivity" />
       <TextField layoutX="97.0" layoutY="223.0" prefHeight="25.0" prefWidth="53.0" />
       <Label layoutX="159.0" layoutY="227.0" text="dBm" />
-      <Button fx:id="btnCrear" layoutX="335.0" layoutY="257.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: #ff0000;" text="EXIT">
+      <Button fx:id="btnCrear" layoutX="335.0" layoutY="257.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: #ff0000;" text="EXIT">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

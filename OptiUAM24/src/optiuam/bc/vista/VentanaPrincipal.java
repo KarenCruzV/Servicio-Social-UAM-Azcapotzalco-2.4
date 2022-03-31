@@ -107,10 +107,10 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaPotencia(ActionEvent event) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
         Parent root = FXMLLoader.load(getClass().getResource("VentanaPotencia.fxml"));
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
+        Stage stage = new Stage(StageStyle.UTILITY);
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Medidor Potencia");
@@ -121,11 +121,10 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaEspectro(ActionEvent event) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
-        
         Parent root = FXMLLoader.load(getClass().getResource("VentanaEspectro.fxml"));
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
+        Stage stage = new Stage(StageStyle.UTILITY);
         stage.getIcons().add(ico);
 
         stage.setTitle("OptiUAM BC Medidor Espectro");
@@ -139,9 +138,6 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
         
-    }
-    public VentanaPrincipal selecVentana(){
-        return this;
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -161,7 +157,6 @@ public class VentanaPrincipal implements Initializable {
         viewEspectro.setImage(espectroI);
         viewEmpalme.setImage(empalmeI);
         viewSplitter.setImage(splitterI);
-        
     }    
 
     public Pane getPane1() {
@@ -171,10 +166,6 @@ public class VentanaPrincipal implements Initializable {
     public void setPane1(Pane Pane1) {
         this.Pane1 = Pane1;
     }
-    
-    //public void obtenerPanel(Node e){
-        //getPane1().getChildren().add(e);
-    //}
 
 
 }
