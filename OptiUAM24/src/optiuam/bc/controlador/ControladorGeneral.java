@@ -7,8 +7,12 @@ package optiuam.bc.controlador;
 
 import java.util.ArrayList;
 import optiuam.bc.modelo.Componente;
+import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Empalme;
 import optiuam.bc.modelo.Fibra;
+import optiuam.bc.modelo.Fuente;
+import optiuam.bc.modelo.Splitter;
 import optiuam.bc.vista.VentanaPrincipal;
 
 /**
@@ -45,6 +49,34 @@ public class ControladorGeneral {
     
     public void listaFibra(Fibra fibra){
         System.out.println("\nLista de fibras creadas: ");
+        for(int i = 0; i < getElementos().size(); i++){
+            System.out.println(getElementos().get(i));
+        }
+    }
+    
+    public void listaConector(Conector conector){
+        System.out.println("\nLista de conectores creados: ");
+        for(int i = 0; i < getElementos().size(); i++){
+            System.out.println(getElementos().get(i));
+        }
+    }
+    
+    public void listaEmpalme(Empalme empalme){
+        System.out.println("\nLista de empalmes creados: ");
+        for(int i = 0; i < getElementos().size(); i++){
+            System.out.println(getElementos().get(i));
+        }
+    }
+    
+    public void listaFuente(Fuente fuente){
+        System.out.println("\nLista de fuentes creadas: ");
+        for(int i = 0; i < getElementos().size(); i++){
+            System.out.println(getElementos().get(i));
+        }
+    }
+    
+    public void listaSplitter(Splitter splitter){
+        System.out.println("\nLista de fuentes creadas: ");
         for(int i = 0; i < getElementos().size(); i++){
             System.out.println(getElementos().get(i));
         }

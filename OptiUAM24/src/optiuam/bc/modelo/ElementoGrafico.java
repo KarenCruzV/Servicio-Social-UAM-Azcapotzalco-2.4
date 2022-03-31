@@ -101,6 +101,14 @@ public class ElementoGrafico {
         
     }
     
+    public void dibujarConector(){}
+    
+    public void dibujarEmpalme() {}
+    
+    public void dibujarFuente() {}
+    
+    public void dibujarSplitter() {}
+    
     public void dibujarComponente(){
         
         if (componente.compareTo("splitter64")==0){

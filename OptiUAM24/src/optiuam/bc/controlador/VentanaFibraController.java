@@ -62,7 +62,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     }    
     public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion, int id) {
         Fibra fibra_aux = new Fibra(longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion, "fibra", contadorElemento);
-        System.out.println("\nFibra creada: " + fibra_aux.toString());
+        System.out.println("Fibra creada: " + fibra_aux.toString());
         elementos.add(fibra_aux);
         manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "fibra");
         dibujos.add(manejadorElementos);
