@@ -40,7 +40,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     VentanaPrincipal ven;
     
     public void crearEmpalme(int tipo, int longitudOnda, double perdida, int id){
-        Empalme empalme = new Empalme(tipo, perdida, longitudOnda, "empalme", contadorElemento);
+        Empalme empalme = new Empalme("empalme", 0,tipo, perdida, longitudOnda);
         elementos.add(empalme);
         manejadorElementos = new ElementoGrafico(cont, Pane1, id, "empalme");
         dibujos.add(manejadorElementos);

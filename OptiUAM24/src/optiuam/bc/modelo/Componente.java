@@ -9,7 +9,7 @@ public class Componente {
     protected String nombre;
     protected int id;
     //Attributes to know if it is conectado and what it is conectado to
-    protected String elementoConectado = "";
+    protected String elementoConectado = " ";
     protected boolean conectado;
     
     
@@ -73,7 +73,7 @@ public class Componente {
 
     @Override
     public String toString() {
-        return nombre + " " + id + ", " + elementoConectado + ", " + conectado;
+        return nombre + "," + id + "," + elementoConectado + "," + conectado;
     }
     
 }

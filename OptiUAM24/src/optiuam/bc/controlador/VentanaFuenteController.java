@@ -5,6 +5,9 @@
  */
 package optiuam.bc.controlador;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -44,14 +47,17 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     VentanaPrincipal ven;
     
     public void crearFuente(int longitudOnda, int tipo, double potencia, double anchura, double velocidad, int id){
-        Fuente fuente = new Fuente(tipo, potencia, anchura, velocidad, longitudOnda, "fuente", contadorElemento);
+        Fuente fuente = new Fuente("fuente", 0,tipo, potencia, anchura, velocidad, longitudOnda);
         System.out.println("Fuente creada: " + fuente.toString());
+        crearArchivoAux(fuente.toString());
+        /*
         elementos.add(fuente);
         manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "fuente");
         dibujos.add(manejadorElementos);
         manejadorElementos.dibujarFuente();
         listaFuente(fuente);
         contadorElemento++;
+*/
     }
     
     public void imprimir(ActionEvent event){
@@ -105,6 +111,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         } 
         else{
             crearFuente(longitudOnda, tipo, potencia, anchura, velocidad, id);
+            cerrarVentana(event);
         }
 
     }
@@ -113,6 +120,22 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+    }
+    public void crearArchivoAux(String elemento){
+        try {
+            String ruta = "auxiliar.txt";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(elemento);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

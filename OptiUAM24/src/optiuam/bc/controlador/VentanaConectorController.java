@@ -45,7 +45,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     VentanaPrincipal ven;
     
     public void crearConector(int longitudOnda, int modo, double perdida, int id){
-        Conector conector = new Conector(longitudOnda, modo, perdida, "conector" ,contadorElemento);
+        Conector conector = new Conector("conector" ,0,longitudOnda, modo, perdida);
         System.out.println("Conector creado: " + conector.toString());
         elementos.add(conector);
         manejadorElementos = new ElementoGrafico(cont, Pane1, id, "conector");
@@ -121,7 +121,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
             System.out.println("\nValor de la pérdida invalido");
         }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0 ){
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -131,6 +131,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         else{
             crearConector(longitudOnda, modo, perdidaInsercion, id);
+            cerrarVentana(event);
         }
         
     }
@@ -140,6 +141,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Image icoDesconectar = new Image("/images/acercaDe.png"); 

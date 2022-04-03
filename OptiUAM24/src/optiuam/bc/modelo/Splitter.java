@@ -16,7 +16,7 @@ public class Splitter extends Componente {
     
     /*Constructor*/
     
-    public Splitter(int outputs, double insertion_loss, int wavelength, String name, int id) {
+    public Splitter(String name, int id,int outputs, double insertion_loss, int wavelength) {
         this.salidas = outputs;
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;

@@ -1,9 +1,13 @@
 
 package optiuam.bc.vista;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -19,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import optiuam.bc.controlador.ControladorGeneral;
 import optiuam.bc.controlador.VentanaFibraController;
+import optiuam.bc.modelo.ElementoGrafico;
 
 public class VentanaPrincipal implements Initializable {
     
@@ -31,10 +37,7 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     public Pane Pane1;
-    
-    ControladorGeneral cont= new ControladorGeneral();
-    VentanaFibraController ventFibra = new VentanaFibraController();
-    
+    protected ControladorGeneral cont= new ControladorGeneral();
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
@@ -45,9 +48,10 @@ public class VentanaPrincipal implements Initializable {
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Fibra");
         stage.setScene(scene);
-        stage.show();
         stage.setResizable(false);
-        
+        stage.showAndWait();
+         System.out.println("hola");
+         leerAuxiliar();
     }
     
     @FXML
@@ -60,8 +64,11 @@ public class VentanaPrincipal implements Initializable {
 
         stage.setTitle("OptiUAM BC Fuente");
         stage.setScene(scene);
-        stage.show();
         stage.setResizable(false);
+        stage.showAndWait();
+        System.out.println("hola");
+        leerAuxiliar();
+        
     }
     
     @FXML
@@ -139,6 +146,28 @@ public class VentanaPrincipal implements Initializable {
         stage.close();
         
     }
+    private void leerAuxiliar() throws FileNotFoundException{
+        File doc =
+        new File("auxiliar.txt");
+        Scanner obj = new Scanner(doc);
+        StringTokenizer st = new StringTokenizer(obj.nextLine(),",");
+        String nombre= st.nextToken();
+        int id=Integer.parseInt(st.nextToken());
+        String conec= st.nextToken();
+        Label dibujo= new Label();
+        if(nombre.equals("fibra")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
+        }else if(nombre.equals("fuente")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
+        }
+        //ElementoGrafico grafico= new ElementoGrafico();
+        //grafico.setComponente(nombre);
+        //grafico.setId(cont.getContadorElemento()+1);
+        //cont.getDibujos().add(grafico);
+        
+        Pane1.getChildren().add(dibujo);
+        }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fibraI=new Image("images/ico_fibra.png"); 
@@ -159,13 +188,6 @@ public class VentanaPrincipal implements Initializable {
         viewSplitter.setImage(splitterI);
     }    
 
-    public Pane getPane1() {
-        return Pane1;
-    }
-
-    public void setPane1(Pane Pane1) {
-        this.Pane1 = Pane1;
-    }
-
+    
 
 }

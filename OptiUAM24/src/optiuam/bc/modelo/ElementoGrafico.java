@@ -93,8 +93,7 @@ public class ElementoGrafico {
         imageView1.setX(50);
         imageView1.setY(50);
         Pane1.getChildren().add(imageView1);*/
-        Pane pane = new Pane();
-        
+        Pane pane= new Pane();
         Image image = new Image(getClass().getResourceAsStream("/images/dibujo_fibra.png"));
         ImageView imgView = new ImageView(image);
         pane.getChildren().add(imgView);

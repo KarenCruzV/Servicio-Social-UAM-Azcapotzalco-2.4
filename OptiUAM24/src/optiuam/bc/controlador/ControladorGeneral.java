@@ -28,9 +28,9 @@ public class ControladorGeneral {
     public ElementoGrafico manejadorElementos; // para crear los elementos graficos
 
     public ControladorGeneral() {
-        contadorElemento = 0;
         elementos = new ArrayList();
         dibujos = new ArrayList();
+        contadorElemento=0;
     }
     
     
@@ -47,10 +47,10 @@ public class ControladorGeneral {
         this.elementos = elementos;
     }
     
-    public void listaFibra(Fibra fibra){
+    public void listaFibra(){
         System.out.println("\nLista de fibras creadas: ");
-        for(int i = 0; i < getElementos().size(); i++){
-            System.out.println(getElementos().get(i));
+        for(int i = 0; i < elementos.size(); i++){
+            System.out.println(elementos.get(i).toString());
         }
     }
     

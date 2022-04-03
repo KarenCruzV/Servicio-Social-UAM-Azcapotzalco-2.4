@@ -15,7 +15,7 @@ public class Empalme extends Componente {
     public Empalme() {
     }
 
-    public Empalme(int type, double insertion_loss, int wavelength, String name, int id) {
+    public Empalme(String name, int id,int type, double insertion_loss, int wavelength) {
         this.tipo = type;
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;

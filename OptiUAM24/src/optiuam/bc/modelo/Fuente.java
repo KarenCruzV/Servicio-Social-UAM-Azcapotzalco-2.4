@@ -23,8 +23,7 @@ public class Fuente extends Componente {
     public Fuente() {
     }
 
-    public Fuente(int type, double potency, double width, double velocity, int wavelength, 
-            String name, int id) {
+    public Fuente(String name,int id,int type, double potency, double width, double velocity, int wavelength) {
         this.tipo = type;
         this.potencia = potency;
         this.anchura = width;
@@ -174,9 +173,9 @@ public class Fuente extends Componente {
 
     @Override
     public String toString() {
-        return super.toString() + tipo + ", " + potencia + ", " + anchura + ", " 
-                + velocidad + ", " + longitudOnda + ", " + A0 + ", " + T0 + ", " 
-                + W0 + ", " + C + ", " + M;
+        return super.toString() + tipo + "," + potencia + "," + anchura + "," 
+                + velocidad + "," + longitudOnda + "," + A0 + "," + T0 + "," 
+                + W0 + "," + C + "," + M;
     }
     
 }

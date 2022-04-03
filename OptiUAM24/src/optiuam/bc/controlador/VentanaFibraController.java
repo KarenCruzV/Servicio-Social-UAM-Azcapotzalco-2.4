@@ -5,6 +5,9 @@
  */
 package optiuam.bc.controlador;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,7 +17,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -25,7 +27,7 @@ import optiuam.bc.vista.VentanaPrincipal;
  *
  * @author karen
  */
-public class VentanaFibraController extends ControladorGeneral implements Initializable {
+public class VentanaFibraController extends VentanaPrincipal implements Initializable {
     @FXML
     private TextField txtAtenue, txtDisp, txtDistancia;
     
@@ -33,13 +35,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     private RadioButton rbtnMono, rbtnMulti, rbtn1310, rbtn1550, rbtnOtro, rbtn28, rbtn50;
     
     @FXML
-    private Pane Pane1;
-    
-    @FXML
-            public Button btnCrear;
-    
-    ControladorGeneral cont;
-    VentanaPrincipal ven;
+    public Button btnCrear;
 
     public Button getBtnCrear() {
         return btnCrear;
@@ -57,18 +53,14 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //cont.setControlador();
         
     }    
     public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion, int id) {
-        Fibra fibra_aux = new Fibra(longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion, "fibra", contadorElemento);
-        System.out.println("Fibra creada: " + fibra_aux.toString());
-        elementos.add(fibra_aux);
-        manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "fibra");
-        dibujos.add(manejadorElementos);
-        manejadorElementos.dibujarFibra();
-        listaFibra(fibra_aux);
-        contadorElemento++;
+        Fibra fibra_aux = new Fibra("fibra", 0,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
+        System.out.println("Fibra creada: " + fibra_aux.toString()+"\n");
+        crearArchivoAux(fibra_aux.toString());
+        //cont.listaFibra();
+        
         //cont.getElementos().add(fibra_aux);
         //cont.getManejadorElementos() = new ElementoGrafico(ventana_principal.getPnl_trabajo(), "fibra" + String.valueOf(contadorElemento), "fibra", this,"fibra");
         //cont.setManejadorElementos(new ElementoGrafico());
@@ -115,18 +107,25 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         atenue= Double.parseDouble(txtAtenue.getText());
         dispersion= Double.parseDouble(txtDisp.getText());
         crearFibra(longitudOnda, modo, tipo, longitudKm,atenue, dispersion, id);
-        
-        if(event.getSource() == btnCrear){
-            //Pane pane = new Pane();
-            //Image image = new Image(getClass().getResourceAsStream("/images/dibujo_fibra.png"));
-            //ImageView imgView = new ImageView(image);
-            //pane.getChildren().add(imgView);
-            //pane.setVisible(true);
-            //System.out.println("Fibra creada");
-        }
-        //Stage stage= VenFibra;
+        cerrarVentana(event);
     }
    
+    public void crearArchivoAux(String elemento){
+        try {
+            String ruta = "auxiliar.txt";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(elemento);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /*
     public void modificarFibra(int window, int modo, int tipo, double longitud_km,
                                double atenuacion, double dispersion, String id,String componente) {

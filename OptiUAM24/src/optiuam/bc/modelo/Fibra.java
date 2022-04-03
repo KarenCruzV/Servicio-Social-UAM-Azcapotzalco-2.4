@@ -22,8 +22,8 @@ public class Fibra extends Componente {
     public Fibra() {
     }
 
-    public Fibra(int wavelength, int mode, int type, double km_length, double attenuation, 
-            double dispersion, String name, int id) {
+    public Fibra(String name,int id,int wavelength, int mode, int type, double km_length, double attenuation, 
+            double dispersion) {
         this.longitudOnda = wavelength;
         this.mode = mode;
         this.tipo = type;
@@ -90,8 +90,8 @@ public class Fibra extends Componente {
 
     @Override
     public String toString() {
-        return super.toString() +  ", " + longitudOnda + ", " + mode + ", " 
-                + tipo + ", " + longitud_km + ", " + dispersion + ", " + atenuacion;
+        return super.toString() +  "," + longitudOnda + "," + mode + "," 
+                + tipo + "," + longitud_km + "," + dispersion + ","+ atenuacion;
     }
     
 }

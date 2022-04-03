@@ -16,7 +16,7 @@ public class Conector extends Componente {
     public Conector() {
     }
 
-    public Conector(int wavelength, int mode, double insertion_loss, String name, int id) {
+    public Conector(String name, int id,int wavelength, int mode, double insertion_loss) {
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
         this.modo = mode;

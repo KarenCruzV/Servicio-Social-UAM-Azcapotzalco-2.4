@@ -50,7 +50,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                                                 {"1,5", "15.5", "21.5"}};//64
     
     public void crearSplitter(int window, int salidas, double perdida, int id){
-        Splitter splitter = new Splitter(salidas, perdida, window, "splitter", contadorElemento);
+        Splitter splitter = new Splitter("splitter", 0,salidas, perdida, window);
         elementos.add(splitter);
         String aux = "splitter8"; //guarda el tipo de splitter //< 8 salidas
         //saber que tipo de splitter
