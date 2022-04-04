@@ -4,7 +4,6 @@ package optiuam.bc.modelo;
 public class Fibra extends Componente {
     
     /*Attribute Declaration*/
-    
     private int longitudOnda; // 1360 max 1260 min 1310 nm window | 1580 max 1480 min 1550 nm window
     private int mode; // 0 monomodo | 1 multimodo
     private int tipo; // 0 smf28 | 1 mm50 | 2 otro

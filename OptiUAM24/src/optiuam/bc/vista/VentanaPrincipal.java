@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import optiuam.bc.controlador.ControladorGeneral;
 import optiuam.bc.controlador.VentanaFibraController;
+import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 
 public class VentanaPrincipal implements Initializable {
@@ -37,7 +38,8 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     public Pane Pane1;
-    protected ControladorGeneral cont= new ControladorGeneral();
+    static ControladorGeneral controlador= new ControladorGeneral();
+
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
@@ -50,8 +52,12 @@ public class VentanaPrincipal implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
-         System.out.println("hola");
-         leerAuxiliar();
+        leerAuxiliar();
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getContadorElemento(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getTitle());
+        }
     }
     
     @FXML
@@ -81,8 +87,9 @@ public class VentanaPrincipal implements Initializable {
 
         stage.setTitle("OptiUAM BC Splitter");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
         stage.setResizable(false);
+        leerAuxiliar();
     }
     
     @FXML
@@ -94,8 +101,9 @@ public class VentanaPrincipal implements Initializable {
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Conector");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
         stage.setResizable(false);
+        leerAuxiliar();
     }
     
     @FXML
@@ -108,8 +116,9 @@ public class VentanaPrincipal implements Initializable {
 
         stage.setTitle("OptiUAM BC Empalme");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
         stage.setResizable(false);
+        leerAuxiliar();
     }
     
     @FXML
@@ -150,23 +159,52 @@ public class VentanaPrincipal implements Initializable {
         File doc =
         new File("auxiliar.txt");
         Scanner obj = new Scanner(doc);
+        Componente componente= new Componente();
         StringTokenizer st = new StringTokenizer(obj.nextLine(),",");
         String nombre= st.nextToken();
+        componente.setNombre(nombre);
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        componente.setId(controlador.getContadorElemento());
         int id=Integer.parseInt(st.nextToken());
-        String conec= st.nextToken();
+        componente.setConectado(Boolean.parseBoolean(st.nextToken()));
+        controlador.getElementos().add(componente);
+        
         Label dibujo= new Label();
+        Label title= new Label();
         if(nombre.equals("fibra")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
         }else if(nombre.equals("fuente")){
-            dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuenteR.png")));
         }
+        else if(nombre.equals("conector")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
+        }else if(nombre.equals("empalme")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
+        }
+        else if(nombre.equals("splitter16")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
+            dibujo.setLayoutX(100);
+            dibujo.setLayoutY(100);
+        }
+        title.setText(nombre);
         //ElementoGrafico grafico= new ElementoGrafico();
         //grafico.setComponente(nombre);
         //grafico.setId(cont.getContadorElemento()+1);
         //cont.getDibujos().add(grafico);
-        
+        ElementoGrafico elem= new ElementoGrafico();
+        elem.setComponente(nombre);
+        elem.setDibujo(dibujo);
+        elem.setTitle(title);
+        elem.setId(controlador.getContadorElemento());
+        controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
-        }
+        
+        
+    }
+    
+    public void añadirControlador(){
+        
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

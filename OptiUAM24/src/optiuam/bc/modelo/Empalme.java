@@ -79,8 +79,8 @@ public class Empalme extends Componente {
 
     @Override
     public String toString() {
-        return super.toString() + ", " + tipo + ", " + perdidaInsercion + 
-                ", " + longitudOnda;
+        return super.toString() + "," + tipo + "," + perdidaInsercion + 
+                "," + longitudOnda;
     }
     
 }

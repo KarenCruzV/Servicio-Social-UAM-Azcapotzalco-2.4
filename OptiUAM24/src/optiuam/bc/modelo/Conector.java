@@ -64,8 +64,8 @@ public class Conector extends Componente {
 
     @Override
     public String toString() {
-        return super.toString() + ", " + perdidaInsercion + ", " + longitudOnda + 
-                ", " + modo + ", " + orientacion;
+        return super.toString() + "," + perdidaInsercion + "," + longitudOnda + 
+                "," + modo + "," + orientacion;
     }
     
 }

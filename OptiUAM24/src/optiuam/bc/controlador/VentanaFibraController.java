@@ -15,8 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -70,9 +73,10 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         //System.out.println(cont);
         
             //No sirve poner el menso dibujoooooooooooooooooooooooooooooo xd
-        /* Label dibujo= new Label();
+            /*
+        Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
-        ven.setVentanaTrabajo().getChildren().add(dibujo);
+        Pane1.getChildren().add(dibujo);
         */
         
     }

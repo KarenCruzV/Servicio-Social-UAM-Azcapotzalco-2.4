@@ -5,6 +5,9 @@
  */
 package optiuam.bc.controlador;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -42,11 +45,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     public void crearEmpalme(int tipo, int longitudOnda, double perdida, int id){
         Empalme empalme = new Empalme("empalme", 0,tipo, perdida, longitudOnda);
         elementos.add(empalme);
+        crearArchivoAux(empalme.toString());
+        /*
         manejadorElementos = new ElementoGrafico(cont, Pane1, id, "empalme");
         dibujos.add(manejadorElementos);
         manejadorElementos.dibujarEmpalme();
         listaEmpalme(empalme);
         contadorElemento++;
+        */
     }
     
     public void imprimir(ActionEvent event){
@@ -82,6 +88,9 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         else{
             crearEmpalme(tipo, longitudOnda, perdidaInsercion, id);
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
         }
     }
     
@@ -94,5 +103,21 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    public void crearArchivoAux(String elemento){
+        try {
+            String ruta = "auxiliar.txt";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(elemento);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 }

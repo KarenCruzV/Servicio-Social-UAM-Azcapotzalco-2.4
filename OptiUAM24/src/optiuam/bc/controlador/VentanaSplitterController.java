@@ -5,6 +5,9 @@
  */
 package optiuam.bc.controlador;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -50,8 +53,10 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                                                 {"1,5", "15.5", "21.5"}};//64
     
     public void crearSplitter(int window, int salidas, double perdida, int id){
-        Splitter splitter = new Splitter("splitter", 0,salidas, perdida, window);
-        elementos.add(splitter);
+        Splitter splitter = new Splitter("splitter16", 0,salidas, perdida, window);
+        System.out.println(splitter.toString());
+        crearArchivoAux(splitter.toString());
+        /*elementos.add(splitter);
         String aux = "splitter8"; //guarda el tipo de splitter //< 8 salidas
         //saber que tipo de splitter
         if (salidas == 3) {//16 salidas
@@ -68,6 +73,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         manejadorElementos.dibujarSplitter();
         //listaSplitter(splitter);
         contadorElemento++;
+        */
     }
     
     
@@ -79,6 +85,26 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }   
+    public void crearArchivoAux(String elemento){
+        try {
+            String ruta = "auxiliar.txt";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(elemento);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void imprimir(ActionEvent event){
+        crearSplitter(contadorElemento, contadorElemento, contadorElemento, contadorElemento);
+        cerrarVentana(event);
+    }
     
 }

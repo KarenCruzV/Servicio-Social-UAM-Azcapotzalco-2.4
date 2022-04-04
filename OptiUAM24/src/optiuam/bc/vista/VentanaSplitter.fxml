@@ -49,7 +49,7 @@
       <ComboBox fx:id="cboxConectarA" layoutX="464.0" layoutY="97.0" prefHeight="25.0" prefWidth="60.0" />
       <Button fx:id="btnConectar" layoutX="422.0" layoutY="150.0" mnemonicParsing="false" text="Connect" />
       <Button fx:id="btnDesconectar" layoutX="415.0" layoutY="189.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="242.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnCrear" layoutX="242.0" layoutY="259.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

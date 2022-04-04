@@ -1,6 +1,9 @@
 
 package optiuam.bc.controlador;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -45,14 +48,17 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     VentanaPrincipal ven;
     
     public void crearConector(int longitudOnda, int modo, double perdida, int id){
-        Conector conector = new Conector("conector" ,0,longitudOnda, modo, perdida);
+        Conector conector = new Conector("conector",0,longitudOnda, modo, perdida);
         System.out.println("Conector creado: " + conector.toString());
+        crearArchivoAux(conector.toString());
+        /*
         elementos.add(conector);
         manejadorElementos = new ElementoGrafico(cont, Pane1, id, "conector");
         dibujos.add(manejadorElementos);
         manejadorElementos.dibujarConector();
         listaConector(conector);
         contadorElemento++;
+        */
     }
     
     
@@ -148,5 +154,24 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         
         
     }    
+    public void crearArchivoAux(String elemento){
+        try {
+            String ruta = "auxiliar.txt";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            
+            bw.write(elemento);
+            bw.close();
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
     
 }

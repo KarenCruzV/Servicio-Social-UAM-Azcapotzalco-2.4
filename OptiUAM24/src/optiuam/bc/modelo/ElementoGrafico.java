@@ -23,17 +23,8 @@ public class ElementoGrafico {
     @FXML
     private Label title; //etiqueta del elemento.
     @FXML                              
-    private Pane panel; // panel para dibujar el conector
     private int id; // identificador del dibujo, el mismo que el de el componente
     private String componente; // identificador del componente
-
-    public ControladorGeneral getControlador() {
-        return controlador;
-    }
-
-    public void setControlador(ControladorGeneral controlador) {
-        this.controlador = controlador;
-    }
 
     public Label getDibujo() {
         return dibujo;
@@ -49,14 +40,6 @@ public class ElementoGrafico {
 
     public void setTitle(Label title) {
         this.title = title;
-    }
-
-    public Pane getPanel() {
-        return panel;
-    }
-
-    public void setPanel(Pane panel) {
-        this.panel = panel;
     }
 
     public int getId() {
@@ -75,9 +58,8 @@ public class ElementoGrafico {
         this.componente = componente;
     }
 
-    public ElementoGrafico(ControladorGeneral controlador, Pane panel, int id, String componente) {
+    public ElementoGrafico(ControladorGeneral controlador, int id, String componente) {
         this.controlador = controlador;
-        this.panel = panel;
         this.id = id;
         this.componente = componente;
     }
@@ -153,7 +135,6 @@ public class ElementoGrafico {
             dibujo.getBoundsInLocal();;
         }
         //dibujo.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-        panel.getChildren().add(dibujo);
         dibujo.setVisible(true);
         
         /*MouseAdapter ml =new MouseAdapter() {
