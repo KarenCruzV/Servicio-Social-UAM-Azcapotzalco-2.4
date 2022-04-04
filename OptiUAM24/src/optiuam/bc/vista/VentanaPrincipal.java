@@ -15,22 +15,29 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import optiuam.bc.controlador.ControladorGeneral;
 import optiuam.bc.controlador.VentanaFibraController;
@@ -50,8 +57,19 @@ public class VentanaPrincipal implements Initializable {
     public Pane Pane1;
     @FXML
     public ScrollPane scroll;
+    @FXML
+    static public TitledPane componentMenu;
+    
     static ControladorGeneral controlador= new ControladorGeneral();
-
+    
+    @FXML
+    private void componentes(ActionEvent event) throws IOException{
+        //componentMenu.setExpanded(true);
+        //No funciono 
+        /*era para levantar el panel cada que se cerrara el menu ese
+        pero no sirvio y tompoco sirve que no se pueda cerrar jajaja*/
+        componentMenu.setCollapsible(false);
+    }
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
@@ -217,14 +235,17 @@ public class VentanaPrincipal implements Initializable {
             dibujo.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                dibujo.setLayoutX(event.getSceneX()-20);
-                dibujo.setLayoutY(event.getSceneY()-170);
-                
+                if(event.getButton()==MouseButton.PRIMARY){
+                    dibujo.setLayoutX(event.getSceneX()-20);
+                    dibujo.setLayoutY(event.getSceneY()-170);
+                    dibujo.setCursor(Cursor.CLOSED_HAND);
+                }
             }});
             dibujo.setOnMouseEntered(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
                 dibujo.setStyle("-fx-border-color: darkblue;");
+                dibujo.setCursor(Cursor.OPEN_HAND);
                 //dibujo.setStyle(value);
             }
                 
@@ -236,6 +257,33 @@ public class VentanaPrincipal implements Initializable {
             }
                 
             });
+            dibujo.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton()==MouseButton.PRIMARY){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Holi");
+                alert.setHeaderText(null);
+                alert.setContentText("\nAun no esta implementado");
+                alert.showAndWait();
+                }else if(event.getButton()==MouseButton.SECONDARY){
+                    // create a menu
+                    ContextMenu contextMenu = new ContextMenu();
+  
+                    // create menuitems
+                    MenuItem menuItem1 = new MenuItem("-Duplicar");
+                    MenuItem menuItem2 = new MenuItem("-Girar");
+                    MenuItem menuItem3 = new MenuItem("-Eliminar");
+  
+                     // add menu items to menu
+                    contextMenu.getItems().add(menuItem1);
+                    contextMenu.getItems().add(menuItem2);
+                    contextMenu.getItems().add(menuItem3);
+                    dibujo.setContextMenu(contextMenu);
+        // create a tilepane
+        //TilePane tilePane = new TilePane(label1);
+                }
+            }});
         
     }
     
@@ -261,6 +309,7 @@ public class VentanaPrincipal implements Initializable {
         viewEspectro.setImage(espectroI);
         viewEmpalme.setImage(empalmeI);
         viewSplitter.setImage(splitterI);
+        
     }    
 
     
