@@ -29,6 +29,9 @@
           <Menu mnemonicParsing="false" text="Help" />
           <Menu mnemonicParsing="false" text="About" />
         </menus>
+         <effect>
+            <InnerShadow choke="0.08" color="#0e5cc3" radius="24.085" width="77.34" />
+         </effect>
       </MenuBar>
       <TitledPane fx:id="idCom" animated="false" layoutX="1.0" layoutY="24.0" maxHeight="-Infinity" minHeight="154.0" minWidth="900.0" text="Components" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <content>
@@ -178,23 +181,35 @@
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
                </children>
+               <effect>
+                  <InnerShadow color="#264275" height="9.14" radius="2.5875000000000004" width="3.21" />
+               </effect>
             </AnchorPane>
         </content>
+         <effect>
+            <InnerShadow choke="0.09" color="#1f2f8d" height="35.83" radius="19.6375" width="44.72" />
+         </effect>
       </TitledPane>
-      <ScrollPane layoutX="2.0" layoutY="178.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+      <ScrollPane fx:id="scroll" depthTest="ENABLE" hmax="2.0" layoutX="2.0" layoutY="178.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="898.0" style="-fx-background-color: lightblue;" vmax="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
          <content>
             <Pane id="Pane1" fx:id="Pane1" prefHeight="2000.0" prefWidth="2500.0" style="-fx-background-color: White;">
                <children>
                   <ImageView fx:id="viewFibra11" fitHeight="2500.0" fitWidth="2500.0" pickOnBounds="true" smooth="false">
                      <effect>
-                        <InnerShadow color="#b2b2b2" />
+                        <InnerShadow color="#101c7c" />
                      </effect>
                      <image>
                         <Image url="@../../../images/fondo.png" />
                      </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                   </ImageView>
                </children></Pane>
          </content>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
       </ScrollPane>
    </children>
 </AnchorPane>

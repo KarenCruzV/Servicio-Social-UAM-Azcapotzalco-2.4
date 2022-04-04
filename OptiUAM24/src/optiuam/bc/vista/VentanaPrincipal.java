@@ -1,6 +1,8 @@
 
 package optiuam.bc.vista;
 
+import static java.awt.Color.blue;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,12 +19,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.BorderFactory;
+import javax.swing.border.LineBorder;
 import optiuam.bc.controlador.ControladorGeneral;
 import optiuam.bc.controlador.VentanaFibraController;
 import optiuam.bc.modelo.Componente;
@@ -38,6 +48,8 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     public Pane Pane1;
+    @FXML
+    public ScrollPane scroll;
     static ControladorGeneral controlador= new ControladorGeneral();
 
     
@@ -56,7 +68,7 @@ public class VentanaPrincipal implements Initializable {
         System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getContadorElemento(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getTitle());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getTitle().getText());
         }
     }
     
@@ -183,10 +195,12 @@ public class VentanaPrincipal implements Initializable {
         }
         else if(nombre.equals("splitter16")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
-            dibujo.setLayoutX(100);
-            dibujo.setLayoutY(100);
         }
-        title.setText(nombre);
+        title.setText(nombre + controlador.getContadorElemento());
+        dibujo.setText(nombre + "_"+ controlador.getContadorElemento());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+        title.setLayoutX(0);
+        title.setLayoutY(-20);
         //ElementoGrafico grafico= new ElementoGrafico();
         //grafico.setComponente(nombre);
         //grafico.setId(cont.getContadorElemento()+1);
@@ -194,11 +208,34 @@ public class VentanaPrincipal implements Initializable {
         ElementoGrafico elem= new ElementoGrafico();
         elem.setComponente(nombre);
         elem.setDibujo(dibujo);
+        
         elem.setTitle(title);
         elem.setId(controlador.getContadorElemento());
         controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
         
+            dibujo.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dibujo.setLayoutX(event.getSceneX()-20);
+                dibujo.setLayoutY(event.getSceneY()-170);
+                
+            }});
+            dibujo.setOnMouseEntered(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                dibujo.setStyle("-fx-border-color: darkblue;");
+                //dibujo.setStyle(value);
+            }
+                
+            });
+            dibujo.setOnMouseExited(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event) {
+                dibujo.setStyle("");
+            }
+                
+            });
         
     }
     

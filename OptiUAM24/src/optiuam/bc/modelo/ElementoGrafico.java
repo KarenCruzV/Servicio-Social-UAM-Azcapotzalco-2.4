@@ -5,10 +5,12 @@
  */
 package optiuam.bc.modelo;
 
+import java.awt.event.MouseAdapter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import optiuam.bc.controlador.ControladorGeneral;
 
@@ -137,6 +139,23 @@ public class ElementoGrafico {
         //dibujo.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
         dibujo.setVisible(true);
         
+        MouseAdapter ml =new MouseAdapter() {
+            int valorX= (int) dibujo.getLayoutX();
+            int valorY= (int) dibujo.getLayoutY();
+            public void mousePressed(MouseEvent me) {
+                valorX = (int) me.getX();
+                valorY = (int) me.getY();
+            }
+            
+            public void mouseDragged(MouseEvent me) {
+       
+                    //dibujo.setLocation(me.getSceneX()-valorX, me.getSceneY()-valorY-150);
+                    dibujo.setLayoutX(me.getSceneX()-valorX);
+                    dibujo.setLayoutY(me.getSceneY()-valorY-150);
+                //dibujo.repaint();
+                //panel.repaint();
+            }
+        };
         /*MouseAdapter ml =new MouseAdapter() {
             int x_pressed = 0;
             int y_pressed = 0;
