@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package optiuam.bc.controlador;
 
 import java.io.BufferedWriter;
@@ -15,13 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -38,7 +33,16 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     private RadioButton rbtnMono, rbtnMulti, rbtn1310, rbtn1550, rbtnOtro, rbtn28, rbtn50;
     
     @FXML
-    public Button btnCrear;
+    public Button btnCrear, btnDesconectar;
+    
+    @FXML
+    public Label lblConectarA;
+    
+    @FXML
+    public ComboBox cboxConectarA;
+    
+    @FXML
+    public Separator separator;
 
     public Button getBtnCrear() {
         return btnCrear;
@@ -48,6 +52,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         this.btnCrear = btnCrear;
     }
     
+    @Override
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -56,8 +61,12 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        separator.setVisible(false);
+        btnDesconectar.setVisible(false);
+        lblConectarA.setVisible(false);
+        cboxConectarA.setVisible(false);
     }    
+    
     public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion, int id) {
         Fibra fibra_aux = new Fibra("fibra", 0,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
         System.out.println("Fibra creada: " + fibra_aux.toString()+"\n");

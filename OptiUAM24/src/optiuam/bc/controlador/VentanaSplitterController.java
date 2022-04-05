@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package optiuam.bc.controlador;
 
 import java.io.BufferedWriter;
@@ -19,7 +15,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Splitter;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -84,7 +79,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cboxNumeroSalidas.getItems().removeAll(cboxNumeroSalidas.getItems());
+        cboxNumeroSalidas.getItems().addAll("2", "4", "8", "16", "32", "64");
+        cboxNumeroSalidas.getSelectionModel().select("2");
     }   
     public void crearArchivoAux(String elemento){
         try {
