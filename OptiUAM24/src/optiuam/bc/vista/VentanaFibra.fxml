@@ -30,12 +30,12 @@
          </font></Label>
       <Separator layoutX="-3.0" layoutY="48.0" prefHeight="6.0" prefWidth="506.0" />
       <Label layoutX="64.0" layoutY="80.0" text="Type" />
-      <RadioButton id="rbtn28" fx:id="rbtn28" layoutX="116.0" layoutY="80.0" mnemonicParsing="false" selected="true" text="smf-28">
+      <RadioButton id="rbtn28" fx:id="rbtn28" layoutX="116.0" layoutY="80.0" mnemonicParsing="false" onAction="#rbtnSmf28" text="smf-28">
          <toggleGroup>
             <ToggleGroup fx:id="Tipo" />
          </toggleGroup></RadioButton>
-      <RadioButton id="rbtn50" fx:id="rbtn50" layoutX="200.0" layoutY="80.0" mnemonicParsing="false" text="mm50" toggleGroup="$Tipo" />
-      <RadioButton id="rbtnOther" fx:id="rbtnOtro" layoutX="282.0" layoutY="80.0" mnemonicParsing="false" text="Other" toggleGroup="$Tipo" />
+      <RadioButton id="rbtn50" fx:id="rbtn50" layoutX="200.0" layoutY="80.0" mnemonicParsing="false" text="mm50" onAction="#rbtnMm50"  toggleGroup="$Tipo" />
+      <RadioButton id="rbtnOther" fx:id="rbtnOtro" layoutX="282.0" layoutY="80.0" mnemonicParsing="false" text="Other" onAction="#rbtnOtro" selected="true" toggleGroup="$Tipo" />
       <Label layoutX="58.0" layoutY="118.0" text="Mode" />
       <RadioButton id="rbtnModo" fx:id="rbtnMono" layoutX="116.0" layoutY="118.0" mnemonicParsing="false" selected="true" text="Monomode">
          <toggleGroup>
@@ -43,11 +43,11 @@
          </toggleGroup></RadioButton>
       <RadioButton id="rbtnMulti" fx:id="rbtnMulti" layoutX="228.0" layoutY="118.0" mnemonicParsing="false" text="Multimode" toggleGroup="$Mode" />
       <Label layoutX="27.0" layoutY="158.0" text="Wavelength" />
-      <RadioButton id="rbtn1310" fx:id="rbtn1310" layoutX="115.0" layoutY="158.0" mnemonicParsing="false" selected="true" text="1310 nm">
+      <RadioButton id="rbtn1310" fx:id="rbtn1310" layoutX="115.0" layoutY="158.0" mnemonicParsing="false" onAction="#rbtn1310Action" selected="true" text="1310 nm">
          <toggleGroup>
             <ToggleGroup fx:id="LongitudOnda" />
          </toggleGroup></RadioButton>
-      <RadioButton id="rbtn1550" fx:id="rbtn1550" layoutX="200.0" layoutY="158.0" mnemonicParsing="false" text="1550 nm" toggleGroup="$LongitudOnda" />
+      <RadioButton id="rbtn1550" fx:id="rbtn1550" layoutX="200.0" layoutY="158.0" mnemonicParsing="false" text="1550 nm" onAction="#rbtn1550Action"  toggleGroup="$LongitudOnda" />
       <Label layoutX="22.0" layoutY="200.0" text="Cable lenght" />
       <TextField id="txtDistancia" fx:id="txtDistancia" layoutX="116.0" layoutY="196.0" prefHeight="25.0" prefWidth="64.0" />
       <Label layoutX="192.0" layoutY="200.0" text="km" />

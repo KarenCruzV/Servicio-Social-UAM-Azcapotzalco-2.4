@@ -61,11 +61,90 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        /*
         separator.setVisible(false);
         btnDesconectar.setVisible(false);
         lblConectarA.setVisible(false);
         cboxConectarA.setVisible(false);
+        */
     }    
+    
+    @FXML
+    private void rbtn1310Action(ActionEvent event){
+        if (!rbtnOtro.isSelected()) {
+            if (rbtnMono.isSelected()) { // monomodo 1310
+                txtAtenue.setText("0.32");
+                txtAtenue.setEditable(false);
+                txtDisp.setText("0");
+                txtDisp.setEditable(false);
+            } else { // multimodod 1310
+                txtAtenue.setText("0.36");
+                txtAtenue.setEditable(false);
+                txtDisp.setText("3.5");
+                txtDisp.setEditable(false);
+            }
+        }
+    }
+    
+    @FXML
+    private void rbtn1550Action(ActionEvent event){
+        if (!rbtnOtro.isSelected()) {
+            if (rbtnMono.isSelected()) { // monomodo 1510
+                txtAtenue.setText("0.18");
+                txtAtenue.setEditable(false);
+                txtDisp.setText("18");
+                txtDisp.setEditable(false);
+            }
+        }
+    }
+    
+    @FXML
+    private void rbtnMm50(ActionEvent event){
+        if (!rbtnOtro.isSelected()) {
+            rbtn1310.setSelected(true);
+            rbtn1550.setDisable(true);
+            rbtnMulti.setSelected(true);
+            rbtnMulti.setDisable(false);
+            rbtnMono.setDisable(true);
+            txtAtenue.setText("0.36");
+            txtAtenue.setEditable(false);
+            txtDisp.setText("3.5");
+            txtDisp.setEditable(false);
+        }
+    }
+    
+    @FXML
+    private void rbtnSmf28(ActionEvent event){
+        if (!rbtnOtro.isSelected()) {
+            rbtn1550.setDisable(false);
+            rbtnMono.setSelected(true);
+            rbtnMono.setDisable(false);
+            rbtnMulti.setDisable(true);
+            if (rbtn1310.isSelected()) { // monomodo 1310
+                txtAtenue.setText("0.32");
+                txtAtenue.setEditable(false);
+                txtDisp.setText("0");
+                txtDisp.setEditable(false);
+            } else { // monomodo 1550
+                txtAtenue.setText("0.18");
+                txtAtenue.setEditable(false);
+                txtDisp.setText("18");
+                txtDisp.setEditable(false);
+            }
+        }
+    }
+    
+    @FXML
+    private void rbtnOtro(ActionEvent event){
+        rbtnMulti.setDisable(false);
+        rbtnMono.setDisable(false);
+        rbtn1310.setDisable(false);
+        rbtn1550.setDisable(false);
+        txtDisp.setText("");
+        txtDisp.setEditable(true);
+        txtAtenue.setText("");
+        txtAtenue.setEditable(true);
+    }
     
     public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion, int id) {
         Fibra fibra_aux = new Fibra("fibra", 0,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
@@ -92,30 +171,32 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     public void imprimir(ActionEvent event){
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
-        if(rbtnMono.isSelected()){
-            modo=0;
-            //System.out.println("Tipo Mono");
-        }else if(rbtnMulti.isSelected()){
-            modo=1;
-            //System.out.println("Tipo Multi");
-        }   
-        if(rbtn1310.isSelected()){
-            longitudOnda=1310;
-            //System.out.println(1310);
-        }else if(rbtn1550.isSelected()){
-            longitudOnda=1550;
-            //System.out.println(1550);
+        
+        if (modo == 1) // multimodo
+        {
+            rbtnMulti.setSelected(true);
         }
-        if(rbtn28.isSelected()){
-            tipo=0;
-            //System.out.println("28");
-        }else if(rbtn50.isSelected()){
-            tipo=1;
-            //System.out.println("50");
-        }else if(rbtnOtro.isSelected()){
-            tipo=2;
-            //System.out.println("Otro");
+        
+        if (longitudOnda == 1550) // 1310 nm
+        {
+            rbtn1550.setSelected(true);
         }
+        if (tipo == 1) // mm50
+        {
+            txtDisp.setEditable(false);
+            txtAtenue.setEditable(false);
+            rbtn1550.setDisable(true);
+            rbtnMono.setDisable(true);
+            rbtn50.setSelected(true);
+        }
+        if(tipo ==0){ // smf28
+            txtDisp.setEditable(false);
+            txtAtenue.setEditable(false);
+            rbtnMulti.setDisable(true);
+            rbtn28.setSelected(true);
+        }
+        if(tipo == 2){} //otro
+        
         longitudKm= Double.parseDouble(txtDistancia.getText());
         atenue= Double.parseDouble(txtAtenue.getText());
         dispersion= Double.parseDouble(txtDisp.getText());
