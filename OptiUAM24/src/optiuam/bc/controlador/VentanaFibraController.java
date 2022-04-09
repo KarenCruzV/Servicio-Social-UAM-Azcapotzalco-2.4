@@ -201,7 +201,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             bw.write(elemento);
             bw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
     /*

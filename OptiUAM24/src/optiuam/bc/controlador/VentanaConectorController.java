@@ -169,7 +169,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             bw.close();
             fw.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
         
     }

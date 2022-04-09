@@ -1,8 +1,10 @@
 
 package optiuam.bc.vista;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -293,7 +295,7 @@ public class VentanaPrincipal implements Initializable {
         stage.close();
     }
     
-    private void leerAuxiliar() throws FileNotFoundException{
+    private void leerAuxiliar() throws FileNotFoundException, IOException{
         File doc =
         new File("auxiliar.txt");
         Scanner obj = new Scanner(doc);
@@ -337,6 +339,11 @@ public class VentanaPrincipal implements Initializable {
             default:
                 break;
         }
+        
+        BufferedWriter bw = new BufferedWriter(new FileWriter("auxiliar.txt"));
+        bw.write("");
+        bw.close();
+        doc.delete();
         title.setText(nombre + controlador.getContadorElemento());
         dibujo.setText(nombre + "_"+ controlador.getContadorElemento());
         dibujo.setContentDisplay(ContentDisplay.TOP);
