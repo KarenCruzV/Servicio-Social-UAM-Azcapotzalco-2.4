@@ -150,24 +150,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         Fibra fibra_aux = new Fibra("fibra", 0,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
         System.out.println("Fibra creada: " + fibra_aux.toString()+"\n");
         crearArchivoAux(fibra_aux.toString());
-        //cont.listaFibra();
-        
-        //cont.getElementos().add(fibra_aux);
-        //cont.getManejadorElementos() = new ElementoGrafico(ventana_principal.getPnl_trabajo(), "fibra" + String.valueOf(contadorElemento), "fibra", this,"fibra");
-        //cont.setManejadorElementos(new ElementoGrafico());
-        //dibujos.add(manejadorElementos);
-        //cont.getDibujos().add(cont.getManejadorElementos());
-        //cont.setContadorElemento(cont.getContadorElemento()+1);
-        //System.out.println(cont);
-        
-            //No sirve poner el menso dibujoooooooooooooooooooooooooooooo xd
-            /*
-        Label dibujo= new Label();
-        dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
-        Pane1.getChildren().add(dibujo);
-        */
-        
     }
+    
     public void imprimir(ActionEvent event){
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;

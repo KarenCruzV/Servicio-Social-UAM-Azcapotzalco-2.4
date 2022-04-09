@@ -325,6 +325,15 @@ public class VentanaPrincipal implements Initializable {
             case "splitter16":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
                 break;
+            case "splitter32":
+                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
+                break;
+            case "splitter64":
+                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
+                break;
+            case "splitter128":
+                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter128.png")));
+                break;
             default:
                 break;
         }

@@ -10,9 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Splitter;
@@ -35,10 +37,15 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     Button btnConectar, btnDesconectar, btnCrear, btnCancelar;
     
     @FXML
+    TextField txtPerdidaInsercion;
+    
+    @FXML
     private Pane Pane1;
     
     ControladorGeneral cont;
     VentanaPrincipal ven;
+    
+    private int id;
     
     private final String perdidasValidas[][] = {{"1,0", "2.7", "4.0"},   //2
                                                 {"1,1", "5.3", "7.6"},   //4
@@ -47,30 +54,47 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                                                 {"1,4", "12.8", "18.1"}, //32
                                                 {"1,5", "15.5", "21.5"}};//64
     
-    public void crearSplitter(int window, int salidas, double perdida, int id){
-        Splitter splitter = new Splitter("splitter16", 0,salidas, perdida, window);
-        System.out.println(splitter.toString());
-        crearArchivoAux(splitter.toString());
-        /*elementos.add(splitter);
-        String aux = "splitter8"; //guarda el tipo de splitter //< 8 salidas
+    public void crearSplitter(int longitudOnda, int salidas, double perdida, int id){
+        
+        String aux = "splitter16"; //guarda el tipo de splitter //< 16 salidas
         //saber que tipo de splitter
-        if (salidas == 3) {//16 salidas
-            aux = "splitter16";
-        }
-        if (salidas == 4) {//32 salidas
+        if (salidas == 3) {//32 salidas
             aux = "splitter32";
         }
-        if (salidas == 5) {//64 salidas
+        if (salidas == 4) {//64 salidas
             aux = "splitter64";
         }
-        manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "splitter " + aux);
-        dibujos.add(manejadorElementos);
-        manejadorElementos.dibujarSplitter();
-        //listaSplitter(splitter);
-        contadorElemento++;
-        */
+        if (salidas == 5) {//128 salidas
+            aux = "splitter128";
+        }
+        
+        Splitter splitter = new Splitter(aux, 0,salidas, perdida, longitudOnda);
+        System.out.println("Splitter creado: " + splitter.toString() + "\n");
+        crearArchivoAux(splitter.toString());
+        
     }
     
+    public boolean validarPerdida(double perdida,int salidas) {
+        for (int i = 0; i < perdidasValidas.length; i++) {
+            if (perdidasValidas[i][0].compareTo(String.valueOf("1") + "," + String.valueOf(salidas)) == 0) {
+                if (perdida >= Double.parseDouble(perdidasValidas[i][1]) && perdida <= Double.parseDouble(perdidasValidas[i][2])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public String buscarPerdidas(int salidas) {
+        for (int i = 0; i < perdidasValidas.length; i++) {
+            if (perdidasValidas[i][0].compareTo(String.valueOf("1") + "," + String.valueOf(salidas)) == 0) {
+                return "min: " + String.valueOf(perdidasValidas[i][1]) + ", max: " + String.valueOf(perdidasValidas[i][2]);
+            }
+        }
+        return "";
+    }
     
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
@@ -100,8 +124,36 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
     }
     public void imprimir(ActionEvent event){
-        crearSplitter(contadorElemento, contadorElemento, contadorElemento, contadorElemento);
-        cerrarVentana(event);
+        int salidas=0, longitudOnda=0, id=0;
+        double perdida;
+        
+        if(longitudOnda == 1550){
+            longitudOnda = 1550;
+            rbtn1550.setSelected(true);
+        }
+        //cboxNumeroSalidas.setSelectedIndex(salidas);
+        perdida = Double.parseDouble(txtPerdidaInsercion.getText());
+        txtPerdidaInsercion.setText(String.valueOf(perdida));
+        this.id=id;
+        cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
+        for(int i = 0; i<((int) Math.pow(2,(salidas+1)));i++){
+            cboxSalidas.getItems().add(String.valueOf(i+1));
+        }
+        //cboxSalidas.setSelectedIndex(0);
+        
+        if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
+           System.out.println("La pérdida debe ser " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nLa pérdida debe ser " +  buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
+            alert.showAndWait();
+        }
+        else{
+            crearSplitter(longitudOnda, salidas, perdida, id);
+            cerrarVentana(event);
+        }
+        
     }
     
 }
