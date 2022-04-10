@@ -23,9 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -198,7 +196,8 @@ public class VentanaPrincipal implements Initializable {
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
                 // create a menu
-                ContextMenu contextMenu = new ContextMenu();
+                
+                /*ContextMenu contextMenu = new ContextMenu();
                 
                 // create menuitems
                 MenuItem menuItem1 = new MenuItem("-Duplicar");
@@ -209,7 +208,23 @@ public class VentanaPrincipal implements Initializable {
                 contextMenu.getItems().add(menuItem1);
                 contextMenu.getItems().add(menuItem2);
                 contextMenu.getItems().add(menuItem3);
-                dibujo.setContextMenu(contextMenu);
+                dibujo.setContextMenu(contextMenu);*/
+                
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("MenuEmergente.fxml"));
+                    Scene scene = new Scene(root);
+                    Image ico = new Image("images/acercaDe.png");
+                    Stage stage = new Stage(StageStyle.UTILITY);
+                    stage.getIcons().add(ico);
+                    stage.setTitle("OptiUAM BC Menu");
+                    stage.setScene(scene);
+                    stage.showAndWait();
+                    stage.setResizable(false);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
             }
         });
     }
@@ -272,7 +287,7 @@ public class VentanaPrincipal implements Initializable {
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
                 // create a menu
-                ContextMenu contextMenu = new ContextMenu();
+                /*ContextMenu contextMenu = new ContextMenu();
                 
                 // create menuitems
                 MenuItem menuItem1 = new MenuItem("-Duplicar");
@@ -283,7 +298,21 @@ public class VentanaPrincipal implements Initializable {
                 contextMenu.getItems().add(menuItem1);
                 contextMenu.getItems().add(menuItem2);
                 contextMenu.getItems().add(menuItem3);
-                dibujo.setContextMenu(contextMenu);
+                dibujo.setContextMenu(contextMenu);*/
+                
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("MenuEmergente.fxml"));
+                    Scene scene = new Scene(root);
+                    Image ico = new Image("images/acercaDe.png");
+                    Stage stage = new Stage(StageStyle.UTILITY);
+                    stage.getIcons().add(ico);
+                    stage.setTitle("OptiUAM BC Menu");
+                    stage.setScene(scene);
+                    stage.showAndWait();
+                    stage.setResizable(false);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -295,7 +324,7 @@ public class VentanaPrincipal implements Initializable {
         stage.close();
     }
     
-    private void leerAuxiliar() throws FileNotFoundException, IOException{
+    public void leerAuxiliar() throws FileNotFoundException, IOException{
         File doc =
         new File("auxiliar.txt");
         Scanner obj = new Scanner(doc);
@@ -340,15 +369,40 @@ public class VentanaPrincipal implements Initializable {
                 break;
         }
         
-        BufferedWriter bw = new BufferedWriter(new FileWriter("auxiliar.txt"));
-        bw.write("");
-        bw.close();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("auxiliar.txt"))) {
+            bw.write("");
+        }
+        
         doc.delete();
         title.setText(nombre + controlador.getContadorElemento());
         dibujo.setText(nombre + "_"+ controlador.getContadorElemento());
         dibujo.setContentDisplay(ContentDisplay.TOP);
         title.setLayoutX(0);
         title.setLayoutY(-20);
+        
+        /*Estoy mensa, lo que pretendo hacer es que en un archivo, se "escriban"
+        los nombres de los elementos, por ejemplo: conector_1, empalme_2, etc
+        Esto para que en la clase VentanaFibraController se lea el archivo y
+        cada elemento leído se guarde en el ComboBox de Conectar A :v 
+        Lo de arriba fue de ayer, 9 de abril xd
+        Hoy 10 de abril, ya lo logré pero no se borran los elementos pasados del
+        archivo, es decir, lo corro una vez y se guardan no se 5 elementos,
+        cuando lo vuelvo a correr, esos 5 siguen ahí y no quiero eso xd
+        
+        Pasate a VentanaFibraController*/
+        
+        File file = new File("elementos.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        try (FileWriter fw = new FileWriter(file, true)) {
+            fw.write(dibujo.getText()+"\n");
+            //FileWriter fw=new FileWriter(file);
+            //BufferedWriter bw=new BufferedWriter(fw);
+            //bw.write(dibujo.getText());
+        }
+        
+        /*------------------------------------------------------------------------*/
         
         ElementoGrafico elem = new ElementoGrafico();
         elem.setComponente(nombre);
@@ -377,6 +431,19 @@ public class VentanaPrincipal implements Initializable {
                 if(event.getButton()==MouseButton.PRIMARY){
                     if(dibujo.getText().contains("fibra")){
                         System.out.println("Hola fibra");
+                        try {
+                            Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
+                            Scene scene = new Scene(root);
+                            Image ico = new Image("images/acercaDe.png");
+                            Stage stage = new Stage(StageStyle.UTILITY);
+                            stage.getIcons().add(ico);
+                            stage.setTitle("OptiUAM BC Fibra");
+                            stage.setScene(scene);
+                            stage.showAndWait();
+                            stage.setResizable(false);
+                        } catch (IOException ex) {
+                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     else if(dibujo.getText().contains("fuente")){
                         System.out.println("Hola fuente");
@@ -399,7 +466,7 @@ public class VentanaPrincipal implements Initializable {
                     }
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     // create a menu
-                    ContextMenu contextMenu = new ContextMenu();
+                    /*ContextMenu contextMenu = new ContextMenu();
   
                     // create menuitems
                     MenuItem menuItem1 = new MenuItem("-Duplicar");
@@ -410,17 +477,27 @@ public class VentanaPrincipal implements Initializable {
                     contextMenu.getItems().add(menuItem1);
                     contextMenu.getItems().add(menuItem2);
                     contextMenu.getItems().add(menuItem3);
-                    dibujo.setContextMenu(contextMenu);
-                   
+                    dibujo.setContextMenu(contextMenu);*/
+                    
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("MenuEmergente.fxml"));
+                        Scene scene = new Scene(root);
+                        Image ico = new Image("images/acercaDe.png");
+                        Stage stage = new Stage(StageStyle.UTILITY);
+                        stage.getIcons().add(ico);
+                        stage.setTitle("OptiUAM BC Menu");
+                        stage.setScene(scene);
+                        stage.showAndWait();
+                        stage.setResizable(false);
+                    } catch (IOException ex) {
+                        Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
         });
         
     }
-    
-    public void añadirControlador(){
-        
-    }
-
+  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fibraI=new Image("images/ico_fibra.png"); 
