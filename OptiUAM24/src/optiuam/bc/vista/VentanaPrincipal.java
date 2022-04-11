@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.AccessibleRole;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -50,12 +51,13 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     public Pane Pane1;
+    
     @FXML
     public ScrollPane scroll;
     @FXML
     static public TitledPane componentMenu;
     
-    static ControladorGeneral controlador= new ControladorGeneral();
+    static public ControladorGeneral controlador= new ControladorGeneral();
     
     @FXML
     private void componentes(ActionEvent event) throws IOException{
@@ -73,6 +75,7 @@ public class VentanaPrincipal implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
+        
         leerAuxiliar();
         System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getContadorElemento(); h++){
@@ -220,6 +223,7 @@ public class VentanaPrincipal implements Initializable {
                     stage.setScene(scene);
                     stage.showAndWait();
                     stage.setResizable(false);
+                    root.setAccessibleRole(AccessibleRole.PARENT);
                 } catch (IOException ex) {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }

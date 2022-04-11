@@ -18,10 +18,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Fibra;
 import optiuam.bc.vista.VentanaPrincipal;
@@ -82,14 +85,16 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             
             br = new BufferedReader(new FileReader("elementos.txt"));
             String linea;
+            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
             while ((linea = br.readLine()) != null){
                 if(!linea.contains("fibra")){
-                    cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
-                    cboxConectarA.getItems().add(linea);
-                    cboxConectarA.getSelectionModel().selectFirst();
+                    if(linea.contains("conector")||linea.contains("empalme")){
+                        cboxConectarA.getItems().add(linea);
+                        cboxConectarA.getSelectionModel().selectFirst();
+                    }
                 }
                 
-            }   
+            } 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(VentanaFibraController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -97,6 +102,9 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         } finally {
             try {
                 br.close();
+                BufferedWriter wr= new BufferedWriter(new FileWriter("elementos.txt"));
+                wr.write("");
+                wr.close();
             } catch (IOException ex) {
                 Logger.getLogger(VentanaFibraController.class.getName()).log(Level.SEVERE, null, ex);
             }

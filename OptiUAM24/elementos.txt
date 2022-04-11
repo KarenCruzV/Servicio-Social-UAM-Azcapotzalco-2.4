@@ -1,5 +1,0 @@
-fibra_1
-fuente_2
-fibra_1
-splitter16_2
-conector_3
