@@ -16,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.AccessibleRole;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -24,7 +23,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -51,13 +52,12 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     public Pane Pane1;
-    
     @FXML
     public ScrollPane scroll;
     @FXML
     static public TitledPane componentMenu;
     
-    static public ControladorGeneral controlador= new ControladorGeneral();
+    static ControladorGeneral controlador= new ControladorGeneral();
     
     @FXML
     private void componentes(ActionEvent event) throws IOException{
@@ -75,7 +75,6 @@ public class VentanaPrincipal implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
-        
         leerAuxiliar();
         System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getContadorElemento(); h++){
@@ -199,36 +198,36 @@ public class VentanaPrincipal implements Initializable {
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
                 // create a menu
-                
-                /*ContextMenu contextMenu = new ContextMenu();
+                ContextMenu contextMenu = new ContextMenu();
                 
                 // create menuitems
                 MenuItem menuItem1 = new MenuItem("-Duplicar");
                 MenuItem menuItem2 = new MenuItem("-Girar");
                 MenuItem menuItem3 = new MenuItem("-Eliminar");
                 
+                menuItem1.setOnAction(e ->{
+                    System.out.println("Duplicar");
+                });
+                
+                menuItem2.setOnAction(e ->{
+                    System.out.println("Girar");
+                    if(dibujo.getText().contains("potencia")){
+                        System.out.println("Girar potencia");
+                    }
+                });
+                
+                menuItem3.setOnAction(e ->{
+                    System.out.println("Elemento eliminado");
+                    dibujo.setGraphic(null);
+                    dibujo.setText("");
+                    title.setText("");
+                });
+                
                 // add menu items to menu
                 contextMenu.getItems().add(menuItem1);
                 contextMenu.getItems().add(menuItem2);
                 contextMenu.getItems().add(menuItem3);
-                dibujo.setContextMenu(contextMenu);*/
-                
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("MenuEmergente.fxml"));
-                    Scene scene = new Scene(root);
-                    Image ico = new Image("images/acercaDe.png");
-                    Stage stage = new Stage(StageStyle.UTILITY);
-                    stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Menu");
-                    stage.setScene(scene);
-                    stage.showAndWait();
-                    stage.setResizable(false);
-                    root.setAccessibleRole(AccessibleRole.PARENT);
-                } catch (IOException ex) {
-                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                
+                dibujo.setContextMenu(contextMenu);
             }
         });
     }
@@ -291,32 +290,37 @@ public class VentanaPrincipal implements Initializable {
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
                 // create a menu
-                /*ContextMenu contextMenu = new ContextMenu();
+                ContextMenu contextMenu = new ContextMenu();
                 
                 // create menuitems
                 MenuItem menuItem1 = new MenuItem("-Duplicar");
                 MenuItem menuItem2 = new MenuItem("-Girar");
                 MenuItem menuItem3 = new MenuItem("-Eliminar");
                 
+                menuItem1.setOnAction(e ->{
+                    System.out.println("Duplicar");
+                });
+                
+                menuItem2.setOnAction(e ->{
+                    System.out.println("Girar");
+                    if(dibujo.getText().contains("espectro")){
+                            System.out.println("Girar espectro");
+                        }
+                });
+                
+                menuItem3.setOnAction(e ->{
+                    System.out.println("Elemento eliminado");
+                    dibujo.setGraphic(null);
+                    dibujo.setText("");
+                    title.setText("");
+                });
+                
                 // add menu items to menu
                 contextMenu.getItems().add(menuItem1);
                 contextMenu.getItems().add(menuItem2);
                 contextMenu.getItems().add(menuItem3);
-                dibujo.setContextMenu(contextMenu);*/
+                dibujo.setContextMenu(contextMenu);
                 
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("MenuEmergente.fxml"));
-                    Scene scene = new Scene(root);
-                    Image ico = new Image("images/acercaDe.png");
-                    Stage stage = new Stage(StageStyle.UTILITY);
-                    stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Menu");
-                    stage.setScene(scene);
-                    stage.showAndWait();
-                    stage.setResizable(false);
-                } catch (IOException ex) {
-                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
     }
@@ -384,16 +388,7 @@ public class VentanaPrincipal implements Initializable {
         title.setLayoutX(0);
         title.setLayoutY(-20);
         
-        /*Estoy mensa, lo que pretendo hacer es que en un archivo, se "escriban"
-        los nombres de los elementos, por ejemplo: conector_1, empalme_2, etc
-        Esto para que en la clase VentanaFibraController se lea el archivo y
-        cada elemento leído se guarde en el ComboBox de Conectar A :v 
-        Lo de arriba fue de ayer, 9 de abril xd
-        Hoy 10 de abril, ya lo logré pero no se borran los elementos pasados del
-        archivo, es decir, lo corro una vez y se guardan no se 5 elementos,
-        cuando lo vuelvo a correr, esos 5 siguen ahí y no quiero eso xd
-        
-        Pasate a VentanaFibraController*/
+        /*--------------------------------------------------------------------*/
         
         File file = new File("elementos.txt");
             if (!file.exists()) {
@@ -401,12 +396,9 @@ public class VentanaPrincipal implements Initializable {
             }
         try (FileWriter fw = new FileWriter(file, true)) {
             fw.write(dibujo.getText()+"\n");
-            //FileWriter fw=new FileWriter(file);
-            //BufferedWriter bw=new BufferedWriter(fw);
-            //bw.write(dibujo.getText());
         }
         
-        /*------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------*/
         
         ElementoGrafico elem = new ElementoGrafico();
         elem.setComponente(nombre);
@@ -470,32 +462,43 @@ public class VentanaPrincipal implements Initializable {
                     }
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     // create a menu
-                    /*ContextMenu contextMenu = new ContextMenu();
+                    ContextMenu contextMenu = new ContextMenu();
   
                     // create menuitems
                     MenuItem menuItem1 = new MenuItem("-Duplicar");
                     MenuItem menuItem2 = new MenuItem("-Girar");
                     MenuItem menuItem3 = new MenuItem("-Eliminar");
                     
+                    menuItem1.setOnAction(e ->{
+                        System.out.println("Duplicar");
+                    });
+
+                    menuItem2.setOnAction(e ->{
+                        if(dibujo.getText().contains("conector")){
+                            System.out.println("Girar conector");
+                        }
+                        else if(dibujo.getText().contains("fuente")){
+                            System.out.println("Girar fuente");
+                        }
+                        else{
+                            System.out.println("Este elemento no gira");
+                        }
+                        
+                    });
+
+                    menuItem3.setOnAction(e ->{
+                        System.out.println("Elemento eliminado");
+                        dibujo.setGraphic(null);
+                        dibujo.setText("");
+                        title.setText("");
+                    });
+                    
                     // add menu items to menu
                     contextMenu.getItems().add(menuItem1);
                     contextMenu.getItems().add(menuItem2);
                     contextMenu.getItems().add(menuItem3);
-                    dibujo.setContextMenu(contextMenu);*/
+                    dibujo.setContextMenu(contextMenu);
                     
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("MenuEmergente.fxml"));
-                        Scene scene = new Scene(root);
-                        Image ico = new Image("images/acercaDe.png");
-                        Stage stage = new Stage(StageStyle.UTILITY);
-                        stage.getIcons().add(ico);
-                        stage.setTitle("OptiUAM BC Menu");
-                        stage.setScene(scene);
-                        stage.showAndWait();
-                        stage.setResizable(false);
-                    } catch (IOException ex) {
-                        Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     
                 }
         });
