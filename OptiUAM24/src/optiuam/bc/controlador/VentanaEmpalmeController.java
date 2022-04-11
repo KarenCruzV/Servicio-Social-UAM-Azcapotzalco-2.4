@@ -5,21 +5,29 @@
  */
 package optiuam.bc.controlador;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Empalme;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -37,6 +45,15 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     TextField txtPerdida;
     
     @FXML
+    Button btnDesconectar;
+    
+    @FXML
+    Label lblConectarA;
+    
+    @FXML
+    ComboBox cboxConectarA;
+    
+    @FXML
     private Pane Pane1;
     
     ControladorGeneral cont;
@@ -46,13 +63,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Empalme empalme = new Empalme("empalme", 0,tipo, perdida, longitudOnda);
         elementos.add(empalme);
         crearArchivoAux(empalme.toString());
-        /*
-        manejadorElementos = new ElementoGrafico(cont, Pane1, id, "empalme");
-        dibujos.add(manejadorElementos);
-        manejadorElementos.dibujarEmpalme();
-        listaEmpalme(empalme);
-        contadorElemento++;
-        */
     }
     
     public void imprimir(ActionEvent event){
@@ -99,10 +109,43 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        BufferedReader br = null;
+        try {
+            btnDesconectar.setVisible(false);
+            lblConectarA.setVisible(false);
+            cboxConectarA.setVisible(false);
+            
+            /*----------------------------------------------------------------*/
+            
+            br = new BufferedReader(new FileReader("elementos.txt"));
+            String linea;
+            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
+            while ((linea = br.readLine()) != null){
+                if(!linea.contains("empalme")){
+                    if(linea.contains("fibra")){
+                        cboxConectarA.getItems().add(linea);
+                        cboxConectarA.getSelectionModel().selectFirst();
+                    }
+                }
+                
+            } 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }    
+    
     public void crearArchivoAux(String elemento){
         try {
             String ruta = "auxiliar.txt";
@@ -118,6 +161,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @FXML
+    private void modificar(ActionEvent event){
+        btnDesconectar.setVisible(true);
+        lblConectarA.setVisible(true);
+        cboxConectarA.setVisible(true);
     }
     
 }

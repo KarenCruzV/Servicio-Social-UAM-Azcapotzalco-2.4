@@ -426,7 +426,6 @@ public class VentanaPrincipal implements Initializable {
             dibujo.setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     if(dibujo.getText().contains("fibra")){
-                        System.out.println("Hola fibra");
                         try {
                             Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
                             Scene scene = new Scene(root);
@@ -441,18 +440,72 @@ public class VentanaPrincipal implements Initializable {
                             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                    
                     else if(dibujo.getText().contains("fuente")){
-                        System.out.println("Hola fuente");
+                        try {
+                            Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
+                            Scene scene = new Scene(root);
+                            Image ico = new Image("images/acercaDe.png");
+                            Stage stage = new Stage(StageStyle.UTILITY);
+                            stage.getIcons().add(ico);
+                            stage.setTitle("OptiUAM BC Fuente");
+                            stage.setScene(scene);
+                            stage.showAndWait();
+                            stage.setResizable(false);
+                        } catch (IOException ex) {
+                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                    
                     else if(dibujo.getText().contains("conector")){
-                        System.out.println("Hola conector");
+                        try {
+                            Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
+                            Scene scene = new Scene(root);
+                            Image ico = new Image("images/acercaDe.png");
+                            Stage stage = new Stage(StageStyle.UTILITY);
+                            stage.getIcons().add(ico);
+                            stage.setTitle("OptiUAM BC Conector");
+                            stage.setScene(scene);
+                            stage.showAndWait();
+                            stage.setResizable(false);
+                        } catch (IOException ex) {
+                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                    
                     else if(dibujo.getText().contains("empalme")){
                         System.out.println("Hola empalme");
+                        try {
+                            Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
+                            Scene scene = new Scene(root);
+                            Image ico = new Image("images/acercaDe.png");
+                            Stage stage = new Stage(StageStyle.UTILITY);
+                            stage.getIcons().add(ico);
+                            stage.setTitle("OptiUAM BC Empalme");
+                            stage.setScene(scene);
+                            stage.showAndWait();
+                            stage.setResizable(false);
+                        } catch (IOException ex) {
+                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                    
                     else if(dibujo.getText().contains("splitter")){
-                        System.out.println("Hola splitter");
+                        try {
+                            Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
+                            Scene scene = new Scene(root);
+                            Image ico = new Image("images/acercaDe.png");
+                            Stage stage = new Stage(StageStyle.UTILITY);
+                            stage.getIcons().add(ico);
+                            stage.setTitle("OptiUAM BC Splitter");
+                            stage.setScene(scene);
+                            stage.showAndWait();
+                            stage.setResizable(false);
+                        } catch (IOException ex) {
+                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                    
                     else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Holi");

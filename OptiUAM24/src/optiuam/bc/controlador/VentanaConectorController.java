@@ -1,11 +1,17 @@
 
 package optiuam.bc.controlador;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,17 +35,17 @@ import optiuam.bc.vista.VentanaPrincipal;
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
 
     @FXML
-        protected Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, labelConectarA, lblPropiedades;
+        Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, lblConectarA, lblPropiedades;
     @FXML
-        protected RadioButton rbtn1310, rbtn1550, rbtnMono, rbtnMulti;
+        RadioButton rbtn1310, rbtn1550, rbtnMono, rbtnMulti;
     @FXML
-        protected TextField txtPerdida;
+        TextField txtPerdida;
     @FXML
-        protected Button btnDesconectar, btnCancelar, btnCrear;
+        Button btnDesconectar, btnCancelar, btnCrear;
     @FXML
-        protected ComboBox cmbConectarA;
+        ComboBox cboxConectarA;
     @FXML
-        protected AnchorPane ConectorVentana;
+        AnchorPane ConectorVentana;
     
     @FXML
     private Pane Pane1;
@@ -150,10 +156,41 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Image icoDesconectar = new Image("/images/acercaDe.png"); 
-        
-        
+        BufferedReader br = null;
+        try {
+            btnDesconectar.setVisible(false);
+            lblConectarA.setVisible(false);
+            cboxConectarA.setVisible(false);
+            
+            /*----------------------------------------------------------------*/
+            
+            br = new BufferedReader(new FileReader("elementos.txt"));
+            String linea;
+            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
+            while ((linea = br.readLine()) != null){
+                if(!linea.contains("conector")){
+                    if(linea.contains("fibra") || linea.contains("splitter") ||
+                            linea.contains("potencia") || linea.contains("espectro")){
+                        cboxConectarA.getItems().add(linea);
+                        cboxConectarA.getSelectionModel().selectFirst();
+                    }
+                }
+                
+            } 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }    
+    
     public void crearArchivoAux(String elemento){
         try {
             String ruta = "auxiliar.txt";
@@ -172,6 +209,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             
         }
         
+    }
+    
+    @FXML
+    private void modificar(ActionEvent event){
+        btnDesconectar.setVisible(true);
+        lblConectarA.setVisible(true);
+        cboxConectarA.setVisible(true);
     }
     
 }

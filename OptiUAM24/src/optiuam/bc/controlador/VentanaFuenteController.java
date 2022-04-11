@@ -5,22 +5,30 @@
  */
 package optiuam.bc.controlador;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fuente;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -41,6 +49,15 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     Button btnPulso, btnCrear, btnDesconectar, btnCancelar;
     
     @FXML
+    Label lblConectarA;
+    
+    @FXML
+    ComboBox cboxConectarA;
+    
+    @FXML
+    Separator separator;
+    
+    @FXML
     private Pane Pane1;
     
     ControladorGeneral cont;
@@ -50,14 +67,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Fuente fuente = new Fuente("fuente", 0,tipo, potencia, anchura, velocidad, longitudOnda);
         System.out.println("Fuente creada: " + fuente.toString());
         crearArchivoAux(fuente.toString());
-        /*
-        elementos.add(fuente);
-        manejadorElementos = new ElementoGrafico(cont,  Pane1, id, "fuente");
-        dibujos.add(manejadorElementos);
-        manejadorElementos.dibujarFuente();
-        listaFuente(fuente);
-        contadorElemento++;
-*/
     }
     
     public void imprimir(ActionEvent event){
@@ -121,6 +130,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+    
     public void crearArchivoAux(String elemento){
         try {
             String ruta = "auxiliar.txt";
@@ -137,9 +147,50 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             e.printStackTrace();
         }
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        BufferedReader br = null;
+        try {
+            separator.setVisible(false);
+            btnDesconectar.setVisible(false);
+            lblConectarA.setVisible(false);
+            cboxConectarA.setVisible(false);
+            
+            /*----------------------------------------------------------------*/
+            
+            br = new BufferedReader(new FileReader("elementos.txt"));
+            String linea;
+            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
+            while ((linea = br.readLine()) != null){
+                if(!linea.contains("fuente")){
+                    if(linea.contains("conector")){
+                        cboxConectarA.getItems().add(linea);
+                        cboxConectarA.getSelectionModel().selectFirst();
+                    }
+                }
+                
+            } 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }    
+    
+    @FXML
+    private void modificar(ActionEvent event){
+        separator.setVisible(true);
+        btnDesconectar.setVisible(true);
+        lblConectarA.setVisible(true);
+        cboxConectarA.setVisible(true);
+    }
     
 }

@@ -18,13 +18,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Fibra;
 import optiuam.bc.vista.VentanaPrincipal;
@@ -78,10 +75,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             lblConectarA.setVisible(false);
             cboxConectarA.setVisible(false);
             
-            /*-------------------------------------------------------------
-            Aquí por alguna razón sólo aparece el último elemento en el cbox
-            Pero quiero todoooos, intenté con un arreglo y sigue mostrando
-            el último xd*/
+            /*----------------------------------------------------------------*/
             
             br = new BufferedReader(new FileReader("elementos.txt"));
             String linea;
@@ -102,9 +96,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         } finally {
             try {
                 br.close();
-                BufferedWriter wr= new BufferedWriter(new FileWriter("elementos.txt"));
-                wr.write("");
-                wr.close();
+                
             } catch (IOException ex) {
                 Logger.getLogger(VentanaFibraController.class.getName()).log(Level.SEVERE, null, ex);
             }

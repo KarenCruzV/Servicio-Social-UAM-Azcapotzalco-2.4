@@ -45,9 +45,32 @@
       <TextField fx:id="txtPerdida" layoutX="147.0" layoutY="158.0" prefHeight="25.0" prefWidth="84.0" promptText="-Into-" />
       <Label fx:id="lbldB" layoutX="239.0" layoutY="163.0" text="dB" />
       <Label fx:id="lblConectarA" layoutX="64.0" layoutY="207.0" text="Connect to" />
-      <ComboBox fx:id="cmbConectarA" layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="84.0" promptText="-Select-" />
+      <ComboBox fx:id="cboxConectarA" layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="84.0" promptText="-Select-" />
       <Button fx:id="btnDesconectar" layoutX="274.0" layoutY="203.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="170.0" layoutY="262.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnCrear" layoutX="37.0" layoutY="262.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow color="#111bd0">
+               <input>
+                  <InnerShadow color="#598d71" />
+               </input>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.9428571428571428">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+      <Button fx:id="btnModificar" layoutX="300.0" layoutY="262.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

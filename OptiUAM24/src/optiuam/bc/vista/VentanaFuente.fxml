@@ -51,11 +51,34 @@
       <TextField fx:id="txtVelocidad" layoutX="149.0" layoutY="229.0" prefHeight="25.0" prefWidth="79.0" />
       <Label layoutX="240.0" layoutY="233.0" text="Gbits/seg" />
       <Button fx:id="btnPulso" layoutX="151.0" layoutY="276.0" mnemonicParsing="false" text="Set Pulse" />
-      <Separator layoutX="359.0" layoutY="65.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Label layoutX="385.0" layoutY="108.0" text="Connect to:" />
+      <Separator fx:id="separator" layoutX="359.0" layoutY="65.0" orientation="VERTICAL" prefHeight="200.0" />
+      <Label fx:id="lblConectarA" layoutX="385.0" layoutY="108.0" text="Connect to:" />
       <ComboBox fx:id="cboxConectarA" layoutX="385.0" layoutY="135.0" prefHeight="25.0" prefWidth="68.0" />
       <Button fx:id="btnDesconectar" layoutX="392.0" layoutY="210.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="208.0" layoutY="328.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnCrear" layoutX="60.0" layoutY="328.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow color="#111bd0">
+               <input>
+                  <InnerShadow color="#598d71" />
+               </input>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.9428571428571428">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+      <Button fx:id="btnModificar" layoutX="387.0" layoutY="328.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

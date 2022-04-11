@@ -42,14 +42,37 @@
       <Label layoutX="58.0" layoutY="192.0" text="Insertion Loss:" />
       <TextField fx:id="txtPerdidaInsercion" layoutX="162.0" layoutY="188.0" prefHeight="25.0" prefWidth="60.0" />
       <Label layoutX="232.0" layoutY="192.0" text="dB" />
-      <Separator layoutX="346.0" layoutY="64.0" orientation="VERTICAL" prefHeight="160.0" prefWidth="7.0" />
-      <Label layoutX="372.0" layoutY="73.0" text="Output" />
+      <Separator fx:id="separator" layoutX="346.0" layoutY="64.0" orientation="VERTICAL" prefHeight="160.0" prefWidth="7.0" />
+      <Label fx:id="lblSalida" layoutX="372.0" layoutY="73.0" text="Output" />
       <ComboBox fx:id="cboxSalidas" layoutX="372.0" layoutY="97.0" prefHeight="25.0" prefWidth="60.0" />
-      <Label layoutX="463.0" layoutY="73.0" text="Connect to:" />
+      <Label fx:id="lblConectarA" layoutX="463.0" layoutY="73.0" text="Connect to:" />
       <ComboBox fx:id="cboxConectarA" layoutX="464.0" layoutY="97.0" prefHeight="25.0" prefWidth="60.0" />
       <Button fx:id="btnConectar" layoutX="422.0" layoutY="150.0" mnemonicParsing="false" text="Connect" />
       <Button fx:id="btnDesconectar" layoutX="415.0" layoutY="189.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="242.0" layoutY="259.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnCrear" layoutX="79.0" layoutY="259.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow color="#111bd0">
+               <input>
+                  <InnerShadow color="#598d71" />
+               </input>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.9428571428571428">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+      <Button fx:id="btnModificar" layoutX="410.0" layoutY="259.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

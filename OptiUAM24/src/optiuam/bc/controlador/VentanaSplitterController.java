@@ -1,11 +1,17 @@
 
 package optiuam.bc.controlador;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +19,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -38,6 +46,12 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     @FXML
     TextField txtPerdidaInsercion;
+    
+    @FXML
+    Label lblSalida, lblConectarA;
+    
+    @FXML
+    Separator separator;
     
     @FXML
     private Pane Pane1;
@@ -106,6 +120,44 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         cboxNumeroSalidas.getItems().removeAll(cboxNumeroSalidas.getItems());
         cboxNumeroSalidas.getItems().addAll("2", "4", "8", "16", "32", "64");
         cboxNumeroSalidas.getSelectionModel().select("2");
+        
+        BufferedReader br = null;
+        try {
+            separator.setVisible(false);
+            btnDesconectar.setVisible(false);
+            btnConectar.setVisible(false);
+            lblConectarA.setVisible(false);
+            cboxConectarA.setVisible(false);
+            lblSalida.setVisible(false);
+            cboxSalidas.setVisible(false);
+            
+            /*----------------------------------------------------------------*/
+            
+            br = new BufferedReader(new FileReader("elementos.txt"));
+            String linea;
+            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
+            while ((linea = br.readLine()) != null){
+                if(!linea.contains("splitter")){
+                    if(linea.contains("conector") || linea.contains("potencia")){
+                        cboxConectarA.getItems().add(linea);
+                        cboxConectarA.getSelectionModel().selectFirst();
+                    }
+                }
+                
+            } 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(VentanaSplitterController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaSplitterController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaSplitterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }   
     public void crearArchivoAux(String elemento){
         try {
@@ -154,6 +206,17 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             cerrarVentana(event);
         }
         
+    }
+    
+    @FXML
+    private void modificar(ActionEvent event){
+        separator.setVisible(true);
+        btnDesconectar.setVisible(true);
+        btnConectar.setVisible(true);
+        lblConectarA.setVisible(true);
+        cboxConectarA.setVisible(true);
+        lblSalida.setVisible(true);
+        cboxSalidas.setVisible(true);
     }
     
 }
