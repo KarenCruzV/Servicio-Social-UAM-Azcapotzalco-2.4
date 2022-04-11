@@ -18,8 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -27,8 +30,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import optiuam.bc.modelo.Fuente;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -67,6 +72,11 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Fuente fuente = new Fuente("fuente", 0," ",false,tipo, potencia, anchura, velocidad, longitudOnda);
         System.out.println("Fuente creada: " + fuente.toString());
         crearArchivoAux(fuente.toString());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Fuente creada!");
+        alert.showAndWait();
     }
     
     public void imprimir(ActionEvent event){
@@ -152,6 +162,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     public void initialize(URL url, ResourceBundle rb) {
         BufferedReader br = null;
         try {
+            btnPulso.setVisible(false);
             separator.setVisible(false);
             btnDesconectar.setVisible(false);
             lblConectarA.setVisible(false);
@@ -187,10 +198,29 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     @FXML
     private void modificar(ActionEvent event){
+        btnPulso.setVisible(true);
         separator.setVisible(true);
         btnDesconectar.setVisible(true);
         lblConectarA.setVisible(true);
         cboxConectarA.setVisible(true);
+    }
+    
+    @FXML
+    private void configurarPulso(ActionEvent event) throws IOException {
+        System.out.println("Pulso");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("VentanaPulso.fxml"));
+            Scene scene = new Scene(root);
+            Image ico = new Image("images/acercaDe.png");
+            Stage stage = new Stage(StageStyle.UTILITY);
+            stage.getIcons().add(ico);
+            stage.setTitle("OptiUAM BC Pulse Configuation");
+            stage.setScene(scene);
+            stage.showAndWait();
+            stage.setResizable(false);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

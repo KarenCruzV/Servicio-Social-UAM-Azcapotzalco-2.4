@@ -94,7 +94,11 @@ public class VentanaPrincipal implements Initializable {
         stage.setResizable(false);
         stage.showAndWait();
         leerAuxiliar();
-        
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
     }
     
     @FXML
@@ -109,6 +113,11 @@ public class VentanaPrincipal implements Initializable {
         stage.showAndWait();
         stage.setResizable(false);
         leerAuxiliar();
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
     }
     
     @FXML
@@ -123,6 +132,11 @@ public class VentanaPrincipal implements Initializable {
         stage.showAndWait();
         stage.setResizable(false);
         leerAuxiliar();
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
     }
     
     @FXML
@@ -137,10 +151,21 @@ public class VentanaPrincipal implements Initializable {
         stage.showAndWait();
         stage.setResizable(false);
         leerAuxiliar();
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
     }
     
     @FXML
     private void crearPotencia(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Medidor de potencia creado!");
+        alert.showAndWait();
+        
         Componente componente = new Componente();
         componente.setId(controlador.getContadorElemento());
         controlador.getElementos().add(componente);
@@ -199,13 +224,22 @@ public class VentanaPrincipal implements Initializable {
             }
         });
             controlador.setContadorElemento(controlador.getContadorElemento()+1);
-    
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
     }
     
     @FXML
     private void crearEspectro(ActionEvent event) {
-        Componente componente= new Componente();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Analizador de espectros creado!");
+        alert.showAndWait();
         
+        Componente componente= new Componente();
         componente.setId(controlador.getContadorElemento());
         controlador.getElementos().add(componente);
         MedidorEspectro espectro = new MedidorEspectro("espectro", controlador.getContadorElemento()," ",false);
@@ -258,7 +292,12 @@ public class VentanaPrincipal implements Initializable {
                 
             }
         });
-            controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        System.out.print(controlador.getContadorElemento());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
     }
     
     @FXML
@@ -286,29 +325,46 @@ public class VentanaPrincipal implements Initializable {
         switch (nombre) {
             case "fibra":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
-                Fibra fibra= new Fibra(nombre,id,st.nextToken(),Boolean.parseBoolean(st.nextToken()),Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()));
+                Fibra fibra= new Fibra(nombre,id,st.nextToken(),Boolean.parseBoolean(st.nextToken()),
+                        Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),
+                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()),
+                        Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()));
                 controlador.getElementos().add(fibra);
                 break;
+                
             case "fuente":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuenteR.png")));
-                Fuente fuente= new Fuente(nombre, id,st.nextToken(),Boolean.parseBoolean(st.nextToken()), Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), Integer.parseInt(st.nextToken()));
+                Fuente fuente= new Fuente(nombre, id,st.nextToken(),Boolean.parseBoolean(st.nextToken()),
+                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()),
+                        Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), 
+                        Integer.parseInt(st.nextToken()));
                 controlador.getElementos().add(fuente);
                 break;
+                
             case "conector":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
-                Conector conector= new Conector(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()), Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()));
+                Conector conector= new Conector(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),
+                        Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),
+                        Double.parseDouble(st.nextToken()));
                 controlador.getElementos().add(conector);
                 break;
+                
             case "empalme":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
-                Empalme empalne= new Empalme(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()), Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()), Integer.parseInt(st.nextToken()));
+                Empalme empalne= new Empalme(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),
+                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()), 
+                        Integer.parseInt(st.nextToken()));
                 controlador.getElementos().add(empalne);
                 break;
+                
             case "splitter16":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
-                Splitter splitter= new Splitter(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()), Integer.parseInt(st.nextToken()));
+                Splitter splitter= new Splitter(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),
+                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()), 
+                        Integer.parseInt(st.nextToken()));
                 controlador.getElementos().add(splitter);
                 break;
+                
             case "splitter32":
                 dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
                 break;
@@ -486,15 +542,16 @@ public class VentanaPrincipal implements Initializable {
                     if(dibujo.getDibujo().getText().contains("potencia")){
                         System.out.println("Girar potencia");
                     }
+                    else{
+                        System.out.println("Girar elemento");
+                    }
                 });
                 
                 menuItem3.setOnAction(e ->{
                     System.out.println("Elemento "+dibujo.getDibujo().getText()+" eliminado");
-                    
-                    
                     controlador.getDibujos().remove(dibujo.getId());
                     controlador.getElementos().remove(dibujo.getId());    
-                       dibujo.getDibujo().setVisible(false);
+                    dibujo.getDibujo().setVisible(false);
                 });
                 
                 // add menu items to menu

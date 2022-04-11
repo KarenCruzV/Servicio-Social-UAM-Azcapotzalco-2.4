@@ -85,7 +85,11 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         Splitter splitter = new Splitter(aux, 0," ",false,salidas, perdida, longitudOnda);
         System.out.println("Splitter creado: " + splitter.toString() + "\n");
         crearArchivoAux(splitter.toString());
-        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Splitter creado!");
+        alert.showAndWait();
     }
     
     public boolean validarPerdida(double perdida,int salidas) {

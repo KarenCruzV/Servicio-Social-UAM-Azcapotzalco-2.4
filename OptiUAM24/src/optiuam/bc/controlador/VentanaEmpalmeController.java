@@ -63,6 +63,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Empalme empalme = new Empalme("empalme", 0," ",false,tipo, perdida, longitudOnda);
         elementos.add(empalme);
         crearArchivoAux(empalme.toString());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Empalme creado!");
+        alert.showAndWait();
     }
     
     public void imprimir(ActionEvent event){

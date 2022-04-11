@@ -29,17 +29,16 @@
             <Font name="Arial Black" size="18.0" />
          </font></Label>
       <Separator layoutY="48.0" prefHeight="5.0" prefWidth="450.0" />
-      <Label layoutX="23.0" layoutY="174.0" text="A0:" />
-      <TextField layoutX="46.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
-      <Label layoutX="104.0" layoutY="35.0" />
-      <TextField layoutX="124.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
-      <Label layoutX="186.0" layoutY="174.0" text="T0:" />
-      <TextField layoutX="207.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
-      <Label layoutX="269.0" layoutY="174.0" text="W0:" />
-      <TextField layoutX="296.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
-      <Label layoutX="361.0" layoutY="174.0" text="M:" />
-      <TextField layoutX="381.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
-      <Button layoutX="202.0" layoutY="225.0" mnemonicParsing="false" text="Apply" />
+      <Label fx:id="lblA0" layoutX="23.0" layoutY="174.0" text="A0:" />
+      <TextField fx:id="txtA0" layoutX="46.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
+      <TextField fx:id="txtC" layoutX="124.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
+      <Label fx:id="lblT0" layoutX="186.0" layoutY="174.0" text="T0:" />
+      <TextField fx:id="txtT0" layoutX="207.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
+      <Label fx:id="lblW0" layoutX="269.0" layoutY="174.0" text="W0:" />
+      <TextField fx:id="txtW0" layoutX="296.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
+      <Label fx:id="lblM" layoutX="361.0" layoutY="174.0" text="M:" />
+      <TextField fx:id="txtM" layoutX="381.0" layoutY="170.0" prefHeight="25.0" prefWidth="40.0" />
+      <Button fx:id="btnAplicar" layoutX="202.0" layoutY="225.0" mnemonicParsing="false" onAction="#btnAplicarAction"  text="Apply" />
       <ImageView fitHeight="95.0" fitWidth="352.0" layoutX="51.0" layoutY="65.0" pickOnBounds="true">
          <image>
             <Image url="@../../../images/pulsoGaussiano.png" />
@@ -55,7 +54,7 @@
             </Lighting>
          </effect>
       </ImageView>
-      <Button fx:id="btnCrear" layoutX="333.0" layoutY="258.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: #7fff00;" text="PLOT PULSE">
+      <Button fx:id="btnGraficar" layoutX="333.0" layoutY="258.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: #7fff00;" text="PLOT PULSE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -78,6 +77,7 @@
             </LinearGradient>
          </textFill>
       </Button>
+      <Label fx:id="lblC" layoutX="108.0" layoutY="174.0" text="C:" />
    </children>
    <effect>
       <InnerShadow />

@@ -21,6 +21,7 @@ public class VentanaPotenciaController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param event
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
@@ -29,7 +30,7 @@ public class VentanaPotenciaController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
     
 }

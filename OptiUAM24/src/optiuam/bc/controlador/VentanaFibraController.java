@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -194,6 +195,11 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         System.out.println("Fibra creada: " + fibra_aux.toString()+"\n");
         System.out.println(fibra_aux);
         crearArchivoAux(fibra_aux.toString());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Fibra creada!");
+        alert.showAndWait();
     }
     
     public void imprimir(ActionEvent event){

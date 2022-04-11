@@ -50,7 +50,7 @@
       <Label layoutX="20.0" layoutY="233.0" text="Transmission Speed" />
       <TextField fx:id="txtVelocidad" layoutX="149.0" layoutY="229.0" prefHeight="25.0" prefWidth="79.0" />
       <Label layoutX="240.0" layoutY="233.0" text="Gbits/seg" />
-      <Button fx:id="btnPulso" layoutX="151.0" layoutY="276.0" mnemonicParsing="false" text="Set Pulse" />
+      <Button fx:id="btnPulso" layoutX="151.0" layoutY="276.0" mnemonicParsing="false" onAction="#configurarPulso"  text="Set Pulse" />
       <Separator fx:id="separator" layoutX="359.0" layoutY="65.0" orientation="VERTICAL" prefHeight="200.0" />
       <Label fx:id="lblConectarA" layoutX="385.0" layoutY="108.0" text="Connect to:" />
       <ComboBox fx:id="cboxConectarA" layoutX="385.0" layoutY="135.0" prefHeight="25.0" prefWidth="68.0" />

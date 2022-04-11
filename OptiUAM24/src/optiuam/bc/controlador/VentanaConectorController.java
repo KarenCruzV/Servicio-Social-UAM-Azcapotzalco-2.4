@@ -17,14 +17,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
-import optiuam.bc.modelo.ElementoGrafico;
-import optiuam.bc.vista.VentanaPrincipal;
 
 
 /**
@@ -54,16 +51,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Conector conector = new Conector("conector",0," ",false,longitudOnda, modo, perdida);
         System.out.println("Conector creado: " + conector.toString());
         crearArchivoAux(conector.toString());
-        /*
-        elementos.add(conector);
-        manejadorElementos = new ElementoGrafico(cont, Pane1, id, "conector");
-        dibujos.add(manejadorElementos);
-        manejadorElementos.dibujarConector();
-        listaConector(conector);
-        contadorElemento++;
-        */
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Conector creado!");
+        alert.showAndWait();
     }
-    
     
     public void modificarConector(int longitudOnda, int modo, double perdida, String id, String componente) {
         Conector conector = (Conector) obtenerElemento(id);
