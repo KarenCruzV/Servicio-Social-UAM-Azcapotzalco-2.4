@@ -60,7 +60,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     VentanaPrincipal ven;
     
     public void crearEmpalme(int tipo, int longitudOnda, double perdida, int id){
-        Empalme empalme = new Empalme("empalme", 0,tipo, perdida, longitudOnda);
+        Empalme empalme = new Empalme("empalme", 0," ",false,tipo, perdida, longitudOnda);
         elementos.add(empalme);
         crearArchivoAux(empalme.toString());
     }

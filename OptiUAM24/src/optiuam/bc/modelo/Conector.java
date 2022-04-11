@@ -15,11 +15,13 @@ public class Conector extends Componente {
     
     public Conector() {
     }
-
-    public Conector(String name, int id,int wavelength, int mode, double insertion_loss) {
+    
+    public Conector(String name, int id,String elementoConectado, boolean conectado,int wavelength, int mode, double insertion_loss) {
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
         this.modo = mode;
+        this.elementoConectado=elementoConectado;
+        this.conectado=conectado;
         this.nombre = name;
         this.id = id;
     }
@@ -64,8 +66,8 @@ public class Conector extends Componente {
 
     @Override
     public String toString() {
-        return super.toString() + "," + perdidaInsercion + "," + longitudOnda + 
-                "," + modo + "," + orientacion;
+        return super.toString() + "," + longitudOnda + 
+                "," + modo+ "," + perdidaInsercion ;
     }
     
 }

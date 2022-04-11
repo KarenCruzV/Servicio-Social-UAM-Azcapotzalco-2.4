@@ -50,11 +50,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     @FXML
     private Pane Pane1;
     
-    ControladorGeneral cont;
-    VentanaPrincipal ven;
-    
     public void crearConector(int longitudOnda, int modo, double perdida, int id){
-        Conector conector = new Conector("conector",0,longitudOnda, modo, perdida);
+        Conector conector = new Conector("conector",0," ",false,longitudOnda, modo, perdida);
         System.out.println("Conector creado: " + conector.toString());
         crearArchivoAux(conector.toString());
         /*

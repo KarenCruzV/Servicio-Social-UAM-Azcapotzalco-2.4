@@ -7,8 +7,10 @@ public class MedidorPotencia extends Componente {
     
     private Double sensibilidad = 0.0;
     
-    public MedidorPotencia(String name, int id) {
+    public MedidorPotencia(String name, int id,String elementoConectado, boolean conectado) {
         this.nombre = name;
+        this.elementoConectado=elementoConectado;
+        this.conectado=conectado;
         this.id = id;
     }
 

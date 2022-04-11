@@ -6,6 +6,7 @@
 package optiuam.bc.controlador;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -21,15 +22,15 @@ import optiuam.bc.vista.VentanaPrincipal;
  */
 public class ControladorGeneral {
     
-    public ArrayList<Componente> elementos; // contiene los elementos creados en la simulacion
-    public ArrayList<ElementoGrafico> dibujos; //Contiene los elementos mostrados en el panel
+    public LinkedList<Componente> elementos; // contiene los elementos creados en la simulacion
+    public LinkedList<ElementoGrafico> dibujos; //Contiene los elementos mostrados en el panel
     public int contadorElemento; // contador para asignar id a un elemento
     public VentanaPrincipal ventana_principal;//para tener la comunicacion vista-controlador
     public ElementoGrafico manejadorElementos; // para crear los elementos graficos
 
     public ControladorGeneral() {
-        elementos = new ArrayList();
-        dibujos = new ArrayList();
+        elementos = new LinkedList();
+        dibujos = new LinkedList();
         contadorElemento=0;
     }
     
@@ -39,11 +40,11 @@ public class ControladorGeneral {
         return this;
     }
 
-    public ArrayList<Componente> getElementos() {
+    public LinkedList<Componente> getElementos() {
         return elementos;
     }
 
-    public void setElementos(ArrayList<Componente> elementos) {
+    public void setElementos(LinkedList<Componente> elementos) {
         this.elementos = elementos;
     }
     
@@ -82,11 +83,11 @@ public class ControladorGeneral {
         }
     }
 
-    public ArrayList<ElementoGrafico> getDibujos() {
+    public LinkedList<ElementoGrafico> getDibujos() {
         return dibujos;
     }
 
-    public void setDibujos(ArrayList<ElementoGrafico> dibujos) {
+    public void setDibujos(LinkedList<ElementoGrafico> dibujos) {
         this.dibujos = dibujos;
     }
 
@@ -114,7 +115,7 @@ public class ControladorGeneral {
         this.manejadorElementos = manejadorElementos;
     }
 
-    public ControladorGeneral(ArrayList<Componente> elementos, ArrayList<ElementoGrafico> dibujos, int contadorElemento, VentanaPrincipal ventana_principal, ElementoGrafico manejadorElementos) {
+    public ControladorGeneral(LinkedList<Componente> elementos, LinkedList<ElementoGrafico> dibujos, int contadorElemento, VentanaPrincipal ventana_principal, ElementoGrafico manejadorElementos) {
         this.elementos = elementos;
         this.dibujos = dibujos;
         this.contadorElemento = contadorElemento;

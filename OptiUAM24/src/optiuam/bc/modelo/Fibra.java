@@ -11,7 +11,6 @@ public class Fibra extends Componente {
     private double dispersion;// smf28 1310 = 0 1550 = 18
                               // mm50 1310 = 3.5
                               // other any value for both waves
-    
     private double atenuacion; // for smf28 0.32 1310 nm window | 0.18 1550 nm window db/km
                                //for mm50 // 1550 <=.36 dB/KM
     
@@ -21,7 +20,7 @@ public class Fibra extends Componente {
     public Fibra() {
     }
 
-    public Fibra(String name,int id,int wavelength, int mode, int type, double km_length, double attenuation, 
+    public Fibra(String name,int id, String elementoConectado, boolean conectado, int wavelength, int mode, int type, double km_length, double attenuation, 
             double dispersion) {
         this.longitudOnda = wavelength;
         this.mode = mode;
@@ -29,6 +28,8 @@ public class Fibra extends Componente {
         this.longitud_km = km_length;
         this.dispersion = dispersion;
         this.atenuacion = attenuation;
+        this.conectado= conectado;
+        this.elementoConectado= elementoConectado;
         this.nombre = name;
         this.id = id;
     }

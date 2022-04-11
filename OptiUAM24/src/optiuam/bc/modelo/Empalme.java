@@ -15,10 +15,12 @@ public class Empalme extends Componente {
     public Empalme() {
     }
 
-    public Empalme(String name, int id,int type, double insertion_loss, int wavelength) {
+    public Empalme(String name, int id,String elementoConectado, boolean conectado,int type, double insertion_loss, int wavelength) {
         this.tipo = type;
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
+        this.conectado=conectado;
+        this.elementoConectado=elementoConectado;
         this.nombre = name;
         this.id = id;
     }

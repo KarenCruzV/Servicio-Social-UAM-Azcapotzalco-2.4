@@ -64,7 +64,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     VentanaPrincipal ven;
     
     public void crearFuente(int longitudOnda, int tipo, double potencia, double anchura, double velocidad, int id){
-        Fuente fuente = new Fuente("fuente", 0,tipo, potencia, anchura, velocidad, longitudOnda);
+        Fuente fuente = new Fuente("fuente", 0," ",false,tipo, potencia, anchura, velocidad, longitudOnda);
         System.out.println("Fuente creada: " + fuente.toString());
         crearArchivoAux(fuente.toString());
     }

@@ -8,8 +8,10 @@ public class MedidorEspectro extends Componente {
     private char orientacion ='R';
 
 
-    public MedidorEspectro(String name, int id) {
+    public MedidorEspectro(String name, int id,String elementoConectado, boolean conectado) {
         this.nombre = name;
+        this.conectado=conectado;
+        this.elementoConectado=elementoConectado;
         this.id = id;
     }
 

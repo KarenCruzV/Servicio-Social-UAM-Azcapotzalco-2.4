@@ -16,11 +16,13 @@ public class Splitter extends Componente {
     
     /*Constructor*/
     
-    public Splitter(String name, int id,int outputs, double insertion_loss, int wavelength) {
+    public Splitter(String name, int id,String elementoConectado, boolean conectado,int outputs, double insertion_loss, int wavelength) {
         this.salidas = outputs;
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
         this.nombre = name;
+        this.conectado=conectado;
+        this.elementoConectado=elementoConectado;
         this.id = id;
         modificarSalidas(outputs); 
     }

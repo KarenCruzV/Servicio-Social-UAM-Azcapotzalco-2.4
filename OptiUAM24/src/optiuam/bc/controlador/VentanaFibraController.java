@@ -190,7 +190,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion) {
-        Fibra fibra_aux = new Fibra("fibra", 0,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
+        Fibra fibra_aux = new Fibra("fibra", 0," ",false,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
         System.out.println("Fibra creada: " + fibra_aux.toString()+"\n");
         System.out.println(fibra_aux);
         crearArchivoAux(fibra_aux.toString());

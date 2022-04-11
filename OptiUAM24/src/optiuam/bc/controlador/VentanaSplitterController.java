@@ -82,7 +82,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             aux = "splitter128";
         }
         
-        Splitter splitter = new Splitter(aux, 0,salidas, perdida, longitudOnda);
+        Splitter splitter = new Splitter(aux, 0," ",false,salidas, perdida, longitudOnda);
         System.out.println("Splitter creado: " + splitter.toString() + "\n");
         crearArchivoAux(splitter.toString());
         
