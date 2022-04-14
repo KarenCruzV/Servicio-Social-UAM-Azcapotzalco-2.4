@@ -23,3 +23,14 @@ splitter16_4
 splitter16_5
 conector_6
 empalme_7
+fibra_0
+fuente_1
+splitter16_2
+empalme_3
+fuente_0
+fuente_1
+fuente_0
+fibra_0
+fibra_1
+fuente_2
+fuente_2

@@ -19,16 +19,28 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import static optiuam.bc.controlador.VentanaFuenteController.idFuente;
+import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Empalme;
+import optiuam.bc.modelo.Fibra;
+import optiuam.bc.modelo.Fuente;
 import optiuam.bc.vista.VentanaPrincipal;
 
 /**
@@ -37,7 +49,9 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author karen
  */
 public class VentanaEmpalmeController extends ControladorGeneral implements Initializable {
-    
+    static int idEmpalme=0;
+    ControladorGeneral controlador;
+    Stage principal;
     @FXML
     RadioButton rbtn1310, rbtn1550, rbtnfusion, rbtnMecanico;
     
@@ -55,20 +69,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private Pane Pane1;
-    
-    ControladorGeneral cont;
-    VentanaPrincipal ven;
-    
-    public void crearEmpalme(int tipo, int longitudOnda, double perdida, int id){
-        Empalme empalme = new Empalme("empalme", 0," ",false,tipo, perdida, longitudOnda);
-        elementos.add(empalme);
-        crearArchivoAux(empalme.toString());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText("\n¡Empalme creado!");
-        alert.showAndWait();
-    }
+   
     
     public void imprimir(ActionEvent event){
         int tipo=0, longitudOnda=0, id = 0;
@@ -102,13 +103,114 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             alert.showAndWait();
         }
         else{
-            crearEmpalme(tipo, longitudOnda, perdidaInsercion, id);
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
+            Empalme empalme= new Empalme();
+            empalme.setConectado(false);
+            empalme.setIdEmpalme(idEmpalme);
+            empalme.setLongitudOnda(longitudOnda);
+            empalme.setNombre("empalme");
+            empalme.setPerdidaInsercion(perdidaInsercion);
+            empalme.setTipo(tipo);
+            guardarFuente(empalme);
+            idEmpalme++;
+            cerrarVentana(event);
         }
     }
-    
+    private void guardarFuente(Empalme empalme) {
+        empalme.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(empalme);
+        
+        ElementoGrafico elem= new ElementoGrafico();
+        elem.setComponente(empalme.getNombre());
+        elem.setId(controlador.getContadorElemento());
+        Label dibujo= new Label();
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
+        dibujo.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+                
+    }
+
+    private void eventos(ElementoGrafico elem) {
+        elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
+                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                }
+        });
+            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
+                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
+                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
+        });
+            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
+                elem.getDibujo().setStyle("");
+        });
+            elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    System.out.println("Hola empalme"+elem.getId());
+                    
+                }else if(event.getButton()==MouseButton.SECONDARY){
+                    mostrarMenuChiquito(elem);
+                }
+        });
+    }
+        public void mostrarMenuChiquito(ElementoGrafico dibujo){
+        // create a menu
+                ContextMenu contextMenu = new ContextMenu();
+                
+                // create menuitems
+                MenuItem menuItem1 = new MenuItem("-Duplicar");
+                MenuItem menuItem2 = new MenuItem("-Girar");
+                MenuItem menuItem3 = new MenuItem("-Eliminar");
+                
+                menuItem1.setOnAction(e ->{
+                    System.out.println("Duplicar");
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                            Empalme empalmeAux=new Empalme();
+                            Empalme aux1=(Empalme)controlador.getElementos().get(elemento);
+                            empalmeAux.setConectado(false);
+                            empalmeAux.setIdEmpalme(idEmpalme);
+                            empalmeAux.setLongitudOnda(aux1.getLongitudOnda());
+                            empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
+                            empalmeAux.setTipo(aux1.getTipo());
+                            empalmeAux.setNombre("empalme");
+                            guardarFuente(empalmeAux);
+                            //System.out.println(empalmeAux);
+                            idEmpalme++;
+                            break;
+                        }
+                    }
+                });
+                
+                menuItem2.setOnAction(e ->{
+                    System.out.println("Girar");
+                    System.out.println("Girar fibra");
+                });
+                
+                menuItem3.setOnAction(e ->{
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            Empalme aux= (Empalme)controlador.getElementos().get(elemento);
+                            controlador.getDibujos().remove(dibujo);
+                            controlador.getElementos().remove(aux); 
+                        }
+                    }    
+                    dibujo.getDibujo().setVisible(false);
+                            
+                });
+                
+                // add menu items to menu
+                contextMenu.getItems().add(menuItem1);
+                contextMenu.getItems().add(menuItem2);
+                contextMenu.getItems().add(menuItem3);
+                dibujo.getDibujo().setContextMenu(contextMenu);
+    }
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -151,28 +253,17 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
     }    
     
-    public void crearArchivoAux(String elemento){
-        try {
-            String ruta = "auxiliar.txt";
-            File file = new File(ruta);
-            // Si el archivo no existe es creado
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(elemento);
-            bw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     @FXML
     private void modificar(ActionEvent event){
         btnDesconectar.setVisible(true);
         lblConectarA.setVisible(true);
         cboxConectarA.setVisible(true);
+    }
+
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+        this.controlador=controlador;
+        this.principal=stage;
+        this.Pane1=Pane1;
     }
     
 }

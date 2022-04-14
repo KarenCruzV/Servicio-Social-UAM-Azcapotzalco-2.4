@@ -9,6 +9,7 @@ package optiuam.bc.vista;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -21,26 +22,29 @@ import javafx.stage.Stage;
 public class OptiUAM24 extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("VentanaPrincipal.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaPrincipal.fxml"));
+        Parent root = loader.load();
         //\src\images\ico_aplicar.png
+        VentanaPrincipal ventanaPrincipal= loader.getController();
+        ventanaPrincipal.setStage(primaryStage);
         Image ico = new Image("/images/acercaDe.png"); 
-        stage.getIcons().add(ico);
+        primaryStage.getIcons().add(ico);
 
-        stage.setTitle("OptiUAM BC");
+        primaryStage.setTitle("OptiUAM BC");
         Scene scene = new Scene(root);
         
-        stage.setScene(scene);
-        stage.show();
-        stage.setOnCloseRequest(e-> Platform.exit());
-        stage.setOnCloseRequest(e-> System.exit(0));
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        primaryStage.setOnCloseRequest(e-> Platform.exit());
+        primaryStage.setOnCloseRequest(e-> System.exit(0));
     }
     
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         launch(args);
     }
     

@@ -9,6 +9,7 @@ public class Conector extends Componente {
     private int longitudOnda; // 1360 max 1260 min 1310 nm window | 1580 max 1480 min 1550 nm window
     private int modo;
     private char orientacion ='R';
+    private int idConector;
 
     
     /*Constructor*/
@@ -60,6 +61,14 @@ public class Conector extends Componente {
     public void setOrientacion(char orientacion) {
         this.orientacion = orientacion;
     }
+
+    public int getIdConector() {
+        return idConector;
+    }
+
+    public void setIdConector(int idConector) {
+        this.idConector = idConector;
+    }
     
     
     /*toString*/
@@ -67,7 +76,7 @@ public class Conector extends Componente {
     @Override
     public String toString() {
         return super.toString() + "," + longitudOnda + 
-                "," + modo+ "," + perdidaInsercion ;
+                "," + modo+ "," + perdidaInsercion +","+idConector;
     }
     
 }

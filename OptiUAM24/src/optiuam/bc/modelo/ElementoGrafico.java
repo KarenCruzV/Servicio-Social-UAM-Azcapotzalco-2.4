@@ -202,5 +202,10 @@ public class ElementoGrafico {
         dibujo.setToolTipText(id);
         panel.updateUI();*/
     }
+
+    @Override
+    public String toString() {
+        return "ElementoGrafico{" + "controlador=" + controlador + ", dibujo=" + dibujo + ", title=" + title + ", id=" + id + ", componente=" + componente + '}';
+    }
     
 }

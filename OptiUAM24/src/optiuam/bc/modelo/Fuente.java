@@ -17,6 +17,7 @@ public class Fuente extends Componente {
     private float T0 = 0; // anchura
     private float M = 0; // gaussian or supergaussian
     
+    private int idFuente;
     
     /*Constructor*/
 
@@ -169,6 +170,14 @@ public class Fuente extends Componente {
         }
         return valoresReales;
     }
+
+    public int getIdFuente() {
+        return idFuente;
+    }
+
+    public void setIdFuente(int idFuente) {
+        this.idFuente = idFuente;
+    }
     
     
     /*toString*/
@@ -177,7 +186,7 @@ public class Fuente extends Componente {
     public String toString() {
         return super.toString() +","+ tipo + "," + potencia + "," + anchura + "," 
                 + velocidad + "," + longitudOnda + "," + A0 + "," + T0 + "," 
-                + W0 + "," + C + "," + M;
+                + W0 + "," + C + "," + M+","+idFuente;
     }
     //Fuente fuente = new Fuente("fuente", 0," ",false,tipo, potencia, anchura, velocidad, longitudOnda);
 }

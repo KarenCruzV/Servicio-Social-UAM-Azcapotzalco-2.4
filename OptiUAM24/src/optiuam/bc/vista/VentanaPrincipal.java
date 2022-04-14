@@ -7,11 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,9 +41,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import optiuam.bc.controlador.ControladorGeneral;
+import optiuam.bc.controlador.VentanaConectorController;
+import optiuam.bc.controlador.VentanaEmpalmeController;
+import optiuam.bc.controlador.VentanaFibraController;
+import optiuam.bc.controlador.VentanaFuenteController;
+import optiuam.bc.controlador.VentanaSplitterController;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.*;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -45,6 +59,10 @@ import optiuam.bc.modelo.MedidorEspectro;
 import optiuam.bc.modelo.MedidorPotencia;
 
 public class VentanaPrincipal implements Initializable {
+
+    Stage stage;
+    private ObservableList<Componente> componentes;
+    static ControladorGeneral controlador= new ControladorGeneral();
     
     @FXML
         private ImageView viewFibra,viewFuente, viewConector,viewSplitter,viewEmpalme, viewPotencia,viewEspectro;
@@ -60,21 +78,27 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     static public TitledPane componentMenu;
     
-    static ControladorGeneral controlador= new ControladorGeneral();
+    
     
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
+        Fibra fibra= new Fibra();
         Stage stage = new Stage(StageStyle.UTILITY);
-        Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFibra.fxml"));
+        Parent root = loader.load();
+        //Se crea una instancia del controlador de fibra.
+        VentanaFibraController fibraController= (VentanaFibraController) loader.getController();
+        fibraController.init(controlador,this.stage,this.Pane1);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Fibra");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
-        leerAuxiliar();
+ 
         System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -85,16 +109,19 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void abrirVentanaFuente(ActionEvent event) throws IOException{
         Stage stage = new Stage(StageStyle.UTILITY);
-        Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFuente.fxml"));
+        Parent root =loader.load();
+        VentanaFuenteController fuenteControl=loader.getController();
+        fuenteControl.init(controlador,this.stage,this.Pane1);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Fuente");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
-        leerAuxiliar();
-        System.out.print(controlador.getContadorElemento());
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -104,16 +131,19 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void abrirVentanaSplitter(ActionEvent event) throws IOException{
         Stage stage = new Stage(StageStyle.UTILITY);
-        Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaSplitter.fxml"));
+        Parent root =loader.load();
+        VentanaSplitterController splitterControl=loader.getController();
+        splitterControl.init(controlador,this.stage,this.Pane1);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Splitter");
+        stage.setTitle("OptiUAM BC Conector");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
-        stage.showAndWait();
         stage.setResizable(false);
-        leerAuxiliar();
-        System.out.print(controlador.getContadorElemento());
+        stage.showAndWait();
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -123,16 +153,19 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void abrirVentanaConector(ActionEvent event) throws IOException{
         Stage stage = new Stage(StageStyle.UTILITY);
-        Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
+        Parent root =loader.load();
+        VentanaConectorController conectorControl=loader.getController();
+        conectorControl.init(controlador,this.stage,this.Pane1);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
         stage.setTitle("OptiUAM BC Conector");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
-        stage.showAndWait();
         stage.setResizable(false);
-        leerAuxiliar();
-        System.out.print(controlador.getContadorElemento());
+        stage.showAndWait();
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -142,16 +175,19 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void abrirVentanaEmpalme(ActionEvent event) throws IOException{
         Stage stage = new Stage(StageStyle.UTILITY);
-        Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaEmpalme.fxml"));
+        Parent root =loader.load();
+        VentanaEmpalmeController empalmeControl=loader.getController();
+        empalmeControl.init(controlador,this.stage,this.Pane1);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Empalme");
+        stage.setTitle("OptiUAM BC Fuente");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
-        stage.showAndWait();
         stage.setResizable(false);
-        leerAuxiliar();
-        System.out.print(controlador.getContadorElemento());
+        stage.showAndWait();
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -220,7 +256,7 @@ public class VentanaPrincipal implements Initializable {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
-                mostrarMenuChiquito(elem);
+                
             }
         });
             controlador.setContadorElemento(controlador.getContadorElemento()+1);
@@ -288,7 +324,6 @@ public class VentanaPrincipal implements Initializable {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
-                mostrarMenuChiquito(elem);
                 
             }
         });
@@ -306,217 +341,7 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
-    
-    public void leerAuxiliar() throws FileNotFoundException, IOException{
-        File doc =
-        new File("auxiliar.txt");
-        Scanner obj = new Scanner(doc);
-        //Componente componente= new Componente();
-        StringTokenizer st = new StringTokenizer(obj.nextLine(),",");
-        String nombre = st.nextToken();
-        st.nextToken();
-        //componente.setNombre(nombre);
-        //componente.setId(controlador.getContadorElemento());
-        int id = controlador.getContadorElemento();
-        //componente.setConectado(Boolean.parseBoolean(st.nextToken()));
-        //controlador.getElementos().add(componente);
-        
-        Label dibujo= new Label();
-        switch (nombre) {
-            case "fibra":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
-                Fibra fibra= new Fibra(nombre,id,st.nextToken(),Boolean.parseBoolean(st.nextToken()),
-                        Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),
-                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()),
-                        Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()));
-                controlador.getElementos().add(fibra);
-                break;
-                
-            case "fuente":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuenteR.png")));
-                Fuente fuente= new Fuente(nombre, id,st.nextToken(),Boolean.parseBoolean(st.nextToken()),
-                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()),
-                        Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), 
-                        Integer.parseInt(st.nextToken()));
-                controlador.getElementos().add(fuente);
-                break;
-                
-            case "conector":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
-                Conector conector= new Conector(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),
-                        Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()),
-                        Double.parseDouble(st.nextToken()));
-                controlador.getElementos().add(conector);
-                break;
-                
-            case "empalme":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
-                Empalme empalne= new Empalme(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),
-                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()), 
-                        Integer.parseInt(st.nextToken()));
-                controlador.getElementos().add(empalne);
-                break;
-                
-            case "splitter16":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
-                Splitter splitter= new Splitter(nombre, id, st.nextToken(),Boolean.parseBoolean(st.nextToken()),
-                        Integer.parseInt(st.nextToken()),Double.parseDouble(st.nextToken()), 
-                        Integer.parseInt(st.nextToken()));
-                controlador.getElementos().add(splitter);
-                break;
-                
-            case "splitter32":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
-                break;
-            case "splitter64":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
-                break;
-            case "splitter128":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter128.png")));
-                break;
-            default:
-                break;
-        }
-        
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("auxiliar.txt"))) {
-            bw.write("");
-        }
-        
-        doc.delete();
-        dibujo.setText(nombre + "_"+ controlador.getContadorElemento());
-        dibujo.setContentDisplay(ContentDisplay.TOP);
-        
-        /*--------------------------------------------------------------------*/
-        
-        File file = new File("elementos.txt");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        try (FileWriter fw = new FileWriter(file, true)) {
-            fw.write(dibujo.getText()+"\n");
-        }
-        
-        /*--------------------------------------------------------------------*/
-        
-        ElementoGrafico elem = new ElementoGrafico();
-        elem.setComponente(nombre);
-        elem.setDibujo(dibujo);
-
-        elem.setId(controlador.getContadorElemento());
-        controlador.getDibujos().add(elem);
-        Pane1.getChildren().add(dibujo);
-        
-            elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
-                if(event.getButton()==MouseButton.PRIMARY){
-                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
-                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
-                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                }
-        });
-            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
-                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
-                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
-        });
-            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
-                elem.getDibujo().setStyle("");
-        });
-            elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
-                if(event.getButton()==MouseButton.PRIMARY){
-                    if(elem.getDibujo().getText().contains("fibra")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Fibra");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("fuente")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Fuente");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("conector")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Conector");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("empalme")){
-                        System.out.println("Hola empalme");
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Empalme");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("splitter")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Splitter");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Holi");
-                        alert.setHeaderText(null);
-                        alert.setContentText("\nAun no esta implementado");
-                        alert.showAndWait();
-                    }
-                }else if(event.getButton()==MouseButton.SECONDARY){
-                    mostrarMenuChiquito(elem);
-                }
-        });
-        controlador.setContadorElemento(controlador.getContadorElemento()+1);
-    }
-    
+    /*
     public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
                 ContextMenu contextMenu = new ContextMenu();
@@ -559,174 +384,11 @@ public class VentanaPrincipal implements Initializable {
                 contextMenu.getItems().add(menuItem2);
                 contextMenu.getItems().add(menuItem3);
                 dibujo.getDibujo().setContextMenu(contextMenu);
-    }
+    }*/
     
-    public void duplicar(Componente comp) throws IOException{
-        Label dibujo= new Label();
-        switch (comp.getNombre()) {
-            case "fibra":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
-                break;
-            case "fuente":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuenteR.png")));
-                break;
-            case "conector":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
-                break;
-            case "empalme":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
-                break;
-            case "splitter16":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
-                break;
-            case "splitter32":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
-                break;
-            case "splitter64":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
-                break;
-            case "splitter128":
-                dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter128.png")));
-                break;
-            default:
-                break;
-        }
-        
-        dibujo.setText(comp.getNombre() + "_"+ controlador.getContadorElemento());
-        dibujo.setContentDisplay(ContentDisplay.TOP);
-        
-        /*--------------------------------------------------------------------*/
-        
-        File file = new File("elementos.txt");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        try (FileWriter fw = new FileWriter(file, true)) {
-            fw.write(dibujo.getText()+"\n");
-        }
-        
-        /*--------------------------------------------------------------------*/
-        
-        ElementoGrafico elem = new ElementoGrafico();
-        elem.setComponente(comp.getNombre());
-        elem.setDibujo(dibujo);
-
-        elem.setId(controlador.getContadorElemento());
-        controlador.getDibujos().add(elem);
-        Pane1.getChildren().add(dibujo);
-        
-            elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
-                if(event.getButton()==MouseButton.PRIMARY){
-                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
-                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
-                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                }
-        });
-            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
-                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
-                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
-        });
-            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
-                elem.getDibujo().setStyle("");
-        });
-            elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
-                if(event.getButton()==MouseButton.PRIMARY){
-                    if(elem.getDibujo().getText().contains("fibra")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaFibra.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Fibra");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("fuente")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaFuente.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Fuente");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("conector")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaConector.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Conector");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("empalme")){
-                        System.out.println("Hola empalme");
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaEmpalme.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Empalme");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else if(elem.getDibujo().getText().contains("splitter")){
-                        try {
-                            Parent root = FXMLLoader.load(getClass().getResource("VentanaSplitter.fxml"));
-                            Scene scene = new Scene(root);
-                            Image ico = new Image("images/acercaDe.png");
-                            Stage stage = new Stage(StageStyle.UTILITY);
-                            stage.getIcons().add(ico);
-                            stage.setTitle("OptiUAM BC Splitter");
-                            stage.setScene(scene);
-                            stage.showAndWait();
-                            stage.setResizable(false);
-                        } catch (IOException ex) {
-                            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                    else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Holi");
-                        alert.setHeaderText(null);
-                        alert.setContentText("\nAun no esta implementado");
-                        alert.showAndWait();
-                    }
-                }else if(event.getButton()==MouseButton.SECONDARY){
-                    mostrarMenuChiquito(elem);
-                }
-        });
-        controlador.setContadorElemento(controlador.getContadorElemento()+1);
-    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        componentes=FXCollections.observableArrayList();
         fibraI=new Image("images/ico_fibra.png"); 
         fuenteI=new Image("images/ico_fuente.png"); 
         conectorI=new Image("images/ico_conector.png"); 
@@ -744,6 +406,17 @@ public class VentanaPrincipal implements Initializable {
         viewEmpalme.setImage(empalmeI);
         viewSplitter.setImage(splitterI);
         
+        //ventanaPrincipal=this;
+        
     }    
+
+    public void setStage(Stage primaryStage) {
+        stage=primaryStage;
+    }
+
+    public Pane getPane1() {
+        return Pane1;
+    }
+    
 
 }

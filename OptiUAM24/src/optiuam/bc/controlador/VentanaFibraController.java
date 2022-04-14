@@ -12,18 +12,36 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javax.swing.JOptionPane;
+import optiuam.bc.modelo.Componente;
+import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -33,6 +51,10 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author karen
  */
 public class VentanaFibraController extends VentanaPrincipal implements Initializable {
+    static int idFibra=0;
+    ControladorGeneral controlador;
+    Stage principal;
+    private Fibra fibra;
     @FXML
     private TextField txtAtenue, txtDisp, txtDistancia;
     
@@ -50,14 +72,6 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     public Separator separator;
-
-    public Button getBtnCrear() {
-        return btnCrear;
-    }
-
-    public void setBtnCrear(Button btnCrear) {
-        this.btnCrear = btnCrear;
-    }
     
     @Override
     public void cerrarVentana(ActionEvent event){
@@ -190,19 +204,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         cboxConectarA.setVisible(true);
     }
     
-    public void crearFibra(int longitudOnda, int modo, int tipo, double longitud_km, double atenuacion, double dispersion) {
-        Fibra fibra_aux = new Fibra("fibra", 0," ",false,longitudOnda, modo, tipo, longitud_km, atenuacion, dispersion);
-        System.out.println("Fibra creada: " + fibra_aux.toString()+"\n");
-        System.out.println(fibra_aux);
-        crearArchivoAux(fibra_aux.toString());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText("\n¡Fibra creada!");
-        alert.showAndWait();
-    }
-    
-    public void imprimir(ActionEvent event){
+    public void enviarDatos(ActionEvent event){
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
         
@@ -234,44 +236,148 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         longitudKm= Double.parseDouble(txtDistancia.getText());
         atenue= Double.parseDouble(txtAtenue.getText());
         dispersion= Double.parseDouble(txtDisp.getText());
-        crearFibra(longitudOnda, modo, tipo, longitudKm,atenue, dispersion);
+        Fibra f= new Fibra();
+        f.setAtenuacion(atenue);
+        f.setDispersion(dispersion);
+        f.setLongitudOnda(longitudOnda);
+        f.setMode(modo);
+        f.setLongitud_km(longitudKm);
+        f.setTipo(tipo);
+        f.setIdFibra(idFibra);
+        //f.setNombre("fibraEnviada");
+        f.setConectado(false);
+        //System.out.println(f.toString());
+        guardarComponente(f);
+        idFibra++;
+        
+        //this.fibra=f;
+        //System.out.println(fibra.toString());
+        
         cerrarVentana(event);
     }
-   
-    public void crearArchivoAux(String elemento){
-        try {
-            String ruta = "auxiliar.txt";
-            File file = new File(ruta);
-            // Si el archivo no existe es creado
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(elemento);
-            bw.close();
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
+    public void guardarComponente(Fibra fibra){
+        fibra.setNombre("fibra");
+        fibra.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(fibra);
+        
+        ElementoGrafico elem= new ElementoGrafico();
+        elem.setComponente(fibra.getNombre());
+        elem.setId(controlador.getContadorElemento());
+        Label dibujo= new Label();
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
+        dibujo.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
     }
-    /*
-    public void modificarFibra(int window, int modo, int tipo, double longitud_km,
-                               double atenuacion, double dispersion, String id,String componente) {
-        Fibra fibra = (Fibra) obtenerElemento(id);
-        fibra.setLongitud_onda(window);
-        fibra.setModo(modo);
-        fibra.setTipo(tipo);
-        fibra.setLongitud_km(longitud_km);
-        fibra.setDispersion(dispersion);
-        fibra.setAtenuacion(atenuacion);
-        if (componente.compareTo(fibra.getElementoConectado()) != 0) { //es otro componente a conectar
-            if (fibra.getElementoConectado().compareTo("") != 0) { // para desconectar el que tenia antes
-                obtenerElemento(fibra.getElementoConectado()).setConectado(false);
-            }
-            fibra.setElementoConectado(componente);
-            obtenerElemento(componente).setConectado(true);
-        }
-       // System.out.println(fibra.toString());
-    }*/
+    public void eventos(ElementoGrafico elem){
+        elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
+                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                }
+        });
+            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
+                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
+                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
+        });
+            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
+                elem.getDibujo().setStyle("");
+        });
+            elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    System.out.println("Hola fibra");
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(elem.getId()==controlador.getElementos().get(elemento).getId()){
+                           
+                        }
+                    }
+                }else if(event.getButton()==MouseButton.SECONDARY){
+                    mostrarMenuChiquito(elem);
+                }
+        });
+    }
+
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+        this.controlador=controlador;
+        this.principal=stage;
+        this.Pane1=Pane1;
+    }
+    public void mostrarMenuChiquito(ElementoGrafico dibujo){
+        // create a menu
+                ContextMenu contextMenu = new ContextMenu();
+                
+                // create menuitems
+                MenuItem menuItem1 = new MenuItem("-Duplicar");
+                MenuItem menuItem2 = new MenuItem("-Girar");
+                MenuItem menuItem3 = new MenuItem("-Eliminar");
+                
+                menuItem1.setOnAction(e ->{
+                    System.out.println("Duplicar");
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            Fibra aux= new Fibra();
+                            Fibra aux1= (Fibra)controlador.getElementos().get(elemento);
+                            aux.setAtenuacion(aux1.getAtenuacion());
+                            aux.setDispersion(aux1.getDispersion());
+                            aux.setLongitudOnda(aux1.getLongitudOnda());
+                            aux.setLongitud_km(aux1.getLongitud_km());
+                            aux.setMode(aux1.getMode());
+                            aux.setTipo(aux1.getTipo());
+                            aux.setNombre("fibra");
+                            aux.setIdFibra(idFibra);
+                            aux.setConectado(false);
+                            guardarComponente(aux);
+                            idFibra++;
+                            System.out.println(aux.toString());
+                            for(int h=0; h<controlador.getElementos().size(); h++){
+                                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+                            }
+                            break;
+                        }
+                    }
+                });
+                
+                menuItem2.setOnAction(e ->{
+                    System.out.println("Girar");
+                    if(dibujo.getDibujo().getText().contains("potencia")){
+                        System.out.println("Girar potencia");
+                    }
+                    else{
+                        System.out.println("Girar elemento");
+                    }
+                });
+                
+                menuItem3.setOnAction(e ->{
+                    System.out.println("Elemento "+dibujo.getDibujo().getText()+" eliminado");
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            Fibra aux= (Fibra)controlador.getElementos().get(elemento);
+                            controlador.getDibujos().remove(dibujo);
+                            controlador.getElementos().remove(aux); 
+                        }
+                    }   
+                    dibujo.getDibujo().setVisible(false);
+                    System.out.print(controlador.getContadorElemento());
+                    for(int h=0; h<controlador.getElementos().size(); h++){
+                        System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                        System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+                    }
+                });
+                
+                
+                
+                // add menu items to menu
+                contextMenu.getItems().add(menuItem1);
+                contextMenu.getItems().add(menuItem2);
+                contextMenu.getItems().add(menuItem3);
+                
+                dibujo.getDibujo().setContextMenu(contextMenu);
+    }
     
 }

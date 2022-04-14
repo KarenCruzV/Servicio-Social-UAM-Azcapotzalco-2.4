@@ -8,7 +8,7 @@ public class Empalme extends Componente {
     private int tipo; // 0 mechanic | 1 fusion
     private double perdidaInsercion;// 50 max na min mechanic | 50 max na min fusion
     private int longitudOnda; // 1360 max 1260 min 1310 nm window | 1580 max 1480 min 1550 nm window
-    
+    private int idEmpalme;
     
     /*Constructor*/
 
@@ -75,6 +75,14 @@ public class Empalme extends Componente {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getIdEmpalme() {
+        return idEmpalme;
+    }
+
+    public void setIdEmpalme(int idEmpalme) {
+        this.idEmpalme = idEmpalme;
+    }
     
     
     /*toString*/
@@ -82,7 +90,7 @@ public class Empalme extends Componente {
     @Override
     public String toString() {
         return super.toString() + "," + tipo + "," + perdidaInsercion + 
-                "," + longitudOnda;
+                "," + longitudOnda+","+idEmpalme;
     }
     
 }

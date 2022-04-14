@@ -13,7 +13,7 @@ public class Fibra extends Componente {
                               // other any value for both waves
     private double atenuacion; // for smf28 0.32 1310 nm window | 0.18 1550 nm window db/km
                                //for mm50 // 1550 <=.36 dB/KM
-    
+    private int idFibra;
     
     /*Constructor*/
 
@@ -33,9 +33,16 @@ public class Fibra extends Componente {
         this.nombre = name;
         this.id = id;
     }
-    
-    
+
+
+    public int getIdFibra() {
+        return idFibra;
+    }
+
     /*Getter and Setter*/
+    public void setIdFibra(int idFibra) {
+        this.idFibra = idFibra;
+    }
 
     public int getLongitudOnda() {
         return longitudOnda;
@@ -91,7 +98,7 @@ public class Fibra extends Componente {
     @Override
     public String toString() {
         return super.toString() +  "," + longitudOnda + "," + mode + "," 
-                + tipo + "," + longitud_km + "," + dispersion + ","+ atenuacion;
+                + tipo + "," + longitud_km + "," + dispersion + ","+ atenuacion+","+idFibra;
     }
     
 }

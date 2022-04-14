@@ -12,6 +12,7 @@ public class Splitter extends Componente {
     private double perdidaInsercion;
     private int longitudOnda;
     private ArrayList<String> conexiones;
+    private int idS;
 
     
     /*Constructor*/
@@ -96,9 +97,17 @@ public class Splitter extends Componente {
             
         return -1;    
     }
+
+    public int getIdS() {
+        return idS;
+    }
+
+    public void setIdS(int idS) {
+        this.idS = idS;
+    }
     @Override
     public String toString() {
-        return super.toString()+","+salidas+","+perdidaInsercion+","+longitudOnda;
+        return super.toString()+","+salidas+","+perdidaInsercion+","+longitudOnda+","+idS;
     }
     
     public String Conexiones(){

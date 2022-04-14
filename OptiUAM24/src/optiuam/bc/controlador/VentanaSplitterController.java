@@ -15,16 +15,27 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import static optiuam.bc.controlador.VentanaConectorController.idConector;
+import optiuam.bc.modelo.Conector;
+import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Splitter;
 import optiuam.bc.vista.VentanaPrincipal;
 
@@ -34,7 +45,10 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author karen
  */
 public class VentanaSplitterController extends ControladorGeneral implements Initializable {
-
+    static int idS=0;
+    ControladorGeneral controlador;
+    Stage principal;
+    
     @FXML
     RadioButton rbtn1310, rbtn1550;
     
@@ -55,11 +69,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     @FXML
     private Pane Pane1;
-    
-    ControladorGeneral cont;
-    VentanaPrincipal ven;
-    
-    private int id;
     
     private final String perdidasValidas[][] = {{"1,0", "2.7", "4.0"},   //2
                                                 {"1,1", "5.3", "7.6"},   //4
@@ -84,7 +93,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         
         Splitter splitter = new Splitter(aux, 0," ",false,salidas, perdida, longitudOnda);
         System.out.println("Splitter creado: " + splitter.toString() + "\n");
-        crearArchivoAux(splitter.toString());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Éxito");
         alert.setHeaderText(null);
@@ -162,23 +170,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             }
         }
         
-    }   
-    public void crearArchivoAux(String elemento){
-        try {
-            String ruta = "auxiliar.txt";
-            File file = new File(ruta);
-            // Si el archivo no existe es creado
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(elemento);
-            bw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    }  
+    
     public void imprimir(ActionEvent event){
         int salidas=0, longitudOnda=0, id=0;
         double perdida;
@@ -190,7 +183,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         //cboxNumeroSalidas.setSelectedIndex(salidas);
         perdida = Double.parseDouble(txtPerdidaInsercion.getText());
         txtPerdidaInsercion.setText(String.valueOf(perdida));
-        this.id=id;
         cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
         for(int i = 0; i<((int) Math.pow(2,(salidas+1)));i++){
             cboxSalidas.getItems().add(String.valueOf(i+1));
@@ -206,10 +198,115 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             alert.showAndWait();
         }
         else{
-            crearSplitter(longitudOnda, salidas, perdida, id);
+            Splitter s= new Splitter();
+            s.setConectado(false);
+            s.setPerdidaInsercion(perdida);
+            s.setSalidas(salidas);
+            s.setLongitudOnda(longitudOnda);
+            s.setNombre("splitter");
+            s.setIdS(idS);
+            idS++;
+            guardarFuente(s);
             cerrarVentana(event);
         }
         
+    }
+    
+    private void guardarFuente(Splitter s) {
+        s.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(s);
+        
+        ElementoGrafico elem= new ElementoGrafico();
+        elem.setComponente(s.getNombre());
+        elem.setId(controlador.getContadorElemento());
+        Label dibujo= new Label();
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
+        dibujo.setText(s.getNombre() + "_"+ s.getIdS());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+                
+    }
+
+    private void eventos(ElementoGrafico elem) {
+        elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
+                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                }
+        });
+            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
+                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
+                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
+        });
+            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
+                elem.getDibujo().setStyle("");
+        });
+            elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    System.out.println("Hola splitter"+elem.getId());
+                    
+                }else if(event.getButton()==MouseButton.SECONDARY){
+                    mostrarMenuChiquito(elem);
+                }
+        });
+    }
+        public void mostrarMenuChiquito(ElementoGrafico dibujo){
+        // create a menu
+                ContextMenu contextMenu = new ContextMenu();
+                
+                // create menuitems
+                MenuItem menuItem1 = new MenuItem("-Duplicar");
+                MenuItem menuItem2 = new MenuItem("-Girar");
+                MenuItem menuItem3 = new MenuItem("-Eliminar");
+                
+                menuItem1.setOnAction(e ->{
+                    System.out.println("Duplicar");
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                            Splitter aux=new Splitter();
+                            Splitter aux1=(Splitter)controlador.getElementos().get(elemento);
+                            aux.setConectado(false);
+                            aux.setLongitudOnda(aux1.getLongitudOnda());
+                            aux.setNombre("splitter");
+                            aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
+                            aux.setSalidas(aux1.getSalidas());
+                            aux.setIdS(idS);
+                            guardarFuente(aux);
+                            //System.out.println(aux);
+                            idS++;
+                            break;
+                        }
+                    }
+                });
+                
+                menuItem2.setOnAction(e ->{
+                    System.out.println("Girar");
+                    System.out.println("Girar fibra");
+                });
+                
+                menuItem3.setOnAction(e ->{
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            Splitter aux= (Splitter)controlador.getElementos().get(elemento);
+                            controlador.getDibujos().remove(dibujo);
+                            controlador.getElementos().remove(aux); 
+                        }
+                    }    
+                    dibujo.getDibujo().setVisible(false);
+                            
+                });
+                
+                // add menu items to menu
+                contextMenu.getItems().add(menuItem1);
+                contextMenu.getItems().add(menuItem2);
+                contextMenu.getItems().add(menuItem3);
+                dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
     @FXML
@@ -221,6 +318,12 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         cboxConectarA.setVisible(true);
         lblSalida.setVisible(true);
         cboxSalidas.setVisible(true);
+    }
+
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+        this.controlador=controlador;
+        this.principal=stage;
+        this.Pane1=Pane1;
     }
     
 }

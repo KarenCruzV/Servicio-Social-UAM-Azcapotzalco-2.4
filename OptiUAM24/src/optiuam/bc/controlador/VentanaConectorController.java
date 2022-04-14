@@ -15,13 +15,22 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import static optiuam.bc.controlador.VentanaFuenteController.idFuente;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
+import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Fibra;
+import optiuam.bc.modelo.Fuente;
 
 
 /**
@@ -30,7 +39,11 @@ import optiuam.bc.modelo.Conector;
  * @author karen
  */
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
-
+    static int idConector=0;
+    ControladorGeneral controlador;
+    Stage principal;
+    @FXML
+    private Pane Pane1;
     @FXML
         Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, lblConectarA, lblPropiedades;
     @FXML
@@ -43,21 +56,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         ComboBox cboxConectarA;
     @FXML
         AnchorPane ConectorVentana;
-    
-    @FXML
-    private Pane Pane1;
-    
-    public void crearConector(int longitudOnda, int modo, double perdida, int id){
-        Conector conector = new Conector("conector",0," ",false,longitudOnda, modo, perdida);
-        System.out.println("Conector creado: " + conector.toString());
-        crearArchivoAux(conector.toString());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText("\n¡Conector creado!");
-        alert.showAndWait();
-    }
-    
+    /*
     public void modificarConector(int longitudOnda, int modo, double perdida, String id, String componente) {
         Conector conector = (Conector) obtenerElemento(id);
         conector.setLongitudOnda(longitudOnda);
@@ -70,16 +69,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             conector.setElementoConectado(componente);
             obtenerElemento(componente).setConectado(true);
         }
-    }
+    }*/
     
-    public Componente obtenerElemento(String id) {
-        for (int i = 0; i < elementos.size(); i++) {
-            if (elementos.get(i).getId_nombre().compareTo(id) == 0) {
-                return elementos.get(i);
-            }
-        }
-        return null;
-    }
     
     //public void getLongitudOnda(ActionEvent ev){
        // if(rbtn1310.isSelected()){
@@ -132,10 +123,115 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             alert.showAndWait();
         }
         else{
-            crearConector(longitudOnda, modo, perdidaInsercion, id);
+            Conector con= new Conector();
+            con.setConectado(false);
+            con.setIdConector(idConector);
+            con.setLongitudOnda(longitudOnda);
+            con.setNombre("conector");
+            con.setPerdidaInsercion(perdidaInsercion);
+            con.setModo(modo);
+            guardarFuente(con);
+            idConector++;
             cerrarVentana(event);
+            
         }
         
+    }
+    private void guardarFuente(Conector conector) {
+        conector.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(conector);
+        
+        ElementoGrafico elem= new ElementoGrafico();
+        elem.setComponente(conector.getNombre());
+        elem.setId(controlador.getContadorElemento());
+        Label dibujo= new Label();
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
+        dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+                
+    }
+
+    private void eventos(ElementoGrafico elem) {
+        elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
+                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                }
+        });
+            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
+                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
+                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
+        });
+            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
+                elem.getDibujo().setStyle("");
+        });
+            elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    System.out.println("Hola conector"+elem.getId());
+                    
+                }else if(event.getButton()==MouseButton.SECONDARY){
+                    mostrarMenuChiquito(elem);
+                }
+        });
+    }
+        public void mostrarMenuChiquito(ElementoGrafico dibujo){
+        // create a menu
+                ContextMenu contextMenu = new ContextMenu();
+                
+                // create menuitems
+                MenuItem menuItem1 = new MenuItem("-Duplicar");
+                MenuItem menuItem2 = new MenuItem("-Girar");
+                MenuItem menuItem3 = new MenuItem("-Eliminar");
+                
+                menuItem1.setOnAction(e ->{
+                    System.out.println("Duplicar");
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                            Conector aux=new Conector();
+                            Conector aux1=(Conector)controlador.getElementos().get(elemento);
+                            aux.setConectado(false);
+                            aux.setIdConector(idConector);
+                            aux.setLongitudOnda(aux1.getLongitudOnda());
+                            aux.setModo(aux1.getModo());
+                            aux.setNombre("conector");
+                            aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
+                            guardarFuente(aux);
+                            System.out.println(aux);
+                            idConector++;
+                            break;
+                        }
+                    }
+                });
+                
+                menuItem2.setOnAction(e ->{
+                    System.out.println("Girar");
+                    System.out.println("Girar fibra");
+                });
+                
+                menuItem3.setOnAction(e ->{
+                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                            Conector aux= (Conector)controlador.getElementos().get(elemento);
+                            controlador.getDibujos().remove(dibujo);
+                            controlador.getElementos().remove(aux); 
+                        }
+                    }    
+                    dibujo.getDibujo().setVisible(false);
+                            
+                });
+                
+                // add menu items to menu
+                contextMenu.getItems().add(menuItem1);
+                contextMenu.getItems().add(menuItem2);
+                contextMenu.getItems().add(menuItem3);
+                dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
     public void cerrarVentana(ActionEvent event){
@@ -181,31 +277,18 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
     }    
     
-    public void crearArchivoAux(String elemento){
-        try {
-            String ruta = "auxiliar.txt";
-            File file = new File(ruta);
-            // Si el archivo no existe es creado
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            
-            bw.write(elemento);
-            bw.close();
-            fw.close();
-        } catch (Exception e) {
-            
-        }
-        
-    }
     
     @FXML
     private void modificar(ActionEvent event){
         btnDesconectar.setVisible(true);
         lblConectarA.setVisible(true);
         cboxConectarA.setVisible(true);
+    }
+
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+        this.controlador=controlador;
+        this.principal=stage;
+        this.Pane1=Pane1;
     }
     
 }
