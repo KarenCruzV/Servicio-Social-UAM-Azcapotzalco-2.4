@@ -305,7 +305,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 menuItem3.setOnAction(e ->{
                     for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                         if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            Fibra aux= (Fibra)controlador.getElementos().get(elemento);
+                            Fuente aux= (Fuente)controlador.getElementos().get(elemento);
                             controlador.getDibujos().remove(dibujo);
                             controlador.getElementos().remove(aux); 
                         }
