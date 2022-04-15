@@ -26,7 +26,7 @@ public class ElementoGrafico {
     private Label title; //etiqueta del elemento.
     @FXML                              
     private int id; // identificador del dibujo, el mismo que el de el componente
-    private String componente; // identificador del componente
+    private Componente componente; // identificador del componente
 
     public Label getDibujo() {
         return dibujo;
@@ -52,15 +52,15 @@ public class ElementoGrafico {
         this.id = id;
     }
 
-    public String getComponente() {
+    public Componente getComponente() {
         return componente;
     }
 
-    public void setComponente(String componente) {
+    public void setComponente(Componente componente) {
         this.componente = componente;
     }
 
-    public ElementoGrafico(ControladorGeneral controlador, int id, String componente) {
+    public ElementoGrafico(ControladorGeneral controlador, int id, Componente componente) {
         this.controlador = controlador;
         this.id = id;
         this.componente = componente;
@@ -92,116 +92,7 @@ public class ElementoGrafico {
     
     public void dibujarSplitter() {}
     
-    public void dibujarComponente(){
-        
-        if (componente.compareTo("splitter64")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_splitter64.png")));
-            //dibujo.setIcon(new ImageIcon("iconos/dibujo_splitter64.png"));
-            //dibujo.setBounds(10,20,100,75);
-            dibujo.getBoundsInLocal();
-        }
-        else if(componente.compareTo("splitter128")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_splitter128.png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();
-        }
-        else if(componente.compareTo("splitter32")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_splitter32.png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();
-        }
-        else if(componente.compareTo("splitter16")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_splitter16.png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();
-        }
-        else if(componente.compareTo("fibra")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_fibra.png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();
-        }
-        else if(componente.compareTo("conector")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_conectorR.png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();
-        }
-        else if(componente.compareTo("empalme")==0){
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_empalme.png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();
-        }
-        
-        else{
-            dibujo.setGraphic(new ImageView(new Image("iconos/dibujo_"+componente+".png")));
-            //dibujo.setBounds(10,20,150,113);
-            dibujo.getBoundsInLocal();;
-        }
-        //dibujo.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-        dibujo.setVisible(true);
-        
-        MouseAdapter ml =new MouseAdapter() {
-            int valorX= (int) dibujo.getLayoutX();
-            int valorY= (int) dibujo.getLayoutY();
-            public void mousePressed(MouseEvent me) {
-                valorX = (int) me.getX();
-                valorY = (int) me.getY();
-            }
-            
-            public void mouseDragged(MouseEvent me) {
-       
-                    //dibujo.setLocation(me.getSceneX()-valorX, me.getSceneY()-valorY-150);
-                    dibujo.setLayoutX(me.getSceneX()-valorX);
-                    dibujo.setLayoutY(me.getSceneY()-valorY-150);
-                //dibujo.repaint();
-                //panel.repaint();
-            }
-        };
-        /*MouseAdapter ml =new MouseAdapter() {
-            int x_pressed = 0;
-            int y_pressed = 0;
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                //dibujarContorno(evt);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                //borrarContorno(evt);
-            }
-
-            public void mousePressed(MouseEvent me) {
-                x_pressed = (int) me.getX();
-                y_pressed = (int) me.getY();
-            }
-            
-            @Override
-            public void mouseDragged(MouseEvent me) {
-       
-                    dibujo.setLocation(me.getXOnScreen()-x_pressed, me.getYOnScreen()- y_pressed-150);
-                //dibujo.repaint();
-                //panel.repaint();
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent me) {
-                MenuEmergente menu = new MenuEmergente();
-                if(me.getButton()==1){//click izquierdo
-                        controlador.mostrarVentanaElemento(id);
-                        dibujarContorno(me);
-                }
-                if(me.getButton()==3){//click derecho
-                        menu.setVisible(true);
-                        menu.setLocation(me.getXOnScreen()-x_pressed, me.getYOnScreen()- y_pressed-150);
-                }
-                
-            }
-           
-        };
-        
-        dibujo.addMouseListener(ml);
-        dibujo.addMouseMotionListener(ml);
-        dibujo.setToolTipText(id);
-        panel.updateUI();*/
-    }
+    
 
     @Override
     public String toString() {

@@ -35,10 +35,10 @@ import optiuam.bc.modelo.ElementoGrafico;
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
     
     static int idConector = 0;
-    ControladorGeneral controlador;
-    Stage stage;
-    ElementoGrafico elemG;
-    VentanaConectorController conectorControl;
+    ControladorGeneral controlador=null;
+    Stage stage=null;
+    ElementoGrafico elemG=null;
+    VentanaConectorController conectorControl=null;
     
     @FXML
     private Pane Pane1;
@@ -89,7 +89,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         else{
             Conector con= new Conector();
-            con.setConectado(false);
+            con.setConectadoEntrada(false);
+            con.setConectadoSalida(false);
             con.setIdConector(idConector);
             con.setLongitudOnda(longitudOnda);
             con.setNombre("conector");
@@ -106,7 +107,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         controlador.getElementos().add(conector);
         
         ElementoGrafico elem= new ElementoGrafico();
-        elem.setComponente(conector.getNombre());
+        elem.setComponente(conector);
         elem.setId(controlador.getContadorElemento());
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
@@ -142,32 +143,28 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         });
             elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    System.out.println("Hola conector"+elem.getId());
+                    //System.out.println("Hola conector"+elem.getId());
                     try{
-                        Stage stage1 = new Stage();
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
+                        FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
+                        //FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
                         Parent root = loader.load();
                         //Se crea una instancia del controlador del conector
                         VentanaConectorController conectorController = (VentanaConectorController) loader.getController();
-                        conectorController.init(controlador, stage, Pane1);
+                        
                         /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
                             con el que se esta trabajando ademas de que se manda el mismo controller para 
                             iniciar con los valores del elemento mandado.
                         */
-                        conectorController.init2(elem,conectorController);
-                        conectorController.btnCrear.setVisible(false);
-                        conectorController.btnDesconectar.setVisible(true);
-                        conectorController.lblConectarA.setVisible(true);
-                        conectorController.cboxConectarA.setVisible(true);
-                        conectorController.btnModificar.setVisible(true);
-                        conectorController.init(controlador, this.stage, this.Pane1);
+                        conectorController.init2(controlador, stage, Pane1,elem,conectorController);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
+                        Stage stage1 = new Stage();
                         stage1.getIcons().add(ico);
                         stage1.setTitle("OptiUAM BC Conector");
-                        stage1.initModality(Modality.APPLICATION_MODAL);
+                        //stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
+ 
                         stage1.showAndWait();
                     }
                     catch(IOException ex){
@@ -195,7 +192,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                             System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
                             Conector aux=new Conector();
                             Conector aux1=(Conector)controlador.getElementos().get(elemento);
-                            aux.setConectado(false);
+                            aux.setConectadoEntrada(false);
+                            aux.setConectadoSalida(false);
                             aux.setIdConector(idConector);
                             aux.setLongitudOnda(aux1.getLongitudOnda());
                             aux.setModo(aux1.getModo());
@@ -247,7 +245,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         cboxConectarA.setVisible(false);
         btnModificar.setVisible(false);
     }    
-    
+    private void Desconectar(){
+        //conectorControl.cboxConectarA.getSelectionModel().select(0);
+        //elemG.getComponente().setConectadoEntrada(false);
+        //elemG.getComponente().setConectadoSalida(false);
+        //elemG.getComponente().setElementoConectadoSalida("");
+    }
     
     @FXML
     private void modificar(ActionEvent event){
@@ -271,7 +274,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 longitudOnda=1550;
                 //System.out.println(1550);
             }
-
+            
             perdidaInsercion= Double.parseDouble(txtPerdida.getText());
 
             if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
@@ -286,7 +289,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 alert.showAndWait();
             }
             else{
-                aux.setConectado(false);
+                aux.setConectadoEntrada(false);
+                aux.setConectadoSalida(false);
                 //aux.setIdConector(idConector);
                 aux.setLongitudOnda(longitudOnda);
                 aux.setNombre("conector");
@@ -321,9 +325,18 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         recibe el elemento y el controlador a partir de estos puede mostrar los valores inciales del elemento 
         OJO!!!! AUN NOS FALTA LO DE CONECTADO CON----
     */
-    private void init2(ElementoGrafico elem, VentanaConectorController conectorController) {
+    private void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaConectorController conectorController) {
         this.elemG=elem;
         this.conectorControl=conectorController;
+        this.controlador=controlador;
+        this.stage=stage;
+        this.Pane1=Pane1;
+        conectorController.btnCrear.setVisible(false);
+        conectorController.btnDesconectar.setVisible(true);
+        conectorController.lblConectarA.setVisible(true);
+        conectorController.cboxConectarA.setVisible(true);
+        conectorController.btnModificar.setVisible(true);
+        conectorControl.cboxConectarA.getItems().add("");
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
                 Conector con= (Conector)controlador.getElementos().get(elemento);
@@ -339,6 +352,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     conectorControl.rbtn1550.setSelected(true);
                 }
                 conectorControl.txtPerdida.setText(String.valueOf(con.getPerdidaInsercion()));
+            }
+            
+            if(controlador.getElementos().get(elemento).getNombre()=="fibra"){
+                conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                
             }
         }
     }

@@ -28,8 +28,6 @@ public class Fibra extends Componente {
         this.longitud_km = km_length;
         this.dispersion = dispersion;
         this.atenuacion = attenuation;
-        this.conectado= conectado;
-        this.elementoConectado= elementoConectado;
         this.nombre = name;
         this.id = id;
     }

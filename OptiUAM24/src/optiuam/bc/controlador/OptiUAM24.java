@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package optiuam.bc.vista;
+package optiuam.bc.controlador;
 
 
+import optiuam.bc.controlador.VentanaPrincipal;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

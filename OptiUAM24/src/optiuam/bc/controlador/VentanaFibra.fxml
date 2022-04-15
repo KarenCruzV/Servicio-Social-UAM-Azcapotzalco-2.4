@@ -29,39 +29,39 @@
             <Font name="Arial Black" size="18.0" />
          </font></Label>
       <Separator layoutX="-3.0" layoutY="48.0" prefHeight="6.0" prefWidth="506.0" />
-      <Label layoutX="64.0" layoutY="80.0" text="Type" />
-      <RadioButton id="rbtn28" fx:id="rbtn28" layoutX="116.0" layoutY="80.0" mnemonicParsing="false" onAction="#rbtnSmf28" text="smf-28">
+      <Label layoutX="27.0" layoutY="80.0" text="Type" />
+      <RadioButton id="rbtn28" fx:id="rbtn28" layoutX="108.0" layoutY="80.0" mnemonicParsing="false" onAction="#rbtnSmf28" text="smf-28">
          <toggleGroup>
             <ToggleGroup fx:id="Tipo" />
          </toggleGroup></RadioButton>
       <RadioButton id="rbtn50" fx:id="rbtn50" layoutX="200.0" layoutY="80.0" mnemonicParsing="false" onAction="#rbtnMm50" text="mm50" toggleGroup="$Tipo" />
       <RadioButton id="rbtnOther" fx:id="rbtnOtro" layoutX="282.0" layoutY="80.0" mnemonicParsing="false" onAction="#rbtnOtro" selected="true" text="Other" toggleGroup="$Tipo" />
-      <Label layoutX="58.0" layoutY="118.0" text="Mode" />
-      <RadioButton id="rbtnModo" fx:id="rbtnMono" layoutX="116.0" layoutY="118.0" mnemonicParsing="false" selected="true" text="Monomode">
+      <Label layoutX="25.0" layoutY="118.0" text="Mode" />
+      <RadioButton id="rbtnModo" fx:id="rbtnMono" layoutX="107.0" layoutY="118.0" mnemonicParsing="false" selected="true" text="Monomode">
          <toggleGroup>
             <ToggleGroup fx:id="Mode" />
          </toggleGroup></RadioButton>
-      <RadioButton id="rbtnMulti" fx:id="rbtnMulti" layoutX="228.0" layoutY="118.0" mnemonicParsing="false" text="Multimode" toggleGroup="$Mode" />
-      <Label layoutX="27.0" layoutY="158.0" text="Wavelength" />
-      <RadioButton id="rbtn1310" fx:id="rbtn1310" layoutX="115.0" layoutY="158.0" mnemonicParsing="false" onAction="#rbtn1310Action" selected="true" text="1310 nm">
+      <RadioButton id="rbtnMulti" fx:id="rbtnMulti" layoutX="201.0" layoutY="118.0" mnemonicParsing="false" text="Multimode" toggleGroup="$Mode" />
+      <Label layoutX="25.0" layoutY="158.0" text="Wavelength" />
+      <RadioButton id="rbtn1310" fx:id="rbtn1310" layoutX="108.0" layoutY="157.0" mnemonicParsing="false" onAction="#rbtn1310Action" selected="true" text="1310 nm">
          <toggleGroup>
             <ToggleGroup fx:id="LongitudOnda" />
          </toggleGroup></RadioButton>
-      <RadioButton id="rbtn1550" fx:id="rbtn1550" layoutX="200.0" layoutY="158.0" mnemonicParsing="false" onAction="#rbtn1550Action" text="1550 nm" toggleGroup="$LongitudOnda" />
-      <Label layoutX="22.0" layoutY="200.0" text="Cable lenght" />
-      <TextField id="txtDistancia" fx:id="txtDistancia" layoutX="116.0" layoutY="196.0" prefHeight="25.0" prefWidth="64.0" />
-      <Label layoutX="192.0" layoutY="200.0" text="km" />
-      <Label layoutX="27.0" layoutY="242.0" text="Attenuation" />
-      <TextField id="txtAtenue" fx:id="txtAtenue" layoutX="116.0" layoutY="238.0" prefHeight="25.0" prefWidth="64.0" />
-      <Label layoutX="192.0" layoutY="242.0" text="dB/km" />
-      <Label layoutX="34.0" layoutY="285.0" text="Dispersion" />
-      <TextField id="txtDisp" fx:id="txtDisp" layoutX="118.0" layoutY="281.0" prefHeight="25.0" prefWidth="64.0" />
-      <Label layoutX="193.0" layoutY="285.0" text="ps/(nm*km)" />
-      <Separator fx:id="separator" layoutX="371.0" layoutY="58.0" orientation="VERTICAL" prefHeight="257.0" prefWidth="3.0" />
-      <Label fx:id="lblConectarA" layoutX="394.0" layoutY="118.0" text="Connect to:" />
-      <ComboBox fx:id="cboxConectarA" layoutX="394.0" layoutY="144.0" prefHeight="25.0" prefWidth="80.0" />
-      <Button fx:id="btnDesconectar" layoutX="396.0" layoutY="226.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="93.0" layoutY="346.0" mnemonicParsing="false" onAction="#enviarDatos" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <RadioButton id="rbtn1550" fx:id="rbtn1550" layoutX="200.0" layoutY="157.0" mnemonicParsing="false" onAction="#rbtn1550Action" text="1550 nm" toggleGroup="$LongitudOnda" />
+      <Label layoutX="23.0" layoutY="200.0" text="Cable lenght" />
+      <TextField id="txtDistancia" fx:id="txtDistancia" layoutX="110.0" layoutY="196.0" prefHeight="25.0" prefWidth="92.0" />
+      <Label layoutX="212.0" layoutY="200.0" text="km" />
+      <Label layoutX="25.0" layoutY="242.0" text="Attenuation" />
+      <TextField id="txtAtenue" fx:id="txtAtenue" layoutX="110.0" layoutY="239.0" prefHeight="25.0" prefWidth="92.0" />
+      <Label layoutX="210.0" layoutY="242.0" text="dB/km" />
+      <Label layoutX="26.0" layoutY="285.0" text="Dispersion" />
+      <TextField id="txtDisp" fx:id="txtDisp" layoutX="110.0" layoutY="281.0" prefHeight="25.0" prefWidth="92.0" />
+      <Label layoutX="210.0" layoutY="285.0" text="ps/(nm*km)" />
+      <Separator fx:id="separator" layoutX="339.0" layoutY="60.0" orientation="VERTICAL" prefHeight="257.0" prefWidth="3.0" />
+      <Label fx:id="lblConectarA" layoutX="357.0" layoutY="118.0" text="Connect to:" />
+      <ComboBox fx:id="cboxConectarA" layoutX="356.0" layoutY="145.0" prefHeight="25.0" prefWidth="92.0" />
+      <Button fx:id="btnDesconectar" layoutX="357.0" layoutY="196.0" mnemonicParsing="false" text="Disconnect" />
+      <Button fx:id="btnCrear" layoutX="89.0" layoutY="334.0" mnemonicParsing="false" onAction="#enviarDatos" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -84,7 +84,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button fx:id="btnModificar" layoutX="355.0" layoutY="346.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
+      <Button fx:id="btnModificar" layoutX="342.0" layoutY="334.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

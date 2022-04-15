@@ -99,7 +99,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         else{
             Empalme empalme= new Empalme();
-            empalme.setConectado(false);
+            empalme.setConectadoEntrada(false);
+            empalme.setConectadoSalida(false);
             empalme.setIdEmpalme(idEmpalme);
             empalme.setLongitudOnda(longitudOnda);
             empalme.setNombre("empalme");
@@ -115,7 +116,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         controlador.getElementos().add(empalme);
         
         ElementoGrafico elem= new ElementoGrafico();
-        elem.setComponente(empalme.getNombre());
+        elem.setComponente(empalme);
         elem.setId(controlador.getContadorElemento());
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
@@ -200,7 +201,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                             System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
                             Empalme empalmeAux=new Empalme();
                             Empalme aux1=(Empalme)controlador.getElementos().get(elemento);
-                            empalmeAux.setConectado(false);
+                            empalmeAux.setConectadoEntrada(false);
+                            empalmeAux.setConectadoSalida(false);
                             empalmeAux.setIdEmpalme(idEmpalme);
                             empalmeAux.setLongitudOnda(aux1.getLongitudOnda());
                             empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
@@ -274,7 +276,17 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 longitudOnda=1550;
                 //System.out.println(1550);
             }
-
+            if((empalmeControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
+                    aux.setConectadoEntrada(false);
+                    aux.setConectadoSalida(false);
+                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
+                }else{
+                    aux.setConectadoSalida(true);
+                    //System.out.println(fuenteControl.cboxConectarA.getItems().);
+                    aux.setElementoConectadoSalida(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    System.out.println(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
+                }
             perdidaInsercion= Double.parseDouble(txtPerdida.getText());
 
             if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
@@ -289,7 +301,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 alert.showAndWait();
             }
             else{
-                aux.setConectado(false);
                 //aux.setIdEmpalme(idEmpalme);
                 aux.setLongitudOnda(longitudOnda);
                 aux.setNombre("empalme");

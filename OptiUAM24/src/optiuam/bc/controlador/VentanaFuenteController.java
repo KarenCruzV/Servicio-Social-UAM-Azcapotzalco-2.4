@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fuente;
 
@@ -127,7 +128,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             fuente.setPotencia(potencia);
             fuente.setTipo(tipo);
             fuente.setVelocidad(velocidad);
-            fuente.setConectado(false);
+            fuente.setConectadoEntrada(false);
+            fuente.setConectadoSalida(false);
             guardarFuente(fuente);
             //System.out.println(fuente);
             idFuente++;
@@ -152,7 +154,13 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         cboxConectarA.setVisible(false);
         btnModificar.setVisible(false);
     }    
-    
+    @FXML
+    private void Desconectar(){
+        fuenteControl.cboxConectarA.getSelectionModel().select(0);
+        elemG.getComponente().setConectadoEntrada(false);
+        elemG.getComponente().setConectadoSalida(false);
+        elemG.getComponente().setElementoConectadoSalida("");
+    }
     @FXML
     private void modificar(ActionEvent event){
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -160,6 +168,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 Fuente aux = (Fuente) controlador.getElementos().get(elemento);
                 int longitudOnda=0, tipo=0, id = 0;
                 double potencia, anchura, velocidad;
+                boolean cEntrada, cSalida;
+                
 
                 if(rbtnLaser.isSelected()){
                     tipo = 0;
@@ -174,11 +184,23 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     longitudOnda=1550;
                     //System.out.println(1550);
                 }
-
+                if((fuenteControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
+                    aux.setConectadoEntrada(false);
+                    aux.setConectadoSalida(false);
+                    
+                    aux.setElementoConectadoSalida("");
+                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
+                }else{
+                    aux.setConectadoSalida(true);
+                    //System.out.println(fuenteControl.cboxConectarA.getItems().);
+                    aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
+                }
                 potencia = Double.parseDouble(txtPotencia.getText());
                 anchura = Double.parseDouble(txtAnchuraEspectro.getText());
                 velocidad = Double.parseDouble(txtVelocidad.getText());
-
+                    
                 if (txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
                     System.out.println("Valor de la potencia invalido");
                 }
@@ -214,7 +236,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     aux.setPotencia(potencia);
                     aux.setTipo(tipo);
                     aux.setVelocidad(velocidad);
-                    aux.setConectado(false);
+                    
                     //System.out.println(fuente);
                     cerrarVentana(event);
                     
@@ -264,7 +286,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         controlador.getElementos().add(fuente);
         
         ElementoGrafico elem= new ElementoGrafico();
-        elem.setComponente(fuente.getNombre());
+        elem.setComponente(fuente);
         elem.setId(controlador.getContadorElemento());
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
@@ -356,7 +378,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                             Fuente fuenteAux=new Fuente();
                             Fuente fuenteAux1=(Fuente)controlador.getElementos().get(elemento);
                             fuenteAux.setAnchura(fuenteAux1.getAnchura());
-                            fuenteAux.setConectado(false);
+                            fuenteAux.setConectadoEntrada(false);
+                            fuenteAux.setConectadoSalida(false);
                             fuenteAux.setLongitudOnda(fuenteAux1.getLongitudOnda());
                             fuenteAux.setPotencia(fuenteAux1.getPotencia());
                             fuenteAux.setTipo(fuenteAux1.getTipo());
@@ -399,7 +422,14 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     private void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
         this.elemG = elem;
         this.fuenteControl=fuenteController;
+        fuenteControl.cboxConectarA.getItems().add("Desconected");
+        if(elemG.getComponente().isConectadoSalida()==true){
+            fuenteControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
+        }else{
+            fuenteControl.cboxConectarA.getSelectionModel().select(0);
+        }
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+           
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
                 Fuente fue = (Fuente)controlador.getElementos().get(elemento);
                 System.out.println(fue.getTipo()+"\t"+fue.getLongitudOnda());
@@ -416,6 +446,10 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 fuenteControl.txtAnchuraEspectro.setText(String.valueOf(fue.getAnchura()));
                 fuenteControl.txtPotencia.setText(String.valueOf(fue.getPotencia()));
                 fuenteControl.txtVelocidad.setText(String.valueOf(fue.getVelocidad()));
+            }
+            if(controlador.getElementos().get(elemento).getNombre()=="conector"){
+                fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                
             }
         }
     }

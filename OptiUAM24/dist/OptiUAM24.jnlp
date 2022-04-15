@@ -8,11 +8,11 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OptiUAM24.jar" size="518625" download="eager" />
+    <jar href="OptiUAM24.jar" size="511250" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="OptiUAM24" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="optiuam.bc.vista.OptiUAM24"  name="OptiUAM24" />
+  <jfx:javafx-desc  width="800" height="600" main-class="optiuam.bc.controlador.OptiUAM24"  name="OptiUAM24" />
   <update check="always"/>
 </jnlp>

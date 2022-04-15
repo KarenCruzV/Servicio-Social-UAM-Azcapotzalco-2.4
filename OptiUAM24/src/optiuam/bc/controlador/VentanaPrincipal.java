@@ -1,5 +1,5 @@
 
-package optiuam.bc.vista;
+package optiuam.bc.controlador;
 
 import java.io.IOException;
 import java.net.URL;
@@ -77,7 +77,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Fibra");
+        stage.setTitle("OptiUAM BC Nueva Fibra");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -100,7 +100,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Fuente");
+        stage.setTitle("OptiUAM BC Nueva Fuente");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -122,7 +122,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Conector");
+        stage.setTitle("OptiUAM BC Nuevo Splitter");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -144,11 +144,11 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Conector");
+        stage.setTitle("OptiUAM BC Nuevo Conector");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.showAndWait();
+        stage.show();
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -166,7 +166,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Fuente");
+        stage.setTitle("OptiUAM BC Nuevo Empalme");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -200,7 +200,7 @@ public class VentanaPrincipal implements Initializable {
         title.setLayoutY(-20);
         
         ElementoGrafico elem = new ElementoGrafico();
-        elem.setComponente("potencia");
+        elem.setComponente(componente);
         elem.setDibujo(dibujo);
         elem.setTitle(title);
         elem.setId(controlador.getContadorElemento());
@@ -269,7 +269,7 @@ public class VentanaPrincipal implements Initializable {
         dibujo.setContentDisplay(ContentDisplay.TOP);
 
         ElementoGrafico elem = new ElementoGrafico();
-        elem.setComponente("espectro");
+        elem.setComponente(componente);
         elem.setDibujo(dibujo);
         elem.setId(controlador.getContadorElemento());
         controlador.getDibujos().add(elem);

@@ -169,7 +169,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
         else{
             Splitter s= new Splitter();
-            s.setConectado(false);
+            s.setConectadoEntrada(false);
+            s.setConectadoSalida(false);
             s.setPerdidaInsercion(perdida);
             s.setSalidas(salidas);
             s.setLongitudOnda(longitudOnda);
@@ -187,7 +188,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         controlador.getElementos().add(s);
         
         ElementoGrafico elem= new ElementoGrafico();
-        elem.setComponente(s.getNombre());
+        elem.setComponente(s);
         elem.setId(controlador.getContadorElemento());
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
@@ -280,7 +281,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                             System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
                             Splitter aux=new Splitter();
                             Splitter aux1=(Splitter)controlador.getElementos().get(elemento);
-                            aux.setConectado(false);
+                            aux.setConectadoEntrada(false);
+                            aux.setConectadoSalida(false);
                             aux.setLongitudOnda(aux1.getLongitudOnda());
                             aux.setNombre("splitter");
                             aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
@@ -338,7 +340,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     cboxSalidas.getItems().add(String.valueOf(i+1));
                 }
                 //cboxSalidas.setSelectedIndex(0);
-
+                
                 if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
                     System.out.println("La pérdida debe ser " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -348,7 +350,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     alert.showAndWait();
                 }
                 else{
-                    aux.setConectado(false);
+                    aux.setConectadoEntrada(false);
+                    aux.setConectadoSalida(false);
                     aux.setPerdidaInsercion(perdida);
                     aux.setSalidas(salidas);
                     aux.setLongitudOnda(longitudOnda);

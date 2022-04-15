@@ -33,7 +33,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
-import optiuam.bc.vista.VentanaPrincipal;
 
 /**
  * FXML Controller class
@@ -204,7 +203,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 aux.setTipo(tipo);
                 //aux.setIdFibra(idFibra);
                 //f.setNombre("fibraEnviada");
-                aux.setConectado(false);
+                aux.setConectadoEntrada(false);
+                aux.setConectadoSalida(false);
                 //System.out.println(f.toString());
 
                 //this.fibra=f;
@@ -269,7 +269,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         f.setTipo(tipo);
         f.setIdFibra(idFibra);
         //f.setNombre("fibraEnviada");
-        f.setConectado(false);
+        f.setConectadoEntrada(false);
+        f.setConectadoSalida(false);
         //System.out.println(f.toString());
         guardarComponente(f);
         idFibra++;
@@ -285,7 +286,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         controlador.getElementos().add(fibra);
         
         ElementoGrafico elem= new ElementoGrafico();
-        elem.setComponente(fibra.getNombre());
+        elem.setComponente(fibra);
         elem.setId(controlador.getContadorElemento());
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
@@ -340,7 +341,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                         fibraController.lblConectarA.setVisible(true);
                         fibraController.cboxConectarA.setVisible(true);
                         fibraController.btnModificar.setVisible(true);
-                        fibraController.init(controlador, this.stage, this.Pane1);
+                        //fibraController.init(controlador, this.stage, this.Pane1);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
@@ -389,7 +390,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                             aux.setTipo(aux1.getTipo());
                             aux.setNombre("fibra");
                             aux.setIdFibra(idFibra);
-                            aux.setConectado(false);
+                            aux.setConectadoEntrada(false);
+                            aux.setConectadoSalida(false);
                             guardarComponente(aux);
                             idFibra++;
                             System.out.println(aux.toString());
@@ -446,11 +448,20 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
                 Fibra fib= (Fibra)controlador.getElementos().get(elemento);
                 System.out.println(fib.getModo()+"\t"+fib.getLongitudOnda());
+                
+                if(fib.getTipo()==0){
+                    fibraControl.rbtn28.setSelected(true);
+                }else if(fib.getTipo()==1){
+                    fibraControl.rbtn50.setSelected(true);
+                }else if(fib.getTipo()==2){
+                    fibraControl.rbtnOtro.setSelected(true);
+                }
                 if(fib.getModo()==0){
                     fibraControl.rbtnMono.setSelected(true);
                 }else if(fib.getModo()==1){
                     fibraControl.rbtnMulti.setSelected(true);
                 }
+                
                 if(fib.getLongitudOnda()==1310){
                     fibraControl.rbtn1310.setSelected(true);
                 }else if(fib.getLongitudOnda()==1550){

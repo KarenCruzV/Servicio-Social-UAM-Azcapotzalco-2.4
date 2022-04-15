@@ -22,8 +22,6 @@ public class Splitter extends Componente {
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
         this.nombre = name;
-        this.conectado=conectado;
-        this.elementoConectado=elementoConectado;
         this.id = id;
         modificarSalidas(outputs); 
     }

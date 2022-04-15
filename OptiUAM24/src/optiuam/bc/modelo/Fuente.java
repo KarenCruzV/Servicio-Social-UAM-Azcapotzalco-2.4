@@ -30,8 +30,6 @@ public class Fuente extends Componente {
         this.anchura = width;
         this.velocidad = velocity;
         this.longitudOnda = wavelength;
-        this.elementoConectado= elementoConectado;
-        this.conectado=conectado;
         this.nombre = name;
         this.id = id;
     }

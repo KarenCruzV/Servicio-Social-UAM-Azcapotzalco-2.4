@@ -29,27 +29,27 @@
             <Font name="Arial Black" size="18.0" />
          </font></Label>
       <Separator layoutY="45.0" prefHeight="4.0" prefWidth="550.0" />
-      <Label layoutX="39.0" layoutY="68.0" text="Number of inputs:" />
+      <Label layoutX="31.0" layoutY="68.0" text="Number of inputs:" />
       <Label layoutX="167.0" layoutY="68.0" text="1" />
-      <Label layoutX="68.0" layoutY="105.0" text="Wavelength:" />
+      <Label layoutX="31.0" layoutY="105.0" text="Wavelength:" />
       <RadioButton fx:id="rbtn1310" layoutX="162.0" layoutY="105.0" mnemonicParsing="false" selected="true" text="1310 nm">
          <toggleGroup>
             <ToggleGroup fx:id="LongitudOnda" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="rbtn1550" layoutX="256.0" layoutY="105.0" mnemonicParsing="false" text="1550 nm" toggleGroup="$LongitudOnda" />
-      <Label layoutX="29.0" layoutY="147.0" text="Number of outputs:" />
+      <RadioButton fx:id="rbtn1550" layoutX="246.0" layoutY="105.0" mnemonicParsing="false" text="1550 nm" toggleGroup="$LongitudOnda" />
+      <Label layoutX="31.0" layoutY="147.0" text="Number of outputs:" />
       <ComboBox fx:id="cboxNumeroSalidas" layoutX="162.0" layoutY="143.0" prefHeight="25.0" prefWidth="60.0" />
-      <Label layoutX="58.0" layoutY="192.0" text="Insertion Loss:" />
+      <Label layoutX="31.0" layoutY="192.0" text="Insertion Loss:" />
       <TextField fx:id="txtPerdidaInsercion" layoutX="162.0" layoutY="188.0" prefHeight="25.0" prefWidth="60.0" />
       <Label layoutX="232.0" layoutY="192.0" text="dB" />
-      <Separator fx:id="separator" layoutX="346.0" layoutY="64.0" orientation="VERTICAL" prefHeight="160.0" prefWidth="7.0" />
-      <Label fx:id="lblSalida" layoutX="372.0" layoutY="73.0" text="Output" />
-      <ComboBox fx:id="cboxSalidas" layoutX="372.0" layoutY="97.0" prefHeight="25.0" prefWidth="60.0" />
-      <Label fx:id="lblConectarA" layoutX="463.0" layoutY="73.0" text="Connect to:" />
-      <ComboBox fx:id="cboxConectarA" layoutX="464.0" layoutY="97.0" prefHeight="25.0" prefWidth="60.0" />
-      <Button fx:id="btnConectar" layoutX="422.0" layoutY="150.0" mnemonicParsing="false" text="Connect" />
-      <Button fx:id="btnDesconectar" layoutX="415.0" layoutY="189.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="79.0" layoutY="259.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Separator fx:id="separator" layoutX="330.0" layoutY="63.0" orientation="VERTICAL" prefHeight="160.0" prefWidth="7.0" />
+      <Label fx:id="lblSalida" layoutX="346.0" layoutY="73.0" text="Output" />
+      <ComboBox fx:id="cboxSalidas" layoutX="346.0" layoutY="101.0" prefHeight="25.0" prefWidth="60.0" />
+      <Label fx:id="lblConectarA" layoutX="422.0" layoutY="73.0" text="Connect to:" />
+      <ComboBox fx:id="cboxConectarA" layoutX="430.0" layoutY="101.0" prefHeight="25.0" prefWidth="60.0" />
+      <Button fx:id="btnConectar" layoutX="385.0" layoutY="152.0" mnemonicParsing="false" text="Connect" />
+      <Button fx:id="btnDesconectar" layoutX="378.0" layoutY="188.0" mnemonicParsing="false" text="Disconnect" />
+      <Button fx:id="btnCrear" layoutX="75.0" layoutY="247.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -72,7 +72,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button fx:id="btnModificar" layoutX="410.0" layoutY="259.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
+      <Button fx:id="btnModificar" layoutX="384.0" layoutY="247.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

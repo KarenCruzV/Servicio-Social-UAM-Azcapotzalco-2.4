@@ -19,8 +19,6 @@ public class Empalme extends Componente {
         this.tipo = type;
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
-        this.conectado=conectado;
-        this.elementoConectado=elementoConectado;
         this.nombre = name;
         this.id = id;
     }

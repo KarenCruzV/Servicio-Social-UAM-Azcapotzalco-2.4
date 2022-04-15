@@ -29,33 +29,33 @@
             <Font name="Arial Black" size="18.0" />
          </font></Label>
       <Separator layoutY="51.0" prefHeight="4.0" prefWidth="500.0" />
-      <Label layoutX="62.0" layoutY="77.0" text="Wavelength" />
+      <Label layoutX="28.0" layoutY="77.0" text="Wavelength" />
       <RadioButton fx:id="rbtn1310" layoutX="149.0" layoutY="77.0" mnemonicParsing="false" selected="true" text="1310 nm">
          <toggleGroup>
             <ToggleGroup fx:id="LongitudOnda" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="rbtn1550" layoutX="241.0" layoutY="77.0" mnemonicParsing="false" text="1550 nm" toggleGroup="$LongitudOnda" />
-      <Label layoutX="100.0" layoutY="117.0" text="Type" />
+      <Label layoutX="28.0" layoutY="117.0" text="Type" />
       <RadioButton fx:id="rbtnLaser" layoutX="149.0" layoutY="117.0" mnemonicParsing="false" selected="true" text="Laser">
          <toggleGroup>
             <ToggleGroup fx:id="Tipo" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="rbtnLed" layoutX="241.0" layoutY="117.0" mnemonicParsing="false" text="LED" toggleGroup="$Tipo" />
-      <Label layoutX="85.0" layoutY="156.0" text="Potency" />
+      <Label layoutX="27.0" layoutY="157.0" text="Potency" />
       <TextField fx:id="txtPotencia" layoutX="149.0" layoutY="152.0" prefHeight="25.0" prefWidth="79.0" />
       <Label layoutX="241.0" layoutY="156.0" text="dBm" />
-      <Label layoutX="48.0" layoutY="193.0" text="Spectral Width" />
+      <Label layoutX="25.0" layoutY="193.0" text="Spectral Width" />
       <TextField fx:id="txtAnchuraEspectro" layoutX="149.0" layoutY="189.0" prefHeight="25.0" prefWidth="79.0" />
       <Label layoutX="240.0" layoutY="193.0" text="nm" />
-      <Label layoutX="20.0" layoutY="233.0" text="Transmission Speed" />
+      <Label layoutX="24.0" layoutY="233.0" text="Transmission Speed" />
       <TextField fx:id="txtVelocidad" layoutX="149.0" layoutY="229.0" prefHeight="25.0" prefWidth="79.0" />
       <Label layoutX="240.0" layoutY="233.0" text="Gbits/seg" />
-      <Button fx:id="btnPulso" layoutX="151.0" layoutY="276.0" mnemonicParsing="false" onAction="#configurarPulso"  text="Set Pulse" />
-      <Separator fx:id="separator" layoutX="359.0" layoutY="65.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Label fx:id="lblConectarA" layoutX="385.0" layoutY="108.0" text="Connect to:" />
-      <ComboBox fx:id="cboxConectarA" layoutX="385.0" layoutY="135.0" prefHeight="25.0" prefWidth="68.0" />
-      <Button fx:id="btnDesconectar" layoutX="392.0" layoutY="210.0" mnemonicParsing="false" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="60.0" layoutY="328.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnPulso" layoutX="151.0" layoutY="276.0" mnemonicParsing="false" onAction="#configurarPulso" text="Set Pulse" />
+      <Separator fx:id="separator" layoutX="333.0" layoutY="73.0" orientation="VERTICAL" prefHeight="200.0" />
+      <Label fx:id="lblConectarA" layoutX="357.0" layoutY="109.0" text="Connect to:" />
+      <ComboBox fx:id="cboxConectarA" layoutX="351.0" layoutY="134.0" prefHeight="25.0" prefWidth="105.0" />
+      <Button fx:id="btnDesconectar" layoutX="350.0" layoutY="189.0" mnemonicParsing="false" onAction="#Desconectar" text="Disconnect" />
+      <Button fx:id="btnCrear" layoutX="77.0" layoutY="316.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -78,7 +78,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button fx:id="btnModificar" layoutX="387.0" layoutY="328.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
+      <Button fx:id="btnModificar" layoutX="372.0" layoutY="316.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: violet;" text="MODIFY">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

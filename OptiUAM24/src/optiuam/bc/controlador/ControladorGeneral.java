@@ -12,7 +12,6 @@ import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Empalme;
 import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.Splitter;
-import optiuam.bc.vista.VentanaPrincipal;
 
 /**
  *

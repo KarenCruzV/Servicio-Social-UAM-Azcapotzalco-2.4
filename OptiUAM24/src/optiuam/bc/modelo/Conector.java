@@ -21,8 +21,6 @@ public class Conector extends Componente {
         this.perdidaInsercion = insertion_loss;
         this.longitudOnda = wavelength;
         this.modo = mode;
-        this.elementoConectado=elementoConectado;
-        this.conectado=conectado;
         this.nombre = name;
         this.id = id;
     }

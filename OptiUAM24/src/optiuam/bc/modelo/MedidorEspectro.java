@@ -10,8 +10,6 @@ public class MedidorEspectro extends Componente {
 
     public MedidorEspectro(String name, int id,String elementoConectado, boolean conectado) {
         this.nombre = name;
-        this.conectado=conectado;
-        this.elementoConectado=elementoConectado;
         this.id = id;
     }
 

@@ -9,19 +9,21 @@ public class Componente {
     protected String nombre;
     protected int id;
     //Attributes to know if it is conectado and what it is conectado to
-    protected String elementoConectado = " ";
-    protected boolean conectado;
-    
+    protected String elementoConectadoEntrada = " ";
+    protected boolean conectadoEntrada;
+    protected String elementoConectadoSalida = " ";
+    protected boolean conectadoSalida;
     
     /*Constructor*/
 
     public Componente() {
     }
 
-    public Componente(String nombre, int id, boolean conectado) {
+    public Componente(String nombre, int id, boolean conectadoEntrada, boolean conectadoSalida) {
         this.nombre = nombre;
         this.id = id;
-        this.conectado = conectado;
+        this.conectadoEntrada = conectadoEntrada;
+        this.conectadoSalida= conectadoSalida;
     }
     
 
@@ -43,37 +45,46 @@ public class Componente {
         this.id = id;
     }
 
-    public String getElementoConectado() {
-        return elementoConectado;
+    public String getElementoConectadoEntrada() {
+        return elementoConectadoEntrada;
     }
 
-    public void setElementoConectado(String elementoConectado) {
-        this.elementoConectado = elementoConectado;
+    public void setElementoConectadoEntrada(String elementoConectadoEntrada) {
+        this.elementoConectadoEntrada = elementoConectadoEntrada;
     }
 
-    public boolean isConectado() {
-        return conectado;
+    public boolean isConectadoEntrada() {
+        return conectadoEntrada;
     }
 
-    public void setConectado(boolean conectado) {
-        this.conectado = conectado;
+    public void setConectadoEntrada(boolean conectadoEntrada) {
+        this.conectadoEntrada = conectadoEntrada;
+    }
+
+    public String getElementoConectadoSalida() {
+        return elementoConectadoSalida;
+    }
+
+    public void setElementoConectadoSalida(String elementoConectadoSalida) {
+        this.elementoConectadoSalida = elementoConectadoSalida;
+    }
+
+    public boolean isConectadoSalida() {
+        return conectadoSalida;
+    }
+
+    public void setConectadoSalida(boolean conectadoSalida) {
+        this.conectadoSalida = conectadoSalida;
     }
     
-    public void crearNuevoComponente(){
-        System.out.println("hola");
-    }
-    
-    public String getId_nombre(){
-        String idN = String.valueOf(id);
-        String idNombre = nombre + idN;
-        return idNombre;
-    }
     
     /*toString*/
 
     @Override
     public String toString() {
-        return nombre + "," + id + "," + elementoConectado + "," + conectado;
+        return "Componente{" + "nombre=" + nombre + ", id=" + id + ", elementoConectadoEntrada=" + elementoConectadoEntrada + ", conectadoEntrada=" + conectadoEntrada + ", elementoConectadoSalida=" + elementoConectadoSalida + ", conectadoSalida=" + conectadoSalida + '}';
     }
+
+    
     
 }
