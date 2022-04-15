@@ -1,9 +1,6 @@
 
 package optiuam.bc.controlador;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,8 +52,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         ComboBox cboxConectarA;
     @FXML
         AnchorPane ConectorVentana;
-    
-    
+
     public void imprimir(ActionEvent event){
         int modo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax =0.5;
@@ -243,7 +239,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      
+        btnCrear.setVisible(true);
+        btnDesconectar.setVisible(false);
+        lblConectarA.setVisible(false);
+        cboxConectarA.setVisible(false);
+        btnModificar.setVisible(false);
     }    
     
     

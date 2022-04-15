@@ -1,9 +1,6 @@
 
 package optiuam.bc.controlador;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +43,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     static int idEmpalme=0;
     ControladorGeneral controlador;
     Stage stage;
+    ElementoGrafico elemxd;
+    VentanaEmpalmeController empalmeControl;
     
     @FXML
     RadioButton rbtn1310, rbtn1550, rbtnfusion, rbtnMecanico;
@@ -158,12 +157,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                         Parent root = loader.load();
                         //Se crea una instancia del controlador del empalme.
                         VentanaEmpalmeController empalmeController = (VentanaEmpalmeController) loader.getController();
+                        empalmeController.init(controlador,stage,Pane1);
+                        empalmeController.init2(elem,empalmeController);
                         empalmeController.btnCrear.setVisible(false);
                         empalmeController.btnDesconectar.setVisible(true);
                         empalmeController.lblConectarA.setVisible(true);
                         empalmeController.cboxConectarA.setVisible(true);
                         empalmeController.btnModificar.setVisible(true);
-                        empalmeController.init(controlador,this.stage,this.Pane1);
+                        empalmeController.init(controlador, this.stage, this.Pane1);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
@@ -244,12 +245,17 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        btnCrear.setVisible(true);
+        btnDesconectar.setVisible(false);
+        lblConectarA.setVisible(false);
+        cboxConectarA.setVisible(false);
+        btnModificar.setVisible(false);
     }    
     
     @FXML
     private void modificar(ActionEvent event){
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elemxd.getId()==controlador.getElementos().get(elemento).getId()){
             Empalme aux = (Empalme) controlador.getElementos().get(elemento);
             int tipo=0, longitudOnda=0, id = 0;
             double perdidaInsercion, perdidaMax = 0.5;
@@ -303,6 +309,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
                 break;
             }
+            }
         }
     }
 
@@ -310,6 +317,28 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
+    }
+    
+    private void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
+        this.elemxd=elem;
+        this.empalmeControl=empalmeController;
+        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elem.getId()==controlador.getElementos().get(elemento).getId()){
+                Empalme emp= (Empalme)controlador.getElementos().get(elemento);
+                System.out.println(emp.getTipo()+"\t"+emp.getLongitudOnda());
+                if(emp.getTipo()==0){
+                    empalmeControl.rbtnfusion.setSelected(true);
+                }else if(emp.getTipo()==1){
+                    empalmeControl.rbtnMecanico.setSelected(true);
+                }
+                if(emp.getLongitudOnda()==1310){
+                    empalmeControl.rbtn1310.setSelected(true);
+                }else if(emp.getLongitudOnda()==1550){
+                    empalmeControl.rbtn1550.setSelected(true);
+                }
+                empalmeControl.txtPerdida.setText(String.valueOf(emp.getPerdidaInsercion()));
+            }
+        }
     }
     
 }
