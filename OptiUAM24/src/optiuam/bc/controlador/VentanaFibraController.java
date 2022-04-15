@@ -1,9 +1,6 @@
 
 package optiuam.bc.controlador;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -205,7 +202,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 aux.setModo(modo);
                 aux.setLongitud_km(longitudKm);
                 aux.setTipo(tipo);
-                aux.setIdFibra(idFibra);
+                //aux.setIdFibra(idFibra);
                 //f.setNombre("fibraEnviada");
                 aux.setConectado(false);
                 //System.out.println(f.toString());

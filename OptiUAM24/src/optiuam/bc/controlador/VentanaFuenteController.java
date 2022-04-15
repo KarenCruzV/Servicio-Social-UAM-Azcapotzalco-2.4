@@ -1,16 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package optiuam.bc.controlador;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,12 +29,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import optiuam.bc.modelo.ElementoGrafico;
-import optiuam.bc.modelo.Fibra;
 import optiuam.bc.modelo.Fuente;
-import optiuam.bc.vista.VentanaPrincipal;
 
 /**
  * FXML Controller class
@@ -52,9 +41,13 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author karen
  */
 public class VentanaFuenteController extends ControladorGeneral implements Initializable {
-    static int idFuente=0;
+    
+    static int idFuente = 0;
     ControladorGeneral controlador;
-    Stage principal;
+    Stage stage;
+    ElementoGrafico elemG;
+    VentanaFuenteController fuenteControl;
+    
     @FXML
     RadioButton rbtn1310, rbtn1550, rbtnLaser, rbtnLed;
     
@@ -62,7 +55,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     TextField txtPotencia, txtAnchuraEspectro, txtVelocidad;
     
     @FXML
-    Button btnPulso, btnCrear, btnDesconectar, btnCancelar;
+    Button btnPulso, btnCrear, btnDesconectar, btnCancelar, btnModificar;
     
     @FXML
     Label lblConectarA;
@@ -152,49 +145,94 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        BufferedReader br = null;
-        try {
-            btnPulso.setVisible(false);
-            separator.setVisible(false);
-            btnDesconectar.setVisible(false);
-            lblConectarA.setVisible(false);
-            cboxConectarA.setVisible(false);
-            
-            /*----------------------------------------------------------------*/
-            
-            br = new BufferedReader(new FileReader("elementos.txt"));
-            String linea;
-            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
-            while ((linea = br.readLine()) != null){
-                if(!linea.contains("fuente")){
-                    if(linea.contains("conector")){
-                        cboxConectarA.getItems().add(linea);
-                        cboxConectarA.getSelectionModel().selectFirst();
-                    }
-                }
-                
-            } 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                br.close();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        btnPulso.setVisible(false);
+        separator.setVisible(false);
+        btnDesconectar.setVisible(false);
+        lblConectarA.setVisible(false);
+        cboxConectarA.setVisible(false);
+        btnModificar.setVisible(false);
     }    
     
     @FXML
     private void modificar(ActionEvent event){
-        btnPulso.setVisible(true);
-        separator.setVisible(true);
-        btnDesconectar.setVisible(true);
-        lblConectarA.setVisible(true);
-        cboxConectarA.setVisible(true);
+        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
+                Fuente aux = (Fuente) controlador.getElementos().get(elemento);
+                int longitudOnda=0, tipo=0, id = 0;
+                double potencia, anchura, velocidad;
+
+                if(rbtnLaser.isSelected()){
+                    tipo = 0;
+                }
+                else if(rbtnLed.isSelected()){
+                    tipo = 1;
+                }
+                else if(rbtn1310.isSelected()){
+                    longitudOnda=1310;
+                    //System.out.println(1310);
+                }else if(rbtn1550.isSelected()){
+                    longitudOnda=1550;
+                    //System.out.println(1550);
+                }
+
+                potencia = Double.parseDouble(txtPotencia.getText());
+                anchura = Double.parseDouble(txtAnchuraEspectro.getText());
+                velocidad = Double.parseDouble(txtVelocidad.getText());
+
+                if (txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+                    System.out.println("Valor de la potencia invalido");
+                }
+                else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+                    System.out.println("Valor de la anchura invalido");
+                }
+                else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+                    System.out.println("Valor de la velocidad invalido");
+                }
+                else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
+                   (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
+                    System.out.println("\nEl valor de la anchura debe ser max 1 nm");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("El valor de la anchura debe ser max 1 nm");
+                    alert.showAndWait();
+                }
+                else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
+                   (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
+                    System.out.println("\nEl valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("El valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+                    alert.showAndWait();
+                } 
+                else{
+                    aux.setAnchura(anchura);
+                    //aux.setIdFuente(idFuente);
+                    aux.setLongitudOnda(longitudOnda);
+                    aux.setNombre("fuente");
+                    aux.setPotencia(potencia);
+                    aux.setTipo(tipo);
+                    aux.setVelocidad(velocidad);
+                    aux.setConectado(false);
+                    //System.out.println(fuente);
+                    cerrarVentana(event);
+                    
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Éxito");
+                    alert.setHeaderText(null);
+                    alert.setContentText("\n¡Fuente modificada!");
+                    alert.showAndWait();
+
+                    System.out.println(aux.toString());
+                    for(int h=0; h<controlador.getElementos().size(); h++){
+                        System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                        System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+                    }
+                    break;
+                }
+            }
+        }
     }
     
     @FXML
@@ -217,7 +255,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
         this.controlador=controlador;
-        this.principal=stage;
+        this.stage=stage;
         this.Pane1=Pane1;
     }
 
@@ -237,7 +275,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         eventos(elem);
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
-                
+        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Fuente creada!");
+        alert.showAndWait();
     }
 
     private void eventos(ElementoGrafico elem) {
@@ -258,6 +301,38 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     System.out.println("Hola fuente"+elem.getId());
+                    try{
+                        Stage stage1 = new Stage();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaFuente.fxml"));
+                        Parent root = loader.load();
+                        //Se crea una instancia del controlador del conector
+                        VentanaFuenteController fuenteController = (VentanaFuenteController) loader.getController();
+                        fuenteController.init(controlador, stage, Pane1);
+                        /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
+                            con el que se esta trabajando ademas de que se manda el mismo controller para 
+                            iniciar con los valores del elemento mandado.
+                        */
+                        fuenteController.init2(elem,fuenteController);
+                        fuenteController.btnCrear.setVisible(false);
+                        fuenteController.btnPulso.setVisible(true);
+                        fuenteController.separator.setVisible(true);
+                        fuenteController.btnDesconectar.setVisible(true);
+                        fuenteController.lblConectarA.setVisible(true);
+                        fuenteController.cboxConectarA.setVisible(true);
+                        fuenteController.btnModificar.setVisible(true);
+                        fuenteController.init(controlador, this.stage, this.Pane1);
+                        Scene scene = new Scene(root);
+                        Image ico = new Image("images/acercaDe.png");
+                        stage1.getIcons().add(ico);
+                        stage1.setTitle("OptiUAM BC Fuente");
+                        stage1.initModality(Modality.APPLICATION_MODAL);
+                        stage1.setScene(scene);
+                        stage1.setResizable(false);
+                        stage1.showAndWait();
+                    }
+                    catch(IOException ex){
+                        Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     mostrarMenuChiquito(elem);
@@ -319,6 +394,30 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 contextMenu.getItems().add(menuItem2);
                 contextMenu.getItems().add(menuItem3);
                 dibujo.getDibujo().setContextMenu(contextMenu);
+    }
+        
+    private void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
+        this.elemG = elem;
+        this.fuenteControl=fuenteController;
+        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elem.getId()==controlador.getElementos().get(elemento).getId()){
+                Fuente fue = (Fuente)controlador.getElementos().get(elemento);
+                System.out.println(fue.getTipo()+"\t"+fue.getLongitudOnda());
+                if(fue.getTipo()==0){
+                    fuenteControl.rbtnLaser.setSelected(true);
+                }else if(fue.getTipo()==1){
+                    fuenteControl.rbtnLed.setSelected(true);
+                }
+                if(fue.getLongitudOnda()==1310){
+                    fuenteControl.rbtn1310.setSelected(true);
+                }else if(fue.getLongitudOnda()==1550){
+                    fuenteControl.rbtn1550.setSelected(true);
+                }
+                fuenteControl.txtAnchuraEspectro.setText(String.valueOf(fue.getAnchura()));
+                fuenteControl.txtPotencia.setText(String.valueOf(fue.getPotencia()));
+                fuenteControl.txtVelocidad.setText(String.valueOf(fue.getVelocidad()));
+            }
+        }
     }
     
 }

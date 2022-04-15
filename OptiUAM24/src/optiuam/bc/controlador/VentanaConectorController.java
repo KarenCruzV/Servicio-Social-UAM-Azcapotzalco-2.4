@@ -39,6 +39,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     Stage stage;
     ElementoGrafico elemG;
     VentanaConectorController conectorControl;
+    
     @FXML
     private Pane Pane1;
     @FXML
