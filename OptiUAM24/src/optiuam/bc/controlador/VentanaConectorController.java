@@ -39,6 +39,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     static int idConector=0;
     ControladorGeneral controlador;
     Stage stage;
+    ElementoGrafico elemxd;
+    VentanaConectorController conectorControl;
     @FXML
     private Pane Pane1;
     @FXML
@@ -53,6 +55,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         ComboBox cboxConectarA;
     @FXML
         AnchorPane ConectorVentana;
+    
     
     public void imprimir(ActionEvent event){
         int modo=0, longitudOnda=0, id = 0;
@@ -148,6 +151,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         Parent root = loader.load();
                         //Se crea una instancia del controlador del conector
                         VentanaConectorController conectorController = (VentanaConectorController) loader.getController();
+                        conectorController.init(controlador, stage, Pane1);
+                        conectorController.init2(elem,conectorController);
                         conectorController.btnCrear.setVisible(false);
                         conectorController.btnDesconectar.setVisible(true);
                         conectorController.lblConectarA.setVisible(true);
@@ -234,45 +239,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        BufferedReader br = null;
-        try {
-            btnDesconectar.setVisible(false);
-            lblConectarA.setVisible(false);
-            cboxConectarA.setVisible(false);
-            btnModificar.setVisible(false);
-            /*----------------------------------------------------------------*/
-            
-            br = new BufferedReader(new FileReader("elementos.txt"));
-            String linea;
-            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
-            while ((linea = br.readLine()) != null){
-                if(!linea.contains("conector")){
-                    if(linea.contains("fibra") || linea.contains("splitter") ||
-                            linea.contains("potencia") || linea.contains("espectro")){
-                        cboxConectarA.getItems().add(linea);
-                        cboxConectarA.getSelectionModel().selectFirst();
-                    }
-                }
-                
-            } 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                br.close();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+      
     }    
     
     
     @FXML
     private void modificar(ActionEvent event){
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elemxd.getId()==controlador.getElementos().get(elemento).getId()){
             Conector aux = (Conector) controlador.getElementos().get(elemento);
             int modo=0, longitudOnda=0, id = 0;
             double perdidaInsercion, perdidaMax =0.5;
@@ -307,7 +281,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
             else{
                 aux.setConectado(false);
-                aux.setIdConector(idConector);
+                //aux.setIdConector(idConector);
                 aux.setLongitudOnda(longitudOnda);
                 aux.setNombre("conector");
                 aux.setPerdidaInsercion(perdidaInsercion);
@@ -327,13 +301,36 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 }
                 break;
             }
-        }
+        }}
     }
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
+    }
+
+
+    private void init2(ElementoGrafico elem, VentanaConectorController conectorController) {
+        this.elemxd=elem;
+        this.conectorControl=conectorController;
+        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elem.getId()==controlador.getElementos().get(elemento).getId()){
+                Conector con= (Conector)controlador.getElementos().get(elemento);
+                System.out.println(con.getModo()+"\t"+con.getLongitudOnda());
+                if(con.getModo()==0){
+                    conectorControl.rbtnMono.setSelected(true);
+                }else if(con.getModo()==1){
+                    conectorControl.rbtnMulti.setSelected(true);
+                }
+                if(con.getLongitudOnda()==1310){
+                    conectorControl.rbtn1310.setSelected(true);
+                }else if(con.getLongitudOnda()==1550){
+                    conectorControl.rbtn1550.setSelected(true);
+                }
+                conectorControl.txtPerdida.setText(String.valueOf(con.getPerdidaInsercion()));
+            }
+        }
     }
     
 }

@@ -244,38 +244,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        BufferedReader br = null;
-        try {
-            btnDesconectar.setVisible(false);
-            lblConectarA.setVisible(false);
-            cboxConectarA.setVisible(false);
-            btnModificar.setVisible(false);
-            /*----------------------------------------------------------------*/
-            
-            br = new BufferedReader(new FileReader("elementos.txt"));
-            String linea;
-            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
-            while ((linea = br.readLine()) != null){
-                if(!linea.contains("empalme")){
-                    if(linea.contains("fibra")){
-                        cboxConectarA.getItems().add(linea);
-                        cboxConectarA.getSelectionModel().selectFirst();
-                    }
-                }
-                
-            } 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                br.close();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
     }    
     
     @FXML
@@ -314,7 +283,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             }
             else{
                 aux.setConectado(false);
-                aux.setIdEmpalme(idEmpalme);
+                //aux.setIdEmpalme(idEmpalme);
                 aux.setLongitudOnda(longitudOnda);
                 aux.setNombre("empalme");
                 aux.setPerdidaInsercion(perdidaInsercion);
