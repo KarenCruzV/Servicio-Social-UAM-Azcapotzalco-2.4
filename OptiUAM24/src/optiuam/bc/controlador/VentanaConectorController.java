@@ -33,10 +33,11 @@ import optiuam.bc.modelo.ElementoGrafico;
  * @author karen
  */
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
-    static int idConector=0;
+    
+    static int idConector = 0;
     ControladorGeneral controlador;
     Stage stage;
-    ElementoGrafico elemxd;
+    ElementoGrafico elemG;
     VentanaConectorController conectorControl;
     @FXML
     private Pane Pane1;
@@ -250,7 +251,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     @FXML
     private void modificar(ActionEvent event){
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemxd.getId()==controlador.getElementos().get(elemento).getId()){
+            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
             Conector aux = (Conector) controlador.getElementos().get(elemento);
             int modo=0, longitudOnda=0, id = 0;
             double perdidaInsercion, perdidaMax =0.5;
@@ -320,7 +321,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         OJO!!!! AUN NOS FALTA LO DE CONECTADO CON----
     */
     private void init2(ElementoGrafico elem, VentanaConectorController conectorController) {
-        this.elemxd=elem;
+        this.elemG=elem;
         this.conectorControl=conectorController;
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){

@@ -5,7 +5,7 @@ public class Fibra extends Componente {
     
     /*Attribute Declaration*/
     private int longitudOnda; // 1360 max 1260 min 1310 nm window | 1580 max 1480 min 1550 nm window
-    private int mode; // 0 monomodo | 1 multimodo
+    private int modo; // 0 monomodo | 1 multimodo
     private int tipo; // 0 smf28 | 1 mm50 | 2 otro
     private double longitud_km;// Fibra optic cable length
     private double dispersion;// smf28 1310 = 0 1550 = 18
@@ -23,7 +23,7 @@ public class Fibra extends Componente {
     public Fibra(String name,int id, String elementoConectado, boolean conectado, int wavelength, int mode, int type, double km_length, double attenuation, 
             double dispersion) {
         this.longitudOnda = wavelength;
-        this.mode = mode;
+        this.modo = mode;
         this.tipo = type;
         this.longitud_km = km_length;
         this.dispersion = dispersion;
@@ -52,12 +52,12 @@ public class Fibra extends Componente {
         this.longitudOnda = longitudOnda;
     }
 
-    public int getMode() {
-        return mode;
+    public int getModo() {
+        return modo;
     }
 
-    public void setMode(int mode) {
-        this.mode = mode;
+    public void setModo(int modo) {
+        this.modo = modo;
     }
 
     public int getTipo() {
@@ -97,7 +97,7 @@ public class Fibra extends Componente {
 
     @Override
     public String toString() {
-        return super.toString() +  "," + longitudOnda + "," + mode + "," 
+        return super.toString() +  "," + longitudOnda + "," + modo + "," 
                 + tipo + "," + longitud_km + "," + dispersion + ","+ atenuacion+","+idFibra;
     }
     

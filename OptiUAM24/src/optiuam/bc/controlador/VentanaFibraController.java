@@ -11,9 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
@@ -28,6 +32,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -39,10 +44,14 @@ import optiuam.bc.vista.VentanaPrincipal;
  * @author karen
  */
 public class VentanaFibraController extends VentanaPrincipal implements Initializable {
-    static int idFibra=0;
+    
+    static int idFibra = 0;
+    ElementoGrafico elemG;
+    VentanaFibraController fibraControl;
     ControladorGeneral controlador;
-    Stage principal;
+    Stage stage;
     private Fibra fibra;
+    
     @FXML
     private TextField txtAtenue, txtDisp, txtDistancia;
     
@@ -50,7 +59,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     private RadioButton rbtnMono, rbtnMulti, rbtn1310, rbtn1550, rbtnOtro, rbtn28, rbtn50;
     
     @FXML
-    public Button btnCrear, btnDesconectar;
+    public Button btnCrear, btnDesconectar, btnModificar;
     
     @FXML
     public Label lblConectarA;
@@ -70,41 +79,11 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        BufferedReader br = null;
-        try {
-            separator.setVisible(false);
-            btnDesconectar.setVisible(false);
-            lblConectarA.setVisible(false);
-            cboxConectarA.setVisible(false);
-            
-            /*----------------------------------------------------------------*/
-            
-            br = new BufferedReader(new FileReader("elementos.txt"));
-            String linea;
-            cboxConectarA.getItems().removeAll(cboxConectarA.getItems());
-            while ((linea = br.readLine()) != null){
-                if(!linea.contains("fibra")){
-                    if(linea.contains("conector")||linea.contains("empalme")){
-                        cboxConectarA.getItems().add(linea);
-                        cboxConectarA.getSelectionModel().selectFirst();
-                    }
-                }
-                
-            } 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(VentanaFibraController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VentanaFibraController.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                br.close();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaFibraController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
+        separator.setVisible(false);
+        btnDesconectar.setVisible(false);
+        lblConectarA.setVisible(false);
+        cboxConectarA.setVisible(false);
+        btnModificar.setVisible(false);
     }    
     
     @FXML
@@ -186,10 +165,70 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void modificar(ActionEvent event){
-        separator.setVisible(true);
-        btnDesconectar.setVisible(true);
-        lblConectarA.setVisible(true);
-        cboxConectarA.setVisible(true);
+        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
+                Fibra aux = (Fibra) controlador.getElementos().get(elemento);
+                int modo=0, longitudOnda=0, tipo=0, id = 0;
+                double longitudKm, atenue, dispersion;
+
+                if (modo == 1) // multimodo
+                {
+                    rbtnMulti.setSelected(true);
+                }
+
+                if (longitudOnda == 1550) // 1310 nm
+                {
+                    rbtn1550.setSelected(true);
+                }
+                if (tipo == 1) // mm50
+                {
+                    txtDisp.setEditable(false);
+                    txtAtenue.setEditable(false);
+                    rbtn1550.setDisable(true);
+                    rbtnMono.setDisable(true);
+                    rbtn50.setSelected(true);
+                }
+                if(tipo ==0){ // smf28
+                    txtDisp.setEditable(false);
+                    txtAtenue.setEditable(false);
+                    rbtnMulti.setDisable(true);
+                    rbtn28.setSelected(true);
+                }
+                if(tipo == 2){} //otro
+
+                longitudKm= Double.parseDouble(txtDistancia.getText());
+                atenue= Double.parseDouble(txtAtenue.getText());
+                dispersion= Double.parseDouble(txtDisp.getText());
+                aux.setAtenuacion(atenue);
+                aux.setDispersion(dispersion);
+                aux.setLongitudOnda(longitudOnda);
+                aux.setModo(modo);
+                aux.setLongitud_km(longitudKm);
+                aux.setTipo(tipo);
+                aux.setIdFibra(idFibra);
+                //f.setNombre("fibraEnviada");
+                aux.setConectado(false);
+                //System.out.println(f.toString());
+
+                //this.fibra=f;
+                //System.out.println(fibra.toString());
+
+                cerrarVentana(event);
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Éxito");
+                alert.setHeaderText(null);
+                alert.setContentText("\n¡Fibra modificada!");
+                alert.showAndWait();
+                
+                System.out.println(aux.toString());
+                for(int h=0; h<controlador.getElementos().size(); h++){
+                    System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                    System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+                }
+                break;
+            }
+        }
     }
     
     public void enviarDatos(ActionEvent event){
@@ -228,7 +267,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         f.setAtenuacion(atenue);
         f.setDispersion(dispersion);
         f.setLongitudOnda(longitudOnda);
-        f.setMode(modo);
+        f.setModo(modo);
         f.setLongitud_km(longitudKm);
         f.setTipo(tipo);
         f.setIdFibra(idFibra);
@@ -260,7 +299,14 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         eventos(elem);
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Fibra creada!");
+        alert.showAndWait();
     }
+    
     public void eventos(ElementoGrafico elem){
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
@@ -279,11 +325,38 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     System.out.println("Hola fibra");
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(elem.getId()==controlador.getElementos().get(elemento).getId()){
-                           
-                        }
+                    try{
+                        Stage stage1 = new Stage();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaFibra.fxml"));
+                        Parent root = loader.load();
+                        //Se crea una instancia del controlador del conector
+                        VentanaFibraController fibraController = (VentanaFibraController) loader.getController();
+                        fibraController.init(controlador, stage, Pane1);
+                        /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
+                            con el que se esta trabajando ademas de que se manda el mismo controller para 
+                            iniciar con los valores del elemento mandado.
+                        */
+                        fibraController.init2(elem,fibraController);
+                        fibraController.separator.setVisible(true);
+                        fibraController.btnCrear.setVisible(false);
+                        fibraController.btnDesconectar.setVisible(true);
+                        fibraController.lblConectarA.setVisible(true);
+                        fibraController.cboxConectarA.setVisible(true);
+                        fibraController.btnModificar.setVisible(true);
+                        fibraController.init(controlador, this.stage, this.Pane1);
+                        Scene scene = new Scene(root);
+                        Image ico = new Image("images/acercaDe.png");
+                        stage1.getIcons().add(ico);
+                        stage1.setTitle("OptiUAM BC Fibra");
+                        stage1.initModality(Modality.APPLICATION_MODAL);
+                        stage1.setScene(scene);
+                        stage1.setResizable(false);
+                        stage1.showAndWait();
                     }
+                    catch(IOException ex){
+                        Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     mostrarMenuChiquito(elem);
                 }
@@ -292,9 +365,10 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
         this.controlador=controlador;
-        this.principal=stage;
+        this.stage=stage;
         this.Pane1=Pane1;
     }
+    
     public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
                 ContextMenu contextMenu = new ContextMenu();
@@ -314,7 +388,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                             aux.setDispersion(aux1.getDispersion());
                             aux.setLongitudOnda(aux1.getLongitudOnda());
                             aux.setLongitud_km(aux1.getLongitud_km());
-                            aux.setMode(aux1.getMode());
+                            aux.setModo(aux1.getModo());
                             aux.setTipo(aux1.getTipo());
                             aux.setNombre("fibra");
                             aux.setIdFibra(idFibra);
@@ -366,6 +440,30 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 contextMenu.getItems().add(menuItem3);
                 
                 dibujo.getDibujo().setContextMenu(contextMenu);
+    }
+    
+    private void init2(ElementoGrafico elem, VentanaFibraController fibraController) {
+        this.elemG=elem;
+        this.fibraControl=fibraController;
+        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if(elem.getId()==controlador.getElementos().get(elemento).getId()){
+                Fibra fib= (Fibra)controlador.getElementos().get(elemento);
+                System.out.println(fib.getModo()+"\t"+fib.getLongitudOnda());
+                if(fib.getModo()==0){
+                    fibraControl.rbtnMono.setSelected(true);
+                }else if(fib.getModo()==1){
+                    fibraControl.rbtnMulti.setSelected(true);
+                }
+                if(fib.getLongitudOnda()==1310){
+                    fibraControl.rbtn1310.setSelected(true);
+                }else if(fib.getLongitudOnda()==1550){
+                    fibraControl.rbtn1550.setSelected(true);
+                }
+                fibraControl.txtAtenue.setText(String.valueOf(fib.getAtenuacion()));
+                fibraControl.txtDisp.setText(String.valueOf(fib.getDispersion()));
+                fibraControl.txtDistancia.setText(String.valueOf(fib.getLongitud_km()));
+            }
+        }
     }
     
 }

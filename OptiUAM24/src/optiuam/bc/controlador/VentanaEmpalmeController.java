@@ -40,10 +40,11 @@ import optiuam.bc.modelo.Empalme;
  * @author karen
  */
 public class VentanaEmpalmeController extends ControladorGeneral implements Initializable {
-    static int idEmpalme=0;
+    
+    static int idEmpalme = 0;
     ControladorGeneral controlador;
     Stage stage;
-    ElementoGrafico elemxd;
+    ElementoGrafico elemG;
     VentanaEmpalmeController empalmeControl;
     
     @FXML
@@ -255,7 +256,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     @FXML
     private void modificar(ActionEvent event){
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemxd.getId()==controlador.getElementos().get(elemento).getId()){
+            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
             Empalme aux = (Empalme) controlador.getElementos().get(elemento);
             int tipo=0, longitudOnda=0, id = 0;
             double perdidaInsercion, perdidaMax = 0.5;
@@ -320,7 +321,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     }
     
     private void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
-        this.elemxd=elem;
+        this.elemG=elem;
         this.empalmeControl=empalmeController;
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
