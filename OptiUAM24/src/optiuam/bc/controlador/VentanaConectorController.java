@@ -152,6 +152,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         //Se crea una instancia del controlador del conector
                         VentanaConectorController conectorController = (VentanaConectorController) loader.getController();
                         conectorController.init(controlador, stage, Pane1);
+                        /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
+                            con el que se esta trabajando ademas de que se manda el mismo controller para 
+                            iniciar con los valores del elemento mandado.
+                        */
                         conectorController.init2(elem,conectorController);
                         conectorController.btnCrear.setVisible(false);
                         conectorController.btnDesconectar.setVisible(true);
@@ -310,7 +314,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         this.Pane1=Pane1;
     }
 
-
+    /*
+        Funcion init2: 
+        recibe el elemento y el controlador a partir de estos puede mostrar los valores inciales del elemento 
+        OJO!!!! AUN NOS FALTA LO DE CONECTADO CON----
+    */
     private void init2(ElementoGrafico elem, VentanaConectorController conectorController) {
         this.elemxd=elem;
         this.conectorControl=conectorController;
