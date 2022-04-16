@@ -24,7 +24,8 @@ public class Fuente extends Componente {
     public Fuente() {
     }
 
-    public Fuente(String name,int id,String elementoConectado, boolean conectado,int type, double potency, double width, double velocity, int wavelength) {
+    public Fuente(String name,int id,String elementoConectado, boolean conectado,
+            int type, double potency, double width, double velocity, int wavelength) {
         this.tipo = type;
         this.potencia = potency;
         this.anchura = width;

@@ -30,12 +30,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import optiuam.bc.controlador.ControladorGeneral;
-import optiuam.bc.controlador.VentanaConectorController;
-import optiuam.bc.controlador.VentanaEmpalmeController;
-import optiuam.bc.controlador.VentanaFibraController;
-import optiuam.bc.controlador.VentanaFuenteController;
-import optiuam.bc.controlador.VentanaSplitterController;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -47,6 +41,8 @@ public class VentanaPrincipal implements Initializable {
     Stage stage;
     private ObservableList<Componente> componentes;
     static ControladorGeneral controlador= new ControladorGeneral();
+    static int idEspectro = 0;
+    static int idPotencia = 0;
     
     @FXML
         private ImageView viewFibra,viewFuente, viewConector,viewSplitter,viewEmpalme, viewPotencia,viewEspectro;
@@ -186,23 +182,23 @@ public class VentanaPrincipal implements Initializable {
         alert.setContentText("\n¡Medidor de potencia creado!");
         alert.showAndWait();
         
-        Componente componente = new Componente();
-        componente.setId(controlador.getContadorElemento());
-        controlador.getElementos().add(componente);
-        MedidorPotencia potencia = new MedidorPotencia("potencia", controlador.getContadorElemento()," ",false);
-        Label dibujo= new Label();
-        Label title= new Label();
-        dibujo.setGraphic(new ImageView(new Image("images/dibujo_potenciaR.png")));
-        title.setText("potencia" + controlador.getContadorElemento());
-        dibujo.setText("potencia" + "_"+ controlador.getContadorElemento());
-        dibujo.setContentDisplay(ContentDisplay.TOP);
-        title.setLayoutX(0);
-        title.setLayoutY(-20);
+        MedidorPotencia potencia = new MedidorPotencia();
+        potencia.setNombre("potencia");
+        potencia.setConectadoEntrada(false);
+        potencia.setConectadoSalida(false);
+        potencia.setIdPotencia(idPotencia);
+        idPotencia++;
+        potencia.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(potencia);
         
+        Label dibujo= new Label();
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_potenciaR.png")));
+        dibujo.setText("potencia" + "_"+ potencia.getIdPotencia());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+
         ElementoGrafico elem = new ElementoGrafico();
-        elem.setComponente(componente);
+        elem.setComponente(potencia);
         elem.setDibujo(dibujo);
-        elem.setTitle(title);
         elem.setId(controlador.getContadorElemento());
         controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
@@ -259,17 +255,22 @@ public class VentanaPrincipal implements Initializable {
         alert.setContentText("\n¡Analizador de espectros creado!");
         alert.showAndWait();
         
-        Componente componente= new Componente();
-        componente.setId(controlador.getContadorElemento());
-        controlador.getElementos().add(componente);
-        MedidorEspectro espectro = new MedidorEspectro("espectro", controlador.getContadorElemento()," ",false);
+        MedidorEspectro espectro = new MedidorEspectro();
+        espectro.setNombre("espectro");
+        espectro.setConectadoEntrada(false);
+        espectro.setConectadoSalida(false);
+        espectro.setIdEspectro(idEspectro);
+        idEspectro++;
+        espectro.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(espectro);
+        
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_espectroR.png")));
-        dibujo.setText("espectro" + "_"+ controlador.getContadorElemento());
+        dibujo.setText("espectro" + "_"+ espectro.getIdEspectro());
         dibujo.setContentDisplay(ContentDisplay.TOP);
 
         ElementoGrafico elem = new ElementoGrafico();
-        elem.setComponente(componente);
+        elem.setComponente(espectro);
         elem.setDibujo(dibujo);
         elem.setId(controlador.getContadorElemento());
         controlador.getDibujos().add(elem);
@@ -401,6 +402,5 @@ public class VentanaPrincipal implements Initializable {
     public Pane getPane1() {
         return Pane1;
     }
-    
 
 }

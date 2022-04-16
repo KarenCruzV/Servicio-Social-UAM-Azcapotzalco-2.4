@@ -64,7 +64,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private Pane Pane1;
-   
     
     public void imprimir(ActionEvent event){
         int tipo=0, longitudOnda=0, id = 0;
@@ -111,6 +110,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             cerrarVentana(event);
         }
     }
+    
     private void guardarEmpalme(Empalme empalme) {
         empalme.setId(controlador.getContadorElemento());
         controlador.getElementos().add(empalme);
@@ -152,7 +152,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         });
             elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    System.out.println("Hola empalme"+elem.getId());
+                    //System.out.println("Hola empalme"+elem.getId());
                     try{
                         Stage stage1 = new Stage(StageStyle.UTILITY);
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEmpalme.fxml"));
@@ -185,59 +185,59 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
         });
     }
-        public void mostrarMenuChiquito(ElementoGrafico dibujo){
+    
+    public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
-                ContextMenu contextMenu = new ContextMenu();
-                
-                // create menuitems
-                MenuItem menuItem1 = new MenuItem("-Duplicar");
-                MenuItem menuItem2 = new MenuItem("-Girar");
-                MenuItem menuItem3 = new MenuItem("-Eliminar");
-                
-                menuItem1.setOnAction(e ->{
-                    System.out.println("Duplicar");
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
-                            Empalme empalmeAux=new Empalme();
-                            Empalme aux1=(Empalme)controlador.getElementos().get(elemento);
-                            empalmeAux.setConectadoEntrada(false);
-                            empalmeAux.setConectadoSalida(false);
-                            empalmeAux.setIdEmpalme(idEmpalme);
-                            empalmeAux.setLongitudOnda(aux1.getLongitudOnda());
-                            empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
-                            empalmeAux.setTipo(aux1.getTipo());
-                            empalmeAux.setNombre("empalme");
-                            guardarEmpalme(empalmeAux);
-                            //System.out.println(empalmeAux);
-                            idEmpalme++;
-                            break;
-                        }
-                    }
-                });
-                
-                menuItem2.setOnAction(e ->{
-                    System.out.println("Girar");
-                    System.out.println("Girar fibra");
-                });
-                
-                menuItem3.setOnAction(e ->{
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            Empalme aux= (Empalme)controlador.getElementos().get(elemento);
-                            controlador.getDibujos().remove(dibujo);
-                            controlador.getElementos().remove(aux); 
-                        }
-                    }    
-                    dibujo.getDibujo().setVisible(false);
-                            
-                });
-                
-                // add menu items to menu
-                contextMenu.getItems().add(menuItem1);
-                contextMenu.getItems().add(menuItem2);
-                contextMenu.getItems().add(menuItem3);
-                dibujo.getDibujo().setContextMenu(contextMenu);
+        ContextMenu contextMenu = new ContextMenu();
+
+        // create menuitems
+        MenuItem menuItem1 = new MenuItem("-Duplicar");
+        MenuItem menuItem2 = new MenuItem("-Girar");
+        MenuItem menuItem3 = new MenuItem("-Eliminar");
+
+        menuItem1.setOnAction(e ->{
+            System.out.println("Duplicar");
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                    Empalme empalmeAux=new Empalme();
+                    Empalme aux1=(Empalme)controlador.getElementos().get(elemento);
+                    empalmeAux.setConectadoEntrada(false);
+                    empalmeAux.setConectadoSalida(false);
+                    empalmeAux.setIdEmpalme(idEmpalme);
+                    empalmeAux.setLongitudOnda(aux1.getLongitudOnda());
+                    empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
+                    empalmeAux.setTipo(aux1.getTipo());
+                    empalmeAux.setNombre("empalme");
+                    guardarEmpalme(empalmeAux);
+                    //System.out.println(empalmeAux);
+                    idEmpalme++;
+                    break;
+                }
+            }
+        });
+
+        menuItem2.setOnAction(e ->{
+            System.out.println("No gira el empalme");
+        });
+
+        menuItem3.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Empalme aux= (Empalme)controlador.getElementos().get(elemento);
+                    controlador.getDibujos().remove(dibujo);
+                    controlador.getElementos().remove(aux); 
+                }
+            }    
+            dibujo.getDibujo().setVisible(false);
+
+        });
+
+        // add menu items to menu
+        contextMenu.getItems().add(menuItem1);
+        contextMenu.getItems().add(menuItem2);
+        contextMenu.getItems().add(menuItem3);
+        dibujo.getDibujo().setContextMenu(contextMenu);
     }
         
     public void cerrarVentana(ActionEvent event){
@@ -277,16 +277,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 //System.out.println(1550);
             }
             if((empalmeControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
-                    aux.setConectadoEntrada(false);
-                    aux.setConectadoSalida(false);
-                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
-                }else{
-                    aux.setConectadoSalida(true);
-                    //System.out.println(fuenteControl.cboxConectarA.getItems().);
-                    aux.setElementoConectadoSalida(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                    System.out.println(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
-                }
+                aux.setConectadoEntrada(false);
+                aux.setConectadoSalida(false);
+            }else{
+                aux.setConectadoSalida(true);
+                aux.setElementoConectadoSalida(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                System.out.println(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+            }
             perdidaInsercion= Double.parseDouble(txtPerdida.getText());
 
             if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
@@ -334,6 +331,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     private void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
         this.elemG=elem;
         this.empalmeControl=empalmeController;
+        empalmeControl.cboxConectarA.getItems().add("Desconected");
+        if(elemG.getComponente().isConectadoSalida()==true){
+            empalmeControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
+        }else{
+            empalmeControl.cboxConectarA.getSelectionModel().select(0);
+        }
+        
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
                 Empalme emp= (Empalme)controlador.getElementos().get(elemento);
@@ -350,7 +354,18 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
                 empalmeControl.txtPerdida.setText(String.valueOf(emp.getPerdidaInsercion()));
             }
+            if("fibra".equals(controlador.getElementos().get(elemento).getNombre())){
+                empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+            }
         }
+    }
+    
+    @FXML
+    private void Desconectar(){
+        empalmeControl.cboxConectarA.getSelectionModel().select(0);
+        elemG.getComponente().setConectadoEntrada(false);
+        elemG.getComponente().setConectadoSalida(false);
+        elemG.getComponente().setElementoConectadoSalida("");
     }
     
 }

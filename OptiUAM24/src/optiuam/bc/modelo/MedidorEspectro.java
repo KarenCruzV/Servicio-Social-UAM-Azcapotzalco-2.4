@@ -6,8 +6,16 @@ import java.util.ArrayList;
 public class MedidorEspectro extends Componente {
     
     private char orientacion ='R';
+    private int idEspectro;
 
+    public int getIdEspectro() {
+        return idEspectro;
+    }
 
+    public void setIdEspectro(int idEspectro) {
+        this.idEspectro = idEspectro;
+    }
+    
     public MedidorEspectro(String name, int id,String elementoConectado, boolean conectado) {
         this.nombre = name;
         this.id = id;
@@ -326,7 +334,7 @@ public class MedidorEspectro extends Componente {
     
     @Override
     public String toString() {
-        return super.toString() + orientacion; 
+        return super.toString() + idEspectro/*orientacion*/; 
     }
     
 }

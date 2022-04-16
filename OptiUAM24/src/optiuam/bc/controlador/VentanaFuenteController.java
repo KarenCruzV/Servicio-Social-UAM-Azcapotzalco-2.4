@@ -32,7 +32,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fuente;
 
@@ -140,10 +139,9 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        Stage s = (Stage) source.getScene().getWindow();
+        s.close();
     }
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -154,6 +152,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         cboxConectarA.setVisible(false);
         btnModificar.setVisible(false);
     }    
+    
     @FXML
     private void Desconectar(){
         fuenteControl.cboxConectarA.getSelectionModel().select(0);
@@ -161,6 +160,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida("");
     }
+    
     @FXML
     private void modificar(ActionEvent event){
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -169,7 +169,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 int longitudOnda=0, tipo=0, id = 0;
                 double potencia, anchura, velocidad;
                 boolean cEntrada, cSalida;
-                
 
                 if(rbtnLaser.isSelected()){
                     tipo = 0;
@@ -264,12 +263,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             Parent root = FXMLLoader.load(getClass().getResource("VentanaPulso.fxml"));
             Scene scene = new Scene(root);
             Image ico = new Image("images/acercaDe.png");
-            Stage stage = new Stage(StageStyle.UTILITY);
-            stage.getIcons().add(ico);
-            stage.setTitle("OptiUAM BC Pulse Configuation");
-            stage.setScene(scene);
-            stage.showAndWait();
-            stage.setResizable(false);
+            Stage st = new Stage(StageStyle.UTILITY);
+            st.getIcons().add(ico);
+            st.setTitle("OptiUAM BC Pulse Configuation");
+            st.setScene(scene);
+            st.showAndWait();
+            st.setResizable(false);
         } catch (IOException ex) {
             Logger.getLogger(VentanaFuenteController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -322,7 +321,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         });
             elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    System.out.println("Hola fuente"+elem.getId());
+                    //System.out.println("Hola fuente"+elem.getId());
                     try{
                         Stage stage1 = new Stage();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaFuente.fxml"));
@@ -361,62 +360,63 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 }
         });
     }
-        public void mostrarMenuChiquito(ElementoGrafico dibujo){
+    
+    public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
-                ContextMenu contextMenu = new ContextMenu();
-                
-                // create menuitems
-                MenuItem menuItem1 = new MenuItem("-Duplicar");
-                MenuItem menuItem2 = new MenuItem("-Girar");
-                MenuItem menuItem3 = new MenuItem("-Eliminar");
-                
-                menuItem1.setOnAction(e ->{
-                    System.out.println("Duplicar");
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
-                            Fuente fuenteAux=new Fuente();
-                            Fuente fuenteAux1=(Fuente)controlador.getElementos().get(elemento);
-                            fuenteAux.setAnchura(fuenteAux1.getAnchura());
-                            fuenteAux.setConectadoEntrada(false);
-                            fuenteAux.setConectadoSalida(false);
-                            fuenteAux.setLongitudOnda(fuenteAux1.getLongitudOnda());
-                            fuenteAux.setPotencia(fuenteAux1.getPotencia());
-                            fuenteAux.setTipo(fuenteAux1.getTipo());
-                            fuenteAux.setNombre("fuente");
-                            fuenteAux.setPulso(fuenteAux1.getA0(),fuenteAux1.getT0(),fuenteAux1.getW0(),fuenteAux1.getC(),fuenteAux1.getM());
-                            fuenteAux.setVelocidad(fuenteAux1.getVelocidad());
-                            fuenteAux.setIdFuente(idFuente);
-                            guardarFuente(fuenteAux);
-                            System.out.println(fuenteAux);
-                            idFuente++;
-                            break;
-                        }
-                    }
-                });
-                
-                menuItem2.setOnAction(e ->{
-                    System.out.println("Girar");
-                    System.out.println("Girar fibra");
-                });
-                
-                menuItem3.setOnAction(e ->{
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            Fuente aux= (Fuente)controlador.getElementos().get(elemento);
-                            controlador.getDibujos().remove(dibujo);
-                            controlador.getElementos().remove(aux); 
-                        }
-                    }    
-                    dibujo.getDibujo().setVisible(false);
-                            
-                });
-                
-                // add menu items to menu
-                contextMenu.getItems().add(menuItem1);
-                contextMenu.getItems().add(menuItem2);
-                contextMenu.getItems().add(menuItem3);
-                dibujo.getDibujo().setContextMenu(contextMenu);
+        ContextMenu contextMenu = new ContextMenu();
+
+        // create menuitems
+        MenuItem menuItem1 = new MenuItem("-Duplicar");
+        MenuItem menuItem2 = new MenuItem("-Girar");
+        MenuItem menuItem3 = new MenuItem("-Eliminar");
+
+        menuItem1.setOnAction(e ->{
+            System.out.println("Duplicar");
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                    Fuente fuenteAux=new Fuente();
+                    Fuente fuenteAux1=(Fuente)controlador.getElementos().get(elemento);
+                    fuenteAux.setAnchura(fuenteAux1.getAnchura());
+                    fuenteAux.setConectadoEntrada(false);
+                    fuenteAux.setConectadoSalida(false);
+                    fuenteAux.setLongitudOnda(fuenteAux1.getLongitudOnda());
+                    fuenteAux.setPotencia(fuenteAux1.getPotencia());
+                    fuenteAux.setTipo(fuenteAux1.getTipo());
+                    fuenteAux.setNombre("fuente");
+                    fuenteAux.setPulso(fuenteAux1.getA0(),fuenteAux1.getT0(),fuenteAux1.getW0(),fuenteAux1.getC(),fuenteAux1.getM());
+                    fuenteAux.setVelocidad(fuenteAux1.getVelocidad());
+                    fuenteAux.setIdFuente(idFuente);
+                    guardarFuente(fuenteAux);
+                    System.out.println(fuenteAux);
+                    idFuente++;
+                    break;
+                }
+            }
+        });
+
+        menuItem2.setOnAction(e ->{
+            System.out.println("Girar");
+            System.out.println("Girar fuente");
+        });
+
+        menuItem3.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Fuente aux= (Fuente)controlador.getElementos().get(elemento);
+                    controlador.getDibujos().remove(dibujo);
+                    controlador.getElementos().remove(aux); 
+                }
+            }    
+            dibujo.getDibujo().setVisible(false);
+
+        });
+
+        // add menu items to menu
+        contextMenu.getItems().add(menuItem1);
+        contextMenu.getItems().add(menuItem2);
+        contextMenu.getItems().add(menuItem3);
+        dibujo.getDibujo().setContextMenu(contextMenu);
     }
         
     private void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
@@ -428,6 +428,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }else{
             fuenteControl.cboxConectarA.getSelectionModel().select(0);
         }
+        
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
            
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
@@ -447,9 +448,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 fuenteControl.txtPotencia.setText(String.valueOf(fue.getPotencia()));
                 fuenteControl.txtVelocidad.setText(String.valueOf(fue.getVelocidad()));
             }
-            if(controlador.getElementos().get(elemento).getNombre()=="conector"){
+            if("conector".equals(controlador.getElementos().get(elemento).getNombre())){
                 fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
-                
             }
         }
     }

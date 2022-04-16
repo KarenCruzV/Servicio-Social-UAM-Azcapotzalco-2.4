@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package optiuam.bc.controlador;
 
 import java.util.LinkedList;
@@ -31,8 +27,6 @@ public class ControladorGeneral {
         contadorElemento=0;
     }
     
-    
-    
     public ControladorGeneral setControlador(){
         return this;
     }
@@ -45,41 +39,6 @@ public class ControladorGeneral {
         this.elementos = elementos;
     }
     
-    public void listaFibra(){
-        System.out.println("\nLista de fibras creadas: ");
-        for(int i = 0; i < elementos.size(); i++){
-            System.out.println(elementos.get(i).toString());
-        }
-    }
-    
-    public void listaConector(Conector conector){
-        System.out.println("\nLista de conectores creados: ");
-        for(int i = 0; i < getElementos().size(); i++){
-            System.out.println(getElementos().get(i));
-        }
-    }
-    
-    public void listaEmpalme(Empalme empalme){
-        System.out.println("\nLista de empalmes creados: ");
-        for(int i = 0; i < getElementos().size(); i++){
-            System.out.println(getElementos().get(i));
-        }
-    }
-    
-    public void listaFuente(Fuente fuente){
-        System.out.println("\nLista de fuentes creadas: ");
-        for(int i = 0; i < getElementos().size(); i++){
-            System.out.println(getElementos().get(i));
-        }
-    }
-    
-    public void listaSplitter(Splitter splitter){
-        System.out.println("\nLista de fuentes creadas: ");
-        for(int i = 0; i < getElementos().size(); i++){
-            System.out.println(getElementos().get(i));
-        }
-    }
-
     public LinkedList<ElementoGrafico> getDibujos() {
         return dibujos;
     }
@@ -112,7 +71,9 @@ public class ControladorGeneral {
         this.manejadorElementos = manejadorElementos;
     }
 
-    public ControladorGeneral(LinkedList<Componente> elementos, LinkedList<ElementoGrafico> dibujos, int contadorElemento, VentanaPrincipal ventana_principal, ElementoGrafico manejadorElementos) {
+    public ControladorGeneral(LinkedList<Componente> elementos, 
+            LinkedList<ElementoGrafico> dibujos, int contadorElemento, 
+            VentanaPrincipal ventana_principal, ElementoGrafico manejadorElementos) {
         this.elementos = elementos;
         this.dibujos = dibujos;
         this.contadorElemento = contadorElemento;

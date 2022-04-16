@@ -6,6 +6,15 @@ import java.util.ArrayList;
 public class MedidorPotencia extends Componente {
     
     private Double sensibilidad = 0.0;
+    private int idPotencia;
+
+    public int getIdPotencia() {
+        return idPotencia;
+    }
+
+    public void setIdPotencia(int idPotencia) {
+        this.idPotencia = idPotencia;
+    }
     
     public MedidorPotencia(String name, int id,String elementoConectado, boolean conectado) {
         this.nombre = name;
@@ -140,7 +149,7 @@ public class MedidorPotencia extends Componente {
     
     @Override
     public String toString() {
-        return super.toString()+","+sensibilidad;
+        return super.toString()+","+idPotencia/*sensibilidad*/;
     }
 
     
