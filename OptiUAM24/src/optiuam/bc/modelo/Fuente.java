@@ -9,6 +9,24 @@ public class Fuente extends Componente {
     private double anchura;
     private double velocidad;
     private int longitudOnda; // 1360 max 1260 min 1310 nm window | 1580 max 1480 min 1550 nm window
+    private double posX; 
+    private double posY;
+
+    public double getPosX() {
+        return posX;
+    }
+
+    public void setPosX(double posX) {
+        this.posX = posX;
+    }
+
+    public double getPosY() {
+        return posY;
+    }
+
+    public void setPosY(double posY) {
+        this.posY = posY;
+    }
     
     //for the pulse 
     private float C = 0; //chirp

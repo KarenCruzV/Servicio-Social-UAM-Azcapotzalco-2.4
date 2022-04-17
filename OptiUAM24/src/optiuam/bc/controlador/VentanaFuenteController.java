@@ -29,6 +29,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -47,6 +49,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     Stage stage;
     ElementoGrafico elemG;
     VentanaFuenteController fuenteControl;
+    static Line linea;
+    static double posX, posY;
     
     @FXML
     RadioButton rbtn1310, rbtn1550, rbtnLaser, rbtnLed;
@@ -68,7 +72,33 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     @FXML
     private Pane Pane1;
+
+    public static Line getLinea() {
+        return linea;
+    }
+
+    public static void setLinea(Line linea) {
+        VentanaFuenteController.linea = linea;
+    }
+
+    public static double getPosX() {
+        return posX;
+    }
+
+    public static void setPosX(double posX) {
+        VentanaFuenteController.posX = posX;
+    }
+
+    public static double getPosY() {
+        return posY;
+    }
+
+    public static void setPosY(double posY) {
+        VentanaFuenteController.posY = posY;
+    }
+
     
+
     public void imprimir(ActionEvent event){
         int longitudOnda=0, tipo=0, id = 0;
         double potencia, anchura, velocidad;
@@ -159,6 +189,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida("");
+        getLinea().setVisible(false);
     }
     
     @FXML
@@ -191,6 +222,25 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
                 }else{
                     aux.setConectadoSalida(true);
+                    double conectorX = VentanaConectorController.getPosX();
+                    double conectorY = VentanaConectorController.getPosY();
+                    System.out.println("Coordenada del conector: " + conectorX + ","+conectorY);
+                    System.out.println("Coordenada de la fuente: " + getPosX() +", "+getPosY());
+                    //tambien lo intente asi:
+                    //linea = new Line(getPosX(), getPosY(), conectorX, conectorY);
+                    //                  X inicial, Y inicial, X final, Y final
+                    //Si pones numeros cualquiera, si aparece una linea
+                    //Por ejemplo: linea = new Line(200.0, 400.0, 500.0, 300.0);
+                    linea = new Line();
+                    linea.setStartX(getPosX());
+                    linea.setStartY(getPosY());
+                    linea.setEndX(conectorX);
+                    linea.setEndY(conectorY);
+                    linea.setStroke(Color.RED);
+                    setLinea(linea);
+                    System.out.println("Se dibujo una linea");
+                    //linea.setVisible(true);
+                    Pane1.getChildren().add(getLinea());
                     //System.out.println(fuenteControl.cboxConectarA.getItems().);
                     aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
                     System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
@@ -283,11 +333,18 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     private void guardarFuente(Fuente fuente) {
         fuente.setId(controlador.getContadorElemento());
         controlador.getElementos().add(fuente);
-        
+        Label dibujo= new Label();
         ElementoGrafico elem= new ElementoGrafico();
+        
+        fuente.setPosX(dibujo.getLayoutX());
+        fuente.setPosY(dibujo.getLayoutY());
+        setPosX(fuente.getPosX());
+        setPosY(fuente.getPosY());
+        System.out.println("Coordenada inicial: "+getPosX()+", "+getPosY());
+        
         elem.setComponente(fuente);
         elem.setId(controlador.getContadorElemento());
-        Label dibujo= new Label();
+        
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
         dibujo.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
         dibujo.setContentDisplay(ContentDisplay.TOP);
@@ -310,6 +367,9 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    setPosX(event.getX());
+                    setPosY(event.getY());
+                    System.out.println("Coordenadas fuente: " + getPosX()+" ,"+getPosY());
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {

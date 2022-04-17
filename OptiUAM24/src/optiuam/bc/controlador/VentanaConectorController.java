@@ -21,6 +21,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -38,6 +39,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     Stage stage=null;
     ElementoGrafico elemG=null;
     VentanaConectorController conectorControl=null;
+    static Line linea;
+    static double posX, posY;
     
     @FXML
     private Pane Pane1;
@@ -53,6 +56,30 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         ComboBox cboxConectarA;
     @FXML
         AnchorPane ConectorVentana;
+
+    public static Line getLinea() {
+        return linea;
+    }
+
+    public static void setLinea(Line linea) {
+        VentanaConectorController.linea = linea;
+    }
+
+    public static double getPosX() {
+        return posX;
+    }
+
+    public static void setPosX(double posX) {
+        VentanaConectorController.posX = posX;
+    }
+
+    public static double getPosY() {
+        return posY;
+    }
+
+    public static void setPosY(double posY) {
+        VentanaConectorController.posY = posY;
+    }
 
     public void imprimir(ActionEvent event){
         int modo=0, longitudOnda=0, id = 0;
@@ -132,6 +159,9 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    setPosX(event.getX());
+                    setPosY(event.getY());
+                    System.out.println("Coordenadas Conector: " + getPosX()+" ,"+getPosY());
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
@@ -378,6 +408,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     "espectro".equals(controlador.getElementos().get(elemento).getNombre())){
                 conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
             }
+            
         }
     }
     
