@@ -1,4 +1,4 @@
-
+    
 package optiuam.bc.controlador;
 
 import java.io.IOException;
@@ -257,9 +257,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private void modificar(ActionEvent event){
-        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
-            Empalme aux = (Empalme) controlador.getElementos().get(elemento);
+            Empalme aux = (Empalme) elemG.getComponente();
             int tipo=0, longitudOnda=0, id = 0;
             double perdidaInsercion, perdidaMax = 0.5;
             if(rbtnMecanico.isSelected()){
@@ -281,7 +279,12 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 aux.setConectadoSalida(false);
             }else{
                 aux.setConectadoSalida(true);
-                aux.setElementoConectadoSalida(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                        if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
+                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                            aux.setElementoConectadoSalida(poyo);
+                        }
+                    }
                 System.out.println(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
             }
             perdidaInsercion= Double.parseDouble(txtPerdida.getText());
@@ -316,10 +319,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                     System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
                 }
-                break;
             }
-            }
-        }
+            
     }
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
@@ -365,7 +366,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         empalmeControl.cboxConectarA.getSelectionModel().select(0);
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().setElementoConectadoSalida(null);
     }
     
 }

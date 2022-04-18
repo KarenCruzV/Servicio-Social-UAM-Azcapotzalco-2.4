@@ -21,8 +21,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import static optiuam.bc.controlador.VentanaFuenteController.getLinea;
+import static optiuam.bc.controlador.VentanaFuenteController.setLinea;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
 
@@ -159,9 +162,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                    setPosX(event.getX());
-                    setPosY(event.getY());
-                    System.out.println("Coordenadas Conector: " + getPosX()+" ,"+getPosY());
+                    
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
@@ -281,14 +282,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         conectorControl.cboxConectarA.getSelectionModel().select(0);
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().setElementoConectadoSalida(null);
     }
     
     @FXML
     private void modificar(ActionEvent event){
-        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
-            Conector aux = (Conector) controlador.getElementos().get(elemento);
+            Conector aux = (Conector) elemG.getComponente();
             int modo=0, longitudOnda=0, id = 0;
             double perdidaInsercion, perdidaMax =0.5;
             if(rbtnMono.isSelected()){
@@ -309,10 +308,15 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             if((conectorControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
                 aux.setConectadoEntrada(false);
                 aux.setConectadoSalida(false);
-                aux.setElementoConectadoSalida("");
+                aux.setElementoConectadoSalida(null);
             }else{
                 aux.setConectadoSalida(true);
-                aux.setElementoConectadoSalida(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                        if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
+                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                            aux.setElementoConectadoSalida(poyo);
+                        }
+                    }
                 System.out.println(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
             }
             
@@ -350,9 +354,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                     System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
                 }
-                break;
             }
-        }}
+        
     }
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
@@ -410,6 +413,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
             
         }
+    }
+    private Line dibujarLinea(ElementoGrafico elemG) {
+                    this.linea = new Line();
+                    linea.setStartX(elemG.getDibujo().getLayoutX());
+                    linea.setStartY(elemG.getDibujo().getLayoutY()+4);
+                    linea.setEndX(elemG.getComponente().getElementoConectadoEntrada().getDibujo().getLayoutX());
+                    linea.setEndY(elemG.getComponente().getElementoConectadoEntrada().getDibujo().getLayoutY());
+                    linea.setStroke(Color.GREY);
+                    linea.setStrokeWidth(2);
+                    setLinea(linea);
+                    //System.out.println("Se dibujo una linea");
+                    linea.setVisible(true);
+                    Pane1.getChildren().add(getLinea());
+            return linea;        
+    }
+    private void borrarLinea(Line linea){
+        linea.setVisible(false);
     }
     
 }

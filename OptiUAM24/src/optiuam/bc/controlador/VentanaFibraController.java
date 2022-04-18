@@ -86,7 +86,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         fibraControl.cboxConectarA.getSelectionModel().select(0);
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().setElementoConectadoSalida(null);
     }
     
     @FXML
@@ -168,9 +168,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void modificar(ActionEvent event){
-        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
-                Fibra aux = (Fibra) controlador.getElementos().get(elemento);
+                Fibra aux = (Fibra) elemG.getComponente();
                 int modo=0, longitudOnda=0, tipo=0, id = 0;
                 double longitudKm, atenue, dispersion;
 
@@ -202,11 +200,16 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 if((fibraControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
                     aux.setConectadoEntrada(false);
                     aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida("");
+                    aux.setElementoConectadoSalida(null);
                 }
                 else{
                     aux.setConectadoSalida(true);
-                    aux.setElementoConectadoSalida(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                        if(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
+                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                            aux.setElementoConectadoSalida(poyo);
+                        }
+                    }
                     System.out.println(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
                 }
 
@@ -241,9 +244,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                     System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
                 }
-                break;
-            }
-        }
+
     }
     
     public void enviarDatos(ActionEvent event){

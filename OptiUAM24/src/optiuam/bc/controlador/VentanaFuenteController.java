@@ -184,19 +184,21 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     }    
     
     @FXML
-    private void Desconectar(){
+    private void Desconectar(ActionEvent event){
         fuenteControl.cboxConectarA.getSelectionModel().select(0);
-        elemG.getComponente().setConectadoEntrada(false);
+        //elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().setElementoConectadoSalida(null);
+        //elemG.getComponente().getElementoConectadoEntrada().getComponente().setConectadoEntrada(false);
+        //elemG.getComponente().getElementoConectadoEntrada().getComponente().setElementoConectadoEntrada(null);
         getLinea().setVisible(false);
+        cerrarVentana(event);
     }
     
     @FXML
     private void modificar(ActionEvent event){
-        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
-                Fuente aux = (Fuente) controlador.getElementos().get(elemento);
+        
+                Fuente aux = (Fuente) elemG.getComponente();
                 int longitudOnda=0, tipo=0, id = 0;
                 double potencia, anchura, velocidad;
                 boolean cEntrada, cSalida;
@@ -215,35 +217,29 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     //System.out.println(1550);
                 }
                 if((fuenteControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
-                    aux.setConectadoEntrada(false);
-                    aux.setConectadoSalida(false);
-                    
-                    aux.setElementoConectadoSalida("");
+                    Desconectar(event);
                     //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
                 }else{
+                    if(aux.isConectadoSalida()){
+                        //Desconectar();
+                    }
                     aux.setConectadoSalida(true);
-                    double conectorX = VentanaConectorController.getPosX();
-                    double conectorY = VentanaConectorController.getPosY();
-                    System.out.println("Coordenada del conector: " + conectorX + ","+conectorY);
-                    System.out.println("Coordenada de la fuente: " + getPosX() +", "+getPosY());
-                    //tambien lo intente asi:
-                    //linea = new Line(getPosX(), getPosY(), conectorX, conectorY);
-                    //                  X inicial, Y inicial, X final, Y final
-                    //Si pones numeros cualquiera, si aparece una linea
-                    //Por ejemplo: linea = new Line(200.0, 400.0, 500.0, 300.0);
-                    linea = new Line();
-                    linea.setStartX(getPosX());
-                    linea.setStartY(getPosY());
-                    linea.setEndX(conectorX);
-                    linea.setEndY(conectorY);
-                    linea.setStroke(Color.RED);
-                    setLinea(linea);
-                    System.out.println("Se dibujo una linea");
-                    //linea.setVisible(true);
-                    Pane1.getChildren().add(getLinea());
-                    //System.out.println(fuenteControl.cboxConectarA.getItems().);
-                    aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                    System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    
+                    for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                        if(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
+                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                            aux.setElementoConectadoSalida(poyo);
+                            aux.setConectadoSalida(true);
+                            //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
+                            controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
+                            //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
+                            //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                            //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
+                            break;
+                        }
+                    }
+                    dibujarLinea(elemG);
+                    //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
                     //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
                 }
                 potencia = Double.parseDouble(txtPotencia.getText());
@@ -300,11 +296,10 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                         System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                         System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
                     }
-                    break;
                 }
             }
-        }
-    }
+        
+    
     
     @FXML
     private void configurarPulso(ActionEvent event) throws IOException {
@@ -367,9 +362,14 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                    setPosX(event.getX());
-                    setPosY(event.getY());
-                    System.out.println("Coordenadas fuente: " + getPosX()+" ,"+getPosY());
+                    //setPosX(event.getX());
+                    //setPosY(event.getY());
+                    //System.out.println("Coordenadas fuente: " + getPosX()+" ,"+getPosY());
+                    //dibujarLinea(elem);
+                    if(elem.getComponente().isConectadoSalida()==true){
+                        borrarLinea(linea);
+                        dibujarLinea(elem);
+                    }
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
@@ -484,7 +484,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         this.fuenteControl=fuenteController;
         fuenteControl.cboxConectarA.getItems().add("Desconected");
         if(elemG.getComponente().isConectadoSalida()==true){
-            fuenteControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
+            fuenteControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida().getDibujo().getText());
         }else{
             fuenteControl.cboxConectarA.getSelectionModel().select(0);
         }
@@ -509,9 +509,29 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 fuenteControl.txtVelocidad.setText(String.valueOf(fue.getVelocidad()));
             }
             if("conector".equals(controlador.getElementos().get(elemento).getNombre())){
-                fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                    fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
             }
         }
+    }
+
+    private Line dibujarLinea(ElementoGrafico elemG) {
+                    linea = new Line();
+                    linea.setStartX(elemG.getDibujo().getLayoutX()+45);
+                    linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+                    linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
+                    linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
+                    linea.setStroke(Color.GREY);
+                    linea.setStrokeWidth(2);
+                    setLinea(linea);
+                    //System.out.println("Se dibujo una linea");
+                    linea.setVisible(true);
+                    Pane1.getChildren().add(getLinea());
+            return linea;        
+    }
+    private void borrarLinea(Line linea){
+        linea.setVisible(false);
     }
     
 }

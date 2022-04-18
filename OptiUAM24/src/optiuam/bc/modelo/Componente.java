@@ -9,9 +9,9 @@ public class Componente {
     protected String nombre;
     protected int id;
     //Attributes to know if it is conectado and what it is conectado to
-    protected String elementoConectadoEntrada = " ";
+    protected ElementoGrafico elementoConectadoEntrada=null;
     protected boolean conectadoEntrada;
-    protected String elementoConectadoSalida = " ";
+    protected ElementoGrafico elementoConectadoSalida=null ;
     protected boolean conectadoSalida;
     
     /*Constructor*/
@@ -45,11 +45,11 @@ public class Componente {
         this.id = id;
     }
 
-    public String getElementoConectadoEntrada() {
+    public ElementoGrafico getElementoConectadoEntrada() {
         return elementoConectadoEntrada;
     }
 
-    public void setElementoConectadoEntrada(String elementoConectadoEntrada) {
+    public void setElementoConectadoEntrada(ElementoGrafico elementoConectadoEntrada) {
         this.elementoConectadoEntrada = elementoConectadoEntrada;
     }
 
@@ -61,11 +61,11 @@ public class Componente {
         this.conectadoEntrada = conectadoEntrada;
     }
 
-    public String getElementoConectadoSalida() {
+    public ElementoGrafico getElementoConectadoSalida() {
         return elementoConectadoSalida;
     }
 
-    public void setElementoConectadoSalida(String elementoConectadoSalida) {
+    public void setElementoConectadoSalida(ElementoGrafico elementoConectadoSalida) {
         this.elementoConectadoSalida = elementoConectadoSalida;
     }
 
@@ -83,9 +83,9 @@ public class Componente {
     @Override
     public String toString() {
         return "Componente{" + "nombre=" + nombre + ", id=" + id + 
-                ", elementoConectadoEntrada=" + elementoConectadoEntrada + 
+                //"elementoEntrada= "+elementoConectadoEntrada+
                 ", conectadoEntrada=" + conectadoEntrada + 
-                ", elementoConectadoSalida=" + elementoConectadoSalida + 
+                //"elementoSalida= "+elementoConectadoSalida+
                 ", conectadoSalida=" + conectadoSalida + '}';
     }
     

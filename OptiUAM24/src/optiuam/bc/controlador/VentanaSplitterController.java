@@ -143,7 +143,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         splitterControl.cboxConectarA.getSelectionModel().select(0);
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().setElementoConectadoSalida(null);
     }
     
     public void imprimir(ActionEvent event){
@@ -326,9 +326,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     @FXML
     private void modificar(ActionEvent event){
-        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elemG.getId()==controlador.getElementos().get(elemento).getId()){
-                Splitter aux = (Splitter) controlador.getElementos().get(elemento);
+                Splitter aux = (Splitter) elemG.getComponente();
                 int salidas=0, longitudOnda=0, id=0;
                 double perdida;
 
@@ -339,11 +337,16 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 if((splitterControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
                     aux.setConectadoEntrada(false);
                     aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida("");
+                    aux.setElementoConectadoSalida(null);
                 }
                 else{
                     aux.setConectadoSalida(true);
-                    aux.setElementoConectadoSalida(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                        if(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
+                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                            aux.setElementoConectadoSalida(poyo);
+                        }
+                    }
                     System.out.println(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
                 }
                 //cboxNumeroSalidas.setSelectedIndex(salidas);
@@ -385,8 +388,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                         System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
                     }
                 }
-            }
-        }
+            
     }
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
