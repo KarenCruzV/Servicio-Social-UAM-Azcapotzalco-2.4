@@ -194,7 +194,7 @@
          <content>
             <Pane id="Pane1" fx:id="Pane1" prefHeight="2000.0" prefWidth="2500.0" style="-fx-background-color: White;">
                <children>
-                  <ImageView fx:id="panel" accessibleText="Area de Trabajo." fitHeight="2503.0" fitWidth="2503.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true" smooth="false">
+                  <ImageView fx:id="panel" accessibleText="Area de Trabajo." fitHeight="2503.0" fitWidth="2503.0" layoutX="-2.0" pickOnBounds="true" smooth="false">
                      <effect>
                         <InnerShadow color="#101c7c" />
                      </effect>
