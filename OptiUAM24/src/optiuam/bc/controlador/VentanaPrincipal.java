@@ -92,7 +92,7 @@ public class VentanaPrincipal implements Initializable {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFuente.fxml"));
         Parent root =loader.load();
         VentanaFuenteController fuenteControl=loader.getController();
-        fuenteControl.init(controlador,this.stage,this.Pane1);
+        fuenteControl.init(controlador,this.stage,this.Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
