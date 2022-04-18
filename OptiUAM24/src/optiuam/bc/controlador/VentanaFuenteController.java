@@ -22,6 +22,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -73,6 +74,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     @FXML
     private Pane Pane1;
 
+    @FXML
+    private ScrollPane scroll;
     public static Line getLinea() {
         return linea;
     }
@@ -319,10 +322,11 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
     }
 
-    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1,ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
+        this.scroll=scroll;
     }
 
     private void guardarFuente(Fuente fuente) {
@@ -359,18 +363,19 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    double x= Pane1.getLayoutX();
+                    double x=scroll.getHvalue();
                     double y= Pane1.getLayoutY();
+                    System.out.println(Pane1.getLayoutX()+" "+Pane1.getLayoutY()+" sc "+scroll.getHvalue());
                     if(elem.getDibujo().getLayoutX()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutX(x+event.getSceneX());
+                        elem.getDibujo().setLayoutX((scroll.getHvalue()*660)+event.getSceneX()-20);
                     }else{
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutX(0.0);
                     }
                     if(elem.getDibujo().getLayoutY()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY(y+event.getSceneY()-150);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*700)+event.getSceneY()-175);
                     }else{
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutY(0);
@@ -402,11 +407,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                         Parent root = loader.load();
                         //Se crea una instancia del controlador del conector
                         VentanaFuenteController fuenteController = (VentanaFuenteController) loader.getController();
-                        fuenteController.init(controlador, stage, Pane1);
+                        //fuenteController.init(controlador, stage, Pane1);
                         /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
                             con el que se esta trabajando ademas de que se manda el mismo controller para 
                             iniciar con los valores del elemento mandado.
                         */
+                        fuenteController.init(controlador, this.stage, this.Pane1,this.scroll);
                         fuenteController.init2(elem,fuenteController);
                         fuenteController.btnCrear.setVisible(false);
                         fuenteController.btnPulso.setVisible(true);
@@ -415,7 +421,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                         fuenteController.lblConectarA.setVisible(true);
                         fuenteController.cboxConectarA.setVisible(true);
                         fuenteController.btnModificar.setVisible(true);
-                        fuenteController.init(controlador, this.stage, this.Pane1);
+                        
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
@@ -496,6 +502,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     private void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
         this.elemG = elem;
         this.fuenteControl=fuenteController;
+        //this.scroll=scroll;
         fuenteControl.cboxConectarA.getItems().add("Desconected");
         if(elemG.getComponente().isConectadoSalida()==true){
             fuenteControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida().getDibujo().getText());
