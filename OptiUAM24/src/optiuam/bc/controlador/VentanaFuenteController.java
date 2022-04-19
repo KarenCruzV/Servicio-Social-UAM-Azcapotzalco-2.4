@@ -76,6 +76,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
 
     @FXML
     private ScrollPane scroll;
+    
     public static Line getLinea() {
         return linea;
     }
@@ -99,8 +100,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     public static void setPosY(double posY) {
         VentanaFuenteController.posY = posY;
     }
-
-    
 
     public void imprimir(ActionEvent event){
         int longitudOnda=0, tipo=0, id = 0;
@@ -200,109 +199,106 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     @FXML
     private void modificar(ActionEvent event){
-        
-                Fuente aux = (Fuente) elemG.getComponente();
-                int longitudOnda=0, tipo=0, id = 0;
-                double potencia, anchura, velocidad;
-                boolean cEntrada, cSalida;
+        Fuente aux = (Fuente) elemG.getComponente();
+        int longitudOnda=0, tipo=0, id = 0;
+        double potencia, anchura, velocidad;
+        boolean cEntrada, cSalida;
 
-                if(rbtnLaser.isSelected()){
-                    tipo = 0;
-                }
-                else if(rbtnLed.isSelected()){
-                    tipo = 1;
-                }
-                else if(rbtn1310.isSelected()){
-                    longitudOnda=1310;
-                    //System.out.println(1310);
-                }else if(rbtn1550.isSelected()){
-                    longitudOnda=1550;
-                    //System.out.println(1550);
-                }
-                if((fuenteControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
-                    Desconectar(event);
-                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
-                }else{
-                    if(aux.isConectadoSalida()){
-                        //Desconectar();
-                    }
+        if(rbtnLaser.isSelected()){
+            tipo = 0;
+        }
+        else if(rbtnLed.isSelected()){
+            tipo = 1;
+        }
+        else if(rbtn1310.isSelected()){
+            longitudOnda=1310;
+            //System.out.println(1310);
+        }else if(rbtn1550.isSelected()){
+            longitudOnda=1550;
+            //System.out.println(1550);
+        }
+        if((fuenteControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
+            Desconectar(event);
+            //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
+        }else{
+            if(aux.isConectadoSalida()){
+                //Desconectar();
+            }
+            aux.setConectadoSalida(true);
+
+            for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                if(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(poyo);
                     aux.setConectadoSalida(true);
-                    
-                    for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                        if(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
-                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                            aux.setElementoConectadoSalida(poyo);
-                            aux.setConectadoSalida(true);
-                            //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
-                            controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
-                            //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
-                            //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                            //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
-                            break;
-                        }
-                    }
-                    dibujarLinea(elemG);
+                    //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
+                    controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
+                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
                     //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                    //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
-                }
-                potencia = Double.parseDouble(txtPotencia.getText());
-                anchura = Double.parseDouble(txtAnchuraEspectro.getText());
-                velocidad = Double.parseDouble(txtVelocidad.getText());
-                    
-                if (txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-                    System.out.println("Valor de la potencia invalido");
-                }
-                else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-                    System.out.println("Valor de la anchura invalido");
-                }
-                else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-                    System.out.println("Valor de la velocidad invalido");
-                }
-                else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
-                   (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
-                    System.out.println("\nEl valor de la anchura debe ser max 1 nm");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("El valor de la anchura debe ser max 1 nm");
-                    alert.showAndWait();
-                }
-                else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
-                   (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
-                    System.out.println("\nEl valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("El valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
-                    alert.showAndWait();
-                } 
-                else{
-                    aux.setAnchura(anchura);
-                    //aux.setIdFuente(idFuente);
-                    aux.setLongitudOnda(longitudOnda);
-                    aux.setNombre("fuente");
-                    aux.setPotencia(potencia);
-                    aux.setTipo(tipo);
-                    aux.setVelocidad(velocidad);
-                    
-                    //System.out.println(fuente);
-                    cerrarVentana(event);
-                    
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Éxito");
-                    alert.setHeaderText(null);
-                    alert.setContentText("\n¡Fuente modificada!");
-                    alert.showAndWait();
-
-                    System.out.println(aux.toString());
-                    for(int h=0; h<controlador.getElementos().size(); h++){
-                        System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-                        System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
-                    }
+                    //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
+                    break;
                 }
             }
-        
-    
+            dibujarLinea(elemG);
+            //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+            //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
+        }
+        potencia = Double.parseDouble(txtPotencia.getText());
+        anchura = Double.parseDouble(txtAnchuraEspectro.getText());
+        velocidad = Double.parseDouble(txtVelocidad.getText());
+
+        if (txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Valor de la potencia invalido");
+        }
+        else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Valor de la anchura invalido");
+        }
+        else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Valor de la velocidad invalido");
+        }
+        else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
+           (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
+            System.out.println("\nEl valor de la anchura debe ser max 1 nm");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("El valor de la anchura debe ser max 1 nm");
+            alert.showAndWait();
+        }
+        else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
+           (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
+            System.out.println("\nEl valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("El valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+            alert.showAndWait();
+        } 
+        else{
+            aux.setAnchura(anchura);
+            //aux.setIdFuente(idFuente);
+            aux.setLongitudOnda(longitudOnda);
+            aux.setNombre("fuente");
+            aux.setPotencia(potencia);
+            aux.setTipo(tipo);
+            aux.setVelocidad(velocidad);
+
+            //System.out.println(fuente);
+            cerrarVentana(event);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Éxito");
+            alert.setHeaderText(null);
+            alert.setContentText("\n¡Fuente modificada!");
+            alert.showAndWait();
+
+            System.out.println(aux.toString());
+            for(int h=0; h<controlador.getElementos().size(); h++){
+                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+            }
+        }
+    }
     
     @FXML
     private void configurarPulso(ActionEvent event) throws IOException {
@@ -488,6 +484,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     controlador.getElementos().remove(aux); 
                 }
             }    
+            borrarLinea(linea);
             dibujo.getDibujo().setVisible(false);
 
         });
@@ -538,19 +535,20 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     }
 
     private Line dibujarLinea(ElementoGrafico elemG) {
-                    linea = new Line();
-                    linea.setStartX(elemG.getDibujo().getLayoutX()+45);
-                    linea.setStartY(elemG.getDibujo().getLayoutY()+7);
-                    linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
-                    linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
-                    linea.setStroke(Color.GREY);
-                    linea.setStrokeWidth(2);
-                    setLinea(linea);
-                    //System.out.println("Se dibujo una linea");
-                    linea.setVisible(true);
-                    Pane1.getChildren().add(getLinea());
-            return linea;        
+        linea = new Line();
+        linea.setStartX(elemG.getDibujo().getLayoutX()+45);
+        linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+        linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
+        linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
+        linea.setStroke(Color.GREY);
+        linea.setStrokeWidth(2);
+        setLinea(linea);
+        //System.out.println("Se dibujo una linea");
+        linea.setVisible(true);
+        Pane1.getChildren().add(getLinea());
+        return linea;        
     }
+    
     private void borrarLinea(Line linea){
         linea.setVisible(false);
     }

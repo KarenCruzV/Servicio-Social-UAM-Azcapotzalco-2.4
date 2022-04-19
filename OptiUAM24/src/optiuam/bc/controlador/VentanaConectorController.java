@@ -24,8 +24,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import static optiuam.bc.controlador.VentanaFuenteController.getLinea;
-import static optiuam.bc.controlador.VentanaFuenteController.setLinea;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
 
@@ -135,11 +133,17 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     private void guardarConector(Conector conector) {
         conector.setId(controlador.getContadorElemento());
         controlador.getElementos().add(conector);
-        
+        Label dibujo= new Label();
         ElementoGrafico elem= new ElementoGrafico();
+        
+        conector.setPosX(dibujo.getLayoutX());
+        conector.setPosY(dibujo.getLayoutY());
+        setPosX(conector.getPosX());
+        setPosY(conector.getPosY());
+        
         elem.setComponente(conector);
         elem.setId(controlador.getContadorElemento());
-        Label dibujo= new Label();
+        
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
         dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
         dibujo.setContentDisplay(ContentDisplay.TOP);
@@ -162,6 +166,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    
+                    if(elem.getComponente().isConectadoSalida()==true){
+                        borrarLinea(linea);
+                        dibujarLinea(elem);
+                    }
                     
                 }
         });
@@ -251,6 +260,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     controlador.getElementos().remove(aux); 
                 }
             }    
+            borrarLinea(linea);
             dibujo.getDibujo().setVisible(false);
 
         });
@@ -283,78 +293,88 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida(null);
+        getLinea().setVisible(false);
+        cerrarVentana(event);
     }
     
     @FXML
     private void modificar(ActionEvent event){
-            Conector aux = (Conector) elemG.getComponente();
-            int modo=0, longitudOnda=0, id = 0;
-            double perdidaInsercion, perdidaMax =0.5;
-            if(rbtnMono.isSelected()){
-                modo=0;
-                //System.out.println("Tipo Mono");
-            }else if(rbtnMulti.isSelected()){
-                perdidaMax=1.0;
-                modo=1;
-                //System.out.println("Tipo Multi");
-            }   
-            if(rbtn1310.isSelected()){
-                longitudOnda=1310;
-                //System.out.println(1310);
-            }else if(rbtn1550.isSelected()){
-                longitudOnda=1550;
-                //System.out.println(1550);
-            }
-            if((conectorControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
-                aux.setConectadoEntrada(false);
-                aux.setConectadoSalida(false);
-                aux.setElementoConectadoSalida(null);
-            }else{
-                aux.setConectadoSalida(true);
-                for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                        if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
-                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                            aux.setElementoConectadoSalida(poyo);
-                        }
-                    }
-                System.out.println(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-            }
-            
-            perdidaInsercion= Double.parseDouble(txtPerdida.getText());
+        Conector aux = (Conector) elemG.getComponente();
+        int modo=0, longitudOnda=0, id = 0;
+        double perdidaInsercion, perdidaMax =0.5;
+        if(rbtnMono.isSelected()){
+            modo=0;
+            //System.out.println("Tipo Mono");
+        }else if(rbtnMulti.isSelected()){
+            perdidaMax=1.0;
+            modo=1;
+            //System.out.println("Tipo Multi");
+        }   
+        if(rbtn1310.isSelected()){
+            longitudOnda=1310;
+            //System.out.println(1310);
+        }else if(rbtn1550.isSelected()){
+            longitudOnda=1550;
+            //System.out.println(1550);
+        }
+        if((conectorControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
+            Desconectar(event);
+        }else{
+            if(aux.isConectadoSalida()){}
+            aux.setConectadoSalida(true);
 
-            if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-                System.out.println("\nValor de la pérdida invalido");
-            }
-            else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-                System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
-                alert.showAndWait();
-            }
-            else{
-                //aux.setConectadoEntrada(false);
-                //aux.setConectadoSalida(false);
-                //aux.setIdConector(idConector);
-                aux.setLongitudOnda(longitudOnda);
-                aux.setNombre("conector");
-                aux.setPerdidaInsercion(perdidaInsercion);
-                aux.setModo(modo);
-                cerrarVentana(event);
-                
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Éxito");
-                alert.setHeaderText(null);
-                alert.setContentText("\n¡Conector modificado!");
-                alert.showAndWait();
-                
-                System.out.println(aux.toString());
-                for(int h=0; h<controlador.getElementos().size(); h++){
-                    System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-                    System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+            for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(poyo);
+                    aux.setConectadoSalida(true);
+                    //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
+                    controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
+                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
+                    //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
+                    break;
                 }
             }
+            dibujarLinea(elemG);
+            //System.out.println(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+        }
+
+        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
+
+        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("\nValor de la pérdida invalido");
+        }
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+            System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            alert.showAndWait();
+        }
+        else{
+            //aux.setConectadoEntrada(false);
+            //aux.setConectadoSalida(false);
+            //aux.setIdConector(idConector);
+            aux.setLongitudOnda(longitudOnda);
+            aux.setNombre("conector");
+            aux.setPerdidaInsercion(perdidaInsercion);
+            aux.setModo(modo);
+            cerrarVentana(event);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Éxito");
+            alert.setHeaderText(null);
+            alert.setContentText("\n¡Conector modificado!");
+            alert.showAndWait();
+
+            System.out.println(aux.toString());
+            for(int h=0; h<controlador.getElementos().size(); h++){
+                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+            }
+        }
         
     }
 
@@ -383,7 +403,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         conectorControl.cboxConectarA.getItems().add("Desconected");
         
         if(elemG.getComponente().isConectadoSalida()==true){
-            conectorControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
+            conectorControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida().getDibujo().getText());
         }else{
             conectorControl.cboxConectarA.getSelectionModel().select(0);
         }
@@ -414,20 +434,22 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             
         }
     }
+    
     private Line dibujarLinea(ElementoGrafico elemG) {
-                    this.linea = new Line();
-                    linea.setStartX(elemG.getDibujo().getLayoutX());
-                    linea.setStartY(elemG.getDibujo().getLayoutY()+4);
-                    linea.setEndX(elemG.getComponente().getElementoConectadoEntrada().getDibujo().getLayoutX());
-                    linea.setEndY(elemG.getComponente().getElementoConectadoEntrada().getDibujo().getLayoutY());
-                    linea.setStroke(Color.GREY);
-                    linea.setStrokeWidth(2);
-                    setLinea(linea);
-                    //System.out.println("Se dibujo una linea");
-                    linea.setVisible(true);
-                    Pane1.getChildren().add(getLinea());
-            return linea;        
+        linea = new Line();
+        linea.setStartX(elemG.getDibujo().getLayoutX()+45);
+        linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+        linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
+        linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
+        linea.setStroke(Color.GREY);
+        linea.setStrokeWidth(2);
+        setLinea(linea);
+        //System.out.println("Se dibujo una linea");
+        linea.setVisible(true);
+        Pane1.getChildren().add(getLinea());
+        return linea;       
     }
+    
     private void borrarLinea(Line linea){
         linea.setVisible(false);
     }

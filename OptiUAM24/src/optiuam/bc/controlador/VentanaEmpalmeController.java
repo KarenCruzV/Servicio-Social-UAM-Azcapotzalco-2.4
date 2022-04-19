@@ -28,6 +28,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -46,6 +48,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     Stage stage;
     ElementoGrafico elemG;
     VentanaEmpalmeController empalmeControl;
+    static Line linea;
+    static double posX, posY;
     
     @FXML
     RadioButton rbtn1310, rbtn1550, rbtnfusion, rbtnMecanico;
@@ -64,6 +68,30 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private Pane Pane1;
+
+    public static Line getLinea() {
+        return linea;
+    }
+
+    public static void setLinea(Line linea) {
+        VentanaEmpalmeController.linea = linea;
+    }
+
+    public static double getPosX() {
+        return posX;
+    }
+
+    public static void setPosX(double posX) {
+        VentanaEmpalmeController.posX = posX;
+    }
+
+    public static double getPosY() {
+        return posY;
+    }
+
+    public static void setPosY(double posY) {
+        VentanaEmpalmeController.posY = posY;
+    }
     
     public void imprimir(ActionEvent event){
         int tipo=0, longitudOnda=0, id = 0;
@@ -114,11 +142,17 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     private void guardarEmpalme(Empalme empalme) {
         empalme.setId(controlador.getContadorElemento());
         controlador.getElementos().add(empalme);
-        
+        Label dibujo= new Label();
         ElementoGrafico elem= new ElementoGrafico();
+        
+        empalme.setPosX(dibujo.getLayoutX());
+        empalme.setPosY(dibujo.getLayoutY());
+        setPosX(empalme.getPosX());
+        setPosY(empalme.getPosY());
+        
         elem.setComponente(empalme);
         elem.setId(controlador.getContadorElemento());
-        Label dibujo= new Label();
+        
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
         dibujo.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
         dibujo.setContentDisplay(ContentDisplay.TOP);
@@ -141,6 +175,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    
+                    if(elem.getComponente().isConectadoSalida()==true){
+                        borrarLinea(linea);
+                        dibujarLinea(elem);
+                    }
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
@@ -229,6 +268,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     controlador.getElementos().remove(aux); 
                 }
             }    
+            borrarLinea(linea);
             dibujo.getDibujo().setVisible(false);
 
         });
@@ -257,69 +297,77 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private void modificar(ActionEvent event){
-            Empalme aux = (Empalme) elemG.getComponente();
-            int tipo=0, longitudOnda=0, id = 0;
-            double perdidaInsercion, perdidaMax = 0.5;
-            if(rbtnMecanico.isSelected()){
-                tipo=1;
-                //System.out.println("Tipo Mono");
-            }else if(rbtnfusion.isSelected()){
-                tipo=0;
-                //System.out.println("Tipo Multi");
-            }   
-            if(rbtn1310.isSelected()){
-                longitudOnda=1310;
-                //System.out.println(1310);
-            }else if(rbtn1550.isSelected()){
-                longitudOnda=1550;
-                //System.out.println(1550);
-            }
-            if((empalmeControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
-                aux.setConectadoEntrada(false);
-                aux.setConectadoSalida(false);
-            }else{
-                aux.setConectadoSalida(true);
-                for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                        if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
-                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                            aux.setElementoConectadoSalida(poyo);
-                        }
-                    }
-                System.out.println(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-            }
-            perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-
-            if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-                System.out.println("\nValor de la pérdida invalido");
-            }
-            else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-                System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
-                alert.showAndWait();
-            }
-            else{
-                //aux.setIdEmpalme(idEmpalme);
-                aux.setLongitudOnda(longitudOnda);
-                aux.setNombre("empalme");
-                aux.setPerdidaInsercion(perdidaInsercion);
-                aux.setTipo(tipo);
-                cerrarVentana(event);
-                
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Éxito");
-                alert.setHeaderText(null);
-                alert.setContentText("\n¡Empalme modificado!");
-                alert.showAndWait();
-                
-                System.out.println(aux.toString());
-                for(int h=0; h<controlador.getElementos().size(); h++){
-                    System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-                    System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        Empalme aux = (Empalme) elemG.getComponente();
+        int tipo=0, longitudOnda=0, id = 0;
+        double perdidaInsercion, perdidaMax = 0.5;
+        if(rbtnMecanico.isSelected()){
+            tipo=1;
+            //System.out.println("Tipo Mono");
+        }else if(rbtnfusion.isSelected()){
+            tipo=0;
+            //System.out.println("Tipo Multi");
+        }   
+        if(rbtn1310.isSelected()){
+            longitudOnda=1310;
+            //System.out.println(1310);
+        }else if(rbtn1550.isSelected()){
+            longitudOnda=1550;
+            //System.out.println(1550);
+        }
+        if((empalmeControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
+            Desconectar(event);
+        }else{
+            if(aux.isConectadoSalida()){}
+            aux.setConectadoSalida(true);
+            for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(poyo);
+                    aux.setConectadoSalida(true);
+                    //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
+                    controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
+                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
+                    //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
+                    break;
                 }
             }
+            dibujarLinea(elemG);
+            //System.out.println(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+        }
+        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
+
+        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("\nValor de la pérdida invalido");
+        }
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+            System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            alert.showAndWait();
+        }
+        else{
+            //aux.setIdEmpalme(idEmpalme);
+            aux.setLongitudOnda(longitudOnda);
+            aux.setNombre("empalme");
+            aux.setPerdidaInsercion(perdidaInsercion);
+            aux.setTipo(tipo);
+            cerrarVentana(event);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Éxito");
+            alert.setHeaderText(null);
+            alert.setContentText("\n¡Empalme modificado!");
+            alert.showAndWait();
+
+            System.out.println(aux.toString());
+            for(int h=0; h<controlador.getElementos().size(); h++){
+                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+            }
+        }
             
     }
 
@@ -334,7 +382,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         this.empalmeControl=empalmeController;
         empalmeControl.cboxConectarA.getItems().add("Desconected");
         if(elemG.getComponente().isConectadoSalida()==true){
-            empalmeControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
+            empalmeControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida().getDibujo().getText());
         }else{
             empalmeControl.cboxConectarA.getSelectionModel().select(0);
         }
@@ -362,11 +410,32 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     }
     
     @FXML
-    private void Desconectar(){
+    private void Desconectar(ActionEvent event){
         empalmeControl.cboxConectarA.getSelectionModel().select(0);
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida(null);
+        getLinea().setVisible(false);
+        cerrarVentana(event);
+    }
+    
+    private Line dibujarLinea(ElementoGrafico elemG) {
+        linea = new Line();
+        linea.setStartX(elemG.getDibujo().getLayoutX()+45);
+        linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+        linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
+        linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
+        linea.setStroke(Color.GREY);
+        linea.setStrokeWidth(2);
+        setLinea(linea);
+        //System.out.println("Se dibujo una linea");
+        linea.setVisible(true);
+        Pane1.getChildren().add(getLinea());
+        return linea;        
+    }
+    
+    private void borrarLinea(Line linea){
+        linea.setVisible(false);
     }
     
 }

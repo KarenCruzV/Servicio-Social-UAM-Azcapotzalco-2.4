@@ -14,6 +14,24 @@ public class Fibra extends Componente {
     private double atenuacion; // for smf28 0.32 1310 nm window | 0.18 1550 nm window db/km
                                //for mm50 // 1550 <=.36 dB/KM
     private int idFibra;
+    private double posX; 
+    private double posY;
+
+    public double getPosX() {
+        return posX;
+    }
+
+    public void setPosX(double posX) {
+        this.posX = posX;
+    }
+
+    public double getPosY() {
+        return posY;
+    }
+
+    public void setPosY(double posY) {
+        this.posY = posY;
+    }
     
     /*Constructor*/
 

@@ -134,7 +134,6 @@ public class Fuente extends Componente {
             n= 512;
         else
             n=1024;
-            
         
         NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
         NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
@@ -202,8 +201,8 @@ public class Fuente extends Componente {
     @Override
     public String toString() {
         return super.toString() +","+ tipo + "," + potencia + "," + anchura + "," 
-                + velocidad + "," + longitudOnda + "," + A0 + "," + T0 + "," 
-                + W0 + "," + C + "," + M+","+idFuente;
+                + velocidad + "," + longitudOnda/* + "," + A0 + "," + T0 + "," 
+                + W0 + "," + C + "," + M+","*/+idFuente;
     }
     //Fuente fuente = new Fuente("fuente", 0," ",false,tipo, potencia, anchura, velocidad, longitudOnda);
 }

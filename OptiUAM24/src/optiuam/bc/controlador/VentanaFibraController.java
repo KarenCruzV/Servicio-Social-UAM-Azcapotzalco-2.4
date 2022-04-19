@@ -29,6 +29,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -46,6 +48,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     Stage stage;
     ElementoGrafico elemG;
     VentanaFibraController fibraControl;
+    static Line linea;
+    static double posX, posY;
     
     @FXML
     private TextField txtAtenue, txtDisp, txtDistancia;
@@ -64,6 +68,30 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     public Separator separator;
+
+    public static Line getLinea() {
+        return linea;
+    }
+
+    public static void setLinea(Line linea) {
+        VentanaFibraController.linea = linea;
+    }
+
+    public static double getPosX() {
+        return posX;
+    }
+
+    public static void setPosX(double posX) {
+        VentanaFibraController.posX = posX;
+    }
+
+    public static double getPosY() {
+        return posY;
+    }
+
+    public static void setPosY(double posY) {
+        VentanaFibraController.posY = posY;
+    }
     
     @Override
     public void cerrarVentana(ActionEvent event){
@@ -87,6 +115,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida(null);
+        getLinea().setVisible(false);
+        cerrarVentana(event);
     }
     
     @FXML
@@ -168,82 +198,93 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void modificar(ActionEvent event){
-                Fibra aux = (Fibra) elemG.getComponente();
-                int modo=0, longitudOnda=0, tipo=0, id = 0;
-                double longitudKm, atenue, dispersion;
+        Fibra aux = (Fibra) elemG.getComponente();
+        int modo=0, longitudOnda=0, tipo=0, id = 0;
+        double longitudKm, atenue, dispersion;
 
-                if (modo == 1) // multimodo
-                {
-                    rbtnMulti.setSelected(true);
-                }
+        if (modo == 1) // multimodo
+        {
+            rbtnMulti.setSelected(true);
+        }
 
-                if (longitudOnda == 1550) // 1310 nm
-                {
-                    rbtn1550.setSelected(true);
-                }
-                if (tipo == 1) // mm50
-                {
-                    txtDisp.setEditable(false);
-                    txtAtenue.setEditable(false);
-                    rbtn1550.setDisable(true);
-                    rbtnMono.setDisable(true);
-                    rbtn50.setSelected(true);
-                }
-                if(tipo ==0){ // smf28
-                    txtDisp.setEditable(false);
-                    txtAtenue.setEditable(false);
-                    rbtnMulti.setDisable(true);
-                    rbtn28.setSelected(true);
-                }
-                if(tipo == 2){} //otro
-                
-                if((fibraControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
-                    aux.setConectadoEntrada(false);
-                    aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida(null);
-                }
-                else{
+        if (longitudOnda == 1550) // 1310 nm
+        {
+            rbtn1550.setSelected(true);
+        }
+        if (tipo == 1) // mm50
+        {
+            txtDisp.setEditable(false);
+            txtAtenue.setEditable(false);
+            rbtn1550.setDisable(true);
+            rbtnMono.setDisable(true);
+            rbtn50.setSelected(true);
+        }
+        if(tipo ==0){ // smf28
+            txtDisp.setEditable(false);
+            txtAtenue.setEditable(false);
+            rbtnMulti.setDisable(true);
+            rbtn28.setSelected(true);
+        }
+        if(tipo == 2){} //otro
+
+        if((fibraControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
+            //aux.setConectadoEntrada(false);
+            //aux.setConectadoSalida(false);
+            //aux.setElementoConectadoSalida(null);
+            Desconectar(event);
+        }
+        else{
+            if(aux.isConectadoSalida()){}
+            aux.setConectadoSalida(true);
+            
+            for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                if(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(poyo);
                     aux.setConectadoSalida(true);
-                    for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                        if(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString()==controlador.getDibujos().get(elemento2).getDibujo().getText()){
-                            ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                            aux.setElementoConectadoSalida(poyo);
-                        }
-                    }
-                    System.out.println(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
+                    controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
+                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
+                    //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+                    //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
+                    break;
                 }
+            }
+            dibujarLinea(elemG);
+            //System.out.println(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
+        }
 
-                longitudKm= Double.parseDouble(txtDistancia.getText());
-                atenue= Double.parseDouble(txtAtenue.getText());
-                dispersion= Double.parseDouble(txtDisp.getText());
-                aux.setAtenuacion(atenue);
-                aux.setDispersion(dispersion);
-                aux.setLongitudOnda(longitudOnda);
-                aux.setModo(modo);
-                aux.setLongitud_km(longitudKm);
-                aux.setTipo(tipo);
-                //aux.setIdFibra(idFibra);
-                //f.setNombre("fibraEnviada");
-                //aux.setConectadoEntrada(false);
-                //aux.setConectadoSalida(false);
-                //System.out.println(f.toString());
+        longitudKm= Double.parseDouble(txtDistancia.getText());
+        atenue= Double.parseDouble(txtAtenue.getText());
+        dispersion= Double.parseDouble(txtDisp.getText());
+        aux.setAtenuacion(atenue);
+        aux.setDispersion(dispersion);
+        aux.setLongitudOnda(longitudOnda);
+        aux.setModo(modo);
+        aux.setLongitud_km(longitudKm);
+        aux.setTipo(tipo);
+        //aux.setIdFibra(idFibra);
+        //f.setNombre("fibraEnviada");
+        //aux.setConectadoEntrada(false);
+        //aux.setConectadoSalida(false);
+        //System.out.println(f.toString());
 
-                //this.fibra=f;
-                //System.out.println(fibra.toString());
+        //this.fibra=f;
+        //System.out.println(fibra.toString());
 
-                cerrarVentana(event);
-                
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Éxito");
-                alert.setHeaderText(null);
-                alert.setContentText("\n¡Fibra modificada!");
-                alert.showAndWait();
-                
-                System.out.println(aux.toString());
-                for(int h=0; h<controlador.getElementos().size(); h++){
-                    System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-                    System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
-                }
+        cerrarVentana(event);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Fibra modificada!");
+        alert.showAndWait();
+
+        System.out.println(aux.toString());
+        for(int h=0; h<controlador.getElementos().size(); h++){
+            System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+        }
 
     }
     
@@ -304,11 +345,16 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         fibra.setNombre("fibra");
         fibra.setId(controlador.getContadorElemento());
         controlador.getElementos().add(fibra);
-        
+        Label dibujo= new Label();
         ElementoGrafico elem= new ElementoGrafico();
+        
+        fibra.setPosX(dibujo.getLayoutX());
+        fibra.setPosY(dibujo.getLayoutY());
+        setPosX(fibra.getPosX());
+        setPosY(fibra.getPosY());
+        
         elem.setComponente(fibra);
         elem.setId(controlador.getContadorElemento());
-        Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
         dibujo.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
         dibujo.setContentDisplay(ContentDisplay.TOP);
@@ -331,6 +377,11 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     elem.getDibujo().setLayoutX(event.getSceneX()-20);
                     elem.getDibujo().setLayoutY(event.getSceneY()-170);
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    
+                    if(elem.getComponente().isConectadoSalida()==true){
+                        borrarLinea(linea);
+                        dibujarLinea(elem);
+                    }
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
@@ -389,69 +440,70 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
-                ContextMenu contextMenu = new ContextMenu();
-                
-                // create menuitems
-                MenuItem menuItem1 = new MenuItem("-Duplicar");
-                MenuItem menuItem2 = new MenuItem("-Girar");
-                MenuItem menuItem3 = new MenuItem("-Eliminar");
-                
-                menuItem1.setOnAction(e ->{
-                    System.out.println("Duplicar");
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
-                            Fibra aux= new Fibra();
-                            Fibra aux1= (Fibra)controlador.getElementos().get(elemento);
-                            aux.setAtenuacion(aux1.getAtenuacion());
-                            aux.setDispersion(aux1.getDispersion());
-                            aux.setLongitudOnda(aux1.getLongitudOnda());
-                            aux.setLongitud_km(aux1.getLongitud_km());
-                            aux.setModo(aux1.getModo());
-                            aux.setTipo(aux1.getTipo());
-                            aux.setNombre("fibra");
-                            aux.setIdFibra(idFibra);
-                            aux.setConectadoEntrada(false);
-                            aux.setConectadoSalida(false);
-                            guardarComponente(aux);
-                            idFibra++;
-                            System.out.println(aux.toString());
-                            for(int h=0; h<controlador.getElementos().size(); h++){
-                                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-                                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
-                            }
-                            break;
-                        }
-                    }
-                });
-                
-                menuItem2.setOnAction(e ->{
-                    System.out.println("La fibra no gira");
-                });
-                
-                menuItem3.setOnAction(e ->{
-                    System.out.println("Elemento "+dibujo.getDibujo().getText()+" eliminado");
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            Fibra aux= (Fibra)controlador.getElementos().get(elemento);
-                            controlador.getDibujos().remove(dibujo);
-                            controlador.getElementos().remove(aux); 
-                        }
-                    }   
-                    dibujo.getDibujo().setVisible(false);
-                    System.out.print(controlador.getContadorElemento());
+        ContextMenu contextMenu = new ContextMenu();
+
+        // create menuitems
+        MenuItem menuItem1 = new MenuItem("-Duplicar");
+        MenuItem menuItem2 = new MenuItem("-Girar");
+        MenuItem menuItem3 = new MenuItem("-Eliminar");
+
+        menuItem1.setOnAction(e ->{
+            System.out.println("Duplicar");
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                    Fibra aux= new Fibra();
+                    Fibra aux1= (Fibra)controlador.getElementos().get(elemento);
+                    aux.setAtenuacion(aux1.getAtenuacion());
+                    aux.setDispersion(aux1.getDispersion());
+                    aux.setLongitudOnda(aux1.getLongitudOnda());
+                    aux.setLongitud_km(aux1.getLongitud_km());
+                    aux.setModo(aux1.getModo());
+                    aux.setTipo(aux1.getTipo());
+                    aux.setNombre("fibra");
+                    aux.setIdFibra(idFibra);
+                    aux.setConectadoEntrada(false);
+                    aux.setConectadoSalida(false);
+                    guardarComponente(aux);
+                    idFibra++;
+                    System.out.println(aux.toString());
                     for(int h=0; h<controlador.getElementos().size(); h++){
                         System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                         System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
                     }
-                });
-                
-                // add menu items to menu
-                contextMenu.getItems().add(menuItem1);
-                contextMenu.getItems().add(menuItem2);
-                contextMenu.getItems().add(menuItem3);
-                
-                dibujo.getDibujo().setContextMenu(contextMenu);
+                    break;
+                }
+            }
+        });
+
+        menuItem2.setOnAction(e ->{
+            System.out.println("La fibra no gira");
+        });
+
+        menuItem3.setOnAction(e ->{
+            System.out.println("Elemento "+dibujo.getDibujo().getText()+" eliminado");
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Fibra aux= (Fibra)controlador.getElementos().get(elemento);
+                    controlador.getDibujos().remove(dibujo);
+                    controlador.getElementos().remove(aux); 
+                }
+            }   
+            borrarLinea(linea);
+            dibujo.getDibujo().setVisible(false);
+            System.out.print(controlador.getContadorElemento());
+            for(int h=0; h<controlador.getElementos().size(); h++){
+                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
+                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+            }
+        });
+
+        // add menu items to menu
+        contextMenu.getItems().add(menuItem1);
+        contextMenu.getItems().add(menuItem2);
+        contextMenu.getItems().add(menuItem3);
+
+        dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
     private void init2(ElementoGrafico elem, VentanaFibraController fibraController) {
@@ -497,6 +549,25 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 fibraControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
             }
         }
+    }
+    
+    private Line dibujarLinea(ElementoGrafico elemG) {
+        linea = new Line();
+        linea.setStartX(elemG.getDibujo().getLayoutX()+45);
+        linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+        linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
+        linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
+        linea.setStroke(Color.GREY);
+        linea.setStrokeWidth(2);
+        setLinea(linea);
+        //System.out.println("Se dibujo una linea");
+        linea.setVisible(true);
+        Pane1.getChildren().add(getLinea());
+        return linea;        
+    }
+    
+    private void borrarLinea(Line linea){
+        linea.setVisible(false);
     }
     
 }
