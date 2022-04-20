@@ -103,7 +103,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         VentanaSplitterController.posY = posY;
     }
     
-    public void crearSplitter(int longitudOnda, int salidas, double perdida, int id){
+    /*public void crearSplitter(int longitudOnda, int salidas, double perdida, int id){
         
         String aux = "splitter16"; //guarda el tipo de splitter //< 16 salidas
         //saber que tipo de splitter
@@ -124,7 +124,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         alert.setHeaderText(null);
         alert.setContentText("\n¡Splitter creado!");
         alert.showAndWait();
-    }
+    }*/
     
     public boolean validarPerdida(double perdida,int salidas) {
         for (String[] perdidasValida : perdidasValidas) {
@@ -184,7 +184,27 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
         }
+        if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
+            salidas = 2;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
+            salidas = 4;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
+            salidas = 8;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
+            salidas = 16;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
+            salidas = 32;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
+            salidas = 64;
+        }
+        else{}
         //cboxNumeroSalidas.setSelectedIndex(salidas);
+        //cboxNumeroSalidas.getSelectionModel().select(salidas);
         perdida = Double.parseDouble(txtPerdidaInsercion.getText());
         txtPerdidaInsercion.setText(String.valueOf(perdida));
         cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
@@ -192,6 +212,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             cboxSalidas.getItems().add(String.valueOf(i+1));
         }
         //cboxSalidas.setSelectedIndex(0);
+        //cboxSalidas.getSelectionModel().select("2");
         
         if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
            System.out.println("La pérdida debe ser " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
@@ -208,7 +229,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             s.setPerdidaInsercion(perdida);
             s.setSalidas(salidas);
             s.setLongitudOnda(longitudOnda);
-            s.setNombre("splitter");
+            //s.setNombre("splitter");
             s.setIdS(idS);
             idS++;
             guardarSplitter(s);
@@ -231,7 +252,32 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         elem.setComponente(s);
         elem.setId(controlador.getContadorElemento());
         
-        dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
+        if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter.png")));
+            s.setNombre("splitter2");
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
+            s.setNombre("splitter4");
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
+            s.setNombre("splitter8");
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
+            s.setNombre("splitter16");
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
+            s.setNombre("splitter32");
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
+            dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
+            s.setNombre("splitter64");
+        }
+        else{}
+        
         dibujo.setText(s.getNombre() + "_"+ s.getIdS());
         dibujo.setContentDisplay(ContentDisplay.TOP);
         elem.setDibujo(dibujo);
@@ -376,6 +422,26 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
         }
+        if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
+            salidas = 2;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
+            salidas = 4;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
+            salidas = 8;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
+            salidas = 16;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
+            salidas = 32;
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
+            salidas = 64;
+        }
+        else{}
+        
         if((splitterControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
             Desconectar(event);
         }
@@ -399,14 +465,16 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             dibujarLinea(elemG);
             //System.out.println(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
         }
-        //cboxNumeroSalidas.setSelectedIndex(salidas);
+        //swing:cboxNumeroSalidas.setSelectedIndex(salidas);
+        //cboxNumeroSalidas.getSelectionModel().select(salidas);
         perdida = Double.parseDouble(txtPerdidaInsercion.getText());
         txtPerdidaInsercion.setText(String.valueOf(perdida));
         cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
         for(int i = 0; i<((int) Math.pow(2,(salidas+1)));i++){
             cboxSalidas.getItems().add(String.valueOf(i+1));
         }
-        //cboxSalidas.setSelectedIndex(0);
+        //swing:cboxSalidas.setSelectedIndex(0);
+        //cboxSalidas.getSelectionModel().select("2");
 
         if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
             System.out.println("La pérdida debe ser " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
@@ -463,6 +531,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 Splitter spl= (Splitter)controlador.getElementos().get(elemento);
                 System.out.println(spl.getSalidas()+"\t"+spl.getLongitudOnda());
                 /*No se como poner lo de las salidas xd*/
+                
                 if(spl.getLongitudOnda()==1310){
                     splitterControl.rbtn1310.setSelected(true);
                 }else if(spl.getLongitudOnda()==1550){

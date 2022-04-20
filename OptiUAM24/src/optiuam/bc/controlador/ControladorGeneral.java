@@ -3,11 +3,7 @@ package optiuam.bc.controlador;
 
 import java.util.LinkedList;
 import optiuam.bc.modelo.Componente;
-import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
-import optiuam.bc.modelo.Empalme;
-import optiuam.bc.modelo.Fuente;
-import optiuam.bc.modelo.Splitter;
 
 /**
  *
@@ -80,21 +76,6 @@ public class ControladorGeneral {
         this.ventana_principal = ventana_principal;
         this.manejadorElementos = manejadorElementos;
     }
-    
-    /*public Componente obtenerElemento(int id) {
-        for (int i = 0; i < elementos.size(); i++) {
-            if (elementos.get(i).getId() == id) {
-                return elementos.get(i);
-            }
-        }
-        return null;
-    }*/
-    
-    /*public void guardarPulso(float A0,float T0,float W0,float C,float M,int id){
-        Fuente fuente = (Fuente) obtenerElemento(id);
-        //System.out.println("C:"+C+" A0:"+A0+" W0:"+W0+ " T0:"+T0);
-        fuente.setPulso(A0, T0, W0, C,M);
-    }*/
     
     
 }

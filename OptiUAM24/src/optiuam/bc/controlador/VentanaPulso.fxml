@@ -54,7 +54,7 @@
             </Lighting>
          </effect>
       </ImageView>
-      <Button fx:id="btnGraficar" layoutX="333.0" layoutY="258.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: #7fff00;" text="PLOT PULSE">
+      <Button fx:id="btnGraficar" layoutX="333.0" layoutY="258.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: #7fff00;" onAction="#btnGraficarAction"  text="PLOT PULSE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
