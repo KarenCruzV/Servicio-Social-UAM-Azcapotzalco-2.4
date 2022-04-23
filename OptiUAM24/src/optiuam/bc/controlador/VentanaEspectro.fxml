@@ -25,9 +25,9 @@
             <Font name="Arial Black" size="18.0" />
          </font></Label>
       <Separator layoutY="59.0" prefHeight="0.0" prefWidth="400.0" />
-      <Button layoutX="137.0" layoutY="95.0" mnemonicParsing="false" text="Pulse at the entrance" />
-      <Button layoutX="136.0" layoutY="150.0" mnemonicParsing="false" text="Output pulse with B2" />
-      <Button fx:id="btnCrear" layoutX="175.0" layoutY="246.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: #ff0000;" text="EXIT">
+      <Button fx:id="btnPulsoEntrada" layoutX="137.0" layoutY="95.0" mnemonicParsing="false" text="Pulse at the entrance" />
+      <Button fx:id="btnB2" layoutX="136.0" layoutY="150.0" mnemonicParsing="false" text="Output pulse with B2" />
+      <Button fx:id="btnSalir" layoutX="175.0" layoutY="246.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: #ff0000;" text="EXIT">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

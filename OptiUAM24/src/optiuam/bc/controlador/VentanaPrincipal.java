@@ -265,7 +265,7 @@ public class VentanaPrincipal implements Initializable {
         controlador.getElementos().add(espectro);
         
         Label dibujo= new Label();
-        dibujo.setGraphic(new ImageView(new Image("images/dibujo_espectroR.png")));
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_espectro.png")));
         dibujo.setText("espectro" + "_"+ espectro.getIdEspectro());
         dibujo.setContentDisplay(ContentDisplay.TOP);
 
