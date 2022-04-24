@@ -489,7 +489,9 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     controlador.getElementos().remove(aux); 
                 }
             }   
-            borrarLinea(linea);
+            if(dibujo.getComponente().isConectadoSalida()==true){
+                borrarLinea(linea);
+            }
             dibujo.getDibujo().setVisible(false);
             System.out.print(controlador.getContadorElemento());
             for(int h=0; h<controlador.getElementos().size(); h++){

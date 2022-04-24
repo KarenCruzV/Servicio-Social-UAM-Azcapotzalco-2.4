@@ -231,7 +231,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
 
         // create menuitems
         MenuItem menuItem1 = new MenuItem("-Duplicar");
-        MenuItem menuItem2 = new MenuItem("-Girar");
+        //MenuItem menuItem2 = new MenuItem("-Girar");
         MenuItem menuItem3 = new MenuItem("-Eliminar");
 
         menuItem1.setOnAction(e ->{
@@ -256,10 +256,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             }
         });
 
-        menuItem2.setOnAction(e ->{
-            System.out.println("No gira el empalme");
-        });
-
         menuItem3.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -268,14 +264,15 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     controlador.getElementos().remove(aux); 
                 }
             }    
-            borrarLinea(linea);
+            if(dibujo.getComponente().isConectadoSalida()==true){
+                borrarLinea(linea);
+            }
             dibujo.getDibujo().setVisible(false);
 
         });
 
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
-        contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }

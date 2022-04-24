@@ -260,7 +260,9 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     controlador.getElementos().remove(aux); 
                 }
             }    
-            borrarLinea(linea);
+            if(dibujo.getComponente().isConectadoSalida()==true){
+                borrarLinea(linea);
+            }
             dibujo.getDibujo().setVisible(false);
 
         });
