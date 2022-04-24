@@ -19,7 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -192,7 +194,7 @@ public class VentanaPrincipal implements Initializable {
         controlador.getElementos().add(potencia);
         
         Label dibujo= new Label();
-        dibujo.setGraphic(new ImageView(new Image("images/dibujo_potenciaR.png")));
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_potencia.png")));
         dibujo.setText("potencia" + "_"+ potencia.getIdPotencia());
         dibujo.setContentDisplay(ContentDisplay.TOP);
 
@@ -228,7 +230,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Medidor Potencia");
+                    stage.setTitle("OptiUAM BC Medidor de Potencia");
                     stage.setScene(scene);
                     stage.showAndWait();
                     stage.setResizable(false);
@@ -236,7 +238,7 @@ public class VentanaPrincipal implements Initializable {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
-                
+                mostrarMenuChiquito(elem);
             }
         });
             controlador.setContadorElemento(controlador.getContadorElemento()+1);
@@ -309,7 +311,7 @@ public class VentanaPrincipal implements Initializable {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (event1.getButton() == MouseButton.SECONDARY) {
-                
+                mostrarMenuChiquito(elem);
             }
         });
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
@@ -326,50 +328,48 @@ public class VentanaPrincipal implements Initializable {
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
-    /*
+    
     public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
-                ContextMenu contextMenu = new ContextMenu();
-                
-                // create menuitems
-                MenuItem menuItem1 = new MenuItem("-Duplicar");
-                MenuItem menuItem2 = new MenuItem("-Girar");
-                MenuItem menuItem3 = new MenuItem("-Eliminar");
-                
-                menuItem1.setOnAction(e ->{
-                    System.out.println("Duplicar");
-                    for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                        if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                            if(controlador.getElementos().get(elemento).getNombre()=="fibra"){
-                                
-                            }
-                        }
-                    }
-                });
-                
-                menuItem2.setOnAction(e ->{
-                    System.out.println("Girar");
+        ContextMenu contextMenu = new ContextMenu();
+
+        // create menuitems
+        MenuItem menuItem2 = new MenuItem("-Girar");
+        MenuItem menuItem3 = new MenuItem("-Eliminar");
+
+        menuItem2.setOnAction(e ->{
+            System.out.println("Girar");
+            if(dibujo.getDibujo().getText().contains("potencia")){
+                System.out.println("Girar potencia");
+            }
+            else{
+                System.out.println("Girar espectro");
+            }
+        });
+
+        menuItem3.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     if(dibujo.getDibujo().getText().contains("potencia")){
-                        System.out.println("Girar potencia");
+                        MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
+                        controlador.getDibujos().remove(dibujo);
+                        controlador.getElementos().remove(aux); 
                     }
                     else{
-                        System.out.println("Girar elemento");
+                        MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
+                        controlador.getDibujos().remove(dibujo);
+                        controlador.getElementos().remove(aux); 
                     }
-                });
-                
-                menuItem3.setOnAction(e ->{
-                    System.out.println("Elemento "+dibujo.getDibujo().getText()+" eliminado");
-                    controlador.getDibujos().remove(dibujo.getId());
-                    controlador.getElementos().remove(dibujo.getId());    
-                    dibujo.getDibujo().setVisible(false);
-                });
-                
-                // add menu items to menu
-                contextMenu.getItems().add(menuItem1);
-                contextMenu.getItems().add(menuItem2);
-                contextMenu.getItems().add(menuItem3);
-                dibujo.getDibujo().setContextMenu(contextMenu);
-    }*/
+                }
+            }    
+            dibujo.getDibujo().setVisible(false);
+        });
+
+        // add menu items to menu
+        contextMenu.getItems().add(menuItem2);
+        contextMenu.getItems().add(menuItem3);
+        dibujo.getDibujo().setContextMenu(contextMenu);
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
