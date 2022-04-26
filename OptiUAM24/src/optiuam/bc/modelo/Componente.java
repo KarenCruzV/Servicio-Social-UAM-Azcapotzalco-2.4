@@ -9,9 +9,9 @@ public class Componente {
     protected String nombre;
     protected int id;
     //Attributes to know if it is conectado and what it is conectado to
-    protected ElementoGrafico elementoConectadoEntrada=null;
+    protected String elementoConectadoEntrada="";
     protected boolean conectadoEntrada;
-    protected ElementoGrafico elementoConectadoSalida=null ;
+    protected String elementoConectadoSalida="" ;
     protected boolean conectadoSalida;
     
     /*Constructor*/
@@ -45,11 +45,11 @@ public class Componente {
         this.id = id;
     }
 
-    public ElementoGrafico getElementoConectadoEntrada() {
+    public String getElementoConectadoEntrada() {
         return elementoConectadoEntrada;
     }
 
-    public void setElementoConectadoEntrada(ElementoGrafico elementoConectadoEntrada) {
+    public void setElementoConectadoEntrada(String elementoConectadoEntrada) {
         this.elementoConectadoEntrada = elementoConectadoEntrada;
     }
 
@@ -61,11 +61,11 @@ public class Componente {
         this.conectadoEntrada = conectadoEntrada;
     }
 
-    public ElementoGrafico getElementoConectadoSalida() {
+    public String getElementoConectadoSalida() {
         return elementoConectadoSalida;
     }
 
-    public void setElementoConectadoSalida(ElementoGrafico elementoConectadoSalida) {
+    public void setElementoConectadoSalida(String elementoConectadoSalida) {
         this.elementoConectadoSalida = elementoConectadoSalida;
     }
 

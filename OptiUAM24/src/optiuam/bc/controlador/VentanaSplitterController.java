@@ -448,7 +448,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
                     ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                    aux.setElementoConectadoSalida(poyo);
+                    aux.setElementoConectadoSalida(poyo.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
                     controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
@@ -516,7 +516,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         this.splitterControl=splitterController;
         splitterControl.cboxConectarA.getItems().add("Desconected");
         if(elemG.getComponente().isConectadoSalida()==true){
-            splitterControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida().getDibujo().getText());
+            splitterControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }
         else{
             splitterControl.cboxConectarA.getSelectionModel().select(0);
@@ -546,8 +546,14 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         linea = new Line();
         linea.setStartX(elemG.getDibujo().getLayoutX()+45);
         linea.setStartY(elemG.getDibujo().getLayoutY()+7);
-        linea.setEndX(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutX());
-        linea.setEndY(elemG.getComponente().getElementoConectadoSalida().getDibujo().getLayoutY());
+        ElementoGrafico aux= new ElementoGrafico();
+        for(int it=0; it<controlador.getDibujos().size();it++){
+            if(elemG.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(it).getDibujo().getText()){
+                aux=controlador.getDibujos().get(it);
+            }
+        }
+        linea.setEndX(aux.getDibujo().getLayoutX());
+        linea.setEndY(aux.getDibujo().getLayoutY());
         linea.setStroke(Color.GREY);
         linea.setStrokeWidth(2);
         setLinea(linea);
