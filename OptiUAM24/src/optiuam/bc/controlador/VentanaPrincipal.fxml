@@ -19,11 +19,11 @@
    <children>
       <MenuBar layoutY="0.0" maxHeight="27.0" style="-fx-background-color: lightblue;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Open" />
+              <MenuItem fx:id="menuItemNew" mnemonicParsing="false" onAction="#menuItemNewAction"  text="New" />
+                  <MenuItem fx:id="menuItemSave" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" text="Open" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help" />

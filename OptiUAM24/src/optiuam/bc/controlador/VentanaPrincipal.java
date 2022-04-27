@@ -3,6 +3,7 @@ package optiuam.bc.controlador;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +18,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -32,6 +36,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.JOptionPane;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -55,13 +60,15 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     public Pane Pane1;
+    
     @FXML
     public ScrollPane scroll;
+    
     @FXML
     static public TitledPane componentMenu;
     
-    
-    
+    @FXML
+    MenuItem menuItemNew, menuItemSave, menuItemOpen;
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
@@ -402,5 +409,29 @@ public class VentanaPrincipal implements Initializable {
     public Pane getPane1() {
         return Pane1;
     }
+    
+    public void setControlador(ControladorGeneral controlador) {
+        VentanaPrincipal.controlador = controlador;
+
+    }
+    
+    @FXML
+    private void menuItemNewAction (ActionEvent event) {                                           
+        ButtonType aceptar = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Alert alert = new Alert(AlertType.CONFIRMATION,
+                "¿Desea crear un nuevo trabajo?",
+                aceptar,
+                cancelar);
+
+        alert.setTitle("Confirmacion");
+        alert.setHeaderText(null);
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.orElse(cancelar) == aceptar) {
+            controlador.nuevoTrabajo(event); // empezar un nuevo trabajo
+        }
+        else{}
+    }    
 
 }
