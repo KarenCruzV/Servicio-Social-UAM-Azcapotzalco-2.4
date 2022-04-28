@@ -467,7 +467,6 @@ public class VentanaPrincipal implements Initializable {
             //en cancelar o se cierra la ventana para cargar/guardad trabajo
         }
         */
-        
     }    
 
 }
