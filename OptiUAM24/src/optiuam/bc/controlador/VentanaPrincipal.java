@@ -80,7 +80,7 @@ public class VentanaPrincipal implements Initializable {
         Parent root = loader.load();
         //Se crea una instancia del controlador de fibra.
         VentanaFibraController fibraController= (VentanaFibraController) loader.getController();
-        fibraController.init(controlador,this.stage,this.Pane1);
+        fibraController.init(controlador,this.stage,this.Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
@@ -147,7 +147,7 @@ public class VentanaPrincipal implements Initializable {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
         Parent root =loader.load();
         VentanaConectorController conectorControl=loader.getController();
-        conectorControl.init(controlador,this.stage,this.Pane1);
+        conectorControl.init(controlador,this.stage,this.Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
@@ -169,7 +169,7 @@ public class VentanaPrincipal implements Initializable {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaEmpalme.fxml"));
         Parent root =loader.load();
         VentanaEmpalmeController empalmeControl=loader.getController();
-        empalmeControl.init(controlador,this.stage,this.Pane1);
+        empalmeControl.init(controlador,this.stage,this.Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);

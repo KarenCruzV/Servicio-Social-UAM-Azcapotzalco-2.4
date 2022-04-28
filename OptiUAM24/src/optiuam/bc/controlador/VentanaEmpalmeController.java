@@ -22,6 +22,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +34,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Empalme;
 
@@ -68,6 +70,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private Pane Pane1;
+    @FXML
+    private ScrollPane scroll;
 
     public static Line getLinea() {
         return linea;
@@ -172,10 +176,20 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
-                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
-                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                    
+                    if(elem.getDibujo().getLayoutX()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX(0.0);
+                    }
+                    if(elem.getDibujo().getLayoutY()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY(0);
+                    }
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(elem.getComponente().getXd());
                         dibujarLinea(elem);
@@ -209,14 +223,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                         Parent root = loader.load();
                         //Se crea una instancia del controlador del empalme.
                         VentanaEmpalmeController empalmeController = (VentanaEmpalmeController) loader.getController();
-                        empalmeController.init(controlador,stage,Pane1);
+                        empalmeController.init(controlador,stage,Pane1,scroll);
                         empalmeController.init2(elem,empalmeController);
                         empalmeController.btnCrear.setVisible(false);
                         empalmeController.btnDesconectar.setVisible(true);
                         empalmeController.lblConectarA.setVisible(true);
                         empalmeController.cboxConectarA.setVisible(true);
                         empalmeController.btnModificar.setVisible(true);
-                        empalmeController.init(controlador, this.stage, this.Pane1);
+                        //empalmeController.init(controlador, this.stage, this.Pane1);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
@@ -398,10 +412,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             
     }
 
-    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
+        this.scroll=scroll;
     }
     
     private void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
@@ -431,18 +446,29 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 empalmeControl.txtPerdida.setText(String.valueOf(emp.getPerdidaInsercion()));
             }
             if("fibra".equals(controlador.getElementos().get(elemento).getNombre())){
-                empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                    empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
             }
         }
     }
     
     @FXML
     private void Desconectar(ActionEvent event){
+        for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                    Componente poyo= controlador.getElementos().get(elemento2);
+                    poyo.setConectadoEntrada(false);
+                    poyo.setElementoConectadoEntrada("");
+                    System.out.println(poyo.getNombre());
+                    break;
+                }
+        }
         empalmeControl.cboxConectarA.getSelectionModel().select(0);
-        elemG.getComponente().setConectadoEntrada(false);
+        //elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida(null);
-        getLinea().setVisible(false);
+        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().getXd().setVisible(false);
         cerrarVentana(event);
     }
     

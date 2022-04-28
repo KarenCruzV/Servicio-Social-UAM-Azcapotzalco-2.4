@@ -378,14 +378,14 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     //System.out.println(Pane1.getLayoutX()+" "+Pane1.getLayoutY()+" sc "+scroll.getHvalue());
                     if(elem.getDibujo().getLayoutX()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutX((scroll.getHvalue()*660)+event.getSceneX()-20);
+                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
                     }else{
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutX(0.0);
                     }
                     if(elem.getDibujo().getLayoutY()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY((scroll.getVvalue()*700)+event.getSceneY()-175);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-175);
                     }else{
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutY(0);

@@ -24,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
 
@@ -57,6 +58,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         ComboBox cboxConectarA;
     @FXML
         AnchorPane ConectorVentana;
+    @FXML
+    private ScrollPane scroll;
 
     public static Line getLinea() {
         return linea;
@@ -163,9 +166,20 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
-                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
-                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    if(elem.getDibujo().getLayoutX()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX(0.0);
+                    }
+                    if(elem.getDibujo().getLayoutY()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY(0);
+                    }
                     
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(elem.getComponente().getXd());
@@ -206,6 +220,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                             con el que se esta trabajando ademas de que se manda el mismo controller para 
                             iniciar con los valores del elemento mandado.
                         */
+                        conectorController.init(controlador, stage, Pane1, scroll);
                         conectorController.init2(controlador, stage, Pane1,elem,conectorController);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
@@ -322,11 +337,20 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     
     @FXML
     private void Desconectar(ActionEvent event){
+        for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
+                if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                    Componente poyo= controlador.getElementos().get(elemento2);
+                    poyo.setConectadoEntrada(false);
+                    poyo.setElementoConectadoEntrada("");
+                    System.out.println(poyo.getNombre());
+                    break;
+                }
+        }
         conectorControl.cboxConectarA.getSelectionModel().select(0);
         //elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida(null);
-        getLinea().setVisible(false);
+        elemG.getComponente().setElementoConectadoSalida("");
+        elemG.getComponente().getXd().setVisible(false);
         cerrarVentana(event);
     }
     
@@ -411,10 +435,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         
     }
 
-    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
+    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
+        this.scroll=scroll;
     }
 
     /*
@@ -462,7 +487,9 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "potencia".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "espectro".equals(controlador.getElementos().get(elemento).getNombre())){
-                conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                    conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
             }
             
         }
@@ -497,13 +524,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     private void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
-        
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elem.getComponente().getElementoConectadoEntrada()==(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
             }
         }
-        line.setStrokeWidth(2);
+        line.setStrokeWidth(2.5);
         line.setStroke(Color.BLACK);
         line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
         line.setStartY(aux.getDibujo().getLayoutY()+10);

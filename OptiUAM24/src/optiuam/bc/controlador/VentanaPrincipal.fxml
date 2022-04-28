@@ -21,9 +21,9 @@
         <menus>
           <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="menuItemNew" mnemonicParsing="false" onAction="#menuItemNewAction"  text="New" />
-                  <MenuItem fx:id="menuItemSave" mnemonicParsing="false" onAction="#menuItemSaveAction"  text="Save" />
-                  <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" onAction="#menuItemOpenAction"  text="Open" />
+              <MenuItem fx:id="menuItemNew" mnemonicParsing="false" onAction="#menuItemNewAction" text="New" />
+                  <MenuItem fx:id="menuItemSave" mnemonicParsing="false" onAction="#menuItemSaveAction" text="Save" />
+                  <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" onAction="#menuItemOpenAction" text="Open" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help" />
@@ -190,11 +190,11 @@
             <InnerShadow choke="0.09" color="#1f2f8d" height="35.83" radius="19.6375" width="44.72" />
          </effect>
       </TitledPane>
-      <ScrollPane fx:id="scroll" depthTest="ENABLE" hmax="2.0" layoutX="2.0" layoutY="178.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="898.0" style="-fx-background-color: lightblue;" vmax="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+      <ScrollPane fx:id="scroll" depthTest="ENABLE" hmax="2.0" layoutX="10.0" layoutY="178.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="898.0" style="-fx-background-color: lightblue;" vmax="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
          <content>
-            <Pane id="Pane1" fx:id="Pane1" prefHeight="2000.0" prefWidth="2500.0" style="-fx-background-color: White;">
+            <Pane id="Pane1" fx:id="Pane1" prefHeight="1200.0" prefWidth="1800.0" style="-fx-background-color: White;">
                <children>
-                  <ImageView fx:id="panel" accessibleText="Area de Trabajo." fitHeight="2503.0" fitWidth="2503.0" layoutX="-2.0" pickOnBounds="true" smooth="false">
+                  <ImageView fx:id="panel" accessibleText="Area de Trabajo." fitHeight="2000.0" fitWidth="2000.0" pickOnBounds="true" smooth="false">
                      <effect>
                         <InnerShadow color="#101c7c" />
                      </effect>
