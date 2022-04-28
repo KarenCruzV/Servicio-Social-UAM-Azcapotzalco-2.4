@@ -467,6 +467,24 @@ public class VentanaPrincipal implements Initializable {
             //en cancelar o se cierra la ventana para cargar/guardad trabajo
         }
         */
-    }    
+    }   
+    
+    @FXML
+    private void menuItemOpenAction(ActionEvent event) {                                            
+        JFileChooser manejador = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("opt Files", "opt");
+        manejador.setFileFilter(filtro);
+        manejador.showOpenDialog(null);
+        String ruta_archivo="";
+        try {
+            ruta_archivo = manejador.getSelectedFile().getPath();
+            //System.out.println(ruta_archivo);
+            controlador.abrirTrabajo(ruta_archivo);
+        } catch (Exception e) {
+            //no se hace nada ya que esta excepcion se activa cuando se da click 
+            //en cancelar o se cierra la ventana para cargar/guardad trabajo
+        }
+        
+    }   
 
 }

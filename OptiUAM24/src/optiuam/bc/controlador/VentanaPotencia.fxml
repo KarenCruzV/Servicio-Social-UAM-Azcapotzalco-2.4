@@ -22,7 +22,7 @@
             <Image url="@../../../images/FondoAzul.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutY="21.0" prefHeight="17.0" prefWidth="414.0" text="Potency Meter">
+      <Label alignment="CENTER" layoutY="21.0" prefHeight="17.0" prefWidth="414.0" text="Power Meter">
          <font>
             <Font name="Arial Black" size="18.0" />
          </font></Label>

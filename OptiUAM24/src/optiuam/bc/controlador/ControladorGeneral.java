@@ -1,7 +1,9 @@
 
 package optiuam.bc.controlador;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -211,4 +213,191 @@ public class ControladorGeneral {
         }
     }
     
+    
+    public void abrirTrabajo(String ruta){
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        try {
+         // Apertura del fichero y creacion de BufferedReader para poder
+         // hacer una lectura comoda (disponer del metodo readLine()).
+            archivo = new File (ruta);
+            fr = new FileReader (archivo);
+            br = new BufferedReader(fr);
+            
+         //se vacian los arrays de elementos
+            elementos = new LinkedList<>();
+            dibujos = new LinkedList<>();
+            
+         //se limpia el panel de trabajo
+         //ventana_principal.getPnl_trabajo().removeAll(); lo tenia el shavo
+         //ERRORES DE NULL xd
+          //ventana_principal.getPane1().getChildren().clear(); igual pone null
+          //manejadorElementos.getDibujo();
+
+         // Lectura del fichero
+            String linea="";
+            
+            while((linea=br.readLine())!=null){
+                //System.out.println(linea);
+                String [] partes = linea.split(",");
+                String nombre = partes[0];
+                    switch (nombre) {
+                        case "conector":
+                            //for(int i = 0 ; i < partes.length;i++)
+                                //System.out.println(partes[i]);
+                            Conector conector = new Conector();
+                            conector.setId(Integer.valueOf(partes[1]));
+                            conector.setNombre(nombre);
+                            conector.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            conector.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            conector.setLongitudOnda(Integer.valueOf(partes[4]));
+                            conector.setModo(Integer.valueOf(partes[5]));
+                            conector.setPerdidaInsercion(Double.valueOf(partes[6]));
+                            //conector.setIdConector(Integer.valueOf(partes[8]));
+                            elementos.add(conector);
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), conector);
+                            //manejadorElementos.dibujarComponente(); lo tenia el shavo
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[7]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[8]));
+                            dibujos.add(manejadorElementos);
+                            break;
+                            
+                        case "empalme":
+                            Empalme empalme = new Empalme();
+                            empalme.setId(Integer.valueOf(partes[1]));
+                            empalme.setNombre(nombre);
+                            empalme.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            empalme.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            empalme.setTipo(Integer.valueOf(partes[4]));
+                            empalme.setPerdidaInsercion(Double.valueOf(partes[5]));
+                            empalme.setLongitudOnda(Integer.valueOf(partes[6]));
+                            elementos.add(empalme);
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), empalme);
+                            //manejadorElementos.dibujarComponente();
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[7]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[8]));
+                            dibujos.add(manejadorElementos);
+                            break;
+                            
+                        case "splitter":
+                            Splitter splitter = new Splitter();
+                            splitter.setId(Integer.valueOf(partes[1]));
+                            splitter.setNombre(nombre);
+                            splitter.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            splitter.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            splitter.setSalidas(Integer.valueOf(partes[4]));
+                            splitter.setPerdidaInsercion(Double.valueOf(partes[5]));
+                            splitter.setLongitudOnda(Integer.valueOf(partes[6]));
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), splitter);
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[7]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[8]));
+                            dibujos.add(manejadorElementos);
+                            linea=br.readLine();
+                            
+                            String [] conexiones = linea.split(",");
+                           // for(String o:conexiones){
+                             //   System.out.println("--------"+o);
+                           // }
+                            for(int i=0;i<((int) Math.pow(2,(splitter.getSalidas()+1))); i++){
+                                if(conexiones[i].compareTo(" ")==0)
+                                    splitter.cargarConexion(i,"");
+                                else    
+                                    splitter.cargarConexion(i,conexiones[i]);
+                            }
+                            elementos.add(splitter);
+                            break;
+                            
+                        case "fibra":
+                            Fibra fibra = new Fibra();
+                            fibra.setId(Integer.valueOf(partes[1]));
+                            fibra.setNombre(nombre);
+                            fibra.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            fibra.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            fibra.setLongitudOnda(Integer.valueOf(partes[4]));
+                            fibra.setModo(Integer.valueOf(partes[5]));
+                            fibra.setTipo(Integer.valueOf(partes[6]));
+                            fibra.setLongitud_km(Double.valueOf(partes[7]));
+                            fibra.setDispersion(Double.valueOf(partes[8]));
+                            fibra.setAtenuacion(Double.valueOf(partes[9]));
+                            elementos.add(fibra);
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), fibra);
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[10]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[11]));
+                            dibujos.add(manejadorElementos);
+                            break;
+                            
+                        case "fuente":
+                            Fuente fuente = new Fuente();
+                            fuente.setId(Integer.valueOf(partes[1]));
+                            fuente.setNombre(nombre);
+                            fuente.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            fuente.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            fuente.setTipo(Integer.valueOf(partes[4]));
+                            fuente.setPotencia(Double.valueOf(partes[5]));
+                            fuente.setAnchura(Double.valueOf(partes[6]));
+                            fuente.setVelocidad(Double.valueOf(partes[7]));
+                            fuente.setLongitudOnda(Integer.valueOf(partes[8]));
+                            //fuente.setPulso(Float.parseFloat(partes[8]),Float.parseFloat(partes[9]),Float.parseFloat(partes[10]),Float.parseFloat(partes[11]),Float.parseFloat(partes[12]));
+                            elementos.add(fuente);
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), fuente);
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[9]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[10]));
+                            dibujos.add(manejadorElementos);
+                            break;
+                        case "potencia":
+                            MedidorPotencia potencia= new MedidorPotencia();
+                            potencia.setId(Integer.valueOf(partes[1]));
+                            potencia.setNombre(nombre);
+                            potencia.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            potencia.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            elementos.add(potencia);
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), potencia);
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[4]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[5]));
+                            dibujos.add(manejadorElementos);
+                            break;
+
+                        case "espectro":
+                            MedidorEspectro espectro = new MedidorEspectro();
+                            espectro.setId(Integer.valueOf(partes[1]));
+                            espectro.setNombre(nombre);
+                            espectro.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            espectro.setConectadoSalida(Boolean.valueOf(partes[3]));
+                            elementos.add(espectro);
+                            manejadorElementos = new ElementoGrafico(this, Integer.valueOf(partes[1]), espectro);
+                            manejadorElementos.getDibujo();
+                            manejadorElementos.getDibujo().setLayoutX(Double.valueOf(partes[4]));
+                            manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[5]));
+                            dibujos.add(manejadorElementos);
+                            break;
+                            
+                        default:
+                            contadorElemento=Integer.valueOf(partes[1]);
+                            //System.out.println(id);
+                    }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta 
+         // una excepcion.
+            try{                    
+                if( null != fr ){   
+                fr.close();     
+            }                  
+            }catch (Exception e2){ 
+            e2.printStackTrace();
+            }
+        }
+    }
 }

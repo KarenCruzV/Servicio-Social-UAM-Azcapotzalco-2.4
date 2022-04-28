@@ -82,12 +82,12 @@ public class Componente {
 
     @Override
     public String toString() {
-        return "Componente{" + "nombre=" + nombre + ", id=" + id + 
+        /*return "Componente{" + "nombre=" + nombre + ", id=" + id + 
                 //"elementoEntrada= "+elementoConectadoEntrada+
                 ", conectadoEntrada=" + conectadoEntrada + 
                 //"elementoSalida= "+elementoConectadoSalida+
-                ", conectadoSalida=" + conectadoSalida + '}';
+                ", conectadoSalida=" + conectadoSalida + '}';*/
+        return nombre+","+id+","+conectadoEntrada+","+conectadoSalida;
     }
-    
     
 }
