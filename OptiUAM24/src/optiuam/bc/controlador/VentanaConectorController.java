@@ -36,10 +36,10 @@ import optiuam.bc.modelo.ElementoGrafico;
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
     
     static int idConector = 0;
-    ControladorGeneral controlador=null;
-    Stage stage=null;
-    ElementoGrafico elemG=null;
-    VentanaConectorController conectorControl=null;
+    ControladorGeneral controlador;
+    Stage stage;
+    ElementoGrafico elemG;
+    VentanaConectorController conectorControl;
     static Line linea;
     static double posX, posY;
     
@@ -168,8 +168,19 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                     
                     if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(linea);
+                        borrarLinea(elem.getComponente().getXd());
                         dibujarLinea(elem);
+                    }
+                    if(elem.getComponente().isConectadoEntrada()){
+                        ElementoGrafico aux;
+                        for(int it=0; it<controlador.getDibujos().size();it++){
+                            if(elem.getComponente().getElementoConectadoEntrada()==(controlador.getDibujos().get(it).getDibujo().getText())){
+                                aux=controlador.getDibujos().get(it);
+                                borrarLinea(aux.getComponente().getXd());
+                            }
+                        }
+                        
+                        dibujarLineaAtras(elem);
                     }
                     
                 }
@@ -351,11 +362,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
                     aux.setElementoConectadoSalida(poyo.getDibujo().getText());
                     aux.setConectadoSalida(true);
-                    //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
-                    controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
-                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
-                    //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                    //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
+                    System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
+                    
+                    poyo.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                    poyo.getComponente().setConectadoEntrada(true);
                     break;
                 }
             }
@@ -458,29 +468,53 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
     }
     
-    private Line dibujarLinea(ElementoGrafico elemG) {
-        linea = new Line();
-        linea.setStartX(elemG.getDibujo().getLayoutX()+45);
-        linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+    private void dibujarLinea(ElementoGrafico elemG) {
+        Line line= new Line();   
+        line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+        line.setStartY(elemG.getDibujo().getLayoutY()+7);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elemG.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(it).getDibujo().getText()){
                 aux=controlador.getDibujos().get(it);
             }
         }
-        linea.setEndX(aux.getDibujo().getLayoutX());
-        linea.setEndY(aux.getDibujo().getLayoutY());
-        linea.setStroke(Color.GREY);
-        linea.setStrokeWidth(2);
-        setLinea(linea);
+        line.setStrokeWidth(2);
+        line.setStroke(Color.BLACK);
+        line.setEndX(aux.getDibujo().getLayoutX());
+        line.setEndY(aux.getDibujo().getLayoutY());
+        setLinea(line);
         //System.out.println("Se dibujo una linea");
-        linea.setVisible(true);
-        Pane1.getChildren().add(getLinea());
-        return linea;       
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        elemG.getComponente().setXd(line);
+              
     }
     
     private void borrarLinea(Line linea){
         linea.setVisible(false);
+    }
+    
+    private void dibujarLineaAtras(ElementoGrafico elem) {
+        Line line= new Line();   
+        ElementoGrafico aux= new ElementoGrafico();
+        
+        for(int it=0; it<controlador.getDibujos().size();it++){
+            if(elem.getComponente().getElementoConectadoEntrada()==(controlador.getDibujos().get(it).getDibujo().getText())){
+                aux=controlador.getDibujos().get(it);
+            }
+        }
+        line.setStrokeWidth(2);
+        line.setStroke(Color.BLACK);
+        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
+        line.setStartY(aux.getDibujo().getLayoutY()+10);
+        line.setEndX(elem.getDibujo().getLayoutX());
+        line.setEndY(elem.getDibujo().getLayoutY()+7);
+        setLinea(line);
+        //System.out.println("Se dibujo una linea");
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        aux.getComponente().setXd(line);
+            
     }
     
 }

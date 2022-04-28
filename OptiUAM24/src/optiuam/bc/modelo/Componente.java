@@ -1,6 +1,8 @@
 
 package optiuam.bc.modelo;
 
+import javafx.scene.shape.Line;
+
 public class Componente {
     
     /*Attribute Declaration*/
@@ -13,6 +15,7 @@ public class Componente {
     protected boolean conectadoEntrada;
     protected String elementoConectadoSalida="" ;
     protected boolean conectadoSalida;
+    protected Line xd;
     
     /*Constructor*/
 
@@ -75,6 +78,14 @@ public class Componente {
 
     public void setConectadoSalida(boolean conectadoSalida) {
         this.conectadoSalida = conectadoSalida;
+    }
+
+    public Line getXd() {
+        return xd;
+    }
+
+    public void setXd(Line xd) {
+        this.xd = xd;
     }
     
     

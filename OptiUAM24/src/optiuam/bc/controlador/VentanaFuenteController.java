@@ -205,7 +205,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         
         //elemG.getComponente().getElementoConectadoEntrada().getComponente().setConectadoEntrada(false);
         //elemG.getComponente().getElementoConectadoEntrada().getComponente().setElementoConectadoEntrada(null);
-        getLinea().setVisible(false);
+        elemG.getComponente().getXd().setVisible(false);
         cerrarVentana(event);
     }
     
@@ -396,7 +396,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     //System.out.println("Coordenadas fuente: " + getPosX()+" ,"+getPosY());
                     //dibujarLinea(elem);
                     if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(linea);
+                        borrarLinea(elem.getComponente().getXd());
                         dibujarLinea(elem);
                     }
                 }
@@ -583,29 +583,30 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
     }
 
-    private Line dibujarLinea(ElementoGrafico elemG) {
-        linea = new Line();
-        linea.setStartX(elemG.getDibujo().getLayoutX()+45);
-        linea.setStartY(elemG.getDibujo().getLayoutY()+7);
+    private void dibujarLinea(ElementoGrafico elemG) {
+        Line line= new Line();   
+        line.setStartX(elemG.getDibujo().getLayoutX()+45);
+        line.setStartY(elemG.getDibujo().getLayoutY()+7);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elemG.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(it).getDibujo().getText()){
                 aux=controlador.getDibujos().get(it);
             }
         }
-        linea.setEndX(aux.getDibujo().getLayoutX());
-        linea.setEndY(aux.getDibujo().getLayoutY());
-        linea.setStroke(Color.GREY);
-        linea.setStrokeWidth(2);
-        setLinea(linea);
+        line.setStrokeWidth(2);
+        line.setStroke(Color.BLACK);
+        line.setEndX(aux.getDibujo().getLayoutX());
+        line.setEndY(aux.getDibujo().getLayoutY());
+        setLinea(line);
         //System.out.println("Se dibujo una linea");
-        linea.setVisible(true);
-        Pane1.getChildren().add(getLinea());
-        return linea;        
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        elemG.getComponente().setXd(line);
+              
     }
     
-    private void borrarLinea(Line linea){
-        linea.setVisible(false);
+    private void borrarLinea(Line line){
+        line.setVisible(false);
     }
     
 }
