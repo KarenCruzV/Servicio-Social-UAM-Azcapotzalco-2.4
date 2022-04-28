@@ -1,7 +1,10 @@
 
 package optiuam.bc.controlador;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +17,14 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import optiuam.bc.modelo.Componente;
+import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Empalme;
+import optiuam.bc.modelo.Fibra;
+import optiuam.bc.modelo.Fuente;
+import optiuam.bc.modelo.MedidorEspectro;
+import optiuam.bc.modelo.MedidorPotencia;
+import optiuam.bc.modelo.Splitter;
 
 /**
  *
@@ -118,5 +128,88 @@ public class ControladorGeneral {
             Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public ElementoGrafico obtenerDibujo(int id){
+        for(int i = 0 ; i < dibujos.size();i++)
+            if(dibujos.get(i).getId()==id)
+                return dibujos.get(i);
+        return null;
+    }
+    
+    public void guardarTrabajo(String ruta_archivo){
+        //se comprueba que el usuario no le ponga extension al archivo
+        if(ruta_archivo.contains(".opt")){
+           ruta_archivo= ruta_archivo.split(".opt")[0];//se le quita el .opt
+            //System.out.println(ruta_archivo);
+        }
+             
+        try {
+            File archivo = new File(ruta_archivo+".opt");
+            if(!archivo.exists())
+                archivo.createNewFile();
+            FileWriter fichero = null;
+            PrintWriter pw = null;
+        try
+        {
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            pw.println(contadorElemento);
+            for(int i =0;i < elementos.size();i++){
+                String aux = elementos.get(i).getNombre();
+                int aux1 = elementos.get(i).getId();
+                if(aux.contains("conector")){
+                    Conector conector = (Conector) elementos.get(i);
+                    pw.println(conector.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                }
+                else if(aux.contains("empalme")){
+                    Empalme empalme= (Empalme) elementos.get(i);
+                    pw.println(empalme.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                }
+                else if(aux.contains("fibra")){
+                    Fibra fibra = (Fibra) elementos.get(i);
+                    pw.println(fibra.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                }
+                else if(aux.contains("splitter")){
+                    Splitter splitter = (Splitter) elementos.get(i);
+                    pw.println(splitter.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                    pw.println(splitter.Conexiones());
+                }
+                else if(aux.contains("fuente")){
+                    Fuente fuente = (Fuente) elementos.get(i);
+                    pw.println(fuente.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                }
+                else if(aux.contains("potencia")){
+                    MedidorPotencia potencia= (MedidorPotencia) elementos.get(i);
+                    pw.println(potencia.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                }
+                else{
+                    MedidorEspectro espectro = (MedidorEspectro)elementos.get(i);
+                    pw.println(espectro.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
+                            ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+        } catch (IOException ex) {
+            Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
 }

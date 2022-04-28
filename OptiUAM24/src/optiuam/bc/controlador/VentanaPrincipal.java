@@ -1,6 +1,7 @@
 
 package optiuam.bc.controlador;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -36,7 +37,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fibra;
@@ -416,7 +418,7 @@ public class VentanaPrincipal implements Initializable {
     }
     
     @FXML
-    private void menuItemNewAction (ActionEvent event) {                                           
+    private void menuItemNewAction(ActionEvent event) {                                           
         ButtonType aceptar = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(AlertType.CONFIRMATION,
@@ -432,6 +434,40 @@ public class VentanaPrincipal implements Initializable {
             controlador.nuevoTrabajo(event); // empezar un nuevo trabajo
         }
         else{}
+    }    
+    
+    @FXML
+    private void menuItemSaveAction(ActionEvent event) {                                             
+        JFileChooser manejador = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("opt Files (*.opt)", "*.opt");
+        manejador.setDialogTitle("Save");
+        manejador.setBackground(Color.CYAN);
+        manejador.setFileFilter(filtro);
+        manejador.showSaveDialog(null);
+        String ruta_archivo="";
+        try {
+        ruta_archivo = manejador.getSelectedFile().getPath();
+        //System.out.println(ruta_archivo);
+        controlador.guardarTrabajo(ruta_archivo);
+        } catch (Exception e) {
+            //no se hace nada ya que esta excepcion se activa cuando se da click 
+            //en cancelar o se cierra la ventana para cargar/guardad trabajo
+        }
+        /*Mi forma xd se ve mas bonito jsjsjs
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("opt Files", "*.opt"));
+        fileChooser.showSaveDialog(null);
+        try {
+        ruta_archivo = fileChooser...->ya no aplica.getSelectedFile().getPath();
+        //System.out.println(ruta_archivo);
+        controlador.guardarTrabajo(ruta_archivo);
+        } catch (Exception e) {
+            //no se hace nada ya que esta excepcion se activa cuando se da click 
+            //en cancelar o se cierra la ventana para cargar/guardad trabajo
+        }
+        */
+        
     }    
 
 }
