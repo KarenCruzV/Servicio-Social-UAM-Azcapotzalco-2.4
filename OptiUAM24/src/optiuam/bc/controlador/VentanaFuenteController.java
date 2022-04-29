@@ -205,7 +205,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         
         //elemG.getComponente().getElementoConectadoEntrada().getComponente().setConectadoEntrada(false);
         //elemG.getComponente().getElementoConectadoEntrada().getComponente().setElementoConectadoEntrada(null);
-        elemG.getComponente().getXd().setVisible(false);
+        elemG.getComponente().getLinea().setVisible(false);
         cerrarVentana(event);
     }
     
@@ -396,7 +396,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     //System.out.println("Coordenadas fuente: " + getPosX()+" ,"+getPosY());
                     //dibujarLinea(elem);
                     if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(elem.getComponente().getXd());
+                        borrarLinea(elem.getComponente().getLinea());
                         dibujarLinea(elem);
                     }
                 }
@@ -601,7 +601,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
-        elemG.getComponente().setXd(line);
+        elemG.getComponente().setLinea(line);
               
     }
     

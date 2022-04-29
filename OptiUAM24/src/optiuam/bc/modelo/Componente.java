@@ -15,7 +15,7 @@ public class Componente {
     protected boolean conectadoEntrada;
     protected String elementoConectadoSalida="" ;
     protected boolean conectadoSalida;
-    protected Line xd;
+    protected Line linea;
     
     /*Constructor*/
 
@@ -80,12 +80,12 @@ public class Componente {
         this.conectadoSalida = conectadoSalida;
     }
 
-    public Line getXd() {
-        return xd;
+    public Line getLinea() {
+        return linea;
     }
 
-    public void setXd(Line xd) {
-        this.xd = xd;
+    public void setLinea(Line linea) {
+        this.linea = linea;
     }
     
     

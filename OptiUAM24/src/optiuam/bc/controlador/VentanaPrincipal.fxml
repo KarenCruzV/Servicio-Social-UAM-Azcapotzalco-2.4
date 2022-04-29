@@ -26,8 +26,17 @@
                   <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" onAction="#menuItemOpenAction" text="Open" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help" />
-          <Menu mnemonicParsing="false" text="About" />
+          <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help" >
+              <items>
+                <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#menuHelpAction" text="Help" />
+              </items>
+          </Menu>
+          
+          <Menu fx:id="menuAbout" mnemonicParsing="false" text="About" >
+            <items>
+                <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuAboutAction" text="About" />
+              </items>
+          </Menu>
         </menus>
          <effect>
             <InnerShadow choke="0.08" color="#0e5cc3" radius="24.085" width="77.34" />

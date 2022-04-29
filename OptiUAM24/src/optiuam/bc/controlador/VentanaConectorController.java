@@ -182,7 +182,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     }
                     
                     if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(elem.getComponente().getXd());
+                        borrarLinea(elem.getComponente().getLinea());
                         dibujarLinea(elem);
                     }
                     if(elem.getComponente().isConectadoEntrada()){
@@ -190,7 +190,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         for(int it=0; it<controlador.getDibujos().size();it++){
                             if(elem.getComponente().getElementoConectadoEntrada()==(controlador.getDibujos().get(it).getDibujo().getText())){
                                 aux=controlador.getDibujos().get(it);
-                                borrarLinea(aux.getComponente().getXd());
+                                borrarLinea(aux.getComponente().getLinea());
                             }
                         }
                         
@@ -350,7 +350,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         //elemG.getComponente().setConectadoEntrada(false);
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida("");
-        elemG.getComponente().getXd().setVisible(false);
+        elemG.getComponente().getLinea().setVisible(false);
         cerrarVentana(event);
     }
     
@@ -513,7 +513,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
-        elemG.getComponente().setXd(line);
+        elemG.getComponente().setLinea(line);
               
     }
     
@@ -539,7 +539,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
-        aux.getComponente().setXd(line);
+        aux.getComponente().setLinea(line);
             
     }
     

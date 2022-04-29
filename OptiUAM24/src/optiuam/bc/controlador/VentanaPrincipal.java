@@ -2,6 +2,8 @@
 package optiuam.bc.controlador;
 
 import java.awt.Color;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
@@ -34,6 +37,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -71,6 +75,19 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     MenuItem menuItemNew, menuItemSave, menuItemOpen;
+    
+    @FXML
+    Menu menuHelp, menuAbout;
+    
+    static Line linea;
+    public static Line getLinea() {
+        return linea;
+    }
+
+    public static void setLinea(Line linea) {
+        VentanaPrincipal.linea = linea;
+    }
+    
     
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
@@ -214,22 +231,7 @@ public class VentanaPrincipal implements Initializable {
         controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
         
-            dibujo.setOnMouseDragged((MouseEvent event1) -> {
-            if (event1.getButton() == MouseButton.PRIMARY) {
-                dibujo.setLayoutX(event1.getSceneX() - 20);
-                dibujo.setLayoutY(event1.getSceneY() - 170);
-                dibujo.setCursor(Cursor.CLOSED_HAND);
-            }
-        });
-            
-            dibujo.setOnMouseEntered((MouseEvent event1) -> {
-                dibujo.setStyle("-fx-border-color: darkblue;");
-                dibujo.setCursor(Cursor.OPEN_HAND);
-        });
-            
-            dibujo.setOnMouseExited((MouseEvent event1) -> {
-                dibujo.setStyle("");
-        });
+           eventos(elem);
             
             dibujo.setOnMouseClicked((MouseEvent event1) -> {
             if (event1.getButton() == MouseButton.PRIMARY) {
@@ -287,22 +289,7 @@ public class VentanaPrincipal implements Initializable {
         controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
         
-            elem.getDibujo().setOnMouseDragged((MouseEvent event1) -> {
-            if (event1.getButton() == MouseButton.PRIMARY) {
-                elem.getDibujo().setLayoutX(event1.getSceneX() - 20);
-                elem.getDibujo().setLayoutY(event1.getSceneY() - 170);
-                elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-            }
-        });
-            
-            elem.getDibujo().setOnMouseEntered((MouseEvent event1) -> {
-                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
-                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
-        });
-            
-            elem.getDibujo().setOnMouseExited((MouseEvent event1) -> {
-                elem.getDibujo().setStyle("");
-        });
+            eventos(elem);
             
             elem.getDibujo().setOnMouseClicked((MouseEvent event1) -> {
             if (event1.getButton() == MouseButton.PRIMARY) {
@@ -373,10 +360,40 @@ public class VentanaPrincipal implements Initializable {
             }    
             dibujo.getDibujo().setVisible(false);
         });
+        MenuItem menuItem4 = new MenuItem("-Propiedades");
+        menuItem4.setOnAction(e ->{
+            //Tooltip tt= new Tooltip();
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    
+                    if(dibujo.getDibujo().getText().contains("potencia")){
+                        MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
+                        String name= "NOMBRE: "+aux.getNombre();
+                        String id= "ID= "+aux.getIdPotencia();
+                        String conE= "Entrada:"+aux.getElementoConectadoEntrada();
+                        String conS= "Salida:"+aux.getElementoConectadoSalida();
+                        //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
+                        System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    }
+                    else{
+                        MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
+                        String name= "NOMBRE: "+aux.getNombre();
+                        String id= "ID= "+aux.getIdEspectro();
+                        String conE= "Entrada:"+aux.getElementoConectadoEntrada();
+                        String conS= "Salida:"+aux.getElementoConectadoSalida();
+                        //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
+                        System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    }
+                //dibujo.getDibujo().setTooltip(tt);
+                }
+            }
+                
+        });
 
         // add menu items to menu
         contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
+        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
@@ -400,8 +417,6 @@ public class VentanaPrincipal implements Initializable {
         viewEmpalme.setImage(empalmeI);
         viewSplitter.setImage(splitterI);
         
-        //ventanaPrincipal=this;
-        
     }    
 
     public void setStage(Stage primaryStage) {
@@ -415,6 +430,33 @@ public class VentanaPrincipal implements Initializable {
     public void setControlador(ControladorGeneral controlador) {
         VentanaPrincipal.controlador = controlador;
 
+    }
+    
+    @FXML
+    private void menuAboutAction(){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("VentanaAcercaDe.fxml"));
+            Scene scene = new Scene(root);
+            Image ico = new Image("images/acercaDe.png");
+            Stage st = new Stage(StageStyle.UTILITY);
+            st.getIcons().add(ico);
+            st.setTitle("OptiUAM BC Acerca De");
+            st.setScene(scene);
+            st.showAndWait();
+            st.setResizable(false);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @FXML
+    private void menuHelpAction(){
+        try {
+            File objetofile = new File ("ayuda.pdf");
+            Desktop.getDesktop().open(objetofile);
+        }catch (IOException ex) {
+               System.out.println(ex);
+        }
     }
     
     @FXML
@@ -486,5 +528,96 @@ public class VentanaPrincipal implements Initializable {
         }
         
     }   
+    
+    private void eventos(ElementoGrafico elem) {
+        elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
+                if(event.getButton()==MouseButton.PRIMARY){
+                    if(elem.getDibujo().getLayoutX()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX(0.0);
+                    }
+                    if(elem.getDibujo().getLayoutY()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY(0);
+                    }
+                    if(elem.getComponente().isConectadoSalida()==true){
+                        borrarLinea(elem.getComponente().getLinea());
+                        dibujarLinea(elem);
+                    }
+                    if(elem.getComponente().isConectadoEntrada()){
+                        ElementoGrafico aux;
+                        for(int it=0; it<controlador.getDibujos().size();it++){
+                            if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                                aux=controlador.getDibujos().get(it);
+                                borrarLinea(aux.getComponente().getLinea());
+                            }
+                        }
+                        
+                        dibujarLineaAtras(elem);
+                    }
+                }
+        });
+            elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
+                elem.getDibujo().setStyle("-fx-border-color: darkblue;");
+                elem.getDibujo().setCursor(Cursor.OPEN_HAND);
+        });
+            elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
+                elem.getDibujo().setStyle("");
+        });
+    }
+    
+    private void dibujarLinea(ElementoGrafico elemG) {
+        Line line= new Line();   
+        line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+        line.setStartY(elemG.getDibujo().getLayoutY()+7);
+        ElementoGrafico aux= new ElementoGrafico();
+        for(int it=0; it<controlador.getDibujos().size();it++){
+            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                aux=controlador.getDibujos().get(it);
+            }
+        }
+        line.setStrokeWidth(2);
+        line.setStroke(javafx.scene.paint.Color.BLACK);
+        line.setEndX(aux.getDibujo().getLayoutX());
+        line.setEndY(aux.getDibujo().getLayoutY());
+        setLinea(line);
+        //System.out.println("Se dibujo una linea");
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        elemG.getComponente().setLinea(line);
+              
+    }
+    
+    private void borrarLinea(Line linea){
+        linea.setVisible(false);
+    }
+    
+    private void dibujarLineaAtras(ElementoGrafico elem) {
+        Line line= new Line();   
+        ElementoGrafico aux= new ElementoGrafico();
+        
+        for(int it=0; it<controlador.getDibujos().size();it++){
+            if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                aux=controlador.getDibujos().get(it);
+            }
+        }
+        line.setStrokeWidth(2);
+        line.setStroke(javafx.scene.paint.Color.BLACK);
+        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
+        line.setStartY(aux.getDibujo().getLayoutY()+10);
+        line.setEndX(elem.getDibujo().getLayoutX());
+        line.setEndY(elem.getDibujo().getLayoutY()+7);
+        setLinea(line);
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        aux.getComponente().setLinea(line);
+            
+    }
 
 }
