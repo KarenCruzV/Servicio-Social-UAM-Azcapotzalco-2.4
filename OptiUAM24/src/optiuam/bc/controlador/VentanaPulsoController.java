@@ -34,6 +34,12 @@ public class VentanaPulsoController implements Initializable {
     @FXML
     TextField txtA0, txtC, txtT0, txtW0, txtM;
     
+    static float A0;
+    static float T0;
+    static float W0;
+    static float C;
+    static float M;
+    
     private VentanaFuenteController ventanaFuente;//id de la ventana de la fuente !!
     String tipo="Gaussian";
     /** Creates new form VentanaPulso */
@@ -120,13 +126,14 @@ public class VentanaPulsoController implements Initializable {
     }
     
     @FXML
-    private void btnAplicarAction(ActionEvent event) {
+    public void btnAplicarAction(ActionEvent event) {
         if(validarValores()){
-            float A0 = Float.parseFloat(txtA0.getText());
-            float T0 = Float.parseFloat(txtT0.getText());
-            float W0 = Float.parseFloat(txtW0.getText());
-            float C = Float.parseFloat(txtC.getText());
-            float M = Float.parseFloat(txtM.getText());
+            A0 = Float.parseFloat(txtA0.getText());
+            T0 = Float.parseFloat(txtT0.getText());
+            W0 = Float.parseFloat(txtW0.getText());
+            C = Float.parseFloat(txtC.getText());
+            M = Float.parseFloat(txtM.getText());
+            
             //controlador.guardarPulso(A0,T0,W0,C,M,ventanaFuente.getId());
             //ventanaFuente.setPulso(A0, T0, W0, C,M);
             if(M > 1){

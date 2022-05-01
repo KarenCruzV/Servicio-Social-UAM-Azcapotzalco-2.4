@@ -315,7 +315,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     }
     
     @FXML
-    private void configurarPulso(ActionEvent event) throws IOException {
+    public void configurarPulso() throws IOException {
         //System.out.println("Pulso");
         try {
             Parent root = FXMLLoader.load(getClass().getResource("VentanaPulso.fxml"));
