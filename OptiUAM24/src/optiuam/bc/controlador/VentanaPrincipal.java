@@ -87,8 +87,7 @@ public class VentanaPrincipal implements Initializable {
     public static void setLinea(Line linea) {
         VentanaPrincipal.linea = linea;
     }
-    
-    
+
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
         Fibra fibra= new Fibra();
