@@ -126,13 +126,13 @@ public class NumeroComplejo {
         return this;
     }
 
-    //regresa la parte real de numero complejo
+   //regresa la parte real de numero complejo
     public float getParteReal() {
         return parteReal;
     }
 
-    public void setParteReal(float parteReal) {
-        this.parteReal = parteReal;
+    public void setParteReal(float realPart) {
+        this.parteReal = realPart;
     }
     //regresa la parte imaginaria de un numero complejo
 
@@ -140,8 +140,8 @@ public class NumeroComplejo {
         return parteImaginaria;
     }
 
-    public void setParteImaginaria(float parteImaginaria) {
-        this.parteImaginaria = parteImaginaria;
+    public void setParteImaginaria(float imaginaryPart) {
+        this.parteImaginaria = imaginaryPart;
     }
     //
 

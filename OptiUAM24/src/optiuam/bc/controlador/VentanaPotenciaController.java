@@ -44,7 +44,7 @@ public class VentanaPotenciaController implements Initializable {
     
     /**
      * Initializes the controller class.
-     * @param event
+     * @param event Representa una accion del usuario en la interfaz
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();

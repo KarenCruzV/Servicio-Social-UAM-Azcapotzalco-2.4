@@ -48,8 +48,8 @@ public class VentanaPulsoController implements Initializable {
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url Representa un localizador uniforme de recursos, un puntero a un "recurso" en la WWW
+     * @param rb Contiene objetos específicos de la localidad
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -29,14 +30,12 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class VentanaEspectroController implements Initializable {
     
-    LinkedList<Componente> lista;
-    
     @FXML
     Button btnPulsoEntrada, btnB2;
 
     /**
      * Initializes the controller class.
-     * @param event
+     * @param event Representa una accion del usuario en la interfaz
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
@@ -88,11 +87,10 @@ public class VentanaEspectroController implements Initializable {
         return fftShift_float(absFFT, n);
     }
     
-    public float[] pulsoSalidaB2(float A0,float T0,float W0,float C,float M){
+    public float[] pulsoSalidaB2(float A0,float T0,float W0,float C,float M,LinkedList<Componente> lista){
         //primero se encuentra la longitud total de la fibra y su wavelength
         float z = 0;
         int wavelength =0;
-        lista = VentanaPrincipal.controlador.getElementos();
         for(int i=0; i< lista.size();i++){
             if(lista.get(i).getNombre().contains("fibra")){
                 Fibra fibra = (Fibra) lista.get(i);
@@ -208,97 +206,94 @@ public class VentanaEspectroController implements Initializable {
          
          //for(int i=0; i<n;i++)
          //System.out.println(i+1+"  ;"+ifft_real[i]+" "+ifft_imaginario[i]+"i");
+         
         
-        //obtener el abs(iFFT(real,imaginario))
+        //obtner el abs(iFFT(real,imaginario))
         float [] absIFFT= new float[n];
-              for(int i =0; i <n ; i++){
-                        absIFFT[i]= new NumeroComplejo(ifft_real[i],ifft_imaginario[i]).getAmplitud();
-                        //System.out.println(i+1+" "+absIFFT[i]);
-                }
+        for(int i =0; i <n ; i++){
+                  absIFFT[i]= new NumeroComplejo(ifft_real[i],ifft_imaginario[i]).getAmplitud();
+                  //System.out.println(i+1+" "+absIFFT[i]);
+          }
        
         //hacer el corriemiento a la derecha fftshift en Matlab
         return absIFFT;
     
     }
     
-    //este metodo calcula la envolvente del pulso 
+    //este metodo calcula la envolvente del puslo 
     //A0*U(0,T)
     public NumeroComplejo [] calcularEnvolvente(int n,boolean salida,float A0,float T0,float W0,float C,float M){
         //si es para el pulso de salida se necesita mas presicion
         NumeroComplejo[] Et= null;
         if(salida){
-            //n=n/10;
-        NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
-        NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
-        chirpXi.sumar(new NumeroComplejo(1, 0), false); //1 + iC
-        chirpXi.multiplicar(-.5F, false); //-(1/2)*(1+iC)
-    
-        //System.out.println(chirpXi.toString());
-        Et= new NumeroComplejo[n];
-        NumeroComplejo aux=null;
-        
-        double naux = n;
-        double t = -((naux/2)/10);
-        
-        for(int i=0; i<n;i++){
-            t= Math.floor(t * 10) / 10;
-            aux = new NumeroComplejo(chirpXi.getParteReal(), chirpXi.getParteImaginaria());
-            aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
-            Et[i]=aux;
-            t = t + 0.1F;
-            //System.out.println((t+1+256)+""+aux.toString());
-        }
-        NumeroComplejo aux2=null;
-        for(int i=0; i<n;i++){
-             aux2 = new NumeroComplejo(Et[i].getParteReal(),Et[i].getParteImaginaria());
-            //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             float x = aux2.getParteReal();
-             float y = aux2.getParteImaginaria();
-  
-             aux2.setParteReal((float) (Math.exp(x)*Math.cos(y)));
-             aux2.setParteImaginaria((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
-             //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             aux2.multiplicar(A0,false);//A0*U(0,T)
-             Et[i]=aux2;
-             //System.out.println((t+1+256)+";;;;"+Et[256+t].toString());
-           
-        }
+                //n=n/10;
+            NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
+            NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
+            chirpXi.sumar(new NumeroComplejo(1, 0), false); //1 + iC
+            chirpXi.multiplicar(-.5F, false); //-(1/2)*(1+iC)
+
+            //System.out.println(chirpXi.toString());
+            Et= new NumeroComplejo[n];
+            NumeroComplejo aux=null;
+
+            double naux = n;
+            double t = -((naux/2)/10);
+
+            for(int i=0; i<n;i++){
+                t= Math.floor(t * 10) / 10;
+                aux = new NumeroComplejo(chirpXi.getParteReal(), chirpXi.getParteImaginaria());
+                aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
+                Et[i]=aux;
+                t = t + 0.1F;
+                //System.out.println((t+1+256)+""+aux.toString());
+            }
+            NumeroComplejo aux2=null;
+            for(int i=0; i<n;i++){
+                 aux2 = new NumeroComplejo(Et[i].getParteReal(),Et[i].getParteImaginaria());
+                //System.out.println((t+1+256)+";;;;"+aux2.toString());
+                 float x = aux2.getParteReal();
+                 float y = aux2.getParteImaginaria();
+
+                 aux2.setParteReal((float) (Math.exp(x)*Math.cos(y)));
+                 aux2.setParteImaginaria((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
+                 //System.out.println((t+1+256)+";;;;"+aux2.toString());
+                 aux2.multiplicar(A0,false);//A0*U(0,T)
+                 Et[i]=aux2;
+                 //System.out.println((t+1+256)+";;;;"+Et[256+t].toString());
+
+            }
         }
         else{
-        NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
-        NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
-        chirpXi.sumar(new NumeroComplejo(1, 0), false); //1 + iC
-        chirpXi.multiplicar(-.5F, false); //-(1/2)*(1+iC)
-    
-        //System.out.println(chirpXi.toString());
-        Et= new NumeroComplejo[n];
-        NumeroComplejo aux=null;
-        for(int t=-(n/2); t<(n/2);t++){
-            aux = new NumeroComplejo(chirpXi.getParteReal(), chirpXi.getParteImaginaria());
-            aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
-            Et[(n/2)+t]=aux;
-            //System.out.println((t+1+256)+""+aux.toString());
+            NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
+            NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
+            chirpXi.sumar(new NumeroComplejo(1, 0), false); //1 + iC
+            chirpXi.multiplicar(-.5F, false); //-(1/2)*(1+iC)
+
+            //System.out.println(chirpXi.toString());
+            Et= new NumeroComplejo[n];
+            NumeroComplejo aux=null;
+            for(int t=-(n/2); t<(n/2);t++){
+                aux = new NumeroComplejo(chirpXi.getParteReal(), chirpXi.getParteImaginaria());
+                aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
+                Et[(n/2)+t]=aux;
+                //System.out.println((t+1+256)+""+aux.toString());
+            }
+            NumeroComplejo aux2=null;
+            for(int t=-(n/2); t<(n/2);t++){
+                 aux2 = new NumeroComplejo(Et[(n/2)+t].getParteReal(),Et[(n/2)+t].getParteImaginaria());
+                //System.out.println((t+1+256)+";;;;"+aux2.toString());
+                 float x = aux2.getParteReal();
+                 float y = aux2.getParteImaginaria();
+
+                 aux2.setParteReal((float) (Math.exp(x)*Math.cos(y)));
+                 aux2.setParteImaginaria((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
+                 //System.out.println((t+1+256)+";;;;"+aux2.toString());
+                 aux2.multiplicar(A0,false);//A0*U(0,T)
+                 Et[(n/2)+t]=aux2;
+                 //System.out.println((t+1+256)+";;;;"+Et[256+t].toString());
+            }
         }
-        NumeroComplejo aux2=null;
-        for(int t=-(n/2); t<(n/2);t++){
-             aux2 = new NumeroComplejo(Et[(n/2)+t].getParteReal(),Et[(n/2)+t].getParteImaginaria());
-            //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             float x = aux2.getParteReal();
-             float y = aux2.getParteImaginaria();
-  
-             aux2.setParteReal((float) (Math.exp(x)*Math.cos(y)));
-             aux2.setParteImaginaria((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
-             //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             aux2.multiplicar(A0,false);//A0*U(0,T)
-             Et[(n/2)+t]=aux2;
-             //System.out.println((t+1+256)+";;;;"+Et[256+t].toString());
-           
-        }
-        
-        }
-        
         return Et;
-        
     } 
     
     //este metodo aplica un corrimiento logico a la derecha desde la mitad 
@@ -306,11 +301,11 @@ public class VentanaEspectroController implements Initializable {
     public float[] fftShift_float(float [] valores,int n){
         float [] fftshift = new float[n];
         for(int i = (n/2); i < n; i++){
-                    fftshift[i]=valores[i-(n/2)];
-                }
-                for(int j = 0; j < (n/2); j++){
-                    fftshift[j]=valores[j+(n/2)];
-                }
+            fftshift[i]=valores[i-(n/2)];
+        }
+        for(int j = 0; j < (n/2); j++){
+            fftshift[j]=valores[j+(n/2)];
+        }
         return fftshift;        
     }
     
@@ -319,11 +314,11 @@ public class VentanaEspectroController implements Initializable {
     public NumeroComplejo[] fftShift_complejo(NumeroComplejo [] valores,int n){
         NumeroComplejo [] fftshift = new NumeroComplejo[n];
         for(int i = (n/2); i < n; i++){
-                    fftshift[i]=valores[i-(n/2)];
-                }
-                for(int j = 0; j < (n/2); j++){
-                    fftshift[j]=valores[j+(n/2)];
-                }
+            fftshift[i]=valores[i-(n/2)];
+        }
+        for(int j = 0; j < (n/2); j++){
+            fftshift[j]=valores[j+(n/2)];
+        }
         return fftshift;        
     }
     
@@ -335,7 +330,7 @@ public class VentanaEspectroController implements Initializable {
     }
     
     @FXML
-    private void btnPulsoEntrada(){
+    private void btnPulsoEntradaAction(){
         float valores[] = pulsoEntrada(VentanaPulsoController.A0, VentanaPulsoController.T0,
                 VentanaPulsoController.W0, VentanaPulsoController.C, VentanaPulsoController.M);
         //(Float.parseFloat(VentanaPulsoController.A0),
@@ -371,38 +366,39 @@ public class VentanaEspectroController implements Initializable {
         frame.setVisible(true);
         }
         else{
-            JOptionPane.showMessageDialog(null,"Error en el enlace","error",JOptionPane.ERROR_MESSAGE);
-            //this.dispose();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nError en el enlace");
+            alert.showAndWait();
         }
     }
     
     @FXML
-    private void btnB2(){
+    private void btnB2Action(){
         float valores[] = pulsoSalidaB2(VentanaPulsoController.A0, VentanaPulsoController.T0,
-                VentanaPulsoController.W0, VentanaPulsoController.C, VentanaPulsoController.M);
+                VentanaPulsoController.W0, VentanaPulsoController.C, VentanaPulsoController.M, 
+                VentanaPrincipal.controlador.getElementos());
         
         if(valores != null){
 	 XYSeries series = new XYSeries("xy");
         
          //Introduccion de datos
-
-        System.out.println(valores.length);
         double naux = valores.length;
         double t = -((naux/2)/10);
-        
         for(int i=0; i<valores.length;i++){
             t= Math.floor(t * 10) / 10;
             series.add(t,valores[i]);
             t = t + 0.1F;
             //System.out.println((t+1+256)+""+aux.toString());
         }
-        
+
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(series);
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Pulso a la salida", // Título
-                "Tiempo (t) ", // Etiqueta Coordenada X
+                "Tiempo (t)", // Etiqueta Coordenada X
                 "U(z,t)", // Etiqueta Coordenada Y
                 dataset, // Datos
                 PlotOrientation.VERTICAL,
@@ -417,12 +413,12 @@ public class VentanaEspectroController implements Initializable {
         frame.setVisible(true);
         }
         else{
-            JOptionPane.showMessageDialog(null,"Error en el enlace","error",JOptionPane.ERROR_MESSAGE);
-            //this.dispose();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nError en el enlace");
+            alert.showAndWait();
         }
     }
-    
-    
-    
     
 }
