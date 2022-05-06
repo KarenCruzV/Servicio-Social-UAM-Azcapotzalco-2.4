@@ -48,7 +48,7 @@
             <ToggleGroup fx:id="LongitudOnda" />
          </toggleGroup></RadioButton>
       <RadioButton id="rbtn1550" fx:id="rbtn1550" layoutX="200.0" layoutY="157.0" mnemonicParsing="false" onAction="#rbtn1550Action" text="1550 nm" toggleGroup="$LongitudOnda" />
-      <Label layoutX="23.0" layoutY="200.0" text="Cable lenght" />
+      <Label layoutX="24.0" layoutY="200.0" text="Fiber lenght" />
       <TextField id="txtDistancia" fx:id="txtDistancia" layoutX="110.0" layoutY="196.0" prefHeight="25.0" prefWidth="92.0" />
       <Label layoutX="212.0" layoutY="200.0" text="km" />
       <Label layoutX="25.0" layoutY="242.0" text="Attenuation" />
@@ -60,7 +60,7 @@
       <Separator fx:id="separator" layoutX="339.0" layoutY="60.0" orientation="VERTICAL" prefHeight="257.0" prefWidth="3.0" />
       <Label fx:id="lblConectarA" layoutX="357.0" layoutY="118.0" text="Connect to:" />
       <ComboBox fx:id="cboxConectarA" layoutX="356.0" layoutY="145.0" prefHeight="25.0" prefWidth="92.0" />
-      <Button fx:id="btnDesconectar" layoutX="357.0" layoutY="196.0" mnemonicParsing="false" onAction="#Desconectar"  text="Disconnect" />
+      <Button fx:id="btnDesconectar" layoutX="357.0" layoutY="196.0" mnemonicParsing="false" onAction="#Desconectar" text="Disconnect" />
       <Button fx:id="btnCrear" layoutX="89.0" layoutY="334.0" mnemonicParsing="false" onAction="#enviarDatos" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />

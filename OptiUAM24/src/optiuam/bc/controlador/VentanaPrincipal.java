@@ -100,13 +100,12 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Nueva Fibra");
+        stage.setTitle("OptiUAM BC New Fiber");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
- 
-        System.out.print(controlador.getContadorElemento());
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -123,7 +122,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Nueva Fuente");
+        stage.setTitle("OptiUAM BC New Source");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -145,7 +144,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Nuevo Splitter");
+        stage.setTitle("OptiUAM BC New Splitter");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -167,7 +166,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Nuevo Conector");
+        stage.setTitle("OptiUAM BC New Connector");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -189,7 +188,7 @@ public class VentanaPrincipal implements Initializable {
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
         stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC Nuevo Empalme");
+        stage.setTitle("OptiUAM BC New Splice");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -204,13 +203,13 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void crearPotencia(ActionEvent event){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Medidor de potencia creado!");
+        alert.setContentText("\nPower Meter created!");
         alert.showAndWait();
         
         MedidorPotencia potencia = new MedidorPotencia();
-        potencia.setNombre("potencia");
+        potencia.setNombre("power"); //potencia
         potencia.setConectadoEntrada(false);
         potencia.setConectadoSalida(false);
         potencia.setIdPotencia(idPotencia);
@@ -220,7 +219,7 @@ public class VentanaPrincipal implements Initializable {
         
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_potencia.png")));
-        dibujo.setText("potencia" + "_"+ potencia.getIdPotencia());
+        dibujo.setText("power" + "_"+ potencia.getIdPotencia());
         dibujo.setContentDisplay(ContentDisplay.TOP);
 
         ElementoGrafico elem = new ElementoGrafico();
@@ -240,7 +239,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Medidor de Potencia");
+                    stage.setTitle("OptiUAM BC Power Meter");
                     stage.setScene(scene);
                     stage.showAndWait();
                     stage.setResizable(false);
@@ -252,7 +251,7 @@ public class VentanaPrincipal implements Initializable {
             }
         });
             controlador.setContadorElemento(controlador.getContadorElemento()+1);
-        System.out.print(controlador.getContadorElemento());
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -262,13 +261,13 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void crearEspectro(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Analizador de espectros creado!");
+        alert.setContentText("\nSpectrum Meter created!");
         alert.showAndWait();
         
         MedidorEspectro espectro = new MedidorEspectro();
-        espectro.setNombre("espectro");
+        espectro.setNombre("spectrum"); //espectro
         espectro.setConectadoEntrada(false);
         espectro.setConectadoSalida(false);
         espectro.setIdEspectro(idEspectro);
@@ -278,7 +277,7 @@ public class VentanaPrincipal implements Initializable {
         
         Label dibujo= new Label();
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_espectro.png")));
-        dibujo.setText("espectro" + "_"+ espectro.getIdEspectro());
+        dibujo.setText("spectrum" + "_"+ espectro.getIdEspectro());
         dibujo.setContentDisplay(ContentDisplay.TOP);
 
         ElementoGrafico elem = new ElementoGrafico();
@@ -298,7 +297,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Medidor Espectro");
+                    stage.setTitle("OptiUAM BC Spectrum Meter");
                     stage.setScene(scene);
                     stage.showAndWait();
                     stage.setResizable(false);
@@ -310,7 +309,7 @@ public class VentanaPrincipal implements Initializable {
             }
         });
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
-        System.out.print(controlador.getContadorElemento());
+        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -329,8 +328,8 @@ public class VentanaPrincipal implements Initializable {
         ContextMenu contextMenu = new ContextMenu();
 
         // create menuitems
-        MenuItem menuItem2 = new MenuItem("-Girar");
-        MenuItem menuItem3 = new MenuItem("-Eliminar");
+        MenuItem menuItem2 = new MenuItem("-Rotate");
+        MenuItem menuItem3 = new MenuItem("-Delete");
 
         menuItem2.setOnAction(e ->{
             System.out.println("Girar");
@@ -345,7 +344,7 @@ public class VentanaPrincipal implements Initializable {
         menuItem3.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    if(dibujo.getDibujo().getText().contains("potencia")){
+                    if(dibujo.getDibujo().getText().contains("power")){ //potencia
                         MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
                         controlador.getDibujos().remove(dibujo);
                         controlador.getElementos().remove(aux); 
@@ -359,27 +358,27 @@ public class VentanaPrincipal implements Initializable {
             }    
             dibujo.getDibujo().setVisible(false);
         });
-        MenuItem menuItem4 = new MenuItem("-Propiedades");
+        MenuItem menuItem4 = new MenuItem("-Properties");
         menuItem4.setOnAction(e ->{
             //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     
-                    if(dibujo.getDibujo().getText().contains("potencia")){
+                    if(dibujo.getDibujo().getText().contains("power")){ //potencia
                         MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
-                        String name= "NOMBRE: "+aux.getNombre();
-                        String id= "ID= "+aux.getIdPotencia();
-                        String conE= "Entrada:"+aux.getElementoConectadoEntrada();
-                        String conS= "Salida:"+aux.getElementoConectadoSalida();
+                        String name = "Name: "+aux.getNombre();
+                        String id = "Id = "+aux.getIdPotencia();
+                        String conE = "Input: "+aux.getElementoConectadoEntrada();
+                        String conS = "Output :"+aux.getElementoConectadoSalida();
                         //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                         System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
                     }
                     else{
                         MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
-                        String name= "NOMBRE: "+aux.getNombre();
-                        String id= "ID= "+aux.getIdEspectro();
-                        String conE= "Entrada:"+aux.getElementoConectadoEntrada();
-                        String conS= "Salida:"+aux.getElementoConectadoSalida();
+                        String name = "Name: "+aux.getNombre();
+                        String id = "Id= "+aux.getIdEspectro();
+                        String conE = "Input: "+aux.getElementoConectadoEntrada();
+                        String conS = "Output: "+aux.getElementoConectadoSalida();
                         //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                         System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
                     }
@@ -439,7 +438,7 @@ public class VentanaPrincipal implements Initializable {
             Image ico = new Image("images/acercaDe.png");
             Stage st = new Stage(StageStyle.UTILITY);
             st.getIcons().add(ico);
-            st.setTitle("OptiUAM BC Acerca De");
+            st.setTitle("OptiUAM BC About");
             st.setScene(scene);
             st.showAndWait();
             st.setResizable(false);
@@ -460,14 +459,14 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void menuItemNewAction(ActionEvent event) {                                           
-        ButtonType aceptar = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
-        ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType aceptar = new ButtonType("Accep", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(AlertType.CONFIRMATION,
-                "¿Desea crear un nuevo trabajo?",
+                "Do you want to create a new job?",
                 aceptar,
                 cancelar);
 
-        alert.setTitle("Confirmacion");
+        alert.setTitle("Confirmation");
         alert.setHeaderText(null);
         Optional<ButtonType> result = alert.showAndWait();
 

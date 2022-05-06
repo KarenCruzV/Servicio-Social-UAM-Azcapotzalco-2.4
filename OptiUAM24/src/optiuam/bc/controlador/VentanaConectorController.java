@@ -108,14 +108,19 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         perdidaInsercion= Double.parseDouble(txtPerdida.getText());
         
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("\nValor de la pérdida invalido");
-        }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-            System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            alert.setContentText("\nInvalid loss value");
+            alert.showAndWait();
+        }
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+            System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
         }
         else{
@@ -124,7 +129,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             con.setConectadoSalida(false);
             con.setIdConector(idConector);
             con.setLongitudOnda(longitudOnda);
-            con.setNombre("conector");
+            con.setNombre("connector");
             con.setPerdidaInsercion(perdidaInsercion);
             con.setModo(modo);
             guardarConector(con);
@@ -157,9 +162,9 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Conector creado!");
+        alert.setContentText("\nConnector created!");
         alert.showAndWait();
     }
 
@@ -188,15 +193,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     if(elem.getComponente().isConectadoEntrada()){
                         ElementoGrafico aux;
                         for(int it=0; it<controlador.getDibujos().size();it++){
-                            if(elem.getComponente().getElementoConectadoEntrada()==(controlador.getDibujos().get(it).getDibujo().getText())){
+                            if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                                 aux=controlador.getDibujos().get(it);
                                 borrarLinea(aux.getComponente().getLinea());
                             }
                         }
-                        
                         dibujarLineaAtras(elem);
                     }
-                    
                 }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
@@ -226,7 +229,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         Image ico = new Image("images/acercaDe.png");
                         Stage stage1 = new Stage();
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC Conector");
+                        stage1.setTitle("OptiUAM BC Connector");
                         //stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
@@ -236,7 +239,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     catch(IOException ex){
                         Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     mostrarMenuChiquito(elem);
                 }
@@ -248,13 +250,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         ContextMenu contextMenu = new ContextMenu();
 
         // create menuitems
-        MenuItem menuItem1 = new MenuItem("-Duplicar");
-        MenuItem menuItem2 = new MenuItem("-Girar");
-        MenuItem menuItem3 = new MenuItem("-Eliminar");
+        MenuItem menuItem1 = new MenuItem("-Duplicate");
+        MenuItem menuItem2 = new MenuItem("-Rotate");
+        MenuItem menuItem3 = new MenuItem("-Delete");
         
 
         menuItem1.setOnAction(e ->{
-            System.out.println("Duplicar");
+            //System.out.println("Duplicar");
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
@@ -265,7 +267,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     aux.setIdConector(idConector);
                     aux.setLongitudOnda(aux1.getLongitudOnda());
                     aux.setModo(aux1.getModo());
-                    aux.setNombre("conector");
+                    aux.setNombre("connector");
                     aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
                     guardarConector(aux);
                     System.out.println(aux);
@@ -293,23 +295,22 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             dibujo.getDibujo().setVisible(false);
 
         });
-        MenuItem menuItem4 = new MenuItem("-Propiedades");
+        MenuItem menuItem4 = new MenuItem("-Properties");
         menuItem4.setOnAction(e ->{
             //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     Conector fue= (Conector)controlador.getElementos().get(elemento);
                     
-                    String name= "NOMBRE: "+fue.getNombre();
-                    String id= "ID= "+fue.getIdConector();
-                    String conE= "Entrada:"+fue.getElementoConectadoEntrada();
-                    String conS= "Salida:"+fue.getElementoConectadoSalida();
+                    String name = "Name: "+fue.getNombre();
+                    String id = "Id = "+fue.getIdConector();
+                    String conE = "Input: "+fue.getElementoConectadoEntrada();
+                    String conS = "Output: "+fue.getElementoConectadoSalida();
                     //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
                 //dibujo.getDibujo().setTooltip(tt);
                 }
             }
-                
         });
 
         // add menu items to menu
@@ -339,10 +340,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     private void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    Componente poyo= controlador.getElementos().get(elemento2);
-                    poyo.setConectadoEntrada(false);
-                    poyo.setElementoConectadoEntrada("");
-                    System.out.println(poyo.getNombre());
+                    Componente comp= controlador.getElementos().get(elemento2);
+                    comp.setConectadoEntrada(false);
+                    comp.setElementoConectadoEntrada("");
+                    System.out.println(comp.getNombre());
                     break;
                 }
         }
@@ -383,13 +384,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                    aux.setElementoConectadoSalida(poyo.getDibujo().getText());
+                    ElementoGrafico eg= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(eg.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
                     
-                    poyo.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
-                    poyo.getComponente().setConectadoEntrada(true);
+                    eg.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                    eg.getComponente().setConectadoEntrada(true);
                     break;
                 }
             }
@@ -400,14 +401,19 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         perdidaInsercion= Double.parseDouble(txtPerdida.getText());
 
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("\nValor de la pérdida invalido");
-        }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-            System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            alert.setContentText("\nInvalid loss value");
+            alert.showAndWait();
+        }
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+            System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
         }
         else{
@@ -415,18 +421,18 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             //aux.setConectadoSalida(false);
             //aux.setIdConector(idConector);
             aux.setLongitudOnda(longitudOnda);
-            aux.setNombre("conector");
+            aux.setNombre("connector");
             aux.setPerdidaInsercion(perdidaInsercion);
             aux.setModo(modo);
             cerrarVentana(event);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Éxito");
+            alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\n¡Conector modificado!");
+            alert.setContentText("\nModified connector!");
             alert.showAndWait();
 
-            System.out.println(aux.toString());
+            //System.out.println(aux.toString());
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -445,7 +451,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     /*
         Funcion init2: 
         recibe el elemento y el controlador a partir de estos puede mostrar los valores inciales del elemento 
-        OJO!!!! AUN NOS FALTA LO DE CONECTADO CON----
     */
     private void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaConectorController conectorController) {
         this.elemG=elem;
@@ -483,10 +488,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 conectorControl.txtPerdida.setText(String.valueOf(con.getPerdidaInsercion()));
             }
             
-            if("fibra".equals(controlador.getElementos().get(elemento).getNombre()) ||
+            if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "potencia".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "espectro".equals(controlador.getElementos().get(elemento).getNombre())){
+                    "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
                 if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
                     conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
                 }
@@ -501,7 +506,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elemG.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(it).getDibujo().getText()){
+            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
             }
         }
@@ -525,7 +530,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elem.getComponente().getElementoConectadoEntrada()==(controlador.getDibujos().get(it).getDibujo().getText())){
+            if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
             }
         }

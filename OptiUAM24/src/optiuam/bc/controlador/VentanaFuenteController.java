@@ -126,30 +126,45 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         velocidad = Double.parseDouble(txtVelocidad.getText());
         
         if (txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("Valor de la potencia invalido");
-        }
-        else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("Valor de la anchura invalido");
-        }
-        else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("Valor de la velocidad invalido");
-        }
-        else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
-           (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
-            System.out.println("\nEl valor de la anchura debe ser max 1 nm");
+            System.out.println("Invalid power value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("El valor de la anchura debe ser max 1 nm");
+            alert.setContentText("\nInvalid power value");
+            alert.showAndWait();
+        }
+        else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Invalid width value");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nInvalid width value");
+            alert.showAndWait();
+        }
+        else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Invalid speed value");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nInvalid speed value");
+            alert.showAndWait();
+        }
+        else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
+           (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
+            System.out.println("\nThe width value must be max 1 nm");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("The width value must be max 1 nm");
             alert.showAndWait();
         }
         else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
            (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
-            System.out.println("\nEl valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+            System.out.println("\nThe width value must be min: 0.01 nm  max: 1.0 nm");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("El valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+            alert.setContentText("The width value must be min: 0.01 nm  max: 1.0 nm");
             alert.showAndWait();
         } 
         else{
@@ -157,7 +172,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             fuente.setAnchura(anchura);
             fuente.setIdFuente(idFuente);
             fuente.setLongitudOnda(longitudOnda);
-            fuente.setNombre("fuente");
+            fuente.setNombre("source"); //fuente
             fuente.setPotencia(potencia);
             fuente.setTipo(tipo);
             fuente.setVelocidad(velocidad);
@@ -190,15 +205,14 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     @FXML
     private void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                if(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    Componente poyo= controlador.getElementos().get(elemento2);
-                    poyo.setConectadoEntrada(false);
-                    poyo.setElementoConectadoEntrada("");
-                    System.out.println(poyo.getNombre());
-                    break;
-                }
+            if(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                Componente comp= controlador.getElementos().get(elemento2);
+                comp.setConectadoEntrada(false);
+                comp.setElementoConectadoEntrada("");
+                System.out.println(comp.getNombre());
+                break;
+            }
         }
-                
         fuenteControl.cboxConectarA.getSelectionModel().select(0);
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida("");
@@ -240,14 +254,14 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
 
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                    aux.setElementoConectadoSalida(poyo.getDibujo().getText());
+                    ElementoGrafico eg= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(eg.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
                     
-                    poyo.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
-                    poyo.getComponente().setConectadoEntrada(true);
-                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
+                    eg.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                    eg.getComponente().setConectadoEntrada(true);
+                    //System.out.println(comp.getComponente().getElementoConectadoEntrada().getDibujo().getText());
                     //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
                     //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
                     break;
@@ -262,37 +276,52 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         velocidad = Double.parseDouble(txtVelocidad.getText());
 
         if (txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("Valor de la potencia invalido");
-        }
-        else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("Valor de la anchura invalido");
-        }
-        else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("Valor de la velocidad invalido");
-        }
-        else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
-           (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
-            System.out.println("\nEl valor de la anchura debe ser max 1 nm");
+            System.out.println("Invalid power value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("El valor de la anchura debe ser max 1 nm");
+            alert.setContentText("\nInvalid power value");
+            alert.showAndWait();
+        }
+        else if(txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Invalid width value");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nInvalid width value");
+            alert.showAndWait();
+        }
+        else if(txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+            System.out.println("Invalid speed value");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nInvalid speed value");
+            alert.showAndWait();
+        }
+        else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
+           (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
+            System.out.println("\nThe width value must be max 1 nm");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("The width value must be max 1 nm");
             alert.showAndWait();
         }
         else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
            (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
-            System.out.println("\nEl valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+            System.out.println("\nThe width value must be min: 0.01 nm  max: 1.0 nm");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("El valor de la anchura debe ser min: 0.01 nm  max: 1.0 nm");
+            alert.setContentText("The width value must be min: 0.01 nm  max: 1.0 nm");
             alert.showAndWait();
         } 
         else{
             aux.setAnchura(anchura);
             //aux.setIdFuente(idFuente);
             aux.setLongitudOnda(longitudOnda);
-            aux.setNombre("fuente");
+            aux.setNombre("source");
             aux.setPotencia(potencia);
             aux.setTipo(tipo);
             aux.setVelocidad(velocidad);
@@ -301,12 +330,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             cerrarVentana(event);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Éxito");
+            alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\n¡Fuente modificada!");
+            alert.setContentText("\nModified source!");
             alert.showAndWait();
 
-            System.out.println(aux.toString());
+            //System.out.println(aux.toString());
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -323,7 +352,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             Image ico = new Image("images/acercaDe.png");
             Stage st = new Stage(StageStyle.UTILITY);
             st.getIcons().add(ico);
-            st.setTitle("OptiUAM BC Pulse Configuation");
+            st.setTitle("OptiUAM BC Pulse Configuration");
             st.setScene(scene);
             st.showAndWait();
             st.setResizable(false);
@@ -349,7 +378,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         fuente.setPosY(dibujo.getLayoutY());
         setPosX(fuente.getPosX());
         setPosY(fuente.getPosY());
-        System.out.println("Coordenada inicial: "+getPosX()+", "+getPosY());
+        //System.out.println("Coordenada inicial: "+getPosX()+", "+getPosY());
         
         elem.setComponente(fuente);
         elem.setId(controlador.getContadorElemento());
@@ -364,9 +393,9 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Fuente creada!");
+        alert.setContentText("\nSource created!");
         alert.showAndWait();
     }
 
@@ -410,16 +439,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 if(elem.getId()==controlador.getElementos().get(elemento).getId()){
                     Fuente fue= (Fuente)controlador.getElementos().get(elemento);
                     
-                    String name= "NOMBRE: "+fue.getNombre();
-                    String id= "ID= "+fue.getIdFuente();
-                    String conE= "Entrada:"+fue.getElementoConectadoEntrada();
-                    String conS= "Salida:"+fue.getElementoConectadoSalida();
-                    tt.setText(name);
-                    //elem.getDibujo().setTooltip(tt);
-                    Tooltip.install(elem.getDibujo(), tt);
+                    String name = "Name: "+fue.getNombre();
+                    String id = "Id = "+fue.getIdFuente();
+                    String conE = "Input: "+fue.getElementoConectadoEntrada();
+                    String conS = "Output: "+fue.getElementoConectadoSalida();
+                    System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
                 }
-               
-                
             }
         });
             elem.getDibujo().setOnMouseExited((MouseEvent event) -> {
@@ -452,7 +477,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC Fuente");
+                        stage1.setTitle("OptiUAM BC Source");
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
@@ -461,7 +486,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     catch(IOException ex){
                         Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     mostrarMenuChiquito(elem);
                 }
@@ -473,13 +497,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         ContextMenu contextMenu = new ContextMenu();
         Tooltip tt= new Tooltip();
         // create menuitems
-        MenuItem menuItem1 = new MenuItem("-Duplicar");
+        MenuItem menuItem1 = new MenuItem("-Duplicated");
         //MenuItem menuItem2 = new MenuItem("-Girar");
-        MenuItem menuItem3 = new MenuItem("-Eliminar");
-        MenuItem menuItem4 = new MenuItem("-Propiedades");
+        MenuItem menuItem3 = new MenuItem("-Delete");
+        MenuItem menuItem4 = new MenuItem("-Properties");
 
         menuItem1.setOnAction(e ->{
-            System.out.println("Duplicar");
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
@@ -491,7 +514,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     fuenteAux.setLongitudOnda(fuenteAux1.getLongitudOnda());
                     fuenteAux.setPotencia(fuenteAux1.getPotencia());
                     fuenteAux.setTipo(fuenteAux1.getTipo());
-                    fuenteAux.setNombre("fuente");
+                    fuenteAux.setNombre("source");
                     fuenteAux.setPulso(fuenteAux1.getA0(),fuenteAux1.getT0(),fuenteAux1.getW0(),fuenteAux1.getC(),fuenteAux1.getM());
                     fuenteAux.setVelocidad(fuenteAux1.getVelocidad());
                     fuenteAux.setIdFuente(idFuente);
@@ -509,10 +532,10 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     Fuente fue= (Fuente)controlador.getElementos().get(elemento);
                     
-                    String name= "NOMBRE: "+fue.getNombre();
-                    String id= "ID= "+fue.getIdFuente();
-                    String conE= "Entrada:"+fue.getElementoConectadoEntrada();
-                    String conS= "Salida:"+fue.getElementoConectadoSalida();
+                    String name = "Name: "+fue.getNombre();
+                    String id = "Id = "+fue.getIdFuente();
+                    String conE = "Input: "+fue.getElementoConectadoEntrada();
+                    String conS = "Output: "+fue.getElementoConectadoSalida();
                     tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                     System.out.println(tt.getText());
                 dibujo.getDibujo().setTooltip(tt);
@@ -575,7 +598,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 fuenteControl.txtPotencia.setText(String.valueOf(fue.getPotencia()));
                 fuenteControl.txtVelocidad.setText(String.valueOf(fue.getVelocidad()));
             }
-            if("conector".equals(controlador.getElementos().get(elemento).getNombre())){
+            if("connector".equals(controlador.getElementos().get(elemento).getNombre())){
                 if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
                     fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
                 }
@@ -589,7 +612,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elemG.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(it).getDibujo().getText()){
+            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
             }
         }

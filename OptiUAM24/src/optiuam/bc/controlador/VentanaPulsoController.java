@@ -81,7 +81,7 @@ public class VentanaPulsoController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nValor de la amplitud invalido");
+            alert.setContentText("\nInvalid amplitude value");
             alert.showAndWait();
             return false;
         }
@@ -89,7 +89,7 @@ public class VentanaPulsoController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nValor de la anchura invalido");
+            alert.setContentText("\nInvalid width value");
             alert.showAndWait();
             return false;
         }
@@ -97,7 +97,7 @@ public class VentanaPulsoController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nValor del chirp invalido");
+            alert.setContentText("\nInvalid chirp value");
             alert.showAndWait();
             return false;
         }
@@ -105,7 +105,7 @@ public class VentanaPulsoController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nValor de la frecuencia invalido");
+            alert.setContentText("\nInvalid frequency value");
             alert.showAndWait();
             return false;
         }
@@ -114,7 +114,7 @@ public class VentanaPulsoController implements Initializable {
              Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nValor de M invalido");
+            alert.setContentText("\nInvalid M value");
             alert.showAndWait();
             return false;
         }
@@ -141,9 +141,9 @@ public class VentanaPulsoController implements Initializable {
         }
             System.out.println("C:"+C+" A0:"+A0+" W0:"+W0+ " T0:"+T0);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Éxito");
+            alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nPulso modificado");
+            alert.setContentText("\nModified pulse!");
             alert.showAndWait();
         }
     }

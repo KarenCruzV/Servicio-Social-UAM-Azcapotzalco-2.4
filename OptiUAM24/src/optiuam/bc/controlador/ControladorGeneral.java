@@ -159,17 +159,17 @@ public class ControladorGeneral {
             for(int i =0;i < elementos.size();i++){
                 String aux = elementos.get(i).getNombre();
                 int aux1 = elementos.get(i).getId();
-                if(aux.contains("conector")){
+                if(aux.contains("connector")){
                     Conector conector = (Conector) elementos.get(i);
                     pw.println(conector.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
                 }
-                else if(aux.contains("empalme")){
+                else if(aux.contains("splice")){
                     Empalme empalme= (Empalme) elementos.get(i);
                     pw.println(empalme.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
                 }
-                else if(aux.contains("fibra")){
+                else if(aux.contains("fiber")){
                     Fibra fibra = (Fibra) elementos.get(i);
                     pw.println(fibra.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
@@ -180,12 +180,12 @@ public class ControladorGeneral {
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
                     pw.println(splitter.Conexiones());
                 }
-                else if(aux.contains("fuente")){
+                else if(aux.contains("source")){
                     Fuente fuente = (Fuente) elementos.get(i);
                     pw.println(fuente.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
                 }
-                else if(aux.contains("potencia")){
+                else if(aux.contains("power")){
                     MedidorPotencia potencia= (MedidorPotencia) elementos.get(i);
                     pw.println(potencia.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
@@ -244,7 +244,7 @@ public class ControladorGeneral {
                 String [] partes = linea.split(",");
                 String nombre = partes[0];
                     switch (nombre) {
-                        case "conector":
+                        case "connector":
                             //for(int i = 0 ; i < partes.length;i++)
                                 //System.out.println(partes[i]);
                             Conector conector = new Conector();
@@ -265,7 +265,7 @@ public class ControladorGeneral {
                             dibujos.add(manejadorElementos);
                             break;
                             
-                        case "empalme":
+                        case "splice":
                             Empalme empalme = new Empalme();
                             empalme.setId(Integer.valueOf(partes[1]));
                             empalme.setNombre(nombre);
@@ -312,7 +312,7 @@ public class ControladorGeneral {
                             elementos.add(splitter);
                             break;
                             
-                        case "fibra":
+                        case "fiber":
                             Fibra fibra = new Fibra();
                             fibra.setId(Integer.valueOf(partes[1]));
                             fibra.setNombre(nombre);
@@ -332,7 +332,7 @@ public class ControladorGeneral {
                             dibujos.add(manejadorElementos);
                             break;
                             
-                        case "fuente":
+                        case "source":
                             Fuente fuente = new Fuente();
                             fuente.setId(Integer.valueOf(partes[1]));
                             fuente.setNombre(nombre);
@@ -351,7 +351,8 @@ public class ControladorGeneral {
                             manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[10]));
                             dibujos.add(manejadorElementos);
                             break;
-                        case "potencia":
+                            
+                        case "power":
                             MedidorPotencia potencia= new MedidorPotencia();
                             potencia.setId(Integer.valueOf(partes[1]));
                             potencia.setNombre(nombre);
@@ -365,7 +366,7 @@ public class ControladorGeneral {
                             dibujos.add(manejadorElementos);
                             break;
 
-                        case "espectro":
+                        case "spectrum":
                             MedidorEspectro espectro = new MedidorEspectro();
                             espectro.setId(Integer.valueOf(partes[1]));
                             espectro.setNombre(nombre);

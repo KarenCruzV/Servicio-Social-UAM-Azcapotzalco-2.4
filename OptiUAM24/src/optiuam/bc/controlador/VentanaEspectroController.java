@@ -11,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.FFT;
 import optiuam.bc.modelo.Fibra;
@@ -92,7 +91,7 @@ public class VentanaEspectroController implements Initializable {
         float z = 0;
         int wavelength =0;
         for(int i=0; i< lista.size();i++){
-            if(lista.get(i).getNombre().contains("fibra")){
+            if(lista.get(i).getNombre().contains("fiber")){
                 Fibra fibra = (Fibra) lista.get(i);
                 z = (float) (z+fibra.getLongitud_km());
                 wavelength=fibra.getLongitudOnda();
@@ -350,8 +349,8 @@ public class VentanaEspectroController implements Initializable {
         dataset.addSeries(series);
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Pulso a la entrada", // Título
-                "Frecuencia (w)", // Etiqueta Coordenada X
+                "Pulse at the entrance", // Título
+                "Frequency (w)", // Etiqueta Coordenada X
                 "U(0,w)", // Etiqueta Coordenada Y
                 dataset, // Datos
                 PlotOrientation.VERTICAL,
@@ -361,7 +360,7 @@ public class VentanaEspectroController implements Initializable {
         );
         
           //Mostramos la grafica en pantalla
-        ChartFrame frame = new ChartFrame("Pulso Gaussiano", chart);
+        ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
         frame.pack();
         frame.setVisible(true);
         }
@@ -369,7 +368,7 @@ public class VentanaEspectroController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nError en el enlace");
+            alert.setContentText("\nLink error");
             alert.showAndWait();
         }
     }
@@ -397,8 +396,8 @@ public class VentanaEspectroController implements Initializable {
         dataset.addSeries(series);
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Pulso a la salida", // Título
-                "Tiempo (t)", // Etiqueta Coordenada X
+                "Output pulse", // Título
+                "Time (t)", // Etiqueta Coordenada X
                 "U(z,t)", // Etiqueta Coordenada Y
                 dataset, // Datos
                 PlotOrientation.VERTICAL,
@@ -408,7 +407,7 @@ public class VentanaEspectroController implements Initializable {
         );
         
           //Mostramos la grafica en pantalla
-        ChartFrame frame = new ChartFrame("Pulso Gaussiano", chart);
+        ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
         frame.pack();
         frame.setVisible(true);
         }
@@ -416,7 +415,7 @@ public class VentanaEspectroController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nError en el enlace");
+            alert.setContentText("\nLink error");
             alert.showAndWait();
         }
     }

@@ -118,14 +118,19 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         perdidaInsercion= Double.parseDouble(txtPerdida.getText());
         
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("\nValor de la pérdida invalido");
-        }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-            System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            alert.setContentText("\nInvalid loss value");
+            alert.showAndWait();
+        }
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+            System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
         }
         else{
@@ -134,7 +139,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             empalme.setConectadoSalida(false);
             empalme.setIdEmpalme(idEmpalme);
             empalme.setLongitudOnda(longitudOnda);
-            empalme.setNombre("empalme");
+            empalme.setNombre("splice"); //empalme
             empalme.setPerdidaInsercion(perdidaInsercion);
             empalme.setTipo(tipo);
             guardarEmpalme(empalme);
@@ -167,9 +172,9 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Empalme creado!");
+        alert.setContentText("\nSplice created!");
         alert.showAndWait();
     }
 
@@ -202,7 +207,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                                 borrarLinea(aux.getComponente().getLinea());
                             }
                         }
-                        
                         dibujarLineaAtras(elem);
                     }
                 }
@@ -234,7 +238,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC Empalme");
+                        stage1.setTitle("OptiUAM BC Splice");
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
@@ -243,7 +247,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     catch(IOException ex){
                         Logger.getLogger(VentanaEmpalmeController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }else if(event.getButton()==MouseButton.SECONDARY){
                     mostrarMenuChiquito(elem);
                 }
@@ -255,12 +258,12 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         ContextMenu contextMenu = new ContextMenu();
 
         // create menuitems
-        MenuItem menuItem1 = new MenuItem("-Duplicar");
+        MenuItem menuItem1 = new MenuItem("-Duplicated");
         //MenuItem menuItem2 = new MenuItem("-Girar");
-        MenuItem menuItem3 = new MenuItem("-Eliminar");
+        MenuItem menuItem3 = new MenuItem("-Delet");
 
         menuItem1.setOnAction(e ->{
-            System.out.println("Duplicar");
+            //System.out.println("Duplicar");
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
@@ -272,7 +275,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     empalmeAux.setLongitudOnda(aux1.getLongitudOnda());
                     empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
                     empalmeAux.setTipo(aux1.getTipo());
-                    empalmeAux.setNombre("empalme");
+                    empalmeAux.setNombre("splice");
                     guardarEmpalme(empalmeAux);
                     //System.out.println(empalmeAux);
                     idEmpalme++;
@@ -295,17 +298,17 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             dibujo.getDibujo().setVisible(false);
 
         });
-        MenuItem menuItem4 = new MenuItem("-Propiedades");
+        MenuItem menuItem4 = new MenuItem("-Properties");
         menuItem4.setOnAction(e ->{
             //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     Empalme fue= (Empalme)controlador.getElementos().get(elemento);
                     
-                    String name= "NOMBRE: "+fue.getNombre();
-                    String id= "ID= "+fue.getIdEmpalme();
-                    String conE= "Entrada:"+fue.getElementoConectadoEntrada();
-                    String conS= "Salida:"+fue.getElementoConectadoSalida();
+                    String name = "Name: "+fue.getNombre();
+                    String id = "Id = "+fue.getIdEmpalme();
+                    String conE = "Input: "+fue.getElementoConectadoEntrada();
+                    String conS = "Output: "+fue.getElementoConectadoSalida();
                     //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
                 //dibujo.getDibujo().setTooltip(tt);
@@ -363,13 +366,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             aux.setConectadoSalida(true);
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                    aux.setElementoConectadoSalida(poyo.getDibujo().getText());
+                    ElementoGrafico eg= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(eg.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
                     
-                    poyo.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
-                    poyo.getComponente().setConectadoEntrada(true);
+                    eg.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                    eg.getComponente().setConectadoEntrada(true);
                     break;
                 }
             }
@@ -379,37 +382,41 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         perdidaInsercion= Double.parseDouble(txtPerdida.getText());
 
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("\nValor de la pérdida invalido");
-        }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-            System.out.println("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLa pérdida debe ser" + " min: 0" + " max: " + perdidaMax);
+            alert.setContentText("\nInvalid loss value");
+            alert.showAndWait();
+        }
+        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
+            System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
         }
         else{
             //aux.setIdEmpalme(idEmpalme);
             aux.setLongitudOnda(longitudOnda);
-            aux.setNombre("empalme");
+            aux.setNombre("splice");
             aux.setPerdidaInsercion(perdidaInsercion);
             aux.setTipo(tipo);
             cerrarVentana(event);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Éxito");
+            alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\n¡Empalme modificado!");
+            alert.setContentText("\nModified splice!");
             alert.showAndWait();
 
-            System.out.println(aux.toString());
+            //System.out.println(aux.toString());
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
             }
         }
-            
     }
 
     void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
@@ -445,7 +452,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
                 empalmeControl.txtPerdida.setText(String.valueOf(emp.getPerdidaInsercion()));
             }
-            if("fibra".equals(controlador.getElementos().get(elemento).getNombre())){
+            if("fiber".equals(controlador.getElementos().get(elemento).getNombre())){
                 if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
                     empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
                 }
@@ -457,10 +464,10 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     private void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    Componente poyo= controlador.getElementos().get(elemento2);
-                    poyo.setConectadoEntrada(false);
-                    poyo.setElementoConectadoEntrada("");
-                    System.out.println(poyo.getNombre());
+                    Componente comp= controlador.getElementos().get(elemento2);
+                    comp.setConectadoEntrada(false);
+                    comp.setElementoConectadoEntrada("");
+                    System.out.println(comp.getNombre());
                     break;
                 }
         }

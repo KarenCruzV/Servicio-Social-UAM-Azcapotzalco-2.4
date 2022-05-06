@@ -215,11 +215,11 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         //cboxSalidas.getSelectionModel().select("2");
         
         if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
-           System.out.println("La pérdida debe ser " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
+           System.out.println("The loss must be " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLa pérdida debe ser " +  buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
+            alert.setContentText("\nThe loss must be " +  buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
             alert.showAndWait();
         }
         else{
@@ -287,9 +287,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Splitter creado!");
+        alert.setContentText("\n¡Splitter created!");
         alert.showAndWait();
     }
 
@@ -362,11 +362,10 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         ContextMenu contextMenu = new ContextMenu();
 
         // create menuitems
-        MenuItem menuItem1 = new MenuItem("-Duplicar");
-        MenuItem menuItem3 = new MenuItem("-Eliminar");
+        MenuItem menuItem1 = new MenuItem("-Duplicated");
+        MenuItem menuItem3 = new MenuItem("-Deleted");
 
         menuItem1.setOnAction(e ->{
-            System.out.println("Duplicar");
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
@@ -447,12 +446,12 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    ElementoGrafico poyo= controlador.getDibujos().get(elemento2);
-                    aux.setElementoConectadoSalida(poyo.getDibujo().getText());
+                    ElementoGrafico eg= controlador.getDibujos().get(elemento2);
+                    aux.setElementoConectadoSalida(eg.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     //controlador.getDibujos().get(elemento2).getComponente().setElementoConectadoEntrada(this.elemG);
                     controlador.getDibujos().get(elemento2).getComponente().setConectadoEntrada(true);
-                    //System.out.println(poyo.getComponente().getElementoConectadoEntrada().getDibujo().getText());
+                    //System.out.println(eg.getComponente().getElementoConectadoEntrada().getDibujo().getText());
                     //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
                     //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
                     break;
@@ -473,11 +472,11 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         //cboxSalidas.getSelectionModel().select("2");
 
         if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
-            System.out.println("La pérdida debe ser " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
+            System.out.println("The loss must be " + buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLa pérdida debe ser " +  buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
+            alert.setContentText("\nThe loss must be " +  buscarPerdidas(cboxNumeroSalidas.getSelectionModel().getSelectedIndex()));
             alert.showAndWait();
         }
         else{
@@ -491,18 +490,17 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             cerrarVentana(event);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Éxito");
+            alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\n¡Splitter modificado!");
+            alert.setContentText("\nModified splitter!");
             alert.showAndWait();
 
-            System.out.println(aux.toString());
+            //System.out.println(aux.toString());
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
             }
         }
-            
     }
 
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
@@ -535,8 +533,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 }
                 splitterControl.txtPerdidaInsercion.setText(String.valueOf(spl.getPerdidaInsercion()));
             }
-            if("conector".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "potencia".equals(controlador.getElementos().get(elemento).getNombre())){
+            if("connector".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "power".equals(controlador.getElementos().get(elemento).getNombre())){
                 splitterControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
             }
         }
@@ -548,7 +546,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         linea.setStartY(elemG.getDibujo().getLayoutY()+7);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elemG.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(it).getDibujo().getText()){
+            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
             }
         }
