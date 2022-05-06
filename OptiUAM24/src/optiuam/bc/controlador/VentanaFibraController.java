@@ -50,7 +50,6 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     Stage stage;
     ElementoGrafico elemG;
     VentanaFibraController fibraControl;
-    static Line linea;
     static double posX, posY;
     
     @FXML
@@ -73,14 +72,6 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private ScrollPane scroll;
-    
-    public static Line getLinea() {
-        return linea;
-    }
-
-    public static void setLinea(Line linea) {
-        VentanaFibraController.linea = linea;
-    }
 
     public static double getPosX() {
         return posX;
@@ -127,9 +118,11 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         }
         fibraControl.cboxConectarA.getSelectionModel().select(0);
         //elemG.getComponente().setConectadoEntrada(false);
-        elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
-        elemG.getComponente().getLinea().setVisible(false);
+        if(elemG.getComponente().isConectadoSalida()){
+            elemG.getComponente().setConectadoSalida(false);
+            elemG.getComponente().setElementoConectadoSalida("");
+            elemG.getComponente().getLinea().setVisible(false);
+        }
         cerrarVentana(event);
     }
     

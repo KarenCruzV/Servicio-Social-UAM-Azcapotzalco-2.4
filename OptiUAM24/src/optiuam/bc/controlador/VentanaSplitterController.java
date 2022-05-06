@@ -169,10 +169,12 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     @FXML
     private void Desconectar(ActionEvent event){
         splitterControl.cboxConectarA.getSelectionModel().select(0);
-        elemG.getComponente().setConectadoEntrada(false);
-        elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida(null);
-        getLinea().setVisible(false);
+        
+        if(elemG.getComponente().isConectadoSalida()){
+            elemG.getComponente().setConectadoSalida(false);
+            elemG.getComponente().setElementoConectadoSalida("");
+            elemG.getComponente().getLinea().setVisible(false);
+        }
         cerrarVentana(event);
     }
     

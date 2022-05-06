@@ -50,7 +50,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     Stage stage;
     ElementoGrafico elemG;
     VentanaEmpalmeController empalmeControl;
-    static Line linea;
     static double posX, posY;
     
     @FXML
@@ -73,13 +72,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     @FXML
     private ScrollPane scroll;
 
-    public static Line getLinea() {
-        return linea;
-    }
-
-    public static void setLinea(Line linea) {
-        VentanaEmpalmeController.linea = linea;
-    }
+   
 
     public static double getPosX() {
         return posX;
@@ -293,7 +286,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
             }    
             if(dibujo.getComponente().isConectadoSalida()==true){
-                borrarLinea(linea);
+                dibujo.getComponente().getLinea().setVisible(false);
             }
             dibujo.getDibujo().setVisible(false);
 
@@ -473,9 +466,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         empalmeControl.cboxConectarA.getSelectionModel().select(0);
         //elemG.getComponente().setConectadoEntrada(false);
+        if(elemG.getComponente().isConectadoSalida()){
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida("");
         elemG.getComponente().getLinea().setVisible(false);
+        }
         cerrarVentana(event);
     }
     
@@ -493,7 +488,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         line.setStroke(Color.BLACK);
         line.setEndX(aux.getDibujo().getLayoutX());
         line.setEndY(aux.getDibujo().getLayoutY());
-        setLinea(line);
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
@@ -520,7 +514,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         line.setStartY(aux.getDibujo().getLayoutY()+10);
         line.setEndX(elem.getDibujo().getLayoutX());
         line.setEndY(elem.getDibujo().getLayoutY()+7);
-        setLinea(line);
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 

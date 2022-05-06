@@ -41,7 +41,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     Stage stage;
     ElementoGrafico elemG;
     VentanaConectorController conectorControl;
-    static Line linea;
     static double posX, posY;
     
     @FXML
@@ -60,14 +59,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         AnchorPane ConectorVentana;
     @FXML
     private ScrollPane scroll;
-
-    public static Line getLinea() {
-        return linea;
-    }
-
-    public static void setLinea(Line linea) {
-        VentanaConectorController.linea = linea;
-    }
 
     public static double getPosX() {
         return posX;
@@ -187,7 +178,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     }
                     
                     if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(elem.getComponente().getLinea());
+                        elem.getComponente().getLinea().setVisible(false);
                         dibujarLinea(elem);
                     }
                     if(elem.getComponente().isConectadoEntrada()){
@@ -195,7 +186,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         for(int it=0; it<controlador.getDibujos().size();it++){
                             if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                                 aux=controlador.getDibujos().get(it);
-                                borrarLinea(aux.getComponente().getLinea());
+                                aux.getComponente().getLinea().setVisible(false);
                             }
                         }
                         dibujarLineaAtras(elem);
@@ -290,7 +281,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 }
             }    
             if(dibujo.getComponente().isConectadoSalida()==true){
-                borrarLinea(linea);
+                elemG.getComponente().getLinea().setVisible(false);
             }
             dibujo.getDibujo().setVisible(false);
 
@@ -349,9 +340,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         conectorControl.cboxConectarA.getSelectionModel().select(0);
         //elemG.getComponente().setConectadoEntrada(false);
+        if(elemG.getComponente().isConectadoSalida()){
         elemG.getComponente().setConectadoSalida(false);
         elemG.getComponente().setElementoConectadoSalida("");
         elemG.getComponente().getLinea().setVisible(false);
+        }
         cerrarVentana(event);
     }
     
@@ -514,7 +507,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         line.setStroke(Color.BLACK);
         line.setEndX(aux.getDibujo().getLayoutX());
         line.setEndY(aux.getDibujo().getLayoutY());
-        setLinea(line);
+        //setLinea(line);
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
@@ -522,9 +515,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
               
     }
     
-    private void borrarLinea(Line linea){
-        linea.setVisible(false);
-    }
     
     private void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
@@ -540,7 +530,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         line.setStartY(aux.getDibujo().getLayoutY()+10);
         line.setEndX(elem.getDibujo().getLayoutX());
         line.setEndY(elem.getDibujo().getLayoutY()+7);
-        setLinea(line);
+        //setLinea(line);
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 

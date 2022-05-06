@@ -13,6 +13,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.NumeroComplejo;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -27,7 +29,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author karen
  */
 public class VentanaPulsoController implements Initializable {
-    
+    Fuente fuente;
     @FXML
     Button btnAplicar, btnGraficar;
     
@@ -138,7 +140,9 @@ public class VentanaPulsoController implements Initializable {
             //ventanaFuente.setPulso(A0, T0, W0, C,M);
             if(M > 1){
             tipo="Supergaussian";
-        }
+            
+            }
+            fuente.setPulso(A0, T0, W0, C, M);
             System.out.println("C:"+C+" A0:"+A0+" W0:"+W0+ " T0:"+T0);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succes");
@@ -246,6 +250,17 @@ public class VentanaPulsoController implements Initializable {
         ChartFrame frame = new ChartFrame("OptiUAM BC Pulse Graph "+tipo, chart);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    void init(ElementoGrafico elemG) {
+       this.fuente=(Fuente)elemG.getComponente();
+       if(fuente!=null){
+        txtA0.setText(String.valueOf(fuente.getA0()));
+        txtC.setText(String.valueOf(fuente.getC()));
+        txtM.setText(String.valueOf(fuente.getM()));
+        txtT0.setText(String.valueOf(fuente.getT0()));
+        txtW0.setText(String.valueOf(fuente.getW0()));
+        }
     }
       
 }
