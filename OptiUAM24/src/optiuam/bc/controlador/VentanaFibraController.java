@@ -438,7 +438,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC Fiber");
+                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);

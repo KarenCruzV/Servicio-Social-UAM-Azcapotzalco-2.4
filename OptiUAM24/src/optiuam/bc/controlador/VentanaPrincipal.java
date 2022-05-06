@@ -242,7 +242,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Power Meter");
+                    stage.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
                     stage.setScene(scene);
                     stage.showAndWait();
                     stage.setResizable(false);
@@ -300,7 +300,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage stage = new Stage(StageStyle.UTILITY);
                     stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC Spectrum Meter");
+                    stage.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
                     stage.setScene(scene);
                     stage.showAndWait();
                     stage.setResizable(false);

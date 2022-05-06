@@ -220,7 +220,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         Image ico = new Image("images/acercaDe.png");
                         Stage stage1 = new Stage();
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC Connector");
+                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
                         //stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);

@@ -477,7 +477,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC Source");
+                        //Fuente aux= (Fuente)elem.getComponente();
+                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
