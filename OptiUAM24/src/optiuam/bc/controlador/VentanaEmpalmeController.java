@@ -355,7 +355,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         if((empalmeControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
             Desconectar(event);
         }else{
-            if(aux.isConectadoSalida()){}
+            if(aux.isConectadoSalida()){elemG.getComponente().getLinea().setVisible(false);}
             aux.setConectadoSalida(true);
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){

@@ -234,7 +234,10 @@ public class VentanaPrincipal implements Initializable {
             dibujo.setOnMouseClicked((MouseEvent event1) -> {
             if (event1.getButton() == MouseButton.PRIMARY) {
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("VentanaPotencia.fxml"));
+                    FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaPotencia.fxml"));
+                    Parent root= loader.load();
+                    VentanaPotenciaController potControl= loader.getController();
+                    potControl.init(elem,controlador);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage stage = new Stage(StageStyle.UTILITY);

@@ -242,7 +242,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
         }else{
             if(aux.isConectadoSalida()){
-                //Desconectar();
+                elemG.getComponente().getLinea().setVisible(false);
             }
             aux.setConectadoSalida(true);
 

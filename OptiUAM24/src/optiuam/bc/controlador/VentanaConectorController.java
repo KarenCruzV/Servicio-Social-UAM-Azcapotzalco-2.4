@@ -372,7 +372,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             if(elemG.getComponente().isConectadoSalida()){
                 Desconectar(event);}
         }else{
-            if(aux.isConectadoSalida()){}
+            if(aux.isConectadoSalida()){elemG.getComponente().getLinea().setVisible(false);}
             aux.setConectadoSalida(true);
 
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){

@@ -93,7 +93,12 @@ public class VentanaPotenciaController implements Initializable {
         int    Se=0;    //salidas del splitter
        // boolean isSplitter=false; //para saber si hubo un splitter en el enlace
      
-        elementos = VentanaPrincipal.controlador.getElementos();
+        elementos = verCaminito();
+        for(int o=0; o<elementos.size();o++){
+            System.out.println(elementos.get(o).toString());
+        }
+        System.out.println("\n\n");
+        System.out.println(elementos.get(Se));
         for(int i = elementos.size()-1;i>=0;i--){
             if(elementos.get(i).getNombre().contains("splitter")){
                 //isSplitter=true;
@@ -192,5 +197,30 @@ public class VentanaPotenciaController implements Initializable {
             }
         }
     }
+    
+    public LinkedList verCaminito(){
+        LinkedList<Componente> poyo=new LinkedList();
+        añadirCaminito(poyo, elem.getComponente());
+        return poyo;
+    }
+    public void añadirCaminito(LinkedList poyo, Componente comp){
+        poyo.add(comp);
+        if(elem.getComponente().isConectadoEntrada()){
+            for(int kc=0; kc<controlador.getElementos().size();kc++){
+                if(comp.getElementoConectadoEntrada()==controlador.getDibujos().get(kc).getDibujo().getText()){
+                    Componente aux= controlador.getElementos().get(kc);
+                    añadirCaminito(poyo, aux);
+                    break;
+                }
+            }
+        }
+    }
+
+
+    void init(ElementoGrafico elem, ControladorGeneral controlador) {
+        this.elem=elem;
+        this.controlador=controlador;
+    }
+    
     
 }

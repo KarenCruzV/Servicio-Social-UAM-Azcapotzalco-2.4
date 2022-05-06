@@ -241,7 +241,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             Desconectar(event);
         }
         else{
-            if(aux.isConectadoSalida()){}
+            if(aux.isConectadoSalida()){elemG.getComponente().getLinea().setVisible(false);}
             aux.setConectadoSalida(true);
             
             for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
