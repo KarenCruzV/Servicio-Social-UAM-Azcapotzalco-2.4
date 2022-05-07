@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,6 +23,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -71,6 +73,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     @FXML
     private Pane Pane1;
+    
+    @FXML
+    private ScrollPane scroll;
     
     private final String perdidasValidas[][] = {{"1,0", "2.7", "4.0"},   //2
                                                 {"1,1", "5.3", "7.6"},   //4
@@ -298,9 +303,31 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    elem.getDibujo().setLayoutX(event.getSceneX()-20);
-                    elem.getDibujo().setLayoutY(event.getSceneY()-170);
-                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    double newX=event.getSceneX();
+                    double newY=event.getSceneY();
+                    if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                    }else{
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                    }
+                    /*
+                    if(elem.getDibujo().getLayoutX()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutX(0.0);
+                    }
+                    if(elem.getDibujo().getLayoutY()>=0.0){
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
+                    }else{
+                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                        elem.getDibujo().setLayoutY(0);
+                    }
+                    */
+                    if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                    }else{
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
                     
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(linea);
@@ -319,12 +346,17 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 if(event.getButton()==MouseButton.PRIMARY){
                     //System.out.println("Hola splitter"+elem.getId());
                     try{
+                        System.out.println(elem.getId());
+                        System.out.println(Pane1.getChildren().get(elem.getId()+1).getLayoutX());
+                        System.out.println(Pane1.getChildren().get(elem.getId()+1).getLayoutY());
                         Stage stage1 = new Stage();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaSplitter.fxml"));
                         Parent root = loader.load();
+                        
                         //Se crea una instancia del controlador del conector
                         VentanaSplitterController splitterController = (VentanaSplitterController) loader.getController();
-                        splitterController.init(controlador, this.stage, this.Pane1);
+                        splitterController.init(controlador, this.stage, this.Pane1,this.scroll);
+                        //splitterController.init(controlador, this.stage, this.Pane1);
                         /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
                             con el que se esta trabajando ademas de que se manda el mismo controller para 
                             iniciar con los valores del elemento mandado.
@@ -339,8 +371,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                         splitterController.lblConectarA.setVisible(true);
                         splitterController.cboxConectarA.setVisible(true);
                         splitterController.btnModificar.setVisible(true);
-                        splitterController.init(controlador, this.stage, this.Pane1);
+                        
                         Scene scene = new Scene(root);
+                        
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
                         stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
@@ -370,7 +403,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         menuItem1.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                    //System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
                     Splitter aux=new Splitter();
                     Splitter aux1=(Splitter)controlador.getElementos().get(elemento);
                     aux.setConectadoEntrada(false);
@@ -504,12 +537,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             }
         }
     }
-
-    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1) {
-        this.controlador=controlador;
-        this.stage=stage;
-        this.Pane1=Pane1;
-    }
     
     private void init2(ElementoGrafico elem, VentanaSplitterController splitterController) {
         this.elemG=elem;
@@ -565,6 +592,85 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     private void borrarLinea(Line linea){
         linea.setVisible(false);
+    }
+     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+
+        Bounds parentBounds = Pane1.getLayoutBounds();
+
+        //check if too left
+        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
+            return true ;
+        }
+
+        //check if too right
+        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
+            return true ;
+        }
+        /*
+        //check if too down
+        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
+            return true ;
+        }
+
+        //check if too up
+        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+            return true ;
+        }
+        */
+        return false;
+
+        /* Alternative implementation 
+        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
+        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
+        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
+        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
+        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
+
+        return ! parentBounds.contains(newBounds);
+         */
+    }
+    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+
+        Bounds parentBounds = Pane1.getLayoutBounds();
+        /*
+        //check if too left
+        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
+            return true ;
+        }
+
+        //check if too right
+        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
+            return true ;
+        }
+        */
+        //check if too down
+        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
+            return true ;
+        }
+
+        //check if too up
+        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+            return true ;
+        }
+
+        return false;
+
+        /* Alternative implementation 
+        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
+        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
+        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
+        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
+        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
+
+        return ! parentBounds.contains(newBounds);
+         */
+    }
+
+    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
+        this.controlador=controlador;
+        this.stage=stage;
+        this.Pane1=Pane1;
+        this.scroll=scroll;
     }
     
 }

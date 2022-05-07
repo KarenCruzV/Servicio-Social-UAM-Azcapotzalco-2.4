@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -162,6 +163,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
+                    double newX=event.getSceneX();
+                    double newY=event.getSceneY();
+                    if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                    }else{
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                    }
+                    /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
@@ -176,6 +184,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutY(0);
                     }
+                    */
+                    if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                    }else{
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
                     
                     if(elem.getComponente().isConectadoSalida()==true){
                         elem.getComponente().getLinea().setVisible(false);
@@ -536,6 +548,78 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Pane1.getChildren().add(line); 
         aux.getComponente().setLinea(line);
             
+    }
+     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+
+        Bounds parentBounds = Pane1.getLayoutBounds();
+
+        //check if too left
+        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
+            return true ;
+        }
+
+        //check if too right
+        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
+            return true ;
+        }
+        /*
+        //check if too down
+        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
+            return true ;
+        }
+
+        //check if too up
+        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+            return true ;
+        }
+        */
+        return false;
+
+        /* Alternative implementation 
+        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
+        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
+        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
+        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
+        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
+
+        return ! parentBounds.contains(newBounds);
+         */
+    }
+    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+
+        Bounds parentBounds = Pane1.getLayoutBounds();
+        /*
+        //check if too left
+        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
+            return true ;
+        }
+
+        //check if too right
+        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
+            return true ;
+        }
+        */
+        //check if too down
+        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
+            return true ;
+        }
+
+        //check if too up
+        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+            return true ;
+        }
+
+        return false;
+
+        /* Alternative implementation 
+        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
+        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
+        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
+        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
+        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
+
+        return ! parentBounds.contains(newBounds);
+         */
     }
     
 }

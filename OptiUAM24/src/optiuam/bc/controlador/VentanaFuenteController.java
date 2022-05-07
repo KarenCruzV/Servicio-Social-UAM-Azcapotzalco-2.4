@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -401,9 +402,13 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    double x=scroll.getHvalue();
-                    double y= Pane1.getLayoutY();
-                    //System.out.println(Pane1.getLayoutX()+" "+Pane1.getLayoutY()+" sc "+scroll.getHvalue());
+                    double newX=event.getSceneX();
+                    double newY=event.getSceneY();
+                    if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                    }else{
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                    }
+                    /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
@@ -413,11 +418,15 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     }
                     if(elem.getDibujo().getLayoutY()>=0.0){
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-175);
+                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
                     }else{
                         elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
                         elem.getDibujo().setLayoutY(0);
                     }
+                    */
+                    if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                    }else{
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
                     
                     //setPosX(event.getX());
                     //setPosY(event.getY());
@@ -626,6 +635,78 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
               
+    }
+     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+
+        Bounds parentBounds = Pane1.getLayoutBounds();
+
+        //check if too left
+        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
+            return true ;
+        }
+
+        //check if too right
+        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
+            return true ;
+        }
+        /*
+        //check if too down
+        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
+            return true ;
+        }
+
+        //check if too up
+        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+            return true ;
+        }
+        */
+        return false;
+
+        /* Alternative implementation 
+        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
+        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
+        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
+        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
+        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
+
+        return ! parentBounds.contains(newBounds);
+         */
+    }
+    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+
+        Bounds parentBounds = Pane1.getLayoutBounds();
+        /*
+        //check if too left
+        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
+            return true ;
+        }
+
+        //check if too right
+        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
+            return true ;
+        }
+        */
+        //check if too down
+        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
+            return true ;
+        }
+
+        //check if too up
+        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+            return true ;
+        }
+
+        return false;
+
+        /* Alternative implementation 
+        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
+        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
+        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
+        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
+        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
+
+        return ! parentBounds.contains(newBounds);
+         */
     }
     
 }

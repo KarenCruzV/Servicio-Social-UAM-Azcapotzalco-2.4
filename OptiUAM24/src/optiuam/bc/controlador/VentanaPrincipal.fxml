@@ -26,13 +26,13 @@
                   <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" onAction="#menuItemOpenAction" text="Open" />
             </items>
           </Menu>
-          <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help" >
+          <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
               <items>
                 <MenuItem fx:id="menuItemHelp" mnemonicParsing="false" onAction="#menuHelpAction" text="Help" />
               </items>
           </Menu>
           
-          <Menu fx:id="menuAbout" mnemonicParsing="false" text="About" >
+          <Menu fx:id="menuAbout" mnemonicParsing="false" text="About">
             <items>
                 <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuAboutAction" text="About" />
               </items>
@@ -199,7 +199,7 @@
             <InnerShadow choke="0.09" color="#1f2f8d" height="35.83" radius="19.6375" width="44.72" />
          </effect>
       </TitledPane>
-      <ScrollPane fx:id="scroll" depthTest="ENABLE" hmax="2.0" layoutX="10.0" layoutY="178.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="898.0" style="-fx-background-color: lightblue;" vmax="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+      <ScrollPane fx:id="scroll" depthTest="ENABLE" hmax="2.0" layoutX="10.0" layoutY="178.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: lightblue;" vmax="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
          <content>
             <Pane id="Pane1" fx:id="Pane1" prefHeight="1200.0" prefWidth="1800.0" style="-fx-background-color: White;">
                <children>
