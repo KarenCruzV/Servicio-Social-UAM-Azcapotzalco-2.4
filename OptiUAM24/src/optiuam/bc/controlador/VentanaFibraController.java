@@ -375,14 +375,53 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         alert.showAndWait();
     }
     
+    public void guardarComponente2(Fibra fibra,ElementoGrafico el){
+        fibra.setNombre("fiber"); //fibra
+        fibra.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(fibra);
+        Label dibujo= new Label();
+        ElementoGrafico elem= new ElementoGrafico();
+        
+        fibra.setPosX(dibujo.getLayoutX());
+        fibra.setPosY(dibujo.getLayoutY());
+        setPosX(fibra.getPosX());
+        setPosY(fibra.getPosY());
+        
+        elem.setComponente(fibra);
+        elem.setId(controlador.getContadorElemento());
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
+        dibujo.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+            dibujo.setLayoutX(el.getDibujo().getLayoutX()+35);
+            dibujo.setLayoutY(el.getDibujo().getLayoutY()+20);
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.setContentText("\n¡Fiber created!");
+        alert.showAndWait();
+    }
+    
     public void eventos(ElementoGrafico elem){
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
                     double newY=event.getSceneY();
+                    int karen=0;
+                    for(int a=0; a<Pane1.getChildren().size();a++){
+                        if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
+                            karen=a;
+                            break;
+                        }
+                    }
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
                     }
                     /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
@@ -402,7 +441,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
                     
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(elem.getComponente().getLinea());
@@ -491,7 +530,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     aux.setIdFibra(idFibra);
                     aux.setConectadoEntrada(false);
                     aux.setConectadoSalida(false);
-                    guardarComponente(aux);
+                    guardarComponente2(aux,dibujo);
                     idFibra++;
                     //System.out.println(aux.toString());
                     for(int h=0; h<controlador.getElementos().size(); h++){
@@ -556,12 +595,21 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     private void init2(ElementoGrafico elem, VentanaFibraController fibraController) {
         this.elemG=elem;
         this.fibraControl=fibraController;
-        fibraControl.cboxConectarA.getItems().add("Desconected");
+        
         if(elemG.getComponente().isConectadoSalida()==true){
             fibraControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }
         else{
+            fibraControl.cboxConectarA.getItems().add("Desconected");
             fibraControl.cboxConectarA.getSelectionModel().select(0);
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+            if("connector".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "splice".equals(controlador.getElementos().get(elemento).getNombre())){
+                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                    fibraControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
+            }
+            }
         }
         
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -590,12 +638,6 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 fibraControl.txtAtenue.setText(String.valueOf(fib.getAtenuacion()));
                 fibraControl.txtDisp.setText(String.valueOf(fib.getDispersion()));
                 fibraControl.txtDistancia.setText(String.valueOf(fib.getLongitud_km()));
-            }
-            if("connector".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "splice".equals(controlador.getElementos().get(elemento).getNombre())){
-                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                    fibraControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
-                }
             }
         }
     }
@@ -712,7 +754,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         }
 
         //check if too up
-        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+        if( parentBounds.getMinY()+179 >= (newY + childBounds.getMinY()) ) {
             return true ;
         }
 

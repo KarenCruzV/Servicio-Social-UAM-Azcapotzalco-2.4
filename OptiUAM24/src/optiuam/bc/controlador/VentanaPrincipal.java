@@ -536,9 +536,16 @@ public class VentanaPrincipal implements Initializable {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
                     double newY=event.getSceneY();
+                    int karen=0;
+                    for(int a=0; a<Pane1.getChildren().size();a++){
+                        if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
+                            karen=a;
+                            break;
+                        }
+                    }
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
                     }
                     /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
@@ -558,7 +565,7 @@ public class VentanaPrincipal implements Initializable {
                     */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(elem.getComponente().getLinea());
                         dibujarLinea(elem);
@@ -688,7 +695,7 @@ public class VentanaPrincipal implements Initializable {
         }
 
         //check if too up
-        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+        if( parentBounds.getMinY()+179 >= (newY + childBounds.getMinY()) ) {
             return true ;
         }
 

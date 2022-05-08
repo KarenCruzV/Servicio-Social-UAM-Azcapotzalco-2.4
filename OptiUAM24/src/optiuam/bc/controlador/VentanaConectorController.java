@@ -159,15 +159,53 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         alert.setContentText("\nConnector created!");
         alert.showAndWait();
     }
-
+    
+    private void guardarConector2(Conector conector,ElementoGrafico el) {
+        conector.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(conector);
+        Label dibujo= new Label();
+        ElementoGrafico elem= new ElementoGrafico();
+        
+        conector.setPosX(dibujo.getLayoutX());
+        conector.setPosY(dibujo.getLayoutY());
+        setPosX(conector.getPosX());
+        setPosY(conector.getPosY());
+        
+        elem.setComponente(conector);
+        elem.setId(controlador.getContadorElemento());
+        
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
+        dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+            dibujo.setLayoutX(el.getDibujo().getLayoutX()+35);
+            dibujo.setLayoutY(el.getDibujo().getLayoutY()+20);
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.setContentText("\nConnector created!");
+        alert.showAndWait();
+    }
     private void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
                     double newY=event.getSceneY();
+                    int karen=0;
+                    for(int a=0; a<Pane1.getChildren().size();a++){
+                        if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
+                            karen=a;
+                            break;
+                        }
+                    }
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
                     }
                     /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
@@ -187,7 +225,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
                     
                     if(elem.getComponente().isConectadoSalida()==true){
                         elem.getComponente().getLinea().setVisible(false);
@@ -272,7 +310,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     aux.setModo(aux1.getModo());
                     aux.setNombre("connector");
                     aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
-                    guardarConector(aux);
+                    guardarConector2(aux,dibujo);
                     System.out.println(aux);
                     idConector++;
                     break;
@@ -468,12 +506,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         conectorController.lblConectarA.setVisible(true);
         conectorController.cboxConectarA.setVisible(true);
         conectorController.btnModificar.setVisible(true);
-        conectorControl.cboxConectarA.getItems().add("Desconected");
+        
         
         if(elemG.getComponente().isConectadoSalida()==true){
             conectorControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }else{
+            conectorControl.cboxConectarA.getItems().add("Desconected");
             conectorControl.cboxConectarA.getSelectionModel().select(0);
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
+                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                    conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
+            }
+            }
         }
         
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -493,14 +542,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 conectorControl.txtPerdida.setText(String.valueOf(con.getPerdidaInsercion()));
             }
             
-            if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
-                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                    conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
-                }
-            }
+            
             
         }
     }
@@ -508,7 +550,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     private void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
-        line.setStartY(elemG.getDibujo().getLayoutY()+7);
+        line.setStartY(elemG.getDibujo().getLayoutY()+8);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
@@ -517,8 +559,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
-        line.setEndX(aux.getDibujo().getLayoutX());
-        line.setEndY(aux.getDibujo().getLayoutY());
+        
+        if(aux.getDibujo().getText().contains("fiber")){
+            line.setEndX(aux.getDibujo().getLayoutX()+3);
+            line.setEndY(aux.getDibujo().getLayoutY()+20);
+        }else{
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+8);
+        }
         //setLinea(line);
         //System.out.println("Se dibujo una linea");
         line.setVisible(true);
@@ -605,7 +653,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
 
         //check if too up
-        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+        if( parentBounds.getMinY()+179 >= (newY + childBounds.getMinY()) ) {
             return true ;
         }
 

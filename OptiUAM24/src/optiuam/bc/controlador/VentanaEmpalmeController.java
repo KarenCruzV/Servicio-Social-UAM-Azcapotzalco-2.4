@@ -148,10 +148,10 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Label dibujo= new Label();
         ElementoGrafico elem= new ElementoGrafico();
         
-        empalme.setPosX(dibujo.getLayoutX());
-        empalme.setPosY(dibujo.getLayoutY());
-        setPosX(empalme.getPosX());
-        setPosY(empalme.getPosY());
+        //empalme.setPosX(dibujo.getLayoutX());
+        //empalme.setPosY(dibujo.getLayoutY());
+        //setPosX(empalme.getPosX());
+        //setPosY(empalme.getPosY());
         
         elem.setComponente(empalme);
         elem.setId(controlador.getContadorElemento());
@@ -159,6 +159,41 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
         dibujo.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
         dibujo.setContentDisplay(ContentDisplay.TOP);
+        
+        elem.setDibujo(dibujo);
+        controlador.getDibujos().add(elem);
+        eventos(elem);
+        Pane1.getChildren().add(elem.getDibujo());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
+        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.setContentText("\nSplice created!");
+        alert.showAndWait();
+    }
+    
+    private void guardarEmpalme2(Empalme empalme, ElementoGrafico el) {
+        empalme.setId(controlador.getContadorElemento());
+        controlador.getElementos().add(empalme);
+        Label dibujo= new Label();
+        ElementoGrafico elem= new ElementoGrafico();
+        
+        //empalme.setPosX(dibujo.getLayoutX());
+        //empalme.setPosY(dibujo.getLayoutY());
+        //setPosX(empalme.getPosX());
+        //setPosY(empalme.getPosY());
+        
+        elem.setComponente(empalme);
+        elem.setId(controlador.getContadorElemento());
+        
+        dibujo.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
+        dibujo.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
+        dibujo.setContentDisplay(ContentDisplay.TOP);
+        
+            dibujo.setLayoutX(el.getDibujo().getLayoutX()+35);
+            dibujo.setLayoutY(el.getDibujo().getLayoutY()+20);
+        
         elem.setDibujo(dibujo);
         controlador.getDibujos().add(elem);
         eventos(elem);
@@ -177,9 +212,16 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
                     double newY=event.getSceneY();
+                    int karen=0;
+                    for(int a=0; a<Pane1.getChildren().size();a++){
+                        if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
+                            karen=a;
+                            break;
+                        }
+                    }
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(elem.getId()+1).getLayoutX()+event.getX()+1);
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
                     }
                     /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
@@ -199,7 +241,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(elem.getId()+1).getLayoutY()+event.getY()+1);}
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(elem.getComponente().getLinea());
                         dibujarLinea(elem);
@@ -239,6 +281,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                         empalmeController.lblConectarA.setVisible(true);
                         empalmeController.cboxConectarA.setVisible(true);
                         empalmeController.btnModificar.setVisible(true);
+                        
                         //empalmeController.init(controlador, this.stage, this.Pane1);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
@@ -313,7 +356,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
 
         //check if too up
-        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
+        if( parentBounds.getMinY()+179 >= (newY + childBounds.getMinY()) ) {
             return true ;
         }
 
@@ -352,7 +395,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
                     empalmeAux.setTipo(aux1.getTipo());
                     empalmeAux.setNombre("splice");
-                    guardarEmpalme(empalmeAux);
+                    guardarEmpalme2(empalmeAux,dibujo);
                     //System.out.println(empalmeAux);
                     idEmpalme++;
                     break;
@@ -505,11 +548,19 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     private void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
         this.elemG=elem;
         this.empalmeControl=empalmeController;
-        empalmeControl.cboxConectarA.getItems().add("Desconected");
+        
         if(elemG.getComponente().isConectadoSalida()==true){
             empalmeControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }else{
+            empalmeControl.cboxConectarA.getItems().add("Desconected");
             empalmeControl.cboxConectarA.getSelectionModel().select(0);
+             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                 if("fiber".equals(controlador.getElementos().get(elemento).getNombre())){
+                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                    empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
+            }
+             }
         }
         
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -528,11 +579,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
                 empalmeControl.txtPerdida.setText(String.valueOf(emp.getPerdidaInsercion()));
             }
-            if("fiber".equals(controlador.getElementos().get(elemento).getNombre())){
-                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                    empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
-                }
-            }
+            
         }
     }
     
