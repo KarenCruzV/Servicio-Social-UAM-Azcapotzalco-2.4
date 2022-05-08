@@ -223,7 +223,7 @@ public class ControladorGeneral {
                 String [] partes = linea.split(",");
                 String nombre = partes[0];
                 switch (nombre) {
-                    case "conector":
+                    case "connector":
                         Conector conector = new Conector();
                         conector.setId(Integer.valueOf(partes[1]));
                         conector.setNombre(nombre);
@@ -256,7 +256,7 @@ public class ControladorGeneral {
                         //------------------------------------------------------
                         break;
                         
-                    case "empalme":
+                    case "splice":
                         Empalme empalme = new Empalme();
                         empalme.setId(Integer.valueOf(partes[1]));
                         empalme.setNombre(nombre);
@@ -327,7 +327,7 @@ public class ControladorGeneral {
                         elementos.add(splitter);
                         break;
                         
-                    case "fibra":
+                    case "fiber":
                         Fibra fibra = new Fibra();
                         fibra.setId(Integer.valueOf(partes[1]));
                         fibra.setNombre(nombre);
@@ -355,7 +355,7 @@ public class ControladorGeneral {
                         dibujos.add(manejadorElementos);
                         break;
                         
-                    case "fuente":
+                    case "source":
                         Fuente fuente = new Fuente();
                         fuente.setId(Integer.valueOf(partes[1]));
                         fuente.setNombre(nombre);
@@ -382,7 +382,7 @@ public class ControladorGeneral {
                         dibujos.add(manejadorElementos);
                         break;
                         
-                    case "potencia":
+                    case "power":
                         MedidorPotencia potencia= new MedidorPotencia();
                         potencia.setId(Integer.valueOf(partes[1]));
                         potencia.setNombre(nombre);
@@ -404,7 +404,7 @@ public class ControladorGeneral {
                         dibujos.add(manejadorElementos);
                         break;
 
-                    case "espectro":
+                    case "spectrum":
                         MedidorEspectro espectro = new MedidorEspectro();
                         espectro.setId(Integer.valueOf(partes[1]));
                         espectro.setNombre(nombre);
