@@ -3,9 +3,12 @@ package optiuam.bc.controlador;
 
 import java.awt.Color;
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,10 +48,14 @@ import javafx.stage.StageStyle;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import optiuam.bc.modelo.Componente;
+import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Empalme;
 import optiuam.bc.modelo.Fibra;
+import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.MedidorEspectro;
 import optiuam.bc.modelo.MedidorPotencia;
+import optiuam.bc.modelo.Splitter;
 
 public class VentanaPrincipal implements Initializable {
 
@@ -466,7 +473,7 @@ public class VentanaPrincipal implements Initializable {
     }
     
     @FXML
-    private void menuItemNewAction(ActionEvent event) {                                           
+    private void menuItemNewAction() {                                           
         ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(AlertType.CONFIRMATION,
@@ -479,7 +486,7 @@ public class VentanaPrincipal implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if(result.orElse(cancelar) == aceptar) {
-            controlador.nuevoTrabajo(event);
+            controlador.nuevoTrabajo();
         }
         else{}
     }    
@@ -515,7 +522,261 @@ public class VentanaPrincipal implements Initializable {
             //en cancelar o se cierra la ventana para cargar/guardad trabajo
         }
         */
-    }   
+    } 
+    
+    public void abrirTrabajo(String ruta){
+        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            // Apertura del fichero y creacion de BufferedReader para poder
+             // hacer una lectura comoda (disponer del metodo readLine()).
+            archivo = new File (ruta);
+            fr = new FileReader (archivo);
+            br = new BufferedReader(fr);
+            
+            //se vacian los arrays de controlador.elementos
+            controlador.elementos = new LinkedList<>();
+            controlador.dibujos = new LinkedList<>();
+            
+            //se limpia el panel de trabajo
+            menuItemNewAction();
+           //ventana_principal.getPane1().getChildren().clear();
+
+           // Lectura del fichero
+            String linea="";
+            
+            while((linea=br.readLine())!=null){
+                //System.out.println(linea);
+                String [] partes = linea.split(",");
+                String nombre = partes[0];
+                switch (nombre) {
+                    case "connector":
+                        Conector conector = new Conector();
+                        conector.setId(Integer.valueOf(partes[1]));
+                        conector.setNombre(nombre);
+                        conector.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        conector.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        conector.setLongitudOnda(Integer.valueOf(partes[4]));
+                        conector.setModo(Integer.valueOf(partes[5]));
+                        conector.setPerdidaInsercion(Double.valueOf(partes[6]));
+                        conector.setIdConector(Integer.valueOf(partes[7]));
+                        controlador.elementos.add(conector);
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), conector);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo = new Label();
+                        dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
+                        dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
+                        dibujo.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        //INTENTO DE QUE APAREZCA EN LA VENTANA PRINCIPAL :V
+                        ElementoGrafico elem = new ElementoGrafico();
+                        elem.setComponente(conector);
+                        elem.setDibujo(dibujo);
+                        elem.setId(VentanaPrincipal.controlador.getContadorElemento());
+                        controlador.getDibujos().add(elem);
+                        dibujo.setVisible(true);
+                        Pane1.getChildren().add(dibujo);
+                        //------------------------------------------------------
+                        break;
+                        
+                    case "splice":
+                        Empalme empalme = new Empalme();
+                        empalme.setId(Integer.valueOf(partes[1]));
+                        empalme.setNombre(nombre);
+                        empalme.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        empalme.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        empalme.setTipo(Integer.valueOf(partes[4]));
+                        empalme.setPerdidaInsercion(Double.valueOf(partes[5]));
+                        empalme.setLongitudOnda(Integer.valueOf(partes[6]));
+                        empalme.setIdEmpalme(Integer.valueOf(partes[7]));
+                        controlador.elementos.add(empalme);
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), empalme);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo1 = new Label();
+                        dibujo1.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
+                        dibujo1.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
+                        dibujo1.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo1);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        break;
+                        
+                    case "splitter":
+                        Splitter splitter = new Splitter();
+                        splitter.setId(Integer.valueOf(partes[1]));
+                        splitter.setNombre(nombre);
+                        splitter.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        splitter.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        splitter.setSalidas(Integer.valueOf(partes[4]));
+                        splitter.setPerdidaInsercion(Double.valueOf(partes[5]));
+                        splitter.setLongitudOnda(Integer.valueOf(partes[6]));
+                        splitter.setIdS(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), splitter);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo2 = new Label();
+                        switch (splitter.getSalidas()) {
+                            case 2:
+                                dibujo2.setGraphic(new ImageView(new Image("images/dibujo_splitter.png")));
+                                break;
+                            case 4:
+                            case 8:
+                            case 16:
+                            case 32:
+                            case 64:
+                                dibujo2.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
+                                break;
+                            default:
+                                break;
+                        }
+                        dibujo2.setText(splitter.getNombre() + "_"+ splitter.getIdS());
+                        dibujo2.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo2);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        linea=br.readLine();
+                        String [] conexiones = linea.split(",");
+                        for(int i=0;i<((int) Math.pow(2,(splitter.getSalidas()+1))); i++){
+                            if(conexiones[i].compareTo(" ")==0)
+                                splitter.cargarConexion(i,"");
+                            else    
+                                splitter.cargarConexion(i,conexiones[i]);
+                        }
+                        controlador.elementos.add(splitter);
+                        break;
+                        
+                    case "fiber":
+                        Fibra fibra = new Fibra();
+                        fibra.setId(Integer.valueOf(partes[1]));
+                        fibra.setNombre(nombre);
+                        fibra.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        fibra.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        fibra.setLongitudOnda(Integer.valueOf(partes[4]));
+                        fibra.setModo(Integer.valueOf(partes[5]));
+                        fibra.setTipo(Integer.valueOf(partes[6]));
+                        fibra.setLongitud_km(Double.valueOf(partes[7]));
+                        fibra.setDispersion(Double.valueOf(partes[8]));
+                        fibra.setAtenuacion(Double.valueOf(partes[9]));
+                        fibra.setIdFibra(Integer.valueOf(partes[10]));
+                        controlador.elementos.add(fibra);
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), fibra);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo3 = new Label();
+                        dibujo3.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
+                        dibujo3.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
+                        dibujo3.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo3);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[11]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[12]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        break;
+                        
+                    case "source":
+                        Fuente fuente = new Fuente();
+                        fuente.setId(Integer.valueOf(partes[1]));
+                        fuente.setNombre(nombre);
+                        fuente.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        fuente.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        fuente.setTipo(Integer.valueOf(partes[4]));
+                        fuente.setPotencia(Double.valueOf(partes[5]));
+                        fuente.setAnchura(Double.valueOf(partes[6]));
+                        fuente.setVelocidad(Double.valueOf(partes[7]));
+                        fuente.setLongitudOnda(Integer.valueOf(partes[8]));
+                        fuente.setIdFuente(Integer.valueOf(partes[9]));
+                        controlador.elementos.add(fuente);
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), fuente);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo4 = new Label();
+                        dibujo4.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
+                        dibujo4.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
+                        dibujo4.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo4);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[10]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[11]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        break;
+                        
+                    case "power":
+                        MedidorPotencia potencia= new MedidorPotencia();
+                        potencia.setId(Integer.valueOf(partes[1]));
+                        potencia.setNombre(nombre);
+                        potencia.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        potencia.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        potencia.setIdPotencia(Integer.valueOf(partes[4]));
+                        controlador.elementos.add(potencia);
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), potencia);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo5 = new Label();
+                        dibujo5.setGraphic(new ImageView(new Image("images/dibujo_potencia.png")));
+                        dibujo5.setText(potencia.getNombre() + "_"+ potencia.getIdPotencia());
+                        dibujo5.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo5);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        break;
+
+                    case "spectrum":
+                        MedidorEspectro espectro = new MedidorEspectro();
+                        espectro.setId(Integer.valueOf(partes[1]));
+                        espectro.setNombre(nombre);
+                        espectro.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        espectro.setConectadoSalida(Boolean.valueOf(partes[3]));
+                        espectro.setIdEspectro(Integer.valueOf(partes[4]));
+                        controlador.elementos.add(espectro);
+                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), espectro);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo6 = new Label();
+                        dibujo6.setGraphic(new ImageView(new Image("images/dibujo_espectro.png")));
+                        dibujo6.setText(espectro.getNombre() + "_"+ espectro.getIdEspectro());
+                        dibujo6.setContentDisplay(ContentDisplay.TOP);
+                        controlador.manejadorElementos.setDibujo(dibujo6);
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
+                        controlador.dibujos.add(controlador.manejadorElementos);
+                        break;
+                        
+                    default:
+                        controlador.contadorElemento=Integer.valueOf(partes[1]);
+                }
+            }
+        }
+        catch(IOException | NumberFormatException e){
+            e.printStackTrace();
+        }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta 
+         // una excepcion.
+            try{                    
+                if( null != fr ){   
+                fr.close();     
+            }                  
+            }catch (Exception e2){ 
+            e2.printStackTrace();
+            }
+        }
+    }
     
     @FXML
     private void menuItemOpenAction(ActionEvent event) {                                            
@@ -527,7 +788,7 @@ public class VentanaPrincipal implements Initializable {
         try {
             ruta_archivo = manejador.getSelectedFile().getPath();
             System.out.println(ruta_archivo);
-            controlador.abrirTrabajo(ruta_archivo);
+            abrirTrabajo(ruta_archivo);
         } catch (Exception e) {
             //no se hace nada ya que esta excepcion se activa cuando se da click 
             //en cancelar o se cierra la ventana para cargar/guardad trabajo
