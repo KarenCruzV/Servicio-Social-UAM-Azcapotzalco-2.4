@@ -31,7 +31,7 @@ public class OptiUAM24 extends Application {
         Parent root = loader.load();
         //\src\images\ico_aplicar.png
         VentanaPrincipal ventanaPrincipal= loader.getController();
-        ventanaPrincipal.setStage(primaryStage);
+        VentanaPrincipal.setStage(primaryStage);
         Image ico = new Image("/images/acercaDe.png"); 
         primaryStage.getIcons().add(ico);
 

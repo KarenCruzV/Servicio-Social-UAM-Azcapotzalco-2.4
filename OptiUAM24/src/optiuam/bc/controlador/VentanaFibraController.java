@@ -129,6 +129,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void rbtn1310Action(ActionEvent event){
+        rbtn1310.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             if (rbtnMono.isSelected()) { // monomodo 1310
                 txtAtenue.setText("0.32");
@@ -146,6 +147,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void rbtn1550Action(ActionEvent event){
+        rbtn1550.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             if (rbtnMono.isSelected()) { // monomodo 1510
                 txtAtenue.setText("0.18");
@@ -158,6 +160,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void rbtnMm50(ActionEvent event){
+        rbtn50.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             rbtn1310.setSelected(true);
             rbtn1550.setDisable(true);
@@ -173,6 +176,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void rbtnSmf28(ActionEvent event){
+        rbtn28.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             rbtn1550.setDisable(false);
             rbtnMono.setSelected(true);
@@ -194,6 +198,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     @FXML
     private void rbtnOtro(ActionEvent event){
+        rbtnOtro.setSelected(true);
         rbtnMulti.setDisable(false);
         rbtnMono.setDisable(false);
         rbtn1310.setDisable(false);
@@ -210,30 +215,34 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
 
-        if (modo == 1) // multimodo
+        if(rbtnMulti.isSelected()) // multimodo
         {
+            modo = 1;
             rbtnMulti.setSelected(true);
         }
 
-        if (longitudOnda == 1550) // 1310 nm
+        if (rbtn1550.isSelected()) // 1310 nm
         {
+            longitudOnda = 1550;
             rbtn1550.setSelected(true);
         }
-        if (tipo == 1) // mm50
+        if (rbtn50.isSelected()) // mm50
         {
+            tipo = 1;
             txtDisp.setEditable(false);
             txtAtenue.setEditable(false);
             rbtn1550.setDisable(true);
             rbtnMono.setDisable(true);
             rbtn50.setSelected(true);
         }
-        if(tipo ==0){ // smf28
+        if(rbtn28.isSelected()){ // smf28
+            tipo = 0;
             txtDisp.setEditable(false);
             txtAtenue.setEditable(false);
             rbtnMulti.setDisable(true);
             rbtn28.setSelected(true);
         }
-        if(tipo == 2){} //otro
+        if(rbtnOtro.isSelected()){tipo=2;} //otro
 
         if((fibraControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
             //aux.setConectadoEntrada(false);
@@ -281,7 +290,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         cerrarVentana(event);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succed");
+        alert.setTitle("Succes");
         alert.setHeaderText(null);
         alert.setContentText("\nModified fiber!");
         alert.showAndWait();
@@ -296,30 +305,34 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
         
-        if (modo == 1) // multimodo
+        if (rbtnMulti.isSelected()) // multimodo
         {
+            modo = 1;
             rbtnMulti.setSelected(true);
         }
         
-        if (longitudOnda == 1550) // 1310 nm
+        if (rbtn1550.isSelected()) // 1310 nm
         {
+            longitudOnda = 1550;
             rbtn1550.setSelected(true);
         }
-        if (tipo == 1) // mm50
+        if (rbtn50.isSelected()) // mm50
         {
+            tipo = 1;
             txtDisp.setEditable(false);
             txtAtenue.setEditable(false);
             rbtn1550.setDisable(true);
             rbtnMono.setDisable(true);
             rbtn50.setSelected(true);
         }
-        if(tipo ==0){ // smf28
+        if(rbtn28.isSelected()){ // smf28
+            tipo = 0;
             txtDisp.setEditable(false);
             txtAtenue.setEditable(false);
             rbtnMulti.setDisable(true);
             rbtn28.setSelected(true);
         }
-        if(tipo == 2){} //otro
+        if(rbtnOtro.isSelected()){tipo=2;} //otro
         
         longitudKm= Double.parseDouble(txtDistancia.getText());
         atenue= Double.parseDouble(txtAtenue.getText());
@@ -409,55 +422,55 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     
     public void eventos(ElementoGrafico elem){
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
-                if(event.getButton()==MouseButton.PRIMARY){
-                    double newX=event.getSceneX();
-                    double newY=event.getSceneY();
-                    int karen=0;
-                    for(int a=0; a<Pane1.getChildren().size();a++){
-                        if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
-                            karen=a;
-                            break;
-                        }
-                    }
-                    if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
-                    }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
-                    }
-                    /*
-                    if(elem.getDibujo().getLayoutX()>=0.0){
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
-                    }else{
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutX(0.0);
-                    }
-                    if(elem.getDibujo().getLayoutY()>=0.0){
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
-                    }else{
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY(0);
-                    }
-                    */
-                    if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
-                    }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
-                    
-                    if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(elem.getComponente().getLinea());
-                        dibujarLinea(elem);
-                    }
-                    if(elem.getComponente().isConectadoEntrada()){
-                        ElementoGrafico aux;
-                        for(int it=0; it<controlador.getDibujos().size();it++){
-                            if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
-                                aux=controlador.getDibujos().get(it);
-                                borrarLinea(aux.getComponente().getLinea());
-                            }
-                        }
-                        dibujarLineaAtras(elem);
+            if(event.getButton()==MouseButton.PRIMARY){
+                double newX=event.getSceneX();
+                double newY=event.getSceneY();
+                int karen=0;
+                for(int a=0; a<Pane1.getChildren().size();a++){
+                    if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
+                        karen=a;
+                        break;
                     }
                 }
+                if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                }else{
+                    elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
+                }
+                /*
+                if(elem.getDibujo().getLayoutX()>=0.0){
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
+                }else{
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    elem.getDibujo().setLayoutX(0.0);
+                }
+                if(elem.getDibujo().getLayoutY()>=0.0){
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
+                }else{
+                    elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
+                    elem.getDibujo().setLayoutY(0);
+                }
+                */
+                if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
+                }else{
+                elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
+
+                if(elem.getComponente().isConectadoSalida()==true){
+                    borrarLinea(elem.getComponente().getLinea());
+                    dibujarLinea(elem);
+                }
+                if(elem.getComponente().isConectadoEntrada()){
+                    ElementoGrafico aux;
+                    for(int it=0; it<controlador.getDibujos().size();it++){
+                        if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                            aux=controlador.getDibujos().get(it);
+                            borrarLinea(aux.getComponente().getLinea());
+                        }
+                    }
+                    dibujarLineaAtras(elem);
+                }
+            }
         });
             elem.getDibujo().setOnMouseEntered((MouseEvent event) -> {
                 elem.getDibujo().setStyle("-fx-border-color: darkblue;");
@@ -618,22 +631,22 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 System.out.println(fib.getModo()+"\t"+fib.getLongitudOnda());
                 
                 if(fib.getTipo()==0){
-                    fibraControl.rbtn28.setSelected(true);
+                    fibraControl.rbtn28.isSelected();
                 }else if(fib.getTipo()==1){
-                    fibraControl.rbtn50.setSelected(true);
+                    fibraControl.rbtn50.isSelected();
                 }else if(fib.getTipo()==2){
-                    fibraControl.rbtnOtro.setSelected(true);
+                    fibraControl.rbtnOtro.isSelected();
                 }
                 if(fib.getModo()==0){
-                    fibraControl.rbtnMono.setSelected(true);
+                    fibraControl.rbtnMono.isSelected();
                 }else if(fib.getModo()==1){
-                    fibraControl.rbtnMulti.setSelected(true);
+                    fibraControl.rbtnMulti.isSelected();
                 }
                 
                 if(fib.getLongitudOnda()==1310){
-                    fibraControl.rbtn1310.setSelected(true);
+                    fibraControl.rbtn1310.isSelected();
                 }else if(fib.getLongitudOnda()==1550){
-                    fibraControl.rbtn1550.setSelected(true);
+                    fibraControl.rbtn1550.isSelected();
                 }
                 fibraControl.txtAtenue.setText(String.valueOf(fib.getAtenuacion()));
                 fibraControl.txtDisp.setText(String.valueOf(fib.getDispersion()));

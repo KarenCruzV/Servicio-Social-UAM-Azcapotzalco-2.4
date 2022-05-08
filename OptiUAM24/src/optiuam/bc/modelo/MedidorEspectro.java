@@ -78,7 +78,7 @@ public class MedidorEspectro extends Componente {
      */
     @Override
     public String toString() {
-        return super.toString() + idEspectro/*orientacion*/; 
+        return super.toString()+","+idEspectro/*orientacion*/; 
     }
     
 }

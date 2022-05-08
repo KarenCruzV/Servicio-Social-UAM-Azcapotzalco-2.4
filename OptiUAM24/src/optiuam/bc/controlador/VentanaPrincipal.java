@@ -52,7 +52,7 @@ import optiuam.bc.modelo.MedidorPotencia;
 
 public class VentanaPrincipal implements Initializable {
 
-    Stage stage;
+    static Stage stage;
     private ObservableList<Componente> componentes;
     static ControladorGeneral controlador= new ControladorGeneral();
     static int idEspectro = 0;
@@ -92,20 +92,20 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
         Fibra fibra= new Fibra();
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFibra.fxml"));
         Parent root = loader.load();
         //Se crea una instancia del controlador de fibra.
         VentanaFibraController fibraController= (VentanaFibraController) loader.getController();
-        fibraController.init(controlador,this.stage,this.Pane1,this.scroll);
+        fibraController.init(controlador,VentanaPrincipal.stage,Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
-        stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC New Fiber");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
+        s.getIcons().add(ico);
+        s.setTitle("OptiUAM BC New Fiber");
+        s.initModality(Modality.APPLICATION_MODAL);
+        s.setScene(scene);
+        s.setResizable(false);
+        s.showAndWait();
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -115,19 +115,19 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaFuente(ActionEvent event) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFuente.fxml"));
         Parent root =loader.load();
         VentanaFuenteController fuenteControl=loader.getController();
-        fuenteControl.init(controlador,this.stage,this.Pane1,this.scroll);
+        fuenteControl.init(controlador,VentanaPrincipal.stage,Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
-        stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC New Source");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
+        s.getIcons().add(ico);
+        s.setTitle("OptiUAM BC New Source");
+        s.initModality(Modality.APPLICATION_MODAL);
+        s.setScene(scene);
+        s.setResizable(false);
+        s.showAndWait();
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -137,19 +137,19 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaSplitter(ActionEvent event) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaSplitter.fxml"));
         Parent root =loader.load();
         VentanaSplitterController splitterControl=loader.getController();
-        splitterControl.init(controlador,this.stage,this.Pane1,this.scroll);
+        splitterControl.init(controlador,VentanaPrincipal.stage,Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
-        stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC New Splitter");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
+        s.getIcons().add(ico);
+        s.setTitle("OptiUAM BC New Splitter");
+        s.initModality(Modality.APPLICATION_MODAL);
+        s.setScene(scene);
+        s.setResizable(false);
+        s.showAndWait();
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -159,19 +159,19 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaConector(ActionEvent event) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
         Parent root =loader.load();
         VentanaConectorController conectorControl=loader.getController();
-        conectorControl.init(controlador,this.stage,this.Pane1,this.scroll);
+        conectorControl.init(controlador,VentanaPrincipal.stage,Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
-        stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC New Connector");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        s.getIcons().add(ico);
+        s.setTitle("OptiUAM BC New Connector");
+        s.initModality(Modality.APPLICATION_MODAL);
+        s.setScene(scene);
+        s.setResizable(false);
+        s.show();
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -181,19 +181,19 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void abrirVentanaEmpalme(ActionEvent event) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaEmpalme.fxml"));
         Parent root =loader.load();
         VentanaEmpalmeController empalmeControl=loader.getController();
-        empalmeControl.init(controlador,this.stage,this.Pane1,this.scroll);
+        empalmeControl.init(controlador,VentanaPrincipal.stage,Pane1,this.scroll);
         Scene scene = new Scene(root);
         Image ico = new Image("images/acercaDe.png"); 
-        stage.getIcons().add(ico);
-        stage.setTitle("OptiUAM BC New Splice");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
+        s.getIcons().add(ico);
+        s.setTitle("OptiUAM BC New Splice");
+        s.initModality(Modality.APPLICATION_MODAL);
+        s.setScene(scene);
+        s.setResizable(false);
+        s.showAndWait();
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -241,12 +241,12 @@ public class VentanaPrincipal implements Initializable {
                     potControl.init(elem,controlador);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
-                    Stage stage = new Stage(StageStyle.UTILITY);
-                    stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
-                    stage.setScene(scene);
-                    stage.showAndWait();
-                    stage.setResizable(false);
+                    Stage s = new Stage(StageStyle.UTILITY);
+                    s.getIcons().add(ico);
+                    s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    s.setScene(scene);
+                    s.showAndWait();
+                    s.setResizable(false);
                 } catch (IOException ex) {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -299,12 +299,12 @@ public class VentanaPrincipal implements Initializable {
                     Parent root = FXMLLoader.load(getClass().getResource("VentanaEspectro.fxml"));
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
-                    Stage stage = new Stage(StageStyle.UTILITY);
-                    stage.getIcons().add(ico);
-                    stage.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
-                    stage.setScene(scene);
-                    stage.showAndWait();
-                    stage.setResizable(false);
+                    Stage s = new Stage(StageStyle.UTILITY);
+                    s.getIcons().add(ico);
+                    s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    s.setScene(scene);
+                    s.showAndWait();
+                    s.setResizable(false);
                 } catch (IOException ex) {
                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -323,8 +323,8 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        Stage s = (Stage) source.getScene().getWindow();
+        s.close();
     }
     
     public void mostrarMenuChiquito(ElementoGrafico dibujo){
@@ -421,8 +421,12 @@ public class VentanaPrincipal implements Initializable {
         
     }    
 
-    public void setStage(Stage primaryStage) {
-        stage=primaryStage;
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        VentanaPrincipal.stage = stage;
     }
 
     public Pane getPane1() {
@@ -463,7 +467,7 @@ public class VentanaPrincipal implements Initializable {
     
     @FXML
     private void menuItemNewAction(ActionEvent event) {                                           
-        ButtonType aceptar = new ButtonType("Accep", ButtonBar.ButtonData.OK_DONE);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(AlertType.CONFIRMATION,
                 "Do you want to create a new job?",
@@ -475,7 +479,7 @@ public class VentanaPrincipal implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if(result.orElse(cancelar) == aceptar) {
-            controlador.nuevoTrabajo(event); // empezar un nuevo trabajo
+            controlador.nuevoTrabajo(event);
         }
         else{}
     }    
@@ -516,19 +520,18 @@ public class VentanaPrincipal implements Initializable {
     @FXML
     private void menuItemOpenAction(ActionEvent event) {                                            
         JFileChooser manejador = new JFileChooser();
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("opt Files", "opt");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("opt files", "opt");
         manejador.setFileFilter(filtro);
         manejador.showOpenDialog(null);
         String ruta_archivo="";
         try {
             ruta_archivo = manejador.getSelectedFile().getPath();
-            //System.out.println(ruta_archivo);
+            System.out.println(ruta_archivo);
             controlador.abrirTrabajo(ruta_archivo);
         } catch (Exception e) {
             //no se hace nada ya que esta excepcion se activa cuando se da click 
             //en cancelar o se cierra la ventana para cargar/guardad trabajo
         }
-        
     }   
     
     private void eventos(ElementoGrafico elem) {
@@ -639,7 +642,8 @@ public class VentanaPrincipal implements Initializable {
         aux.getComponente().setLinea(line);
             
     }
-     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+    
+    private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
 

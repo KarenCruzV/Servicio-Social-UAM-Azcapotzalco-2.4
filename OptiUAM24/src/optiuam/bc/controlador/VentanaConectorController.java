@@ -380,13 +380,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     @FXML
     private void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    Componente comp= controlador.getElementos().get(elemento2);
-                    comp.setConectadoEntrada(false);
-                    comp.setElementoConectadoEntrada("");
-                    System.out.println(comp.getNombre());
-                    break;
-                }
+            if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                Componente comp= controlador.getElementos().get(elemento2);
+                comp.setConectadoEntrada(false);
+                comp.setElementoConectadoEntrada("");
+                System.out.println(comp.getNombre());
+                break;
+            }
         }
         conectorControl.cboxConectarA.getSelectionModel().select(0);
         //elemG.getComponente().setConectadoEntrada(false);
@@ -507,7 +507,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         conectorController.cboxConectarA.setVisible(true);
         conectorController.btnModificar.setVisible(true);
         
-        
         if(elemG.getComponente().isConectadoSalida()==true){
             conectorControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }else{
@@ -518,10 +517,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
-                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                    conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                    if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                        conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                    }
                 }
-            }
             }
         }
         
@@ -541,9 +540,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 }
                 conectorControl.txtPerdida.setText(String.valueOf(con.getPerdidaInsercion()));
             }
-            
-            
-            
         }
     }
     
@@ -575,7 +571,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
               
     }
     
-    
     private void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
@@ -597,6 +592,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         aux.getComponente().setLinea(line);
             
     }
+    
      private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
@@ -633,6 +629,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         return ! parentBounds.contains(newBounds);
          */
     }
+     
     private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
