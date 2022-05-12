@@ -175,20 +175,20 @@ public class VentanaPulsoController implements Initializable {
         NumeroComplejo[] Et= new NumeroComplejo[n];
         NumeroComplejo aux=null;
         for(int t=-(n/2); t<(n/2);t++){
-            aux = new NumeroComplejo(chirpXi.getParteReal(), chirpXi.getParteImaginaria());
+            aux = new NumeroComplejo(chirpXi.getRealPart(), chirpXi.getImaginaryPart());
             aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
             Et[(n/2)+t]=aux;
             //System.out.println((t+1+256)+""+aux.toString());
         }
         NumeroComplejo aux2=null;
         for(int t=-(n/2); t<(n/2);t++){
-             aux2 = new NumeroComplejo(Et[(n/2)+t].getParteReal(),Et[(n/2)+t].getParteImaginaria());
+             aux2 = new NumeroComplejo(Et[(n/2)+t].getRealPart(),Et[(n/2)+t].getImaginaryPart());
             //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             float x = aux2.getParteReal();
-             float y = aux2.getParteImaginaria();
+             float x = aux2.getRealPart();
+             float y = aux2.getImaginaryPart();
   
-             aux2.setParteReal((float) (Math.exp(x)*Math.cos(y)));
-             aux2.setParteImaginaria((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
+             aux2.setRealPart((float) (Math.exp(x)*Math.cos(y)));
+             aux2.setImaginaryPart((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
              //System.out.println((t+1+256)+";;;;"+aux2.toString());
              aux2.multiplicar(A0,false);
              Et[(n/2)+t]=aux2;
@@ -202,8 +202,8 @@ public class VentanaPulsoController implements Initializable {
             aux3 = new NumeroComplejo(W0*t*0,-1*W0*t);
             //System.out.println(Et[256+t].toString());
             //System.out.println((t+1+256)+";;;;"+aux3.toString());
-            float x = aux3.getParteReal();
-            float y = aux3.getParteImaginaria();
+            float x = aux3.getRealPart();
+            float y = aux3.getImaginaryPart();
             //System.out.println(x);
             //System.out.println(y);
             Ej[(n/2)+t]=Et[(n/2)+t].multiplicar(new NumeroComplejo((float) (Math.exp(x)*Math.cos(y)),(float) (Math.exp(x)*Math.sin(y))),true);
@@ -213,7 +213,7 @@ public class VentanaPulsoController implements Initializable {
         
         float[] valoresReales = new float [n];
         for(int t=-(n/2); t<(n/2);t++){
-            valoresReales[(n/2)+t]= Ej[(n/2)+t].getParteReal();
+            valoresReales[(n/2)+t]= Ej[(n/2)+t].getRealPart();
         }
         return valoresReales;
     }

@@ -350,18 +350,18 @@ public class FFT {
         partesImaginarias[posicion] = imaginaria;
     }
 
-    public void setNumeroComplejo(int posicion, NumeroComplejo numero) {
+     public void setNumeroComplejo(int posicion, NumeroComplejo numero) {
         if (numero != null) {
-            partesReales[posicion] = numero.getParteReal();
-            partesImaginarias[posicion] = numero.getParteImaginaria();
+            partesReales[posicion] = numero.getRealPart();
+            partesImaginarias[posicion] = numero.getImaginaryPart();
         }
     }
 
     public void setNumerosComplejos(NumeroComplejo[] array) {
         if (array != null) {
             for (int i = 0; i < size; i++) {
-                partesReales[i] = array[i].getParteReal();
-                partesImaginarias[i] = array[i].getParteImaginaria();
+                partesReales[i] = array[i].getRealPart();
+                partesImaginarias[i] = array[i].getImaginaryPart();
             }
         }
     }
@@ -457,8 +457,8 @@ public class FFT {
 
     public void sumar(int posicion, NumeroComplejo sumando) {
         if (sumando != null) {
-            partesReales[posicion] += sumando.getParteReal();
-            partesImaginarias[posicion] += sumando.getParteImaginaria();
+            partesReales[posicion] += sumando.getRealPart();
+            partesImaginarias[posicion] += sumando.getImaginaryPart();
         }
     }
 
@@ -473,8 +473,8 @@ public class FFT {
 
     public void restar(int posicion, NumeroComplejo sustraendo) {
         if (sustraendo != null) {
-            partesReales[posicion] -= sustraendo.getParteReal();
-            partesImaginarias[posicion] -= sustraendo.getParteImaginaria();
+            partesReales[posicion] -= sustraendo.getRealPart();
+            partesImaginarias[posicion] -= sustraendo.getImaginaryPart();
         }
     }
     
@@ -489,8 +489,8 @@ public class FFT {
    
     public void multiplicar(int posicion, NumeroComplejo multiplicador) {
         if (multiplicador != null) {
-            float auxReal = partesReales[posicion] * multiplicador.getParteReal() - partesImaginarias[posicion] * multiplicador.getParteImaginaria();
-            float auxImaginario = partesReales[posicion] * multiplicador.getParteImaginaria() + partesImaginarias[posicion] * multiplicador.getParteReal();
+            float auxReal = partesReales[posicion] * multiplicador.getRealPart() - partesImaginarias[posicion] * multiplicador.getImaginaryPart();
+            float auxImaginario = partesReales[posicion] * multiplicador.getImaginaryPart() + partesImaginarias[posicion] * multiplicador.getRealPart();
             partesReales[posicion] = auxReal;
             partesImaginarias[posicion] = auxImaginario;
         }
@@ -521,17 +521,22 @@ public class FFT {
 
     public void dividir(int posicion, NumeroComplejo divisor) {
         if (divisor != null) {
-            float sumBase = (float) (Math.pow(divisor.getParteReal(), 2) + Math.pow(divisor.getParteImaginaria(), 2));
-            float auxReal = (partesReales[posicion] * divisor.getParteReal() + partesImaginarias[posicion] * divisor.getParteImaginaria()) / sumBase;
-            float auxImaginario = (partesImaginarias[posicion] * divisor.getParteReal() - partesReales[posicion] * divisor.getParteImaginaria()) / sumBase;
+            float sumBase = (float) (Math.pow(divisor.getRealPart(), 2) + Math.pow(divisor.getImaginaryPart(), 2));
+            float auxReal = (partesReales[posicion] * divisor.getRealPart() + partesImaginarias[posicion] * divisor.getImaginaryPart()) / sumBase;
+            float auxImaginario = (partesImaginarias[posicion] * divisor.getRealPart() - partesReales[posicion] * divisor.getImaginaryPart()) / sumBase;
             partesReales[posicion] = auxReal;
             partesImaginarias[posicion] = auxImaginario;
         }
     }
-   
+    
+
+
+
+
     public void conjugar(int posicion) {
         partesImaginarias[posicion] = -partesImaginarias[posicion];
     }
+    
 
     public void conjugarTodo() {
         for (int i = 0; i < size; i++) {

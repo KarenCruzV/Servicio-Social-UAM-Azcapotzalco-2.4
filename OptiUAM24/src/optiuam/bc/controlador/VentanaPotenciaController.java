@@ -30,6 +30,7 @@ public class VentanaPotenciaController implements Initializable {
     
     ControladorGeneral controlador;
     LinkedList<Componente> elementos;
+    ElementoGrafico elem;
     
     @FXML
     Button btnCalcularPotencia;
@@ -40,7 +41,7 @@ public class VentanaPotenciaController implements Initializable {
     @FXML
     Label lblPotencia;
     
-    ElementoGrafico elem;
+    
     
     /**
      * Initializes the controller class.

@@ -303,7 +303,10 @@ public class VentanaPrincipal implements Initializable {
             elem.getDibujo().setOnMouseClicked((MouseEvent event1) -> {
             if (event1.getButton() == MouseButton.PRIMARY) {
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("VentanaEspectro.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEspectro.fxml"));
+                    Parent root= loader.load();
+                    VentanaEspectroController espcControl= loader.getController();
+                    espcControl.init(elem, controlador);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);

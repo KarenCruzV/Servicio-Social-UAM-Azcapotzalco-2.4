@@ -221,10 +221,15 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             rbtnMulti.setSelected(true);
         }
 
-        if (rbtn1550.isSelected()) // 1310 nm
+        if (rbtn1550.isSelected()) // 1550 nm
         {
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
+        }
+        if (rbtn1310.isSelected()) // 1550 nm
+        {
+            longitudOnda = 1310;
+            rbtn1310.setSelected(true);
         }
         if (rbtn50.isSelected()) // mm50
         {
@@ -309,12 +314,18 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         {
             modo = 1;
             rbtnMulti.setSelected(true);
+        }else{
+            modo=0;
+            rbtnMono.setSelected(true);
         }
         
         if (rbtn1550.isSelected()) // 1310 nm
         {
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
+        }else{
+            longitudOnda=1310;
+            rbtn1310.setSelected(true);
         }
         if (rbtn50.isSelected()) // mm50
         {
@@ -492,12 +503,13 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                             con el que se esta trabajando ademas de que se manda el mismo controller para 
                             iniciar con los valores del elemento mandado.
                         */
-                        fibraController.init2(elem,fibraController);
+                        
                         fibraController.btnCrear.setVisible(false);
                         fibraController.btnDesconectar.setVisible(true);
                         fibraController.lblConectarA.setVisible(true);
                         fibraController.cboxConectarA.setVisible(true);
                         fibraController.btnModificar.setVisible(true);
+                        fibraController.init2(elem,fibraController);
                         //fibraController.init(controlador, this.stage, this.Pane1);
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
@@ -631,22 +643,22 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 System.out.println(fib.getModo()+"\t"+fib.getLongitudOnda());
                 
                 if(fib.getTipo()==0){
-                    fibraControl.rbtn28.isSelected();
+                    fibraControl.rbtn28.setSelected(true);
                 }else if(fib.getTipo()==1){
-                    fibraControl.rbtn50.isSelected();
+                    fibraControl.rbtn50.setSelected(true);
                 }else if(fib.getTipo()==2){
-                    fibraControl.rbtnOtro.isSelected();
+                    fibraControl.rbtnOtro.setSelected(true);
                 }
                 if(fib.getModo()==0){
-                    fibraControl.rbtnMono.isSelected();
+                    fibraControl.rbtnMono.setSelected(true);
                 }else if(fib.getModo()==1){
-                    fibraControl.rbtnMulti.isSelected();
+                    fibraControl.rbtnMulti.setSelected(true);
                 }
                 
                 if(fib.getLongitudOnda()==1310){
-                    fibraControl.rbtn1310.isSelected();
+                    fibraControl.rbtn1310.setSelected(true);
                 }else if(fib.getLongitudOnda()==1550){
-                    fibraControl.rbtn1550.isSelected();
+                    fibraControl.rbtn1550.setSelected(true);
                 }
                 fibraControl.txtAtenue.setText(String.valueOf(fib.getAtenuacion()));
                 fibraControl.txtDisp.setText(String.valueOf(fib.getDispersion()));

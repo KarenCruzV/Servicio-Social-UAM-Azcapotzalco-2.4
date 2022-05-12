@@ -218,7 +218,7 @@ public class Fibra extends Componente {
      */
     @Override
     public String toString() {
-        return super.toString() +  "," + longitudOnda + "," + modo + "," 
+        return super.toString() +  ",longitud onda_" + longitudOnda + "," + modo + "," 
                 + tipo + "," + longitud_km + "," + dispersion + ","+ atenuacion+","+idFibra;
     }
     

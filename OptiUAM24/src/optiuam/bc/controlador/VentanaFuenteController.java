@@ -106,7 +106,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         else if(rbtnLed.isSelected()){
             tipo = 1;
         }
-        else if(rbtn1310.isSelected()){
+        if(rbtn1310.isSelected()){
             longitudOnda=1310;
             //System.out.println(1310);
         }else if(rbtn1550.isSelected()){
@@ -231,7 +231,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         else if(rbtnLed.isSelected()){
             tipo = 1;
         }
-        else if(rbtn1310.isSelected()){
+        if(rbtn1310.isSelected()){
             longitudOnda=1310;
             //System.out.println(1310);
         }else if(rbtn1550.isSelected()){

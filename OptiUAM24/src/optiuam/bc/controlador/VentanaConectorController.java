@@ -513,14 +513,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             conectorControl.cboxConectarA.getItems().add("Desconected");
             conectorControl.cboxConectarA.getSelectionModel().select(0);
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(elem.getComponente().getElementoConectadoEntrada().contains("source")){
+                    if("fiber".equals(controlador.getElementos().get(elemento).getNombre())){
+                        if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                        conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                        }
+                    }
+                }else{
                 if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
                     if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                        
                         conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
                     }
                 }
+            }
             }
         }
         
