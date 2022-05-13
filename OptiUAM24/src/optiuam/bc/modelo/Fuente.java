@@ -261,8 +261,8 @@ public class Fuente extends Componente {
     @Override
     public String toString() {
         return super.toString() +","+ tipo + "," + potencia + "," + anchura + "," 
-                + velocidad + ",longitud de onda_" + longitudOnda+","/* + ", a0= " + A0 + ",t0= " + T0 + ",w0=" 
-                + W0 + ",c= " + C + ",M= " + M+","*/+idFuente;
+                + velocidad  +","+ longitudOnda+"," + A0 +","+ T0 +","
+                + W0+","+ C +"," + M+","+idFuente;
     }
     
 }

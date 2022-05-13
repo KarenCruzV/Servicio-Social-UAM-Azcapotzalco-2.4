@@ -174,7 +174,7 @@ public class Componente {
                 ", conectadoEntrada=" + conectadoEntrada + 
                 //"elementoSalida= "+elementoConectadoSalida+
                 ", conectadoSalida=" + conectadoSalida + '}';*/
-        return nombre+","+id+","+conectadoEntrada+","+conectadoSalida;
+        return nombre+","+id+","+conectadoEntrada+","+elementoConectadoEntrada+","+conectadoSalida+","+elementoConectadoSalida;
     }
     
 }

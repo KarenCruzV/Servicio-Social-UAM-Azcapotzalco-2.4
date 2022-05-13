@@ -60,7 +60,6 @@ import optiuam.bc.modelo.Splitter;
 public class VentanaPrincipal implements Initializable {
 
     static Stage stage;
-    private ObservableList<Componente> componentes;
     static ControladorGeneral controlador= new ControladorGeneral();
     static int idEspectro = 0;
     static int idPotencia = 0;
@@ -411,7 +410,7 @@ public class VentanaPrincipal implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        componentes=FXCollections.observableArrayList();
+        //componentes=FXCollections.observableArrayList();
         fibraI=new Image("images/ico_fibra.png"); 
         fuenteI=new Image("images/ico_fuente.png"); 
         conectorI=new Image("images/ico_conector.png"); 
@@ -444,7 +443,7 @@ public class VentanaPrincipal implements Initializable {
     }
     
     public void setControlador(ControladorGeneral controlador) {
-        VentanaPrincipal.controlador = controlador;
+        this.controlador = controlador;
 
     }
     
@@ -527,7 +526,7 @@ public class VentanaPrincipal implements Initializable {
         */
     } 
     
-    public void abrirTrabajo(String ruta){
+    public void abrirTrabajo(String ruta) throws InstantiationException, IllegalAccessException{
         
         File archivo = null;
         FileReader fr = null;
@@ -540,12 +539,19 @@ public class VentanaPrincipal implements Initializable {
             fr = new FileReader (archivo);
             br = new BufferedReader(fr);
             
-            //se vacian los arrays de controlador.elementos
-            controlador.elementos = new LinkedList<>();
-            controlador.dibujos = new LinkedList<>();
+            VentanaPrincipal.stage.close();
             
+            //Stage stage=VentanaPrincipal.stage;
+            ControladorGeneral con = new ControladorGeneral();
+            VentanaPrincipal ventana_principal = VentanaPrincipal.class.newInstance();
+            con.setVentana_principal(ventana_principal);
+            ventana_principal.setControlador(con);
+            OptiUAM24 op = new OptiUAM24();
+            
+            op.start(ventana_principal.stage);
+                        
             //se limpia el panel de trabajo
-            menuItemNewAction();
+            //menuItemNewAction();
            //ventana_principal.getPane1().getChildren().clear();
 
            // Lectura del fichero
@@ -561,35 +567,43 @@ public class VentanaPrincipal implements Initializable {
                         conector.setId(Integer.valueOf(partes[1]));
                         conector.setNombre(nombre);
                         conector.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        conector.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        conector.setLongitudOnda(Integer.valueOf(partes[4]));
-                        conector.setModo(Integer.valueOf(partes[5]));
-                        conector.setPerdidaInsercion(Double.valueOf(partes[6]));
-                        conector.setIdConector(Integer.valueOf(partes[7]));
-                        controlador.elementos.add(conector);
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), conector);
+                        conector.setElementoConectadoEntrada(partes[3]);
+                        conector.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        conector.setElementoConectadoSalida(partes[5]);
+                        conector.setLongitudOnda(Integer.valueOf(partes[6]));
+                        conector.setModo(Integer.valueOf(partes[7]));
+                        conector.setPerdidaInsercion(Double.valueOf(partes[8]));
+                        //conector.setIdConector(Integer.valueOf(partes[7]));
+                        conector.setIdConector(Integer.valueOf(partes[9]));
+                        System.out.println(conector.getIdConector());
+                        con.getElementos().add(conector);
+                        
+                        //System.out.println(con.getElementos().get(0));
+                        //con.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), conector);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo = new Label();
                         dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
                         dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
+                        dibujo.setLayoutX(Double.parseDouble(partes[10]));
+                        dibujo.setLayoutX(Double.parseDouble(partes[11]));
                         dibujo.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo);
+                        
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
+                        
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
                         //INTENTO DE QUE APAREZCA EN LA VENTANA PRINCIPAL :V
                         ElementoGrafico elem = new ElementoGrafico();
                         elem.setComponente(conector);
                         elem.setDibujo(dibujo);
-                        elem.setId(VentanaPrincipal.controlador.getContadorElemento());
-                        controlador.getDibujos().add(elem);
+                        elem.setId(con.getContadorElemento());
+                        con.getDibujos().add(elem);
                         dibujo.setVisible(true);
-                        Pane1.getChildren().add(dibujo);
+                        //System.out.println(Pane1);
+                        
+                        //Pane1.getChildren().add(dibujo);
                         //------------------------------------------------------
                         break;
-                        
+                     /*   
                     case "splice":
                         Empalme empalme = new Empalme();
                         empalme.setId(Integer.valueOf(partes[1]));
@@ -600,19 +614,19 @@ public class VentanaPrincipal implements Initializable {
                         empalme.setPerdidaInsercion(Double.valueOf(partes[5]));
                         empalme.setLongitudOnda(Integer.valueOf(partes[6]));
                         empalme.setIdEmpalme(Integer.valueOf(partes[7]));
-                        controlador.elementos.add(empalme);
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), empalme);
+                        con.getElementos().add(empalme);
+                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), empalme);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo1 = new Label();
                         dibujo1.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
                         dibujo1.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
                         dibujo1.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo1);
+                        con.manejadorElementos.setDibujo(dibujo1);
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
+                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
+                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
+                        con.getDibujos().add(con.manejadorElementos);
                         break;
                         
                     case "splitter":
@@ -625,7 +639,7 @@ public class VentanaPrincipal implements Initializable {
                         splitter.setPerdidaInsercion(Double.valueOf(partes[5]));
                         splitter.setLongitudOnda(Integer.valueOf(partes[6]));
                         splitter.setIdS(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), splitter);
+                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), splitter);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo2 = new Label();
                         switch (splitter.getSalidas()) {
@@ -644,12 +658,12 @@ public class VentanaPrincipal implements Initializable {
                         }
                         dibujo2.setText(splitter.getNombre() + "_"+ splitter.getIdS());
                         dibujo2.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo2);
+                        con.manejadorElementos.setDibujo(dibujo2);
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
+                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
+                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
+                        con.getDibujos().add(con.manejadorElementos);
                         linea=br.readLine();
                         String [] conexiones = linea.split(",");
                         for(int i=0;i<((int) Math.pow(2,(splitter.getSalidas()+1))); i++){
@@ -658,7 +672,7 @@ public class VentanaPrincipal implements Initializable {
                             else    
                                 splitter.cargarConexion(i,conexiones[i]);
                         }
-                        controlador.elementos.add(splitter);
+                        con.getElementos().add(splitter);
                         break;
                         
                     case "fiber":
@@ -674,19 +688,19 @@ public class VentanaPrincipal implements Initializable {
                         fibra.setDispersion(Double.valueOf(partes[8]));
                         fibra.setAtenuacion(Double.valueOf(partes[9]));
                         fibra.setIdFibra(Integer.valueOf(partes[10]));
-                        controlador.elementos.add(fibra);
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), fibra);
+                        con.getElementos().add(fibra);
+                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), fibra);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo3 = new Label();
                         dibujo3.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
                         dibujo3.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
                         dibujo3.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo3);
+                        con.manejadorElementos.setDibujo(dibujo3);
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[11]));
+                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[11]));
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[12]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
+                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[12]));
+                        con.getDibujos().add(controlador.manejadorElementos);
                         break;
                         
                     case "source":
@@ -701,19 +715,19 @@ public class VentanaPrincipal implements Initializable {
                         fuente.setVelocidad(Double.valueOf(partes[7]));
                         fuente.setLongitudOnda(Integer.valueOf(partes[8]));
                         fuente.setIdFuente(Integer.valueOf(partes[9]));
-                        controlador.elementos.add(fuente);
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), fuente);
+                        con.getElementos().add(fuente);
+                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), fuente);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo4 = new Label();
                         dibujo4.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
                         dibujo4.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
                         dibujo4.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo4);
+                        con.manejadorElementos.setDibujo(dibujo4);
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[10]));
+                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[10]));
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[11]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
+                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[11]));
+                        con.getDibujos().add(con.manejadorElementos);
                         break;
                         
                     case "power":
@@ -723,19 +737,19 @@ public class VentanaPrincipal implements Initializable {
                         potencia.setConectadoEntrada(Boolean.valueOf(partes[2]));
                         potencia.setConectadoSalida(Boolean.valueOf(partes[3]));
                         potencia.setIdPotencia(Integer.valueOf(partes[4]));
-                        controlador.elementos.add(potencia);
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), potencia);
+                        con.elementos.add(potencia);
+                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), potencia);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo5 = new Label();
                         dibujo5.setGraphic(new ImageView(new Image("images/dibujo_potencia.png")));
                         dibujo5.setText(potencia.getNombre() + "_"+ potencia.getIdPotencia());
                         dibujo5.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo5);
+                        con.manejadorElementos.setDibujo(dibujo5);
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
+                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
+                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
+                        con.dibujos.add(con.manejadorElementos);
                         break;
 
                     case "spectrum":
@@ -745,28 +759,68 @@ public class VentanaPrincipal implements Initializable {
                         espectro.setConectadoEntrada(Boolean.valueOf(partes[2]));
                         espectro.setConectadoSalida(Boolean.valueOf(partes[3]));
                         espectro.setIdEspectro(Integer.valueOf(partes[4]));
-                        controlador.elementos.add(espectro);
-                        controlador.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), espectro);
+                        con.elementos.add(espectro);
+                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), espectro);
                         //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo6 = new Label();
                         dibujo6.setGraphic(new ImageView(new Image("images/dibujo_espectro.png")));
                         dibujo6.setText(espectro.getNombre() + "_"+ espectro.getIdEspectro());
                         dibujo6.setContentDisplay(ContentDisplay.TOP);
-                        controlador.manejadorElementos.setDibujo(dibujo6);
+                        con.manejadorElementos.setDibujo(dibujo6);
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        controlador.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
+                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
                         //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        controlador.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
-                        controlador.dibujos.add(controlador.manejadorElementos);
+                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
+                        con.dibujos.add(controlador.manejadorElementos);
                         break;
+                        */
+                        case "source":
+                            Fuente fuente = new Fuente();
+                            fuente.setId(Integer.valueOf(partes[1]));
+                            fuente.setNombre(nombre);
+                            fuente.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                            fuente.setElementoConectadoEntrada(partes[3]);
+                            fuente.setConectadoSalida(Boolean.valueOf(partes[4]));
+                            fuente.setElementoConectadoSalida(partes[5]);
+                            fuente.setTipo(Integer.parseInt(partes[6]));
+                            fuente.setPotencia(Double.parseDouble(partes[7]));
+                            fuente.setAnchura(Double.parseDouble(partes[8]));
+                            fuente.setVelocidad(Double.parseDouble(partes[9]));
+                            fuente.setLongitudOnda(Integer.parseInt(partes[10]));
+                            fuente.setPulso(Float.parseFloat(partes[11]), Float.parseFloat(partes[12]), Float.parseFloat(partes[13]), Float.parseFloat(partes[14]), Float.parseFloat(partes[15]));
+                            fuente.setIdFuente(Integer.parseInt(partes[16]));
+                            con.getElementos().add(fuente);
+                        //controlador.manejadorElementos.dibujarComponente();
+                        Label dibujo4 = new Label();
+                        dibujo4.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
+                        dibujo4.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
+                        dibujo4.setLayoutX(Double.parseDouble(partes[17]));
+                        dibujo4.setLayoutX(Double.parseDouble(partes[18]));
+                        dibujo4.setContentDisplay(ContentDisplay.TOP);
                         
+                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
+                        
+                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
+                        //INTENTO DE QUE APAREZCA EN LA VENTANA PRINCIPAL :V
+                        ElementoGrafico elem2 = new ElementoGrafico();
+                        elem2.setComponente(fuente);
+                        elem2.setDibujo(dibujo4);
+                        elem2.setId(con.getContadorElemento());
+                        con.getDibujos().add(elem2);
+                        dibujo4.setVisible(true);
+                        
+                       
+                        
+                            break;
                     default:
-                        controlador.contadorElemento=Integer.valueOf(partes[1]);
+                        con.setContadorElemento(Integer.valueOf(partes[0]));
                 }
             }
         }
         catch(IOException | NumberFormatException e){
             e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
          // En el finally cerramos el fichero, para asegurarnos
          // que se cierra tanto si todo va bien como si salta 
@@ -979,5 +1033,6 @@ public class VentanaPrincipal implements Initializable {
         return ! parentBounds.contains(newBounds);
          */
     }
+    
 
 }
