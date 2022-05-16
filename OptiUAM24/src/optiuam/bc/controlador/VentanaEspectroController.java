@@ -1,6 +1,8 @@
 
 package optiuam.bc.controlador;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -16,7 +18,6 @@ import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.FFT;
 import optiuam.bc.modelo.Fibra;
 import optiuam.bc.modelo.Fuente;
-import optiuam.bc.modelo.MedidorEspectro;
 import optiuam.bc.modelo.NumeroComplejo;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -379,7 +380,8 @@ public class VentanaEspectroController implements Initializable {
                 false,
                 false
         );
-        
+        chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+        chart.setBackgroundPaint(new Color(173, 216, 230));
           //Mostramos la grafica en pantalla
         ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
         frame.pack();
@@ -430,7 +432,8 @@ public class VentanaEspectroController implements Initializable {
                 false,
                 false
         );
-        
+        chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+        chart.setBackgroundPaint(new Color(173, 216, 230));
           //Mostramos la grafica en pantalla
         ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
         frame.pack();
@@ -450,6 +453,7 @@ public class VentanaEspectroController implements Initializable {
         añadirCaminito(poyo, elem.getComponente());
         return poyo;
     }
+    
     public void añadirCaminito(LinkedList poyo, Componente comp){
         poyo.add(comp);
         if(comp.isConectadoEntrada()){

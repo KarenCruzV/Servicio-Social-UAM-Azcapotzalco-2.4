@@ -509,6 +509,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                         fibraController.lblConectarA.setVisible(true);
                         fibraController.cboxConectarA.setVisible(true);
                         fibraController.btnModificar.setVisible(true);
+                        fibraController.separator.setVisible(true);
                         fibraController.init2(elem,fibraController);
                         //fibraController.init(controlador, this.stage, this.Pane1);
                         Scene scene = new Scene(root);
@@ -574,7 +575,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     System.out.println();
                     //controlador.getDibujos().remove(dibujo);
@@ -588,7 +589,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     //controlador.getDibujos().remove(dibujo);
                     //controlador.getElementos().remove(aux); 
@@ -665,12 +666,18 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 Fibra fib= (Fibra)controlador.getElementos().get(elemento);
                 System.out.println(fib.getModo()+"\t"+fib.getLongitudOnda());
                 
-                if(fib.getTipo()==0){
-                    fibraControl.rbtn28.setSelected(true);
-                }else if(fib.getTipo()==1){
-                    fibraControl.rbtn50.setSelected(true);
-                }else if(fib.getTipo()==2){
-                    fibraControl.rbtnOtro.setSelected(true);
+                switch (fib.getTipo()) {
+                    case 0:
+                        fibraControl.rbtn28.setSelected(true);
+                        break;
+                    case 1:
+                        fibraControl.rbtn50.setSelected(true);
+                        break;
+                    case 2:
+                        fibraControl.rbtnOtro.setSelected(true);
+                        break;
+                    default:
+                        break;
                 }
                 if(fib.getModo()==0){
                     fibraControl.rbtnMono.setSelected(true);
