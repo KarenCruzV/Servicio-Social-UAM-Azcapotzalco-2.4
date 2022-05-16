@@ -42,6 +42,11 @@ public class OptiUAM24 extends Application {
         primaryStage.show();
         primaryStage.setOnCloseRequest(e-> Platform.exit());
         primaryStage.setOnCloseRequest(e-> System.exit(0));
+        if(ventanaPrincipal.getControlador().getContadorElemento()!=0){
+            System.out.println("hola");
+        }else{
+            System.out.println("adios");
+        }
     }
     
 

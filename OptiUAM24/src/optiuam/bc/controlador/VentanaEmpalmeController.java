@@ -404,6 +404,32 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         });
 
         menuItem3.setOnAction(e ->{
+            if(dibujo.getComponente().isConectadoSalida()==true){
+                for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                    Componente aux= controlador.getElementos().get(elemento);
+                    System.out.println();
+                    //controlador.getDibujos().remove(dibujo);
+                    //controlador.getElementos().remove(aux); 
+                    aux.setConectadoEntrada(false);
+                    aux.setElementoConectadoEntrada("");
+                   
+                    dibujo.getComponente().getLinea().setVisible(false);
+                }
+            }   
+            }
+            if(dibujo.getComponente().isConectadoEntrada()==true){
+                for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                    Componente aux= controlador.getElementos().get(elemento);
+                    //controlador.getDibujos().remove(dibujo);
+                    //controlador.getElementos().remove(aux); 
+                    aux.setConectadoSalida(false);
+                    aux.setElementoConectadoSalida("");
+                     aux.getLinea().setVisible(false);
+                }
+            }
+            }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     Empalme aux= (Empalme)controlador.getElementos().get(elemento);
@@ -411,9 +437,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     controlador.getElementos().remove(aux); 
                 }
             }    
-            if(dibujo.getComponente().isConectadoSalida()==true){
-                dibujo.getComponente().getLinea().setVisible(false);
-            }
+            
             dibujo.getDibujo().setVisible(false);
 
         });

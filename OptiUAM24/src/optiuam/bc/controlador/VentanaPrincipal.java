@@ -91,12 +91,17 @@ public class VentanaPrincipal implements Initializable {
         return linea;
     }
 
+    public static ControladorGeneral getControlador() {
+        return controlador;
+    }
+
     public static void setLinea(Line linea) {
         VentanaPrincipal.linea = linea;
     }
 
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
+        
         Fibra fibra= new Fibra();
         Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFibra.fxml"));
@@ -341,20 +346,38 @@ public class VentanaPrincipal implements Initializable {
         ContextMenu contextMenu = new ContextMenu();
 
         // create menuitems
-        MenuItem menuItem2 = new MenuItem("-Rotate");
+        
         MenuItem menuItem3 = new MenuItem("-Delete");
 
-        menuItem2.setOnAction(e ->{
-            System.out.println("Girar");
-            if(dibujo.getDibujo().getText().contains("potencia")){
-                System.out.println("Girar potencia");
-            }
-            else{
-                System.out.println("Girar espectro");
-            }
-        });
+        
 
         menuItem3.setOnAction(e ->{
+            if(dibujo.getComponente().isConectadoSalida()==true){
+                for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                    Componente aux= controlador.getElementos().get(elemento);
+                    System.out.println();
+                    //controlador.getDibujos().remove(dibujo);
+                    //controlador.getElementos().remove(aux); 
+                    aux.setConectadoEntrada(false);
+                    aux.setElementoConectadoEntrada("");
+                   
+                    dibujo.getComponente().getLinea().setVisible(false);
+                }
+            }   
+            }
+            if(dibujo.getComponente().isConectadoEntrada()==true){
+                for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                    Componente aux= controlador.getElementos().get(elemento);
+                    //controlador.getDibujos().remove(dibujo);
+                    //controlador.getElementos().remove(aux); 
+                    aux.setConectadoSalida(false);
+                    aux.setElementoConectadoSalida("");
+                     aux.getLinea().setVisible(false);
+                }
+            }
+            }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     if(dibujo.getDibujo().getText().contains("power")){ //potencia
@@ -367,7 +390,9 @@ public class VentanaPrincipal implements Initializable {
                         controlador.getDibujos().remove(dibujo);
                         controlador.getElementos().remove(aux); 
                     }
+                    
                 }
+                
             }    
             dibujo.getDibujo().setVisible(false);
         });
@@ -402,7 +427,7 @@ public class VentanaPrincipal implements Initializable {
         });
 
         // add menu items to menu
-        contextMenu.getItems().add(menuItem2);
+        
         contextMenu.getItems().add(menuItem3);
         contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
