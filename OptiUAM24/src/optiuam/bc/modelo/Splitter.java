@@ -192,7 +192,7 @@ public class Splitter extends Componente {
      */
     private void modificarSalidas(int salidas){
         this.conexiones = new ArrayList();
-        for(int i=0;i<((int) Math.pow(2,(salidas+1))); i++)
+        for(int i=0;i<salidas; i++)
             conexiones.add("");
     }
 

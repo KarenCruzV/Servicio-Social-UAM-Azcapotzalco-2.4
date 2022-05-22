@@ -252,7 +252,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         });
             elem.getDibujo().setOnMouseClicked((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
-                    //System.out.println("Hola conector"+elem.getId());
                     try{
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
                         //FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaConector.fxml"));
@@ -545,7 +544,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     }
                 }else{
                 if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "splitter".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                    "splitter".contains(controlador.getElementos().get(elemento).getNombre()) ||
                     "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
                     "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
                     if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
