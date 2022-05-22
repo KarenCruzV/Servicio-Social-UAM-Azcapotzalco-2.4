@@ -41,8 +41,6 @@ public class VentanaPotenciaController implements Initializable {
     @FXML
     Label lblPotencia;
     
-    
-    
     /**
      * Initializes the controller class.
      * @param event Representa una accion del usuario en la interfaz
@@ -208,7 +206,7 @@ public class VentanaPotenciaController implements Initializable {
         poyo.add(comp);
         if(elem.getComponente().isConectadoEntrada()){
             for(int kc=0; kc<controlador.getElementos().size();kc++){
-                if(comp.getElementoConectadoEntrada()==controlador.getDibujos().get(kc).getDibujo().getText()){
+                if(comp.getElementoConectadoEntrada().equals(controlador.getDibujos().get(kc).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(kc);
                     añadirCaminito(poyo, aux);
                     break;
@@ -216,7 +214,6 @@ public class VentanaPotenciaController implements Initializable {
             }
         }
     }
-
 
     void init(ElementoGrafico elem, ControladorGeneral controlador) {
         this.elem=elem;

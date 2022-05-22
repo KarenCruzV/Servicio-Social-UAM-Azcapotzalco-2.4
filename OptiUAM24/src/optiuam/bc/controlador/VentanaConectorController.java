@@ -81,6 +81,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         int modo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax =0.5;
         
+        //Tooltip.install(txtPerdida, perdida);
         if(rbtnMono.isSelected()){
             modo=0;
             //System.out.println("Tipo Mono");
@@ -96,9 +97,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             longitudOnda=1550;
             //System.out.println(1550);
         }
-        
         perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-        
         if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -324,7 +323,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     System.out.println();
                     //controlador.getDibujos().remove(dibujo);
@@ -338,7 +337,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     //controlador.getDibujos().remove(dibujo);
                     //controlador.getElementos().remove(aux); 
@@ -393,11 +392,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Tooltip perdidaMono = new Tooltip();
+        Tooltip perdidaMulti = new Tooltip();
+        if(rbtnMono.isSelected()){
+            perdidaMono.setText("The loss must be" + " min: 0" + " max: 0.5");
+            txtPerdida.setTooltip(perdidaMono);
+            //System.out.println("Tipo Mono");
+        }
+        else if(rbtnMulti.isSelected()){
+            perdidaMulti.setText("The loss must be" + " min: 0" + " max: 1.0");
+            txtPerdida.setTooltip(perdidaMulti);
+        }   
         btnCrear.setVisible(true);
         btnDesconectar.setVisible(false);
         lblConectarA.setVisible(false);
         cboxConectarA.setVisible(false);
         btnModificar.setVisible(false);
+        
     } 
     
     @FXML

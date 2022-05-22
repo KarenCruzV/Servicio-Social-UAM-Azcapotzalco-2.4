@@ -74,7 +74,7 @@ public class VentanaPulsoController implements Initializable {
         txtT0.setText(String.valueOf(T0)); //anchura
         txtM.setText(String.valueOf(M));
         if(M > 1){
-            tipo="Supergaussiano";
+            tipo="Supergaussian";
         }
     }
     

@@ -1,20 +1,13 @@
 
 package optiuam.bc.controlador;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;

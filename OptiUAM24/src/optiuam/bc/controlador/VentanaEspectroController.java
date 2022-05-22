@@ -371,7 +371,7 @@ public class VentanaEspectroController implements Initializable {
         dataset.addSeries(series);
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Pulse at the entrance", // Título
+                "Input Pulse", // Título
                 "Frequency (w)", // Etiqueta Coordenada X
                 "U(0,w)", // Etiqueta Coordenada Y
                 dataset, // Datos
@@ -423,7 +423,7 @@ public class VentanaEspectroController implements Initializable {
         dataset.addSeries(series);
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Output pulse", // Título
+                "Output Pulse", // Título
                 "Time (t)", // Etiqueta Coordenada X
                 "U(z,t)", // Etiqueta Coordenada Y
                 dataset, // Datos

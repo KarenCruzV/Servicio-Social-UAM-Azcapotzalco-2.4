@@ -25,6 +25,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -476,6 +477,9 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Tooltip perdida = new Tooltip();
+        perdida.setText("The loss must be" + " min: 0" + " max: 0.5");
+        txtPerdida.setTooltip(perdida);
         btnCrear.setVisible(true);
         btnDesconectar.setVisible(false);
         lblConectarA.setVisible(false);

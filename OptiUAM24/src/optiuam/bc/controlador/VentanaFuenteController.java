@@ -142,7 +142,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             alert.setContentText("\nInvalid speed value");
             alert.showAndWait();
         }
-        else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
+        else if((tipo==0 && Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
            (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
             System.out.println("\nThe width value must be max 1 nm");
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -151,7 +151,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             alert.setContentText("The width value must be max 1 nm");
             alert.showAndWait();
         }
-        else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
+        else if((tipo == 1 && Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
            (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
             System.out.println("\nThe width value must be min: 0.01 nm  max: 1.0 nm");
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -187,6 +187,16 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Tooltip perdidaLaser = new Tooltip();
+        Tooltip perdidaLed = new Tooltip();
+        if(rbtnLaser.isSelected()){
+            perdidaLaser.setText("The width value must be max 1 nm");
+            txtAnchuraEspectro.setTooltip(perdidaLaser);
+        }
+        else if(rbtnLed.isSelected()){
+            perdidaLed.setText("The width value must be min: 0.01 nm  max: 1.0 nm");
+            txtAnchuraEspectro.setTooltip(perdidaLed);
+        }
         btnPulso.setVisible(false);
         separator.setVisible(false);
         btnDesconectar.setVisible(false);
@@ -596,7 +606,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     System.out.println();
                     //controlador.getDibujos().remove(dibujo);
@@ -610,7 +620,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     //controlador.getDibujos().remove(dibujo);
                     //controlador.getElementos().remove(aux); 

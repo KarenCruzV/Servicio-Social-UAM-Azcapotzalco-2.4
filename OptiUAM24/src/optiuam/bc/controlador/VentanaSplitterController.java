@@ -26,6 +26,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -134,10 +135,41 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        int salidas;
         cboxNumeroSalidas.getItems().removeAll(cboxNumeroSalidas.getItems());
         cboxNumeroSalidas.getItems().addAll("2", "4", "8", "16", "32", "64");
         cboxNumeroSalidas.getSelectionModel().select("2");
-       
+       Tooltip perdidaI = new Tooltip();
+        if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
+            salidas = 2;
+            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
+            txtPerdidaInsercion.setTooltip(perdidaI);
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
+            salidas = 4;
+            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
+            txtPerdidaInsercion.setTooltip(perdidaI);
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
+            salidas = 8;
+            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
+            txtPerdidaInsercion.setTooltip(perdidaI);
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
+            salidas = 16;
+            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
+            txtPerdidaInsercion.setTooltip(perdidaI);
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
+            salidas = 32;
+            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
+            txtPerdidaInsercion.setTooltip(perdidaI);
+        }
+        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
+            salidas = 64;
+            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
+            txtPerdidaInsercion.setTooltip(perdidaI);
+        }
         separator.setVisible(false);
         btnDesconectar.setVisible(false);
         btnConectar.setVisible(false);
