@@ -129,7 +129,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
     }
     
-    private void guardarConector(Conector conector) {
+    public void guardarConector(Conector conector) {
         conector.setId(controlador.getContadorElemento());
         controlador.getElementos().add(conector);
         Label dibujo= new Label();
@@ -159,7 +159,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         alert.showAndWait();
     }
     
-    private void guardarConector2(Conector conector,ElementoGrafico el) {
+    public void guardarConector2(Conector conector,ElementoGrafico el) {
         conector.setId(controlador.getContadorElemento());
         controlador.getElementos().add(conector);
         Label dibujo= new Label();
@@ -190,7 +190,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         alert.setContentText("\nConnector created!");
         alert.showAndWait();
     }
-    private void eventos(ElementoGrafico elem) {
+    public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
@@ -412,7 +412,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     } 
     
     @FXML
-    private void Desconectar(ActionEvent event){
+    public void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
             if(conectorControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
                 Componente comp= controlador.getElementos().get(elemento2);
@@ -433,7 +433,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     }
     
     @FXML
-    private void modificar(ActionEvent event){
+    public void modificar(ActionEvent event){
         Conector aux = (Conector) elemG.getComponente();
         int modo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax =0.5;
@@ -518,7 +518,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         
     }
 
-    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
@@ -529,7 +529,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Funcion init2: 
         recibe el elemento y el controlador a partir de estos puede mostrar los valores inciales del elemento 
     */
-    private void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaConectorController conectorController) {
+    public void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaConectorController conectorController) {
         this.elemG=elem;
         this.conectorControl=conectorController;
         this.controlador=controlador;

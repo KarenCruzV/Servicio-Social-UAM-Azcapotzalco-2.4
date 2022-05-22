@@ -378,7 +378,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         this.scroll=scroll;
     }
 
-    private void guardarFuente(Fuente fuente) {
+    public void guardarFuente(Fuente fuente) {
         fuente.setId(controlador.getContadorElemento());
         controlador.getElementos().add(fuente);
         Label dibujo= new Label();
@@ -409,7 +409,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         alert.showAndWait();
     }
     
-    private void guardarFuente2(Fuente fuente,ElementoGrafico el) {
+    public void guardarFuente2(Fuente fuente,ElementoGrafico el) {
         fuente.setId(controlador.getContadorElemento());
         controlador.getElementos().add(fuente);
         Label dibujo= new Label();
@@ -441,7 +441,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         alert.setContentText("\nSource created!");
         alert.showAndWait();
     }
-    private void eventos(ElementoGrafico elem) {
+    public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
@@ -650,7 +650,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         //dibujo.getDibujo().setTooltip(tt);
     }
         
-    private void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
+    public void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
         this.elemG = elem;
         this.fuenteControl=fuenteController;
         //this.scroll=scroll;
@@ -692,7 +692,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
     }
 
-    private void dibujarLinea(ElementoGrafico elemG) {
+    public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+45);
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
@@ -712,7 +712,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         elemG.getComponente().setLinea(line);
               
     }
-     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+     public boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
 
@@ -748,7 +748,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         return ! parentBounds.contains(newBounds);
          */
     }
-    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+    public boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
         /*

@@ -137,7 +137,7 @@ public class VentanaPrincipal implements Initializable {
         //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
+            System.out.println("\tdibujo: "+controlador.getDibujos().get(h).toString());
         }
     }
     
@@ -559,21 +559,25 @@ public class VentanaPrincipal implements Initializable {
             fr = new FileReader (archivo);
             br = new BufferedReader(fr);
             
-            VentanaPrincipal.stage.close();
+            //VentanaPrincipal.stage.close();
             
             //Stage stage=VentanaPrincipal.stage;
             ControladorGeneral con = new ControladorGeneral();
-            VentanaPrincipal ventana_principal = VentanaPrincipal.class.newInstance();
-            con.setVentana_principal(ventana_principal);
-            ventana_principal.setControlador(con);
-            OptiUAM24 op = new OptiUAM24();
+            //VentanaPrincipal ventana_principal = VentanaPrincipal.class.newInstance();
+            //con.setVentana_principal(ventana_principal);
+            //ventana_principal.setControlador(con);
+            //OptiUAM24 op = new OptiUAM24();
             
-            op.start(ventana_principal.stage);
+            //op.start(ventana_principal.stage);
                         
             //se limpia el panel de trabajo
             //menuItemNewAction();
            //ventana_principal.getPane1().getChildren().clear();
-
+           Node node= Pane1.getChildren().get(0);
+           Pane1.getChildren().clear();
+           Pane1.getChildren().add(node);
+           controlador.getElementos().clear();
+           controlador.getDibujos().clear();
            // Lectura del fichero
             String linea="";
             
@@ -605,7 +609,7 @@ public class VentanaPrincipal implements Initializable {
                         dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
                         dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
                         dibujo.setLayoutX(Double.parseDouble(partes[10]));
-                        dibujo.setLayoutX(Double.parseDouble(partes[11]));
+                        dibujo.setLayoutY(Double.parseDouble(partes[11]));
                         dibujo.setContentDisplay(ContentDisplay.TOP);
                         
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
@@ -615,12 +619,18 @@ public class VentanaPrincipal implements Initializable {
                         ElementoGrafico elem = new ElementoGrafico();
                         elem.setComponente(conector);
                         elem.setDibujo(dibujo);
-                        elem.setId(con.getContadorElemento());
+                        //elem.setId(con.getContadorElemento());
+                        elem.setId(Integer.valueOf(partes[1]));
+                        VentanaConectorController aux= new VentanaConectorController();
+                        aux.init(con, stage, Pane1, scroll);
                         con.getDibujos().add(elem);
                         dibujo.setVisible(true);
                         //System.out.println(Pane1);
                         
-                        //Pane1.getChildren().add(dibujo);
+                        Pane1.getChildren().add(dibujo);
+                        //System.out.println(Pane1.getChildren());
+                        aux.eventos(elem);
+                        //aux.init2(controlador, stage, Pane1, elem, aux);
                         //------------------------------------------------------
                         break;
                      /*   
@@ -815,7 +825,7 @@ public class VentanaPrincipal implements Initializable {
                         dibujo4.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
                         dibujo4.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
                         dibujo4.setLayoutX(Double.parseDouble(partes[17]));
-                        dibujo4.setLayoutX(Double.parseDouble(partes[18]));
+                        dibujo4.setLayoutY(Double.parseDouble(partes[18]));
                         dibujo4.setContentDisplay(ContentDisplay.TOP);
                         
                         //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
@@ -825,17 +835,21 @@ public class VentanaPrincipal implements Initializable {
                         ElementoGrafico elem2 = new ElementoGrafico();
                         elem2.setComponente(fuente);
                         elem2.setDibujo(dibujo4);
-                        elem2.setId(con.getContadorElemento());
+                        elem2.setId(Integer.valueOf(partes[1]));
+                        VentanaFuenteController aux1= new VentanaFuenteController();
+                        aux1.init(con, stage, Pane1, scroll);
+                        
                         con.getDibujos().add(elem2);
                         dibujo4.setVisible(true);
-                        
-                       
-                        
+                        Pane1.getChildren().add(dibujo4);
+                        aux1.eventos(elem2);
+                        //aux1.init2(elem2, aux1);
                             break;
                     default:
                         con.setContadorElemento(Integer.valueOf(partes[0]));
                 }
             }
+            controlador=con;
         }
         catch(IOException | NumberFormatException e){
             e.printStackTrace();
