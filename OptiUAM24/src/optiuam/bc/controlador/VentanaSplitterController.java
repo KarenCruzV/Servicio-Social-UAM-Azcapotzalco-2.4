@@ -139,37 +139,15 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         cboxNumeroSalidas.getItems().removeAll(cboxNumeroSalidas.getItems());
         cboxNumeroSalidas.getItems().addAll("2", "4", "8", "16", "32", "64");
         cboxNumeroSalidas.getSelectionModel().select("2");
-       Tooltip perdidaI = new Tooltip();
-        if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
-            salidas = 2;
-            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
-            txtPerdidaInsercion.setTooltip(perdidaI);
-        }
-        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
-            salidas = 4;
-            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
-            txtPerdidaInsercion.setTooltip(perdidaI);
-        }
-        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
-            salidas = 8;
-            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
-            txtPerdidaInsercion.setTooltip(perdidaI);
-        }
-        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
-            salidas = 16;
-            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
-            txtPerdidaInsercion.setTooltip(perdidaI);
-        }
-        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
-            salidas = 32;
-            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
-            txtPerdidaInsercion.setTooltip(perdidaI);
-        }
-        else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
-            salidas = 64;
-            perdidaI.setText("The loss must be" + buscarPerdidas(salidas));
-            txtPerdidaInsercion.setTooltip(perdidaI);
-        }
+        Tooltip perdidaI = new Tooltip();
+        perdidaI.setText("2: The loss must be min: 2.7  max: 4.0"
+                + "\n4: The loss must be min: 5.3  max: 7.6"
+                + "\n8: The loss must be min: 7.9  max: 10.9"
+                + "\n16: The loss must be min: 10.5  max: 14.5"
+                + "\n32: The loss must be min: 12.8  max: 18.1"
+                + "\n64: The loss must be min: 15.5  max: 21.5");
+        txtPerdidaInsercion.setTooltip(perdidaI);
+        
         separator.setVisible(false);
         btnDesconectar.setVisible(false);
         btnConectar.setVisible(false);
@@ -181,7 +159,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     }  
     
     @FXML
-    private void Desconectar(ActionEvent event){
+    public void Desconectar(ActionEvent event){
         splitterControl.cboxConectarA.getSelectionModel().select(0);
         
         if(elemG.getComponente().isConectadoSalida()){
@@ -248,7 +226,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             s.setPerdidaInsercion(perdida);
             s.setSalidas(salidas);
             s.setLongitudOnda(longitudOnda);
-            //s.setNombre("splitter");
+            s.setNombre("splitter");
             s.setIdS(idS);
             idS++;
             guardarSplitter(s);
@@ -257,7 +235,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         
     }
     
-    private void guardarSplitter(Splitter s) {
+    public void guardarSplitter(Splitter s) {
         s.setId(controlador.getContadorElemento());
         controlador.getElementos().add(s);
         Label dibujo= new Label();
@@ -273,27 +251,21 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         
         if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter2.png")));
-            s.setNombre("splitter2");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter4.png")));
-            s.setNombre("splitter4");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter8.png")));
-            s.setNombre("splitter8");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
-            s.setNombre("splitter16");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
-            s.setNombre("splitter32");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
-            s.setNombre("splitter64");
         }
         else{}
         
@@ -312,7 +284,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         alert.showAndWait();
     }
 
-    private void eventos(ElementoGrafico elem) {
+    public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
             if(event.getButton()==MouseButton.PRIMARY){
                 double newX=event.getSceneX();
@@ -471,8 +443,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
-     private void guardarSplitter2(Splitter s, ElementoGrafico el) {
+     public void guardarSplitter2(Splitter s, ElementoGrafico el) {
         s.setId(controlador.getContadorElemento());
+        s.setNombre("splitter");
         controlador.getElementos().add(s);
         Label dibujo= new Label();
         ElementoGrafico elem= new ElementoGrafico();
@@ -482,27 +455,21 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         
         if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter2.png")));
-            s.setNombre("splitter2");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter4.png")));
-            s.setNombre("splitter4");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter8.png")));
-            s.setNombre("splitter8");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
-            s.setNombre("splitter16");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
-            s.setNombre("splitter32");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
             dibujo.setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
-            s.setNombre("splitter64");
         }
         else{}
         
@@ -524,11 +491,11 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     }
     
     @FXML
-    private void modificar(ActionEvent event){
+    public void modificar(ActionEvent event){
         Splitter aux = (Splitter) elemG.getComponente();
         int salidas=0, longitudOnda=0, id=0;
         double perdida;
-
+        
         if(rbtn1550.isSelected()){
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
@@ -539,27 +506,21 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
         if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
             salidas = 2;
-            aux.setNombre("splitter2");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
             salidas = 4;
-            aux.setNombre("splitter4");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
             salidas = 8;
-            aux.setNombre("splitter8");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
             salidas = 16;
-            aux.setNombre("splitter16");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
             salidas = 32;
-            aux.setNombre("splitter32");
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
             salidas = 64;
-            aux.setNombre("splitter64");
         }
         else{}
         
@@ -610,7 +571,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             aux.setPerdidaInsercion(perdida);
             aux.setSalidas(salidas);
             aux.setLongitudOnda(longitudOnda);
-            //aux.setNombre("splitter");
+            aux.setNombre("splitter");
             //aux.setIdS(idS);
             cerrarVentana(event);
 
@@ -628,7 +589,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
     }
     
-    private void init2(ElementoGrafico elem, VentanaSplitterController splitterController) {
+    public void init2(ElementoGrafico elem, VentanaSplitterController splitterController) {
         this.elemG=elem;
         this.splitterControl=splitterController;
         
@@ -668,7 +629,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
     }
     
-    private void dibujarLinea(ElementoGrafico elemG) {
+    public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
@@ -687,7 +648,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         elemG.getComponente().setLinea(line);    
     }
     
-    private void dibujarLineaAtras(ElementoGrafico elem) {
+    public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
@@ -709,11 +670,11 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             
     }
     
-    private void borrarLinea(Line linea){
+    public void borrarLinea(Line linea){
         linea.setVisible(false);
     }
     
-     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+     public boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
 
@@ -750,7 +711,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
          */
     }
      
-    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+    public boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
         /*
@@ -787,7 +748,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
          */
     }
 
-    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;

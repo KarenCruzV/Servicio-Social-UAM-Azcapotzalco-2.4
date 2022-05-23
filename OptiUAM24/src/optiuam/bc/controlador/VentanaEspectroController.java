@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -35,9 +37,16 @@ public class VentanaEspectroController implements Initializable {
     ControladorGeneral controlador;
     LinkedList<Componente> elementos;
     ElementoGrafico elem;
+    Stage stage;
     
     @FXML
     Button btnPulsoEntrada, btnB2;
+    
+    @FXML
+    private Pane Pane1;
+    
+    @FXML
+    private ScrollPane scroll;
 
     /**
      * Initializes the controller class.
@@ -344,7 +353,7 @@ public class VentanaEspectroController implements Initializable {
     }
     
     @FXML
-    private void btnPulsoEntradaAction(){
+    public void btnPulsoEntradaAction(){
         LinkedList<Componente> ele=verCaminito();
         Fuente f= new Fuente();
         if(ele.getLast().getNombre().contains("source")){
@@ -397,7 +406,7 @@ public class VentanaEspectroController implements Initializable {
     }
     
     @FXML
-    private void btnB2Action(){
+    public void btnB2Action(){
         LinkedList<Componente> ele=verCaminito();
         Fuente f= (Fuente)ele.getLast();
         
@@ -458,7 +467,7 @@ public class VentanaEspectroController implements Initializable {
         poyo.add(comp);
         if(comp.isConectadoEntrada()){
             for(int kc=0; kc<controlador.getElementos().size();kc++){
-                if(comp.getElementoConectadoEntrada()==controlador.getDibujos().get(kc).getDibujo().getText()){
+                if(comp.getElementoConectadoEntrada().equals(controlador.getDibujos().get(kc).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(kc);
                     añadirCaminito(poyo, aux);
                     break;
@@ -466,8 +475,11 @@ public class VentanaEspectroController implements Initializable {
             }
         }
     }
-    void init(ElementoGrafico elem, ControladorGeneral controlador) {
-        this.elem=elem;
+    
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
+        this.stage=stage;
+        this.Pane1=Pane1;
+        this.scroll=scroll;
     }
 }

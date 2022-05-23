@@ -395,7 +395,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Tooltip perdidaMono = new Tooltip();
         Tooltip perdidaMulti = new Tooltip();
         if(rbtnMono.isSelected()){
-            perdidaMono.setText("The loss must be" + " min: 0" + " max: 0.5");
+            perdidaMono.setText("Monomode: The loss must be" + " min: 0" + " max: 0.5"
+                    + "\nMultimode: The loss must be" + " min: 0" + " max: 1.0");
             txtPerdida.setTooltip(perdidaMono);
             //System.out.println("Tipo Mono");
         }

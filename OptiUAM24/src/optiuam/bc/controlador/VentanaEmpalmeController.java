@@ -71,10 +71,9 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     
     @FXML
     private Pane Pane1;
+    
     @FXML
     private ScrollPane scroll;
-
-   
 
     public static double getPosX() {
         return posX;
@@ -143,7 +142,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
     }
     
-    private void guardarEmpalme(Empalme empalme) {
+    public void guardarEmpalme(Empalme empalme) {
         empalme.setId(controlador.getContadorElemento());
         controlador.getElementos().add(empalme);
         Label dibujo= new Label();
@@ -174,7 +173,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         alert.showAndWait();
     }
     
-    private void guardarEmpalme2(Empalme empalme, ElementoGrafico el) {
+    public void guardarEmpalme2(Empalme empalme, ElementoGrafico el) {
         empalme.setId(controlador.getContadorElemento());
         controlador.getElementos().add(empalme);
         Label dibujo= new Label();
@@ -208,7 +207,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         alert.showAndWait();
     }
 
-    private void eventos(ElementoGrafico elem) {
+    public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
@@ -337,7 +336,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         return ! parentBounds.contains(newBounds);
          */
     }
-    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+    public boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
         /*
@@ -407,7 +406,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     System.out.println();
                     //controlador.getDibujos().remove(dibujo);
@@ -421,7 +420,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     //controlador.getDibujos().remove(dibujo);
                     //controlador.getElementos().remove(aux); 
@@ -488,7 +487,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     }    
     
     @FXML
-    private void modificar(ActionEvent event){
+    public void modificar(ActionEvent event){
         Empalme aux = (Empalme) elemG.getComponente();
         int tipo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax = 0.5;
@@ -566,14 +565,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
     }
 
-    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
         this.scroll=scroll;
     }
     
-    private void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
+    public void init2(ElementoGrafico elem, VentanaEmpalmeController empalmeController) {
         this.elemG=elem;
         this.empalmeControl=empalmeController;
         
@@ -612,7 +611,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     }
     
     @FXML
-    private void Desconectar(ActionEvent event){
+    public void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(empalmeControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
                     Componente comp= controlador.getElementos().get(elemento2);
@@ -632,7 +631,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         cerrarVentana(event);
     }
     
-    private void dibujarLinea(ElementoGrafico elemG) {
+    public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
@@ -653,11 +652,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
               
     }
     
-    private void borrarLinea(Line linea){
+    public void borrarLinea(Line linea){
         linea.setVisible(false);
     }
     
-    private void dibujarLineaAtras(ElementoGrafico elem) {
+    public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
         

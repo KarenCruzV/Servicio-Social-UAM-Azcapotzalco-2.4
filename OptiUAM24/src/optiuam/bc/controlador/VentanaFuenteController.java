@@ -190,7 +190,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Tooltip perdidaLaser = new Tooltip();
         Tooltip perdidaLed = new Tooltip();
         if(rbtnLaser.isSelected()){
-            perdidaLaser.setText("The width value must be max 1 nm");
+            perdidaLaser.setText("Laser: The width value must be max 1.0 nm"
+                    + "\nLed: The width value must be min: 0.01 nm  max: 1.0 nm");
             txtAnchuraEspectro.setTooltip(perdidaLaser);
         }
         else if(rbtnLed.isSelected()){

@@ -107,7 +107,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     } 
     
     @FXML
-    private void Desconectar(ActionEvent event){
+    public void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
                 if(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
                     Componente comp= controlador.getElementos().get(elemento2);
@@ -128,7 +128,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     @FXML
-    private void rbtn1310Action(ActionEvent event){
+    public void rbtn1310Action(ActionEvent event){
         rbtn1310.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             if (rbtnMono.isSelected()) { // monomodo 1310
@@ -146,7 +146,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     @FXML
-    private void rbtn1550Action(ActionEvent event){
+    public void rbtn1550Action(ActionEvent event){
         rbtn1550.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             if (rbtnMono.isSelected()) { // monomodo 1510
@@ -159,7 +159,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     @FXML
-    private void rbtnMm50(ActionEvent event){
+    public void rbtnMm50(ActionEvent event){
         rbtn50.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             rbtn1310.setSelected(true);
@@ -175,7 +175,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     @FXML
-    private void rbtnSmf28(ActionEvent event){
+    public void rbtnSmf28(ActionEvent event){
         rbtn28.setSelected(true);
         if (!rbtnOtro.isSelected()) {
             rbtn1550.setDisable(false);
@@ -197,7 +197,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     @FXML
-    private void rbtnOtro(ActionEvent event){
+    public void rbtnOtro(ActionEvent event){
         rbtnOtro.setSelected(true);
         rbtnMulti.setDisable(false);
         rbtnMono.setDisable(false);
@@ -210,7 +210,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
     }
     
     @FXML
-    private void modificar(ActionEvent event){
+    public void modificar(ActionEvent event){
         Fibra aux = (Fibra) elemG.getComponente();
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
@@ -641,7 +641,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
-    private void init2(ElementoGrafico elem, VentanaFibraController fibraController) {
+    public void init2(ElementoGrafico elem, VentanaFibraController fibraController) {
         this.elemG=elem;
         this.fibraControl=fibraController;
         
@@ -697,7 +697,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         }
     }
     
-    private void dibujarLinea(ElementoGrafico elemG) {
+    public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
@@ -719,11 +719,11 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
               
     }
     
-    private void borrarLinea(Line linea){
+    public void borrarLinea(Line linea){
         linea.setVisible(false);
     }
     
-    private void dibujarLineaAtras(ElementoGrafico elem) {
+    public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
         
@@ -746,14 +746,14 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             
     }
 
-    void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
         this.Pane1=Pane1;
         this.scroll=scroll;
     }
 
-     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+    public boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
 
@@ -789,7 +789,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         return ! parentBounds.contains(newBounds);
          */
     }
-    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+    
+    public boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
         /*

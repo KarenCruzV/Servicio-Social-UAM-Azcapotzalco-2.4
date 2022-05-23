@@ -47,10 +47,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
+import optiuam.bc.modelo.Empalme;
 import optiuam.bc.modelo.Fibra;
 import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.MedidorEspectro;
 import optiuam.bc.modelo.MedidorPotencia;
+import optiuam.bc.modelo.Splitter;
 
 public class VentanaPrincipal implements Initializable {
 
@@ -82,6 +84,7 @@ public class VentanaPrincipal implements Initializable {
     Menu menuHelp, menuAbout;
     
     static Line linea;
+    
     public static Line getLinea() {
         return linea;
     }
@@ -96,8 +99,6 @@ public class VentanaPrincipal implements Initializable {
 
     @FXML
     private void abrirVentanaFibra(ActionEvent event) throws IOException{
-        
-        Fibra fibra= new Fibra();
         Stage s = new Stage(StageStyle.UTILITY);
         FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaFibra.fxml"));
         Parent root = loader.load();
@@ -208,7 +209,7 @@ public class VentanaPrincipal implements Initializable {
     }
     
     @FXML
-    private void crearPotencia(ActionEvent event){
+    public void crearPotencia(ActionEvent event){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
@@ -244,7 +245,7 @@ public class VentanaPrincipal implements Initializable {
                     FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaPotencia.fxml"));
                     Parent root= loader.load();
                     VentanaPotenciaController potControl= loader.getController();
-                    potControl.init(elem,controlador);
+                    potControl.init(controlador, stage, Pane1, scroll);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
@@ -269,7 +270,7 @@ public class VentanaPrincipal implements Initializable {
     }
     
     @FXML
-    private void crearEspectro(ActionEvent event) {
+    public void crearEspectro(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
@@ -305,7 +306,7 @@ public class VentanaPrincipal implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEspectro.fxml"));
                     Parent root= loader.load();
                     VentanaEspectroController espcControl= loader.getController();
-                    espcControl.init(elem, controlador);
+                    espcControl.init(controlador, stage, Pane1, scroll);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
@@ -341,15 +342,12 @@ public class VentanaPrincipal implements Initializable {
         ContextMenu contextMenu = new ContextMenu();
 
         // create menuitems
-        
         MenuItem menuItem3 = new MenuItem("-Delete");
-
-        
 
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     System.out.println();
                     //controlador.getDibujos().remove(dibujo);
@@ -363,7 +361,7 @@ public class VentanaPrincipal implements Initializable {
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada()==controlador.getDibujos().get(elemento).getDibujo().getText()){
+                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     //controlador.getDibujos().remove(dibujo);
                     //controlador.getElementos().remove(aux); 
@@ -559,20 +557,8 @@ public class VentanaPrincipal implements Initializable {
             fr = new FileReader (archivo);
             br = new BufferedReader(fr);
             
-            //VentanaPrincipal.stage.close();
-            
-            //Stage stage=VentanaPrincipal.stage;
             ControladorGeneral con = new ControladorGeneral();
-            //VentanaPrincipal ventana_principal = VentanaPrincipal.class.newInstance();
-            //con.setVentana_principal(ventana_principal);
-            //ventana_principal.setControlador(con);
-            //OptiUAM24 op = new OptiUAM24();
-            
-            //op.start(ventana_principal.stage);
                         
-            //se limpia el panel de trabajo
-            //menuItemNewAction();
-           //ventana_principal.getPane1().getChildren().clear();
            Node node= Pane1.getChildren().get(0);
            Pane1.getChildren().clear();
            Pane1.getChildren().add(node);
@@ -582,7 +568,6 @@ public class VentanaPrincipal implements Initializable {
             String linea="";
             
             while((linea=br.readLine())!=null){
-                //System.out.println(linea);
                 String [] partes = linea.split(",");
                 String nombre = partes[0];
                 switch (nombre) {
@@ -597,14 +582,10 @@ public class VentanaPrincipal implements Initializable {
                         conector.setLongitudOnda(Integer.valueOf(partes[6]));
                         conector.setModo(Integer.valueOf(partes[7]));
                         conector.setPerdidaInsercion(Double.valueOf(partes[8]));
-                        //conector.setIdConector(Integer.valueOf(partes[7]));
                         conector.setIdConector(Integer.valueOf(partes[9]));
                         System.out.println(conector.getIdConector());
                         con.getElementos().add(conector);
                         
-                        //System.out.println(con.getElementos().get(0));
-                        //con.manejadorElementos = new ElementoGrafico(controlador, Integer.valueOf(partes[1]), conector);
-                        //controlador.manejadorElementos.dibujarComponente();
                         Label dibujo = new Label();
                         dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
                         dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
@@ -612,97 +593,52 @@ public class VentanaPrincipal implements Initializable {
                         dibujo.setLayoutY(Double.parseDouble(partes[11]));
                         dibujo.setContentDisplay(ContentDisplay.TOP);
                         
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        //INTENTO DE QUE APAREZCA EN LA VENTANA PRINCIPAL :V
                         ElementoGrafico elem = new ElementoGrafico();
                         elem.setComponente(conector);
                         elem.setDibujo(dibujo);
-                        //elem.setId(con.getContadorElemento());
                         elem.setId(Integer.valueOf(partes[1]));
                         VentanaConectorController aux= new VentanaConectorController();
                         aux.init(con, stage, Pane1, scroll);
                         con.getDibujos().add(elem);
                         dibujo.setVisible(true);
-                        //System.out.println(Pane1);
                         
                         Pane1.getChildren().add(dibujo);
-                        //System.out.println(Pane1.getChildren());
                         aux.eventos(elem);
-                        //aux.init2(controlador, stage, Pane1, elem, aux);
-                        //------------------------------------------------------
                         break;
-                     /*   
+                        
                     case "splice":
                         Empalme empalme = new Empalme();
                         empalme.setId(Integer.valueOf(partes[1]));
                         empalme.setNombre(nombre);
                         empalme.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        empalme.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        empalme.setTipo(Integer.valueOf(partes[4]));
-                        empalme.setPerdidaInsercion(Double.valueOf(partes[5]));
-                        empalme.setLongitudOnda(Integer.valueOf(partes[6]));
-                        empalme.setIdEmpalme(Integer.valueOf(partes[7]));
+                        empalme.setElementoConectadoEntrada(partes[3]);
+                        empalme.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        empalme.setElementoConectadoSalida(partes[5]);
+                        empalme.setTipo(Integer.valueOf(partes[6]));
+                        empalme.setPerdidaInsercion(Double.valueOf(partes[7]));
+                        empalme.setLongitudOnda(Integer.valueOf(partes[8]));
+                        empalme.setIdEmpalme(Integer.valueOf(partes[9]));
+                        System.out.println(empalme.getIdEmpalme());
                         con.getElementos().add(empalme);
-                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), empalme);
-                        //controlador.manejadorElementos.dibujarComponente();
+                        
                         Label dibujo1 = new Label();
                         dibujo1.setGraphic(new ImageView(new Image("images/dibujo_empalme.png")));
                         dibujo1.setText(empalme.getNombre() + "_"+ empalme.getIdEmpalme());
+                        dibujo1.setLayoutX(Double.parseDouble(partes[10]));
+                        dibujo1.setLayoutY(Double.parseDouble(partes[11]));
                         dibujo1.setContentDisplay(ContentDisplay.TOP);
-                        con.manejadorElementos.setDibujo(dibujo1);
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
-                        con.getDibujos().add(con.manejadorElementos);
-                        break;
                         
-                    case "splitter":
-                        Splitter splitter = new Splitter();
-                        splitter.setId(Integer.valueOf(partes[1]));
-                        splitter.setNombre(nombre);
-                        splitter.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        splitter.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        splitter.setSalidas(Integer.valueOf(partes[4]));
-                        splitter.setPerdidaInsercion(Double.valueOf(partes[5]));
-                        splitter.setLongitudOnda(Integer.valueOf(partes[6]));
-                        splitter.setIdS(Integer.valueOf(partes[7]));
-                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), splitter);
-                        //controlador.manejadorElementos.dibujarComponente();
-                        Label dibujo2 = new Label();
-                        switch (splitter.getSalidas()) {
-                            case 2:
-                                dibujo2.setGraphic(new ImageView(new Image("images/dibujo_splitter.png")));
-                                break;
-                            case 4:
-                            case 8:
-                            case 16:
-                            case 32:
-                            case 64:
-                                dibujo2.setGraphic(new ImageView(new Image("images/dibujo_splitter+.png")));
-                                break;
-                            default:
-                                break;
-                        }
-                        dibujo2.setText(splitter.getNombre() + "_"+ splitter.getIdS());
-                        dibujo2.setContentDisplay(ContentDisplay.TOP);
-                        con.manejadorElementos.setDibujo(dibujo2);
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[8]));
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[9]));
-                        con.getDibujos().add(con.manejadorElementos);
-                        linea=br.readLine();
-                        String [] conexiones = linea.split(",");
-                        for(int i=0;i<((int) Math.pow(2,(splitter.getSalidas()+1))); i++){
-                            if(conexiones[i].compareTo(" ")==0)
-                                splitter.cargarConexion(i,"");
-                            else    
-                                splitter.cargarConexion(i,conexiones[i]);
-                        }
-                        con.getElementos().add(splitter);
+                        ElementoGrafico elem1 = new ElementoGrafico();
+                        elem1.setComponente(empalme);
+                        elem1.setDibujo(dibujo1);
+                        elem1.setId(Integer.valueOf(partes[1]));
+                        VentanaEmpalmeController aux1= new VentanaEmpalmeController();
+                        aux1.init(con, stage, Pane1, scroll);
+                        con.getDibujos().add(elem1);
+                        dibujo1.setVisible(true);
+                        
+                        Pane1.getChildren().add(dibujo1);
+                        aux1.eventos(elem1);
                         break;
                         
                     case "fiber":
@@ -710,27 +646,103 @@ public class VentanaPrincipal implements Initializable {
                         fibra.setId(Integer.valueOf(partes[1]));
                         fibra.setNombre(nombre);
                         fibra.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        fibra.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        fibra.setLongitudOnda(Integer.valueOf(partes[4]));
-                        fibra.setModo(Integer.valueOf(partes[5]));
-                        fibra.setTipo(Integer.valueOf(partes[6]));
-                        fibra.setLongitud_km(Double.valueOf(partes[7]));
-                        fibra.setDispersion(Double.valueOf(partes[8]));
-                        fibra.setAtenuacion(Double.valueOf(partes[9]));
-                        fibra.setIdFibra(Integer.valueOf(partes[10]));
+                        fibra.setElementoConectadoEntrada(partes[3]);
+                        fibra.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        fibra.setElementoConectadoSalida(partes[5]);
+                        fibra.setLongitudOnda(Integer.valueOf(partes[6]));
+                        fibra.setModo(Integer.valueOf(partes[7]));
+                        fibra.setTipo(Integer.valueOf(partes[8]));
+                        fibra.setLongitud_km(Double.valueOf(partes[9]));
+                        fibra.setDispersion(Double.valueOf(partes[10]));
+                        fibra.setAtenuacion(Double.valueOf(partes[11]));
+                        fibra.setIdFibra(Integer.valueOf(partes[12]));
+                        System.out.println(fibra.getIdFibra());
                         con.getElementos().add(fibra);
-                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), fibra);
-                        //controlador.manejadorElementos.dibujarComponente();
+                        
+                        Label dibujo2 = new Label();
+                        dibujo2.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
+                        dibujo2.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
+                        dibujo2.setLayoutX(Double.parseDouble(partes[13]));
+                        dibujo2.setLayoutY(Double.parseDouble(partes[14]));
+                        dibujo2.setContentDisplay(ContentDisplay.TOP);
+                        
+                        ElementoGrafico elem2 = new ElementoGrafico();
+                        elem2.setComponente(fibra);
+                        elem2.setDibujo(dibujo2);
+                        elem2.setId(Integer.valueOf(partes[1]));
+                        VentanaFibraController aux2= new VentanaFibraController();
+                        aux2.init(con, stage, Pane1, scroll);
+                        con.getDibujos().add(elem2);
+                        dibujo2.setVisible(true);
+                        
+                        Pane1.getChildren().add(dibujo2);
+                        aux2.eventos(elem2);
+                        break;
+                        
+                    case "splitter":
+                        Splitter splitter = new Splitter();
+                        splitter.setId(Integer.valueOf(partes[1]));
+                        splitter.setNombre(nombre);
+                        splitter.setConectadoEntrada(Boolean.valueOf(partes[2]));
+                        splitter.setElementoConectadoEntrada(partes[3]);
+                        splitter.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        splitter.setElementoConectadoSalida(partes[5]);
+                        splitter.setSalidas(Integer.valueOf(partes[6]));
+                        splitter.setPerdidaInsercion(Double.valueOf(partes[7]));
+                        splitter.setLongitudOnda(Integer.valueOf(partes[8]));
+                        splitter.setIdS(Integer.valueOf(partes[9]));
+                        System.out.println(splitter.getIdS());
+                        con.getElementos().add(splitter);
+                        
                         Label dibujo3 = new Label();
-                        dibujo3.setGraphic(new ImageView(new Image("images/dibujo_fibra.png")));
-                        dibujo3.setText(fibra.getNombre() + "_"+ fibra.getIdFibra());
+                        
+                        switch (splitter.getSalidas()) {
+                            case 2:
+                                dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter2.png")));
+                                break;
+                            case 4:
+                                dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter4.png")));
+                                break;
+                            case 8:
+                                dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter8.png")));
+                                break;
+                            case 16:
+                                dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
+                                break;
+                            case 32:
+                                dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
+                                break;
+                            case 64:
+                                dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                        dibujo3.setText(splitter.getNombre() + "_"+ splitter.getIdS());
+                        dibujo3.setLayoutX(Double.parseDouble(partes[10]));
+                        dibujo3.setLayoutY(Double.parseDouble(partes[11]));
                         dibujo3.setContentDisplay(ContentDisplay.TOP);
-                        con.manejadorElementos.setDibujo(dibujo3);
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[11]));
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[12]));
-                        con.getDibujos().add(controlador.manejadorElementos);
+                        
+                        String [] conexiones = linea.split(",");
+                        for(int i=0;i<splitter.getSalidas()+1; i++){
+                            if(conexiones[i].compareTo(" ")==0)
+                                splitter.cargarConexion(i,"");
+                            else    
+                                splitter.cargarConexion(i,conexiones[i]);
+                        }
+                        ElementoGrafico elem3 = new ElementoGrafico();
+                        elem3.setComponente(splitter);
+                        elem3.setDibujo(dibujo3);
+                        elem3.setId(Integer.valueOf(partes[1]));
+                        VentanaSplitterController aux3= new VentanaSplitterController();
+                        aux3.init(con, stage, Pane1, scroll);
+                        
+                        con.getDibujos().add(elem3);
+                        dibujo3.setVisible(true);
+                        
+                        Pane1.getChildren().add(dibujo3);
+                        aux3.eventos(elem3);
                         break;
                         
                     case "source":
@@ -738,26 +750,36 @@ public class VentanaPrincipal implements Initializable {
                         fuente.setId(Integer.valueOf(partes[1]));
                         fuente.setNombre(nombre);
                         fuente.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        fuente.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        fuente.setTipo(Integer.valueOf(partes[4]));
-                        fuente.setPotencia(Double.valueOf(partes[5]));
-                        fuente.setAnchura(Double.valueOf(partes[6]));
-                        fuente.setVelocidad(Double.valueOf(partes[7]));
-                        fuente.setLongitudOnda(Integer.valueOf(partes[8]));
-                        fuente.setIdFuente(Integer.valueOf(partes[9]));
+                        fuente.setElementoConectadoEntrada(partes[3]);
+                        fuente.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        fuente.setElementoConectadoSalida(partes[5]);
+                        fuente.setTipo(Integer.parseInt(partes[6]));
+                        fuente.setPotencia(Double.parseDouble(partes[7]));
+                        fuente.setAnchura(Double.parseDouble(partes[8]));
+                        fuente.setVelocidad(Double.parseDouble(partes[9]));
+                        fuente.setLongitudOnda(Integer.parseInt(partes[10]));
+                        fuente.setPulso(Float.parseFloat(partes[11]), Float.parseFloat(partes[12]), Float.parseFloat(partes[13]), Float.parseFloat(partes[14]), Float.parseFloat(partes[15]));
+                        fuente.setIdFuente(Integer.parseInt(partes[16]));
                         con.getElementos().add(fuente);
-                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), fuente);
-                        //controlador.manejadorElementos.dibujarComponente();
+                        
                         Label dibujo4 = new Label();
                         dibujo4.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
                         dibujo4.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
+                        dibujo4.setLayoutX(Double.parseDouble(partes[17]));
+                        dibujo4.setLayoutY(Double.parseDouble(partes[18]));
                         dibujo4.setContentDisplay(ContentDisplay.TOP);
-                        con.manejadorElementos.setDibujo(dibujo4);
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[10]));
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[11]));
-                        con.getDibujos().add(con.manejadorElementos);
+
+                        ElementoGrafico elem4 = new ElementoGrafico();
+                        elem4.setComponente(fuente);
+                        elem4.setDibujo(dibujo4);
+                        elem4.setId(Integer.valueOf(partes[1]));
+                        VentanaFuenteController aux4= new VentanaFuenteController();
+                        aux4.init(con, stage, Pane1, scroll);
+
+                        con.getDibujos().add(elem4);
+                        dibujo4.setVisible(true);
+                        Pane1.getChildren().add(dibujo4);
+                        aux4.eventos(elem4);
                         break;
                         
                     case "power":
@@ -765,86 +787,65 @@ public class VentanaPrincipal implements Initializable {
                         potencia.setId(Integer.valueOf(partes[1]));
                         potencia.setNombre(nombre);
                         potencia.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        potencia.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        potencia.setIdPotencia(Integer.valueOf(partes[4]));
-                        con.elementos.add(potencia);
-                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), potencia);
-                        //controlador.manejadorElementos.dibujarComponente();
+                        potencia.setElementoConectadoEntrada(partes[3]);
+                        potencia.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        potencia.setElementoConectadoSalida(partes[5]);
+                        potencia.setIdPotencia(Integer.valueOf(partes[6]));
+                        System.out.println(potencia.getIdPotencia());
+                        con.getElementos().add(potencia);
+                        
                         Label dibujo5 = new Label();
                         dibujo5.setGraphic(new ImageView(new Image("images/dibujo_potencia.png")));
                         dibujo5.setText(potencia.getNombre() + "_"+ potencia.getIdPotencia());
+                        dibujo5.setLayoutX(Double.parseDouble(partes[7]));
+                        dibujo5.setLayoutY(Double.parseDouble(partes[8]));
                         dibujo5.setContentDisplay(ContentDisplay.TOP);
-                        con.manejadorElementos.setDibujo(dibujo5);
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
-                        con.dibujos.add(con.manejadorElementos);
-                        break;
-
+                        
+                        ElementoGrafico elem5 = new ElementoGrafico();
+                        elem5.setComponente(potencia);
+                        elem5.setDibujo(dibujo5);
+                        elem5.setId(Integer.valueOf(partes[1]));
+                        VentanaPotenciaController aux5= new VentanaPotenciaController();
+                        aux5.init(con, stage, Pane1, scroll);
+                        con.getDibujos().add(elem5);
+                        dibujo5.setVisible(true);
+                        
+                        Pane1.getChildren().add(dibujo5);
+                        eventosPotencia(dibujo5, elem5);
+                        break;    
+                      
                     case "spectrum":
                         MedidorEspectro espectro = new MedidorEspectro();
                         espectro.setId(Integer.valueOf(partes[1]));
                         espectro.setNombre(nombre);
                         espectro.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                        espectro.setConectadoSalida(Boolean.valueOf(partes[3]));
-                        espectro.setIdEspectro(Integer.valueOf(partes[4]));
-                        con.elementos.add(espectro);
-                        con.manejadorElementos = new ElementoGrafico(con, Integer.valueOf(partes[1]), espectro);
-                        //controlador.manejadorElementos.dibujarComponente();
+                        espectro.setElementoConectadoEntrada(partes[3]);
+                        espectro.setConectadoSalida(Boolean.valueOf(partes[4]));
+                        espectro.setElementoConectadoSalida(partes[5]);
+                        espectro.setIdEspectro(Integer.valueOf(partes[6]));
+                        System.out.println(espectro.getIdEspectro());
+                        con.getElementos().add(espectro);
+                        
                         Label dibujo6 = new Label();
                         dibujo6.setGraphic(new ImageView(new Image("images/dibujo_espectro.png")));
                         dibujo6.setText(espectro.getNombre() + "_"+ espectro.getIdEspectro());
+                        dibujo6.setLayoutX(Double.parseDouble(partes[7]));
+                        dibujo6.setLayoutY(Double.parseDouble(partes[8]));
                         dibujo6.setContentDisplay(ContentDisplay.TOP);
-                        con.manejadorElementos.setDibujo(dibujo6);
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        con.manejadorElementos.getDibujo().setLayoutX(Integer.valueOf(partes[5]));
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        con.manejadorElementos.getDibujo().setLayoutY(Integer.valueOf(partes[6]));
-                        con.dibujos.add(controlador.manejadorElementos);
+                        
+                        ElementoGrafico elem6 = new ElementoGrafico();
+                        elem6.setComponente(espectro);
+                        elem6.setDibujo(dibujo6);
+                        elem6.setId(Integer.valueOf(partes[1]));
+                        VentanaEspectroController aux6= new VentanaEspectroController();
+                        aux6.init(con, stage, Pane1, scroll);
+                        con.getDibujos().add(elem6);
+                        dibujo6.setVisible(true);
+                        
+                        Pane1.getChildren().add(dibujo6);
+                        eventosEspectro(dibujo6, elem6);
                         break;
-                        */
-                        case "source":
-                            Fuente fuente = new Fuente();
-                            fuente.setId(Integer.valueOf(partes[1]));
-                            fuente.setNombre(nombre);
-                            fuente.setConectadoEntrada(Boolean.valueOf(partes[2]));
-                            fuente.setElementoConectadoEntrada(partes[3]);
-                            fuente.setConectadoSalida(Boolean.valueOf(partes[4]));
-                            fuente.setElementoConectadoSalida(partes[5]);
-                            fuente.setTipo(Integer.parseInt(partes[6]));
-                            fuente.setPotencia(Double.parseDouble(partes[7]));
-                            fuente.setAnchura(Double.parseDouble(partes[8]));
-                            fuente.setVelocidad(Double.parseDouble(partes[9]));
-                            fuente.setLongitudOnda(Integer.parseInt(partes[10]));
-                            fuente.setPulso(Float.parseFloat(partes[11]), Float.parseFloat(partes[12]), Float.parseFloat(partes[13]), Float.parseFloat(partes[14]), Float.parseFloat(partes[15]));
-                            fuente.setIdFuente(Integer.parseInt(partes[16]));
-                            con.getElementos().add(fuente);
-                        //controlador.manejadorElementos.dibujarComponente();
-                        Label dibujo4 = new Label();
-                        dibujo4.setGraphic(new ImageView(new Image("images/dibujo_fuente.png")));
-                        dibujo4.setText(fuente.getNombre() + "_"+ fuente.getIdFuente());
-                        dibujo4.setLayoutX(Double.parseDouble(partes[17]));
-                        dibujo4.setLayoutY(Double.parseDouble(partes[18]));
-                        dibujo4.setContentDisplay(ContentDisplay.TOP);
                         
-                        //controlador.manejadorElementos.setX(Integer.valueOf(partes[7]));
-                        
-                        //controlador.manejadorElementos.setY(Integer.valueOf(partes[8]));
-                        //INTENTO DE QUE APAREZCA EN LA VENTANA PRINCIPAL :V
-                        ElementoGrafico elem2 = new ElementoGrafico();
-                        elem2.setComponente(fuente);
-                        elem2.setDibujo(dibujo4);
-                        elem2.setId(Integer.valueOf(partes[1]));
-                        VentanaFuenteController aux1= new VentanaFuenteController();
-                        aux1.init(con, stage, Pane1, scroll);
-                        
-                        con.getDibujos().add(elem2);
-                        dibujo4.setVisible(true);
-                        Pane1.getChildren().add(dibujo4);
-                        aux1.eventos(elem2);
-                        //aux1.init2(elem2, aux1);
-                            break;
                     default:
                         con.setContadorElemento(Integer.valueOf(partes[0]));
                 }
@@ -853,8 +854,6 @@ public class VentanaPrincipal implements Initializable {
         }
         catch(IOException | NumberFormatException e){
             e.printStackTrace();
-        } catch (Exception ex) {
-            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
          // En el finally cerramos el fichero, para asegurarnos
          // que se cierra tanto si todo va bien como si salta 
@@ -886,7 +885,7 @@ public class VentanaPrincipal implements Initializable {
         }
     }   
     
-    private void eventos(ElementoGrafico elem) {
+    public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
@@ -933,7 +932,6 @@ public class VentanaPrincipal implements Initializable {
                                 borrarLinea(aux.getComponente().getLinea());
                             }
                         }
-                        
                         dibujarLineaAtras(elem);
                     }
                 }
@@ -947,7 +945,7 @@ public class VentanaPrincipal implements Initializable {
         });
     }
     
-    private void dibujarLinea(ElementoGrafico elemG) {
+    public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
@@ -969,11 +967,11 @@ public class VentanaPrincipal implements Initializable {
               
     }
     
-    private void borrarLinea(Line linea){
+    public void borrarLinea(Line linea){
         linea.setVisible(false);
     }
     
-    private void dibujarLineaAtras(ElementoGrafico elem) {
+    public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
         
@@ -995,7 +993,7 @@ public class VentanaPrincipal implements Initializable {
             
     }
     
-    private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+    public boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
 
@@ -1031,7 +1029,8 @@ public class VentanaPrincipal implements Initializable {
         return ! parentBounds.contains(newBounds);
          */
     }
-    private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
+    
+    public boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
         /*
@@ -1068,5 +1067,57 @@ public class VentanaPrincipal implements Initializable {
          */
     }
     
+    public void eventosPotencia(Label dibujo, ElementoGrafico elem){
+        eventos(elem);
+        dibujo.setOnMouseClicked((MouseEvent event1) -> {
+            if (event1.getButton() == MouseButton.PRIMARY) {
+                try {
+                    FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaPotencia.fxml"));
+                    Parent root= loader.load();
+                    VentanaPotenciaController potControl= loader.getController();
+                    potControl.init(controlador, stage, Pane1, scroll);
+                    Scene scene = new Scene(root);
+                    Image ico = new Image("images/acercaDe.png");
+                    Stage s = new Stage(StageStyle.UTILITY);
+                    s.getIcons().add(ico);
+                    s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    s.setScene(scene);
+                    s.showAndWait();
+                    s.setResizable(false);
+                } catch (IOException ex) {
+                    Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (event1.getButton() == MouseButton.SECONDARY) {
+                mostrarMenuChiquito(elem);
+            }
+        });
+    }
+    
+    public void eventosEspectro(Label dibujo, ElementoGrafico elem){
+        eventos(elem);
+            
+        elem.getDibujo().setOnMouseClicked((MouseEvent event1) -> {
+        if (event1.getButton() == MouseButton.PRIMARY) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEspectro.fxml"));
+                Parent root= loader.load();
+                VentanaEspectroController espcControl= loader.getController();
+                espcControl.init(controlador, stage, Pane1, scroll);
+                Scene scene = new Scene(root);
+                Image ico = new Image("images/acercaDe.png");
+                Stage s = new Stage(StageStyle.UTILITY);
+                s.getIcons().add(ico);
+                s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                s.setScene(scene);
+                s.showAndWait();
+                s.setResizable(false);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (event1.getButton() == MouseButton.SECONDARY) {
+            mostrarMenuChiquito(elem);
+        }
+        });
+    }
 
 }

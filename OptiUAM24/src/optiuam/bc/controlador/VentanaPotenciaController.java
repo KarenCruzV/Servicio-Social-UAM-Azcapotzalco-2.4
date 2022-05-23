@@ -11,7 +11,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
@@ -31,6 +33,7 @@ public class VentanaPotenciaController implements Initializable {
     ControladorGeneral controlador;
     LinkedList<Componente> elementos;
     ElementoGrafico elem;
+    Stage stage;
     
     @FXML
     Button btnCalcularPotencia;
@@ -40,6 +43,12 @@ public class VentanaPotenciaController implements Initializable {
     
     @FXML
     Label lblPotencia;
+    
+    @FXML
+    private Pane Pane1;
+    
+    @FXML
+    private ScrollPane scroll;
     
     /**
      * Initializes the controller class.
@@ -168,7 +177,7 @@ public class VentanaPotenciaController implements Initializable {
     }
     
     @FXML
-    private void btnCalcularPotenciaAction(){
+    public void btnCalcularPotenciaAction(){
         if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -202,6 +211,7 @@ public class VentanaPotenciaController implements Initializable {
         añadirCaminito(poyo, elem.getComponente());
         return poyo;
     }
+    
     public void añadirCaminito(LinkedList poyo, Componente comp){
         poyo.add(comp);
         if(elem.getComponente().isConectadoEntrada()){
@@ -215,10 +225,11 @@ public class VentanaPotenciaController implements Initializable {
         }
     }
 
-    void init(ElementoGrafico elem, ControladorGeneral controlador) {
-        this.elem=elem;
+    public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
+        this.stage=stage;
+        this.Pane1=Pane1;
+        this.scroll=scroll;
     }
-    
     
 }
