@@ -172,11 +172,9 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             fuente.setConectadoEntrada(false);
             fuente.setConectadoSalida(false);
             guardarFuente(fuente);
-            //System.out.println(fuente);
             idFuente++;
             cerrarVentana(event);
         }
-
     }
     
     public void cerrarVentana(ActionEvent event){
@@ -213,20 +211,16 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 Componente comp= controlador.getElementos().get(elemento2);
                 comp.setConectadoEntrada(false);
                 comp.setElementoConectadoEntrada("");
-                
                 System.out.println(comp.getNombre());
                 break;
             }
         }
         fuenteControl.cboxConectarA.getSelectionModel().select(0);
         if(elemG.getComponente().isConectadoSalida()){
-        elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
-        elemG.getComponente().getLinea().setVisible(false);
+            elemG.getComponente().setConectadoSalida(false);
+            elemG.getComponente().setElementoConectadoSalida("");
+            elemG.getComponente().getLinea().setVisible(false);
         }
-        //elemG.getComponente().getElementoConectadoEntrada().getComponente().setConectadoEntrada(false);
-        //elemG.getComponente().getElementoConectadoEntrada().getComponente().setElementoConectadoEntrada(null);
-        
         cerrarVentana(event);
     }
     
@@ -244,14 +238,11 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
         if(rbtn1310.isSelected()){
             longitudOnda=1310;
-            //System.out.println(1310);
         }else if(rbtn1550.isSelected()){
             longitudOnda=1550;
-            //System.out.println(1550);
         }
         if((fuenteControl.cboxConectarA.getSelectionModel().getSelectedIndex())==0){
             Desconectar(event);
-            //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.getId().toString());
         }else{
             if(aux.isConectadoSalida()){
                 elemG.getComponente().getLinea().setVisible(false);
@@ -264,19 +255,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     aux.setElementoConectadoSalida(eg.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
-                    
                     eg.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
                     eg.getComponente().setConectadoEntrada(true);
-                    //System.out.println(comp.getComponente().getElementoConectadoEntrada().getDibujo().getText());
-                    //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-                    //System.out.println(controlador.getDibujos().get(elemento2).getDibujo().getText());
                     break;
                 }
             }
-            
             dibujarLinea(elemG);
-            //System.out.println(fuenteControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
-            //aux.setElementoConectadoSalida(fuenteControl.cboxConectarA.);
         }
         potencia = Double.parseDouble(txtPotencia.getText());
         anchura = Double.parseDouble(txtAnchuraEspectro.getText());
@@ -326,14 +310,11 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         } 
         else{
             aux.setAnchura(anchura);
-            //aux.setIdFuente(idFuente);
             aux.setLongitudOnda(longitudOnda);
             aux.setNombre("source");
             aux.setPotencia(potencia);
             aux.setTipo(tipo);
             aux.setVelocidad(velocidad);
-
-            //System.out.println(fuente);
             cerrarVentana(event);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -342,7 +323,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             alert.setContentText("\nModified source!");
             alert.showAndWait();
 
-            //System.out.println(aux.toString());
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -352,7 +332,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     @FXML
     public void configurarPulso() throws IOException {
-        //System.out.println("Pulso");
         try {
             FXMLLoader loader=new FXMLLoader(getClass().getResource("VentanaPulso.fxml"));
             Parent root = loader.load();
@@ -389,7 +368,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         fuente.setPosY(dibujo.getLayoutY());
         setPosX(fuente.getPosX());
         setPosY(fuente.getPosY());
-        //System.out.println("Coordenada inicial: "+getPosX()+", "+getPosY());
         
         elem.setComponente(fuente);
         elem.setId(controlador.getContadorElemento());
@@ -420,7 +398,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         fuente.setPosY(dibujo.getLayoutY());
         setPosX(fuente.getPosX());
         setPosY(fuente.getPosY());
-        //System.out.println("Coordenada inicial: "+getPosX()+", "+getPosY());
         
         elem.setComponente(fuente);
         elem.setId(controlador.getContadorElemento());
@@ -496,12 +473,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 Tooltip tt= new Tooltip();
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(elem.getId()==controlador.getElementos().get(elemento).getId()){
-                    Fuente fue= (Fuente)controlador.getElementos().get(elemento);
+                    Fuente fuente= (Fuente)controlador.getElementos().get(elemento);
                     
-                    String name = "Name: "+fue.getNombre();
-                    String id = "Id = "+fue.getIdFuente();
-                    String conE = "Input: "+fue.getElementoConectadoEntrada();
-                    String conS = "Output: "+fue.getElementoConectadoSalida();
+                    String name = "Name: "+fuente.getNombre();
+                    String id = "Id = "+fuente.getIdFuente();
+                    String conE = "Input: "+fuente.getElementoConectadoEntrada();
+                    String conS = "Output: "+fuente.getElementoConectadoSalida();
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
                 }
             }*/
@@ -536,7 +513,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        //Fuente aux= (Fuente)elem.getComponente();
                         stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
@@ -555,7 +531,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     public void mostrarMenuChiquito(ElementoGrafico dibujo){
         // create a menu
         ContextMenu contextMenu = new ContextMenu();
-        Tooltip tt= new Tooltip();
         // create menuitems
         MenuItem menuItem1 = new MenuItem("-Duplicated");
         //MenuItem menuItem2 = new MenuItem("-Girar");
@@ -587,18 +562,49 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         });
         
         menuItem4.setOnAction(e ->{
-            //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    Fuente fue= (Fuente)controlador.getElementos().get(elemento);
-                    
-                    String name = "Name: "+fue.getNombre();
-                    String id = "Id = "+fue.getIdFuente();
-                    String conE = "Input: "+fue.getElementoConectadoEntrada();
-                    String conS = "Output: "+fue.getElementoConectadoSalida();
-                    tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
-                    System.out.println(tt.getText());
-                dibujo.getDibujo().setTooltip(tt);
+                    Fuente fuente = (Fuente)controlador.getElementos().get(elemento);
+                    String name = "Name: "+fuente.getNombre();
+                    String id = "Id = "+fuente.getIdFuente();
+                    String conE = "Input: "+fuente.getElementoConectadoEntrada();
+                    String conS = "Output: "+fuente.getElementoConectadoSalida();
+                    System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    Tooltip proFuente = new Tooltip();
+                    String tipo;
+                    if(fuente.getTipo() == 0){
+                        tipo = "Laser";
+                        proFuente.setText("Name: "+fuente.getNombre()+
+                            "\nId = "+fuente.getIdFuente()+
+                            "\nInput: "+fuente.getElementoConectadoEntrada()+
+                            "\nOutput :"+fuente.getElementoConectadoSalida()+
+                            "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
+                            "\nType: "+tipo+
+                            "\nPotency: "+fuente.getPotencia()+" dBm"+
+                            "\nSpectral Width: "+fuente.getAnchura()+" nm"+
+                            "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
+                            "\n----------------Pulse----------------"+
+                            "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
+                            "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
+                            "\nM: "+fuente.getM());
+                    }
+                    else if(fuente.getTipo()== 1){
+                        tipo = "LED";
+                        proFuente.setText("Name: "+fuente.getNombre()+
+                            "\nId = "+fuente.getIdFuente()+
+                            "\nInput: "+fuente.getElementoConectadoEntrada()+
+                            "\nOutput :"+fuente.getElementoConectadoSalida()+
+                            "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
+                            "\nType: "+tipo+
+                            "\nPotency: "+fuente.getPotencia()+" dBm"+
+                            "\nSpectral Width: "+fuente.getAnchura()+" nm"+
+                            "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
+                            "\n----------------Pulse----------------"+
+                            "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
+                            "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
+                            "\nM: "+fuente.getM());
+                    }
+                    dibujo.getDibujo().setTooltip(proFuente);
                 }
             }
                 

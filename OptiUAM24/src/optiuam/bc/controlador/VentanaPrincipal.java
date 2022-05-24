@@ -33,6 +33,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -391,7 +392,6 @@ public class VentanaPrincipal implements Initializable {
         });
         MenuItem menuItem4 = new MenuItem("-Properties");
         menuItem4.setOnAction(e ->{
-            //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
                     
@@ -401,8 +401,15 @@ public class VentanaPrincipal implements Initializable {
                         String id = "Id = "+aux.getIdPotencia();
                         String conE = "Input: "+aux.getElementoConectadoEntrada();
                         String conS = "Output :"+aux.getElementoConectadoSalida();
-                        //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                         System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
+                        Tooltip proPotencia = new Tooltip();
+                        if(dibujo.getDibujo().isVisible()){
+                            proPotencia.setText("Name: "+aux.getNombre()+
+                                    "\nId = "+aux.getIdPotencia()+
+                                    "\nInput: "+aux.getElementoConectadoEntrada()+
+                                    "\nOutput :"+aux.getElementoConectadoSalida());
+                            dibujo.getDibujo().setTooltip(proPotencia);
+                        }
                     }
                     else{
                         MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
@@ -410,8 +417,15 @@ public class VentanaPrincipal implements Initializable {
                         String id = "Id= "+aux.getIdEspectro();
                         String conE = "Input: "+aux.getElementoConectadoEntrada();
                         String conS = "Output: "+aux.getElementoConectadoSalida();
-                        //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
                         System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
+                        Tooltip proEspectro = new Tooltip();
+                        if(dibujo.getDibujo().isVisible()){
+                            proEspectro.setText("Name: "+aux.getNombre()+
+                                    "\nId = "+aux.getIdEspectro()+
+                                    "\nInput: "+aux.getElementoConectadoEntrada()+
+                                    "\nOutput :"+aux.getElementoConectadoSalida());
+                            dibujo.getDibujo().setTooltip(proEspectro);
+                        }
                     }
                 //dibujo.getDibujo().setTooltip(tt);
                 }

@@ -26,6 +26,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -220,13 +221,12 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             modo = 1;
             rbtnMulti.setSelected(true);
         }
-
         if (rbtn1550.isSelected()) // 1550 nm
         {
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
         }
-        if (rbtn1310.isSelected()) // 1550 nm
+        if (rbtn1310.isSelected()) // 1310 nm
         {
             longitudOnda = 1310;
             rbtn1310.setSelected(true);
@@ -271,7 +271,6 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 }
             }
             dibujarLinea(elemG);
-            //System.out.println(fibraControl.cboxConectarA.getSelectionModel().getSelectedItem().toString());
         }
 
         longitudKm= Double.parseDouble(txtDistancia.getText());
@@ -283,15 +282,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         aux.setModo(modo);
         aux.setLongitud_km(longitudKm);
         aux.setTipo(tipo);
-        //aux.setIdFibra(idFibra);
-        //f.setNombre("fibraEnviada");
-        //aux.setConectadoEntrada(false);
-        //aux.setConectadoSalida(false);
-        //System.out.println(f.toString());
-
-        //this.fibra=f;
-        //System.out.println(fibra.toString());
-
+        
         cerrarVentana(event);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -299,7 +290,6 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         alert.setHeaderText(null);
         alert.setContentText("\nModified fiber!");
         alert.showAndWait();
-        //System.out.println(aux.toString());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -318,8 +308,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             modo=0;
             rbtnMono.setSelected(true);
         }
-        
-        if (rbtn1550.isSelected()) // 1310 nm
+        if (rbtn1550.isSelected()) // 1550 nm
         {
             longitudOnda = 1550;
             rbtn1550.setSelected(true);
@@ -356,15 +345,10 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         f.setLongitud_km(longitudKm);
         f.setTipo(tipo);
         f.setIdFibra(idFibra);
-        //f.setNombre("fibraEnviada");
         f.setConectadoEntrada(false);
         f.setConectadoSalida(false);
-        //System.out.println(f.toString());
         guardarComponente(f);
         idFibra++;
-        
-        //this.fibra=f;
-        //System.out.println(fibra.toString());
         
         cerrarVentana(event);
     }
@@ -526,12 +510,12 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     }
                     
                 }else if(event.getButton()==MouseButton.SECONDARY){
-                    mostrarMenuChiquito(elem);
+                    mostrarMenuChiquitoFibra(elem);
                 }
         });
     }
     
-    public void mostrarMenuChiquito(ElementoGrafico dibujo){
+    public void mostrarMenuChiquitoFibra(ElementoGrafico dibujo){
         // create a menu
         ContextMenu contextMenu = new ContextMenu();
 
@@ -619,15 +603,101 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    Fibra fue= (Fibra)controlador.getElementos().get(elemento);
-                    
-                    String name = "Name: "+fue.getNombre();
-                    String id = "Id = "+fue.getIdFibra();
-                    String conE = "Input: "+fue.getElementoConectadoEntrada();
-                    String conS = "Output: "+fue.getElementoConectadoSalida();
-                    //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    Fibra fibra = (Fibra)controlador.getElementos().get(elemento);
+                    String name = "Name: "+fibra.getNombre();
+                    String id = "Id = "+fibra.getIdFibra();
+                    String conE = "Input: "+fibra.getElementoConectadoEntrada();
+                    String conS = "Output: "+fibra.getElementoConectadoSalida();
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                //dibujo.getDibujo().setTooltip(tt);
+                    Tooltip proFibra = new Tooltip();
+                    String tipo, modo;
+                    if(fibra.getModo() == 0){
+                        modo = "Monomode";
+                        switch (fibra.getTipo()) {
+                            case 0:
+                                tipo = "smf-28";
+                                proFibra.setText("Name: "+fibra.getNombre()+
+                                        "\nId = "+fibra.getIdFibra()+
+                                        "\nInput: "+fibra.getElementoConectadoEntrada()+
+                                        "\nOutput :"+fibra.getElementoConectadoSalida()+
+                                        "\nType: "+tipo+ "\nMode: "+modo+
+                                        "\nWavelenght: "+fibra.getLongitudOnda()+" nm"+
+                                        "\nFiber lenght: "+fibra.getLongitud_km()+" km"+
+                                        "\nAttenuation: "+fibra.getAtenuacion() +" dB/km"+
+                                        "\nDispersion: "+fibra.getDispersion()+" ps/(nm*km)");
+                                break;
+                            case 1:
+                                tipo = "mm50";
+                                proFibra.setText("Name: "+fibra.getNombre()+
+                                        "\nId = "+fibra.getIdFibra()+
+                                        "\nInput: "+fibra.getElementoConectadoEntrada()+
+                                        "\nOutput :"+fibra.getElementoConectadoSalida()+
+                                        "\nType: "+tipo+ "\nMode: "+modo+
+                                        "\nWavelenght: "+fibra.getLongitudOnda()+" nm"+
+                                        "\nFiber lenght: "+fibra.getLongitud_km()+" km"+
+                                        "\nAttenuation: "+fibra.getAtenuacion() +" dB/km"+
+                                        "\nDispersion: "+fibra.getDispersion()+" ps/(nm*km)");
+                                break;
+                            case 2:
+                                tipo = "Other";
+                                proFibra.setText("Name: "+fibra.getNombre()+
+                                        "\nId = "+fibra.getIdFibra()+
+                                        "\nInput: "+fibra.getElementoConectadoEntrada()+
+                                        "\nOutput :"+fibra.getElementoConectadoSalida()+
+                                        "\nType: "+tipo+ "\nMode: "+modo+
+                                        "\nWavelenght: "+fibra.getLongitudOnda()+" nm"+
+                                        "\nFiber lenght: "+fibra.getLongitud_km()+" km"+
+                                        "\nAttenuation: "+fibra.getAtenuacion() +" dB/km"+
+                                        "\nDispersion: "+fibra.getDispersion()+" ps/(nm*km)");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if(fibra.getModo() == 1){
+                        modo = "Multimode";
+                        switch (fibra.getTipo()) {
+                            case 0:
+                                tipo = "smf-28";
+                                proFibra.setText("Name: "+fibra.getNombre()+
+                                        "\nId = "+fibra.getIdFibra()+
+                                        "\nInput: "+fibra.getElementoConectadoEntrada()+
+                                        "\nOutput :"+fibra.getElementoConectadoSalida()+
+                                        "\nType: "+tipo+ "\nMode: "+modo+
+                                        "\nWavelenght: "+fibra.getLongitudOnda()+" nm"+
+                                        "\nFiber lenght: "+fibra.getLongitud_km()+" km"+
+                                        "\nAttenuation: "+fibra.getAtenuacion() +" dB/km"+
+                                        "\nDispersion: "+fibra.getDispersion()+" ps/(nm*km)");
+                                break;
+                            case 1:
+                                tipo = "mm50";
+                                proFibra.setText("Name: "+fibra.getNombre()+
+                                        "\nId = "+fibra.getIdFibra()+
+                                        "\nInput: "+fibra.getElementoConectadoEntrada()+
+                                        "\nOutput :"+fibra.getElementoConectadoSalida()+
+                                        "\nType: "+tipo+ "\nMode: "+modo+
+                                        "\nWavelenght: "+fibra.getLongitudOnda()+" nm"+
+                                        "\nFiber lenght: "+fibra.getLongitud_km()+" km"+
+                                        "\nAttenuation: "+fibra.getAtenuacion() +" dB/km"+
+                                        "\nDispersion: "+fibra.getDispersion()+" ps/(nm*km)");
+                                break;
+                            case 2:
+                                tipo = "Other";
+                                proFibra.setText("Name: "+fibra.getNombre()+
+                                        "\nId = "+fibra.getIdFibra()+
+                                        "\nInput: "+fibra.getElementoConectadoEntrada()+
+                                        "\nOutput :"+fibra.getElementoConectadoSalida()+
+                                        "\nType: "+tipo+ "\nMode: "+modo+
+                                        "\nWavelenght: "+fibra.getLongitudOnda()+" nm"+
+                                        "\nFiber lenght: "+fibra.getLongitud_km()+" km"+
+                                        "\nAttenuation: "+fibra.getAtenuacion() +" dB/km"+
+                                        "\nDispersion: "+fibra.getDispersion()+" ps/(nm*km)");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    dibujo.getDibujo().setTooltip(proFibra);
                 }
             }
                 

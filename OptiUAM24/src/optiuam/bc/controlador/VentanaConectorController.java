@@ -363,15 +363,38 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    Conector fue= (Conector)controlador.getElementos().get(elemento);
-                    
-                    String name = "Name: "+fue.getNombre();
-                    String id = "Id = "+fue.getIdConector();
-                    String conE = "Input: "+fue.getElementoConectadoEntrada();
-                    String conS = "Output: "+fue.getElementoConectadoSalida();
-                    //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    Conector conector = (Conector)controlador.getElementos().get(elemento);
+                    String name = "Name: "+conector.getNombre();
+                    String id = "Id = "+conector.getIdConector();
+                    String conE = "Input: "+conector.getElementoConectadoEntrada();
+                    String conS = "Output: "+conector.getElementoConectadoSalida();
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                //dibujo.getDibujo().setTooltip(tt);
+                    Tooltip proConector = new Tooltip();
+                    if(dibujo.getDibujo().isVisible()){
+                        String mode;
+                        if(conector.getModo() == 0){
+                            mode = "Monomode";
+                            proConector.setText("Name: "+conector.getNombre()+
+                                "\nId = "+conector.getIdConector()+
+                                "\nInput: "+conector.getElementoConectadoEntrada()+
+                                "\nOutput :"+conector.getElementoConectadoSalida()+
+                                "\nWavelenght: "+conector.getLongitudOnda()+" nm"+
+                                "\nMode: "+mode+
+                                "\nInsertion Loss: "+conector.getPerdidaInsercion()+" dB");
+                        }
+                        else if(conector.getModo() == 1){
+                            mode = "Multimode";
+                            proConector.setText("Name: "+conector.getNombre()+
+                                "\nId = "+conector.getIdConector()+
+                                "\nInput: "+conector.getElementoConectadoEntrada()+
+                                "\nOutput :"+conector.getElementoConectadoSalida()+
+                                "\nWavelenght: "+conector.getLongitudOnda()+" nm"+
+                                "\nMode: "+mode+
+                                "\nInsertion Loss: "+conector.getPerdidaInsercion()+" dB");
+                        }
+                        
+                        dibujo.getDibujo().setTooltip(proConector);
+                    }
                 }
             }
         });

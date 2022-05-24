@@ -96,17 +96,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         double perdidaInsercion, perdidaMax = 0.5;
         if(rbtnMecanico.isSelected()){
             tipo=1;
-            //System.out.println("Tipo Mono");
         }else if(rbtnfusion.isSelected()){
             tipo=0;
-            //System.out.println("Tipo Multi");
         }   
         if(rbtn1310.isSelected()){
             longitudOnda=1310;
-            //System.out.println(1310);
         }else if(rbtn1550.isSelected()){
             longitudOnda=1550;
-            //System.out.println(1550);
         }
         
         perdidaInsercion= Double.parseDouble(txtPerdida.getText());
@@ -446,15 +442,35 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             //Tooltip tt= new Tooltip();
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    Empalme fue= (Empalme)controlador.getElementos().get(elemento);
-                    
-                    String name = "Name: "+fue.getNombre();
-                    String id = "Id = "+fue.getIdEmpalme();
-                    String conE = "Input: "+fue.getElementoConectadoEntrada();
-                    String conS = "Output: "+fue.getElementoConectadoSalida();
-                    //tt.setText(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    Empalme empalme = (Empalme)controlador.getElementos().get(elemento);
+                    String name = "Name: "+empalme.getNombre();
+                    String id = "Id = "+empalme.getIdEmpalme();
+                    String conE = "Input: "+empalme.getElementoConectadoEntrada();
+                    String conS = "Output: "+empalme.getElementoConectadoSalida();
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                //dibujo.getDibujo().setTooltip(tt);
+                    Tooltip proEmpalme = new Tooltip();
+                    String tipo;
+                    if(empalme.getTipo() == 0){
+                        tipo = "Fusion";
+                        proEmpalme.setText("Name: "+empalme.getNombre()+
+                            "\nId = "+empalme.getIdEmpalme()+
+                            "\nInput: "+empalme.getElementoConectadoEntrada()+
+                            "\nOutput :"+empalme.getElementoConectadoSalida()+
+                            "\nWavelenght: "+empalme.getLongitudOnda()+" nm"+
+                            "\nType: "+tipo+
+                            "\nInsertion Loss: "+empalme.getPerdidaInsercion()+" dB");
+                    }
+                    else if(empalme.getTipo()== 1){
+                        tipo = "Mechanic";
+                        proEmpalme.setText("Name: "+empalme.getNombre()+
+                            "\nId = "+empalme.getIdEmpalme()+
+                            "\nInput: "+empalme.getElementoConectadoEntrada()+
+                            "\nOutput :"+empalme.getElementoConectadoSalida()+
+                            "\nWavelenght: "+empalme.getLongitudOnda()+" nm"+
+                            "\nType: "+tipo+
+                            "\nInsertion Loss: "+empalme.getPerdidaInsercion()+" dB");
+                    }
+                    dibujo.getDibujo().setTooltip(proEmpalme);
                 }
             }
                 

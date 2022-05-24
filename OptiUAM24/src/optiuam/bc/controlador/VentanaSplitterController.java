@@ -135,7 +135,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int salidas;
         cboxNumeroSalidas.getItems().removeAll(cboxNumeroSalidas.getItems());
         cboxNumeroSalidas.getItems().addAll("2", "4", "8", "16", "32", "64");
         cboxNumeroSalidas.getSelectionModel().select("2");
@@ -436,10 +435,33 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             dibujo.getDibujo().setVisible(false);
 
         });
-
+        MenuItem menuItem4 = new MenuItem("-Properties");
+        menuItem4.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Splitter splitter = (Splitter)controlador.getElementos().get(elemento);
+                    String name = "Name: "+splitter.getNombre();
+                    String id = "Id = "+splitter.getIdS();
+                    String conE = "Input: "+splitter.getElementoConectadoEntrada();
+                    String conS = "Output: "+splitter.getElementoConectadoSalida();
+                    System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
+                    Tooltip proEmpalme = new Tooltip();
+                    proEmpalme.setText("Name: "+splitter.getNombre()+
+                        "\nId = "+splitter.getIdS()+
+                        "\nInput: "+splitter.getElementoConectadoEntrada()+
+                        "\nOutput :"+splitter.getElementoConectadoSalida()+
+                        "\nWavelenght: "+splitter.getLongitudOnda()+" nm"+
+                        "\nNumber of outputs: "+splitter.getSalidas()+
+                        "\nInsertion Loss: "+splitter.getPerdidaInsercion()+" dB");
+                    dibujo.getDibujo().setTooltip(proEmpalme);
+                }
+            }
+                
+        });
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
         contextMenu.getItems().add(menuItem3);
+        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
