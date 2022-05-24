@@ -37,7 +37,7 @@ import optiuam.bc.modelo.ElementoGrafico;
  */
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
     
-    static int idConector = 0;
+     static int idConector = 0;
     ControladorGeneral controlador;
     Stage stage;
     ElementoGrafico elemG;
@@ -60,6 +60,16 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         AnchorPane ConectorVentana;
     @FXML
     private ScrollPane scroll;
+
+    public static int getIdConector() {
+        return idConector;
+    }
+
+    public static void setIdConector(int idConector) {
+        VentanaConectorController.idConector = idConector;
+    }
+
+    
 
     public static double getPosX() {
         return posX;

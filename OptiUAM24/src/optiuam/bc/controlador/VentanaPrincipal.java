@@ -597,6 +597,7 @@ public class VentanaPrincipal implements Initializable {
                         conector.setModo(Integer.valueOf(partes[7]));
                         conector.setPerdidaInsercion(Double.valueOf(partes[8]));
                         conector.setIdConector(Integer.valueOf(partes[9]));
+                        
                         System.out.println(conector.getIdConector());
                         con.getElementos().add(conector);
                         
@@ -618,6 +619,7 @@ public class VentanaPrincipal implements Initializable {
                         
                         Pane1.getChildren().add(dibujo);
                         aux.eventos(elem);
+                        aux.setIdConector(conector.getIdConector()+1);
                         break;
                         
                     case "splice":
