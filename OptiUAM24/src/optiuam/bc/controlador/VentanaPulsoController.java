@@ -136,8 +136,6 @@ public class VentanaPulsoController implements Initializable {
             C = Float.parseFloat(txtC.getText());
             M = Float.parseFloat(txtM.getText());
             
-            //controlador.guardarPulso(A0,T0,W0,C,M,ventanaFuente.getId());
-            //ventanaFuente.setPulso(A0, T0, W0, C,M);
             if(M > 1){
             tipo="Supergaussian";
             
@@ -255,11 +253,11 @@ public class VentanaPulsoController implements Initializable {
     void init(ElementoGrafico elemG) {
        this.fuente=(Fuente)elemG.getComponente();
        if(fuente!=null){
-        txtA0.setText(String.valueOf(fuente.getA0()));
-        txtC.setText(String.valueOf(fuente.getC()));
-        txtM.setText(String.valueOf(fuente.getM()));
-        txtT0.setText(String.valueOf(fuente.getT0()));
-        txtW0.setText(String.valueOf(fuente.getW0()));
+            txtA0.setText(String.valueOf(fuente.getA0()));
+            txtC.setText(String.valueOf(fuente.getC()));
+            txtM.setText(String.valueOf(fuente.getM()));
+            txtT0.setText(String.valueOf(fuente.getT0()));
+            txtW0.setText(String.valueOf(fuente.getW0()));
         }
     }
       

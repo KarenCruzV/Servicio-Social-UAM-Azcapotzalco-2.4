@@ -56,8 +56,8 @@ public class VentanaPotenciaController implements Initializable {
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        Stage s = (Stage) source.getScene().getWindow();
+        s.close();
     }
     
     @Override
@@ -66,21 +66,6 @@ public class VentanaPotenciaController implements Initializable {
     }    
     
     public double calcularPotencia(Double sensibilidad) {
-        /*MedidorPotencia aux;
-        for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-            if(elem.getId()==controlador.getElementos().get(elemento).getId()){
-                aux = (MedidorPotencia) controlador.manejadorElementos.getComponente();
-                if(!Objects.equals(sensibilidad, aux.getSensibilidad())){//si aun un cambio en el valor de la sensibilidad
-                    aux.setSensibilidad(sensibilidad);//lo guarda
-                }
-                if(aux.isConectadoEntrada() == false){
-                    return -1;
-                }
-                else{
-                   return aux.calcularPotencia();
-                }
-            }
-        }*/
         double Dt= 0.0; //dispersion cromatica total
         double Pa= 0.0; //perdida por atenuacion de la fibra L*Fa 
         double S = 0.0; // anchura espectral

@@ -238,9 +238,16 @@ public class VentanaPrincipal implements Initializable {
         controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
         
-           eventos(elem);
-            
-            dibujo.setOnMouseClicked((MouseEvent event1) -> {
+        Tooltip proPotencia = new Tooltip();
+        proPotencia.setText("Name: "+potencia.getNombre()+
+                "\nId = "+potencia.getIdPotencia()+
+                "\nInput: "+potencia.getElementoConectadoEntrada()+
+                "\nOutput :"+potencia.getElementoConectadoSalida());
+        elem.getDibujo().setTooltip(proPotencia);
+        
+        eventos(elem);
+
+        dibujo.setOnMouseClicked((MouseEvent event1) -> {
             if (event1.getButton() == MouseButton.PRIMARY) {
                 try {
                     FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaPotencia.fxml"));
@@ -262,8 +269,7 @@ public class VentanaPrincipal implements Initializable {
                 mostrarMenuChiquito(elem);
             }
         });
-            controlador.setContadorElemento(controlador.getContadorElemento()+1);
-        //System.out.print(controlador.getContadorElemento());
+        controlador.setContadorElemento(controlador.getContadorElemento()+1);
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -279,7 +285,7 @@ public class VentanaPrincipal implements Initializable {
         alert.showAndWait();
         
         MedidorEspectro espectro = new MedidorEspectro();
-        espectro.setNombre("spectrum"); //espectro
+        espectro.setNombre("spectrum");
         espectro.setConectadoEntrada(false);
         espectro.setConectadoSalida(false);
         espectro.setIdEspectro(idEspectro);
@@ -299,9 +305,16 @@ public class VentanaPrincipal implements Initializable {
         controlador.getDibujos().add(elem);
         Pane1.getChildren().add(dibujo);
         
-            eventos(elem);
-            
-            elem.getDibujo().setOnMouseClicked((MouseEvent event1) -> {
+        Tooltip proEspectro = new Tooltip();
+        proEspectro.setText("Name: "+espectro.getNombre()+
+                "\nId = "+espectro.getIdEspectro()+
+                "\nInput: "+espectro.getElementoConectadoEntrada()+
+                "\nOutput :"+espectro.getElementoConectadoSalida());
+        elem.getDibujo().setTooltip(proEspectro);
+        
+        eventos(elem);
+
+        elem.getDibujo().setOnMouseClicked((MouseEvent event1) -> {
             if (event1.getButton() == MouseButton.PRIMARY) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEspectro.fxml"));
@@ -324,7 +337,6 @@ public class VentanaPrincipal implements Initializable {
             }
         });
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
-        //System.out.print(controlador.getContadorElemento());
         for(int h=0; h<controlador.getElementos().size(); h++){
             System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
             System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -351,9 +363,6 @@ public class VentanaPrincipal implements Initializable {
                 if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
                     System.out.println();
-                    //controlador.getDibujos().remove(dibujo);
-                    //controlador.getElementos().remove(aux); 
-                    aux.setConectadoEntrada(false);
                     aux.setElementoConectadoEntrada("");
                    
                     dibujo.getComponente().getLinea().setVisible(false);
@@ -364,13 +373,11 @@ public class VentanaPrincipal implements Initializable {
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
                     Componente aux= controlador.getElementos().get(elemento);
-                    //controlador.getDibujos().remove(dibujo);
-                    //controlador.getElementos().remove(aux); 
                     aux.setConectadoSalida(false);
                     aux.setElementoConectadoSalida("");
                      aux.getLinea().setVisible(false);
                 }
-            }
+                }
             }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -384,65 +391,18 @@ public class VentanaPrincipal implements Initializable {
                         controlador.getDibujos().remove(dibujo);
                         controlador.getElementos().remove(aux); 
                     }
-                    
                 }
-                
             }    
             dibujo.getDibujo().setVisible(false);
         });
-        MenuItem menuItem4 = new MenuItem("-Properties");
-        menuItem4.setOnAction(e ->{
-            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    
-                    if(dibujo.getDibujo().getText().contains("power")){ //potencia
-                        MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
-                        String name = "Name: "+aux.getNombre();
-                        String id = "Id = "+aux.getIdPotencia();
-                        String conE = "Input: "+aux.getElementoConectadoEntrada();
-                        String conS = "Output :"+aux.getElementoConectadoSalida();
-                        System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                        Tooltip proPotencia = new Tooltip();
-                        if(dibujo.getDibujo().isVisible()){
-                            proPotencia.setText("Name: "+aux.getNombre()+
-                                    "\nId = "+aux.getIdPotencia()+
-                                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                                    "\nOutput :"+aux.getElementoConectadoSalida());
-                            dibujo.getDibujo().setTooltip(proPotencia);
-                        }
-                    }
-                    else{
-                        MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
-                        String name = "Name: "+aux.getNombre();
-                        String id = "Id= "+aux.getIdEspectro();
-                        String conE = "Input: "+aux.getElementoConectadoEntrada();
-                        String conS = "Output: "+aux.getElementoConectadoSalida();
-                        System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                        Tooltip proEspectro = new Tooltip();
-                        if(dibujo.getDibujo().isVisible()){
-                            proEspectro.setText("Name: "+aux.getNombre()+
-                                    "\nId = "+aux.getIdEspectro()+
-                                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                                    "\nOutput :"+aux.getElementoConectadoSalida());
-                            dibujo.getDibujo().setTooltip(proEspectro);
-                        }
-                    }
-                //dibujo.getDibujo().setTooltip(tt);
-                }
-            }
-                
-        });
 
         // add menu items to menu
-        
         contextMenu.getItems().add(menuItem3);
-        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //componentes=FXCollections.observableArrayList();
         fibraI=new Image("images/ico_fibra.png"); 
         fuenteI=new Image("images/ico_fuente.png"); 
         conectorI=new Image("images/ico_conector.png"); 
@@ -450,7 +410,6 @@ public class VentanaPrincipal implements Initializable {
         espectroI=new Image("images/ico_espectro.png"); 
         empalmeI=new Image("images/ico_empalme.png"); 
         splitterI=new Image("images/ico_splitter.png"); 
-        //fondo= new Image("/images/fondo.png"); 
         
         viewFibra.setImage(fibraI);
         viewFuente.setImage(fuenteI);
@@ -826,8 +785,6 @@ public class VentanaPrincipal implements Initializable {
                         elem5.setComponente(potencia);
                         elem5.setDibujo(dibujo5);
                         elem5.setId(Integer.valueOf(partes[1]));
-                        //VentanaPotenciaController aux5= new VentanaPotenciaController();
-                        //aux5.init(con, stage, Pane1, scroll);
                         con.getDibujos().add(elem5);
                         dibujo5.setVisible(true);
                         
@@ -859,8 +816,6 @@ public class VentanaPrincipal implements Initializable {
                         elem6.setComponente(espectro);
                         elem6.setDibujo(dibujo6);
                         elem6.setId(Integer.valueOf(partes[1]));
-                        //VentanaEspectroController aux6= new VentanaEspectroController();
-                        //aux6.init(con, stage, Pane1, scroll);
                         con.getDibujos().add(elem6);
                         dibujo6.setVisible(true);
                         
@@ -914,16 +869,16 @@ public class VentanaPrincipal implements Initializable {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
                     double newY=event.getSceneY();
-                    int karen=0;
+                    int j=0;
                     for(int a=0; a<Pane1.getChildren().size();a++){
                         if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
-                            karen=a;
+                            j=a;
                             break;
                         }
                     }
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(j).getLayoutX()+event.getX()+1);
                     }
                     /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
@@ -943,7 +898,7 @@ public class VentanaPrincipal implements Initializable {
                     */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(j).getLayoutY()+event.getY()+1);}
                     if(elem.getComponente().isConectadoSalida()==true){
                         borrarLinea(elem.getComponente().getLinea());
                         dibujarLinea(elem);
@@ -984,7 +939,6 @@ public class VentanaPrincipal implements Initializable {
         line.setEndX(aux.getDibujo().getLayoutX());
         line.setEndY(aux.getDibujo().getLayoutY());
         setLinea(line);
-        //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
@@ -1195,14 +1149,13 @@ public class VentanaPrincipal implements Initializable {
             line.setEndX(aux.getDibujo().getLayoutX());
             line.setEndY(aux.getDibujo().getLayoutY()+8);
         }
-        //setLinea(line);
-        //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
               
     }
-     public void dibujarLineaFuente(ElementoGrafico elemG) {
+    
+    public void dibujarLineaFuente(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+45);
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
@@ -1216,7 +1169,6 @@ public class VentanaPrincipal implements Initializable {
         line.setStroke(javafx.scene.paint.Color.BLACK);
         line.setEndX(aux.getDibujo().getLayoutX());
         line.setEndY(aux.getDibujo().getLayoutY()+8);
-        //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);

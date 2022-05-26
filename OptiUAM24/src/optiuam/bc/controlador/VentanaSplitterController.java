@@ -289,6 +289,16 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         alert.setHeaderText(null);
         alert.setContentText("\nSplitter created!");
         alert.showAndWait();
+        
+        Tooltip proSplitter = new Tooltip();
+        proSplitter.setText("Name: "+s.getNombre()+
+            "\nId = "+s.getIdS()+
+            "\nInput: "+s.getElementoConectadoEntrada()+
+            "\nOutput :"+s.getElementoConectadoSalida()+
+            "\nWavelenght: "+s.getLongitudOnda()+" nm"+
+            "\nNumber of outputs: "+s.getSalidas()+
+            "\nInsertion Loss: "+s.getPerdidaInsercion()+" dB");
+        elem.getDibujo().setTooltip(proSplitter);
     }
 
     public void eventos(ElementoGrafico elem) {
@@ -443,33 +453,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             dibujo.getDibujo().setVisible(false);
 
         });
-        MenuItem menuItem4 = new MenuItem("-Properties");
-        menuItem4.setOnAction(e ->{
-            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    Splitter splitter = (Splitter)controlador.getElementos().get(elemento);
-                    String name = "Name: "+splitter.getNombre();
-                    String id = "Id = "+splitter.getIdS();
-                    String conE = "Input: "+splitter.getElementoConectadoEntrada();
-                    String conS = "Output: "+splitter.getElementoConectadoSalida();
-                    System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                    Tooltip proEmpalme = new Tooltip();
-                    proEmpalme.setText("Name: "+splitter.getNombre()+
-                        "\nId = "+splitter.getIdS()+
-                        "\nInput: "+splitter.getElementoConectadoEntrada()+
-                        "\nOutput :"+splitter.getElementoConectadoSalida()+
-                        "\nWavelenght: "+splitter.getLongitudOnda()+" nm"+
-                        "\nNumber of outputs: "+splitter.getSalidas()+
-                        "\nInsertion Loss: "+splitter.getPerdidaInsercion()+" dB");
-                    dibujo.getDibujo().setTooltip(proEmpalme);
-                }
-            }
-                
-        });
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
         contextMenu.getItems().add(menuItem3);
-        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
@@ -518,6 +504,16 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         alert.setHeaderText(null);
         alert.setContentText("\n¡Splitter created!");
         alert.showAndWait();
+        
+        Tooltip proSplitter = new Tooltip();
+        proSplitter.setText("Name: "+s.getNombre()+
+            "\nId = "+s.getIdS()+
+            "\nInput: "+s.getElementoConectadoEntrada()+
+            "\nOutput :"+s.getElementoConectadoSalida()+
+            "\nWavelenght: "+s.getLongitudOnda()+" nm"+
+            "\nNumber of outputs: "+s.getSalidas()+
+            "\nInsertion Loss: "+s.getPerdidaInsercion()+" dB");
+        elem.getDibujo().setTooltip(proSplitter);
     }
     
     @FXML
@@ -610,8 +606,17 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             alert.setHeaderText(null);
             alert.setContentText("\nModified splitter!");
             alert.showAndWait();
+            
+            Tooltip proSplitter = new Tooltip();
+            proSplitter.setText("Name: "+aux.getNombre()+
+                "\nId = "+aux.getIdS()+
+                "\nInput: "+aux.getElementoConectadoEntrada()+
+                "\nOutput :"+aux.getElementoConectadoSalida()+
+                "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
+                "\nNumber of outputs: "+aux.getSalidas()+
+                "\nInsertion Loss: "+aux.getPerdidaInsercion()+" dB");
+            elemG.getDibujo().setTooltip(proSplitter);
 
-            //System.out.println(aux.toString());
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());

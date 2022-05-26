@@ -44,7 +44,7 @@ import optiuam.bc.modelo.Fuente;
 /**
  * FXML Controller class
  *
- * @author karen
+ * @author j
  */
 public class VentanaFuenteController extends ControladorGeneral implements Initializable {
     
@@ -79,7 +79,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     @FXML
     private ScrollPane scroll;
     
-
     public static double getPosX() {
         return posX;
     }
@@ -322,6 +321,42 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             alert.setHeaderText(null);
             alert.setContentText("\nModified source!");
             alert.showAndWait();
+            
+            Tooltip proFuente = new Tooltip();
+            String tip;
+            if(aux.getTipo() == 0){
+                tip = "Laser";
+                proFuente.setText("Name: "+aux.getNombre()+
+                    "\nId = "+aux.getIdFuente()+
+                    "\nInput: "+aux.getElementoConectadoEntrada()+
+                    "\nOutput :"+aux.getElementoConectadoSalida()+
+                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
+                    "\nType: "+tip+
+                    "\nPotency: "+aux.getPotencia()+" dBm"+
+                    "\nSpectral Width: "+aux.getAnchura()+" nm"+
+                    "\nTransmission Speed: "+aux.getVelocidad()+" Gbits/seg"+
+                    "\n----------------Pulse----------------"+
+                    "\nA0: "+aux.getA0() + "\nC: "+aux.getC()+
+                    "\nT0: "+aux.getT0() + "\nW0: "+aux.getW0()+
+                    "\nM: "+aux.getM());
+            }
+            else if(aux.getTipo()== 1){
+                tip = "LED";
+                proFuente.setText("Name: "+aux.getNombre()+
+                    "\nId = "+aux.getIdFuente()+
+                    "\nInput: "+aux.getElementoConectadoEntrada()+
+                    "\nOutput :"+aux.getElementoConectadoSalida()+
+                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
+                    "\nType: "+tip+
+                    "\nPotency: "+aux.getPotencia()+" dBm"+
+                    "\nSpectral Width: "+aux.getAnchura()+" nm"+
+                    "\nTransmission Speed: "+aux.getVelocidad()+" Gbits/seg"+
+                    "\n----------------Pulse----------------"+
+                    "\nA0: "+aux.getA0() + "\nC: "+aux.getC()+
+                    "\nT0: "+aux.getT0() + "\nW0: "+aux.getW0()+
+                    "\nM: "+aux.getM());
+            }
+            elemG.getDibujo().setTooltip(proFuente);
 
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -386,6 +421,42 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         alert.setHeaderText(null);
         alert.setContentText("\nSource created!");
         alert.showAndWait();
+        
+        Tooltip proFuente = new Tooltip();
+        String tipo;
+        if(fuente.getTipo() == 0){
+            tipo = "Laser";
+            proFuente.setText("Name: "+fuente.getNombre()+
+                "\nId = "+fuente.getIdFuente()+
+                "\nInput: "+fuente.getElementoConectadoEntrada()+
+                "\nOutput :"+fuente.getElementoConectadoSalida()+
+                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
+                "\nType: "+tipo+
+                "\nPotency: "+fuente.getPotencia()+" dBm"+
+                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
+                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
+                "\n----------------Pulse----------------"+
+                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
+                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
+                "\nM: "+fuente.getM());
+        }
+        else if(fuente.getTipo()== 1){
+            tipo = "LED";
+            proFuente.setText("Name: "+fuente.getNombre()+
+                "\nId = "+fuente.getIdFuente()+
+                "\nInput: "+fuente.getElementoConectadoEntrada()+
+                "\nOutput :"+fuente.getElementoConectadoSalida()+
+                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
+                "\nType: "+tipo+
+                "\nPotency: "+fuente.getPotencia()+" dBm"+
+                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
+                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
+                "\n----------------Pulse----------------"+
+                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
+                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
+                "\nM: "+fuente.getM());
+        }
+        elem.getDibujo().setTooltip(proFuente);
     }
     
     public void guardarFuente2(Fuente fuente,ElementoGrafico el) {
@@ -418,22 +489,59 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         alert.setHeaderText(null);
         alert.setContentText("\nSource created!");
         alert.showAndWait();
+        
+        Tooltip proFuente = new Tooltip();
+        String tipo;
+        if(fuente.getTipo() == 0){
+            tipo = "Laser";
+            proFuente.setText("Name: "+fuente.getNombre()+
+                "\nId = "+fuente.getIdFuente()+
+                "\nInput: "+fuente.getElementoConectadoEntrada()+
+                "\nOutput :"+fuente.getElementoConectadoSalida()+
+                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
+                "\nType: "+tipo+
+                "\nPotency: "+fuente.getPotencia()+" dBm"+
+                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
+                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
+                "\n----------------Pulse----------------"+
+                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
+                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
+                "\nM: "+fuente.getM());
+        }
+        else if(fuente.getTipo()== 1){
+            tipo = "LED";
+            proFuente.setText("Name: "+fuente.getNombre()+
+                "\nId = "+fuente.getIdFuente()+
+                "\nInput: "+fuente.getElementoConectadoEntrada()+
+                "\nOutput :"+fuente.getElementoConectadoSalida()+
+                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
+                "\nType: "+tipo+
+                "\nPotency: "+fuente.getPotencia()+" dBm"+
+                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
+                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
+                "\n----------------Pulse----------------"+
+                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
+                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
+                "\nM: "+fuente.getM());
+        }
+        elem.getDibujo().setTooltip(proFuente);
     }
+    
     public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
                     double newX=event.getSceneX();
                     double newY=event.getSceneY();
-                    int karen=0;
+                    int j=0;
                     for(int a=0; a<Pane1.getChildren().size();a++){
                         if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
-                            karen=a;
+                            j=a;
                             break;
                         }
                     }
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
+                        elem.getDibujo().setLayoutX(Pane1.getChildren().get(j).getLayoutX()+event.getX()+1);
                     }
                     /*
                     if(elem.getDibujo().getLayoutX()>=0.0){
@@ -453,7 +561,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
-                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
+                    elem.getDibujo().setLayoutY(Pane1.getChildren().get(j).getLayoutY()+event.getY()+1);}
                     
                     //setPosX(event.getX());
                     //setPosY(event.getY());
@@ -570,41 +678,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     String conE = "Input: "+fuente.getElementoConectadoEntrada();
                     String conS = "Output: "+fuente.getElementoConectadoSalida();
                     System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                    Tooltip proFuente = new Tooltip();
-                    String tipo;
-                    if(fuente.getTipo() == 0){
-                        tipo = "Laser";
-                        proFuente.setText("Name: "+fuente.getNombre()+
-                            "\nId = "+fuente.getIdFuente()+
-                            "\nInput: "+fuente.getElementoConectadoEntrada()+
-                            "\nOutput :"+fuente.getElementoConectadoSalida()+
-                            "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
-                            "\nType: "+tipo+
-                            "\nPotency: "+fuente.getPotencia()+" dBm"+
-                            "\nSpectral Width: "+fuente.getAnchura()+" nm"+
-                            "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
-                            "\n----------------Pulse----------------"+
-                            "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
-                            "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
-                            "\nM: "+fuente.getM());
-                    }
-                    else if(fuente.getTipo()== 1){
-                        tipo = "LED";
-                        proFuente.setText("Name: "+fuente.getNombre()+
-                            "\nId = "+fuente.getIdFuente()+
-                            "\nInput: "+fuente.getElementoConectadoEntrada()+
-                            "\nOutput :"+fuente.getElementoConectadoSalida()+
-                            "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
-                            "\nType: "+tipo+
-                            "\nPotency: "+fuente.getPotencia()+" dBm"+
-                            "\nSpectral Width: "+fuente.getAnchura()+" nm"+
-                            "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
-                            "\n----------------Pulse----------------"+
-                            "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
-                            "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
-                            "\nM: "+fuente.getM());
-                    }
-                    dibujo.getDibujo().setTooltip(proFuente);
+                    
                 }
             }
                 

@@ -54,8 +54,8 @@ public class VentanaEspectroController implements Initializable {
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        Stage s = (Stage) source.getScene().getWindow();
+        s.close();
     }
     
     @Override
@@ -203,8 +203,6 @@ public class VentanaEspectroController implements Initializable {
         //volvemos a ocupar el arreglo Et para guardar los valores del corrimiento de la FFT * h2;
          Et= fftShift_complejo(Et, n);//respuesta de la gaussiana en  w de la fibra optica
          
-         
-         
         //al igual que con la fft de un numero complejo , se tiene que calcular la ifft de la parte real e imaginria
         //ambas como reales
         NumeroComplejo [] aux_Et_real = new NumeroComplejo[n];
@@ -228,7 +226,6 @@ public class VentanaEspectroController implements Initializable {
          
          //for(int i=0; i<n;i++)
          //System.out.println(i+1+"  ;"+ifft_real[i]+" "+ifft_imaginario[i]+"i");
-         
         
         //obtner el abs(iFFT(real,imaginario))
         float [] absIFFT= new float[n];
@@ -248,44 +245,44 @@ public class VentanaEspectroController implements Initializable {
         //si es para el pulso de salida se necesita mas presicion
         NumeroComplejo[] Et= null;
         if(salida){
-                //n=n/10;
-        NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
-        NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
-        chirpXi.sumar(new NumeroComplejo(1, 0), false); //1 + iC
-        chirpXi.multiplicar(-.5F, false); //-(1/2)*(1+iC)
-    
-        //System.out.println(chirpXi.toString());
-        Et= new NumeroComplejo[n];
-        NumeroComplejo aux=null;
-        
-        double naux = n;
-        double t = -((naux/2)/10);
-        
-        for(int i=0; i<n;i++){
-            t= Math.floor(t * 10) / 10;
-            aux = new NumeroComplejo(chirpXi.getRealPart(), chirpXi.getImaginaryPart());
-            aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
-            Et[i]=aux;
-            t = t + 0.1F;
-            //System.out.println((t+1+256)+""+aux.toString());
-        }
-        
-        for(int i=0; i<n;i++){
-             NumeroComplejo aux2 = new NumeroComplejo(Et[i].getRealPart(),Et[i].getImaginaryPart());
-            //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             float x = aux2.getRealPart();
-             float y = aux2.getImaginaryPart();
-             
-             
-             aux2.setRealPart((float) (Math.exp(x)*Math.cos(y)));
-             aux2.setImaginaryPart((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
-             //System.out.println(aux2.getParteReal()+"\t"+aux2.getParteImaginaria());
-             //System.out.println((t+1+256)+";;;;"+aux2.toString());
-             aux2.multiplicar(A0,false);//A0*U(0,T)
-             Et[i]=aux2;
-             //System.out.println((t+1+256)+";;;;"+Et[256+t].toString());
-           
-        }
+                    //n=n/10;
+            NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
+            NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
+            chirpXi.sumar(new NumeroComplejo(1, 0), false); //1 + iC
+            chirpXi.multiplicar(-.5F, false); //-(1/2)*(1+iC)
+
+            //System.out.println(chirpXi.toString());
+            Et= new NumeroComplejo[n];
+            NumeroComplejo aux=null;
+
+            double naux = n;
+            double t = -((naux/2)/10);
+
+            for(int i=0; i<n;i++){
+                t= Math.floor(t * 10) / 10;
+                aux = new NumeroComplejo(chirpXi.getRealPart(), chirpXi.getImaginaryPart());
+                aux.multiplicar((float) (Math.pow((t*t),M)/Math.pow((T0*T0),M)), false);
+                Et[i]=aux;
+                t = t + 0.1F;
+                //System.out.println((t+1+256)+""+aux.toString());
+            }
+
+            for(int i=0; i<n;i++){
+                 NumeroComplejo aux2 = new NumeroComplejo(Et[i].getRealPart(),Et[i].getImaginaryPart());
+                //System.out.println((t+1+256)+";;;;"+aux2.toString());
+                 float x = aux2.getRealPart();
+                 float y = aux2.getImaginaryPart();
+
+
+                 aux2.setRealPart((float) (Math.exp(x)*Math.cos(y)));
+                 aux2.setImaginaryPart((float) (Math.exp(x)*Math.sin(y))); // lo toma engrados
+                 //System.out.println(aux2.getParteReal()+"\t"+aux2.getParteImaginaria());
+                 //System.out.println((t+1+256)+";;;;"+aux2.toString());
+                 aux2.multiplicar(A0,false);//A0*U(0,T)
+                 Et[i]=aux2;
+                 //System.out.println((t+1+256)+";;;;"+Et[256+t].toString());
+
+            }
         }else{
             NumeroComplejo complejo = new NumeroComplejo(0, 1); // i o j
             NumeroComplejo chirpXi= complejo.multiplicar(C, true);// i*C
