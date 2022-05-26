@@ -97,6 +97,7 @@ public class ControladorGeneral {
             ventana_principal = VentanaPrincipal.class.newInstance();
             con.setVentana_principal(ventana_principal);
             ventana_principal.setControlador(con);
+            reset();
             OptiUAM24 op = new OptiUAM24();
             op.start(VentanaPrincipal.stage);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -105,7 +106,16 @@ public class ControladorGeneral {
             Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    public void reset(){
+        VentanaConectorController.idConector=0;
+        VentanaEmpalmeController.idEmpalme=0;
+        VentanaFibraController.idFibra=0;
+        VentanaFuenteController.idFuente=0;
+        VentanaSplitterController.idS=0;
+        VentanaPrincipal.idEspectro=0;
+        VentanaPrincipal.idPotencia=0;
+        
+    }
     public ElementoGrafico obtenerDibujo(int id){
         for(int i = 0 ; i < dibujos.size();i++)
             if(dibujos.get(i).getId()==id)
@@ -153,7 +163,7 @@ public class ControladorGeneral {
                     Splitter splitter = (Splitter) elementos.get(i);
                     pw.println(splitter.toString()+","+obtenerDibujo(aux1).getDibujo().getLayoutX()+
                             ","+obtenerDibujo(aux1).getDibujo().getLayoutY());
-                    pw.println(splitter.Conexiones());
+                    //pw.println(splitter.Conexiones());
                 }
                 else if(aux.contains("source")){
                     Fuente fuente = (Fuente) elementos.get(i);

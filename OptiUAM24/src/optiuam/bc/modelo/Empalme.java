@@ -58,6 +58,7 @@ public class Empalme extends Componente {
     public int getTipo() {
         return tipo;
     }
+    
 
     /**
      * Metodo que modifica el tipo del empalme

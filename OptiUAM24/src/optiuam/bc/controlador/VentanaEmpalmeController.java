@@ -137,6 +137,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             cerrarVentana(event);
         }
     }
+
+    public static int getIdEmpalme() {
+        return idEmpalme;
+    }
+
+    public static void setIdEmpalme(int idEmpalme) {
+        VentanaEmpalmeController.idEmpalme = idEmpalme;
+    }
     
     public void guardarEmpalme(Empalme empalme) {
         empalme.setId(controlador.getContadorElemento());

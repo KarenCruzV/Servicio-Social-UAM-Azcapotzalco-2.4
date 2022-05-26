@@ -79,6 +79,14 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         return posX;
     }
 
+    public static int getIdFibra() {
+        return idFibra;
+    }
+
+    public static void setIdFibra(int idFibra) {
+        VentanaFibraController.idFibra = idFibra;
+    }
+
     public static void setPosX(double posX) {
         VentanaFibraController.posX = posX;
     }

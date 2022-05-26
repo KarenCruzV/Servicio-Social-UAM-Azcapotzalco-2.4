@@ -101,6 +101,14 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         VentanaSplitterController.posX = posX;
     }
 
+    public static int getIdS() {
+        return idS;
+    }
+
+    public static void setIdS(int idS) {
+        VentanaSplitterController.idS = idS;
+    }
+
     public static double getPosY() {
         return posY;
     }

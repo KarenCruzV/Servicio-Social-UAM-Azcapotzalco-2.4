@@ -620,7 +620,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
     }
     
-    private void dibujarLinea(ElementoGrafico elemG) {
+    public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
         line.setStartY(elemG.getDibujo().getLayoutY()+8);
@@ -648,7 +648,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
               
     }
     
-    private void dibujarLineaAtras(ElementoGrafico elem) {
+    public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){

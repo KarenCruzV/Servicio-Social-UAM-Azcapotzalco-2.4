@@ -246,7 +246,7 @@ public class VentanaPrincipal implements Initializable {
                     FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaPotencia.fxml"));
                     Parent root= loader.load();
                     VentanaPotenciaController potControl= loader.getController();
-                    potControl.init(controlador, stage, Pane1, scroll);
+                    potControl.init(controlador, stage, Pane1, scroll,elem);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
@@ -307,7 +307,7 @@ public class VentanaPrincipal implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEspectro.fxml"));
                     Parent root= loader.load();
                     VentanaEspectroController espcControl= loader.getController();
-                    espcControl.init(controlador, stage, Pane1, scroll);
+                    espcControl.init(controlador, stage, Pane1, scroll,elem);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
@@ -655,6 +655,8 @@ public class VentanaPrincipal implements Initializable {
                         
                         Pane1.getChildren().add(dibujo1);
                         aux1.eventos(elem1);
+                        aux1.setIdEmpalme(Integer.valueOf(partes[9]+1));
+                                
                         break;
                         
                     case "fiber":
@@ -693,6 +695,7 @@ public class VentanaPrincipal implements Initializable {
                         
                         Pane1.getChildren().add(dibujo2);
                         aux2.eventos(elem2);
+                        aux2.setIdFibra(fibra.getIdFibra()+1);
                         break;
                         
                     case "splitter":
@@ -759,6 +762,7 @@ public class VentanaPrincipal implements Initializable {
                         
                         Pane1.getChildren().add(dibujo3);
                         aux3.eventos(elem3);
+                        aux3.setIdS(splitter.getIdS()+1);
                         break;
                         
                     case "source":
@@ -796,6 +800,7 @@ public class VentanaPrincipal implements Initializable {
                         dibujo4.setVisible(true);
                         Pane1.getChildren().add(dibujo4);
                         aux4.eventos(elem4);
+                        aux4.setIdFuente(fuente.getIdFuente()+1);
                         break;
                         
                     case "power":
@@ -821,13 +826,14 @@ public class VentanaPrincipal implements Initializable {
                         elem5.setComponente(potencia);
                         elem5.setDibujo(dibujo5);
                         elem5.setId(Integer.valueOf(partes[1]));
-                        VentanaPotenciaController aux5= new VentanaPotenciaController();
-                        aux5.init(con, stage, Pane1, scroll);
+                        //VentanaPotenciaController aux5= new VentanaPotenciaController();
+                        //aux5.init(con, stage, Pane1, scroll);
                         con.getDibujos().add(elem5);
                         dibujo5.setVisible(true);
                         
                         Pane1.getChildren().add(dibujo5);
                         eventosPotencia(dibujo5, elem5);
+                        idPotencia=potencia.getIdPotencia()+1;
                         break;    
                       
                     case "spectrum":
@@ -853,13 +859,14 @@ public class VentanaPrincipal implements Initializable {
                         elem6.setComponente(espectro);
                         elem6.setDibujo(dibujo6);
                         elem6.setId(Integer.valueOf(partes[1]));
-                        VentanaEspectroController aux6= new VentanaEspectroController();
-                        aux6.init(con, stage, Pane1, scroll);
+                        //VentanaEspectroController aux6= new VentanaEspectroController();
+                        //aux6.init(con, stage, Pane1, scroll);
                         con.getDibujos().add(elem6);
                         dibujo6.setVisible(true);
                         
                         Pane1.getChildren().add(dibujo6);
                         eventosEspectro(dibujo6, elem6);
+                        idEspectro=espectro.getIdEspectro()+1;
                         break;
                         
                     default:
@@ -867,6 +874,7 @@ public class VentanaPrincipal implements Initializable {
                 }
             }
             controlador=con;
+            redibujarLinea();
         }
         catch(IOException | NumberFormatException e){
             e.printStackTrace();
@@ -1091,7 +1099,7 @@ public class VentanaPrincipal implements Initializable {
                     FXMLLoader loader= new FXMLLoader(getClass().getResource("VentanaPotencia.fxml"));
                     Parent root= loader.load();
                     VentanaPotenciaController potControl= loader.getController();
-                    potControl.init(controlador, stage, Pane1, scroll);
+                    potControl.init(controlador, stage, Pane1, scroll,elem);
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
@@ -1118,7 +1126,7 @@ public class VentanaPrincipal implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaEspectro.fxml"));
                 Parent root= loader.load();
                 VentanaEspectroController espcControl= loader.getController();
-                espcControl.init(controlador, stage, Pane1, scroll);
+                espcControl.init(controlador, stage, Pane1, scroll,elem);
                 Scene scene = new Scene(root);
                 Image ico = new Image("images/acercaDe.png");
                 Stage s = new Stage(StageStyle.UTILITY);
@@ -1134,6 +1142,85 @@ public class VentanaPrincipal implements Initializable {
             mostrarMenuChiquito(elem);
         }
         });
+    }
+    
+    public void redibujarLinea(){
+        for(int w=0; w<controlador.getDibujos().size();w++){
+            ElementoGrafico k24=controlador.getDibujos().get(w);
+            if(k24.getComponente().isConectadoSalida()){
+                if(k24.getDibujo().getText().contains("connector")){
+                    dibujarLineaConector(k24);
+                }else if(k24.getDibujo().getText().contains("source")){
+                    //dibujarLineaFuente(k24);
+                    VentanaFuenteController fue= new VentanaFuenteController();
+                    fue.init(controlador, stage, Pane1, scroll);
+                    fue.dibujarLinea(k24);
+                }else if(k24.getDibujo().getText().contains("fiber")){
+                    //dibujarLineaFuente(k24);
+                    VentanaFibraController fue= new VentanaFibraController();
+                    fue.init(controlador, stage, Pane1, scroll);
+                    fue.dibujarLinea(k24);
+                }else if(k24.getDibujo().getText().contains("splice")){
+                    //dibujarLineaFuente(k24);
+                    VentanaEmpalmeController fue= new VentanaEmpalmeController();
+                    fue.init(controlador, stage, Pane1, scroll);
+                    fue.dibujarLinea(k24);
+                }else if(k24.getDibujo().getText().contains("splitter")){
+                    //dibujarLineaFuente(k24);
+                    VentanaSplitterController fue= new VentanaSplitterController();
+                    fue.init(controlador, stage, Pane1, scroll);
+                    fue.dibujarLinea(k24);
+                }
+            }
+        }
+    }
+    
+    public void dibujarLineaConector(ElementoGrafico elemG) {
+        Line line= new Line();   
+        line.setStartX(elemG.getDibujo().getLayoutX()+60);
+        line.setStartY(elemG.getDibujo().getLayoutY()+8);
+        ElementoGrafico aux= new ElementoGrafico();
+        for(int it=0; it<controlador.getDibujos().size();it++){
+            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                aux=controlador.getDibujos().get(it);
+            }
+        }
+        line.setStrokeWidth(2);
+        line.setStroke(javafx.scene.paint.Color.BLACK);
+        
+        if(aux.getDibujo().getText().contains("fiber")){
+            line.setEndX(aux.getDibujo().getLayoutX()+3);
+            line.setEndY(aux.getDibujo().getLayoutY()+20);
+        }else{
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+8);
+        }
+        //setLinea(line);
+        //System.out.println("Se dibujo una linea");
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        elemG.getComponente().setLinea(line);
+              
+    }
+     public void dibujarLineaFuente(ElementoGrafico elemG) {
+        Line line= new Line();   
+        line.setStartX(elemG.getDibujo().getLayoutX()+45);
+        line.setStartY(elemG.getDibujo().getLayoutY()+7);
+        ElementoGrafico aux= new ElementoGrafico();
+        for(int it=0; it<controlador.getDibujos().size();it++){
+            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                aux=controlador.getDibujos().get(it);
+            }
+        }
+        line.setStrokeWidth(2);
+        line.setStroke(javafx.scene.paint.Color.BLACK);
+        line.setEndX(aux.getDibujo().getLayoutX());
+        line.setEndY(aux.getDibujo().getLayoutY()+8);
+        //System.out.println("Se dibujo una linea");
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        elemG.getComponente().setLinea(line);
+              
     }
 
 }

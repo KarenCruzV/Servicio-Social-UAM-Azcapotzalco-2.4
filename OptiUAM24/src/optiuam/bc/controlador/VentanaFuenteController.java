@@ -699,6 +699,14 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
     }
 
+    public static int getIdFuente() {
+        return idFuente;
+    }
+
+    public static void setIdFuente(int idFuente) {
+        VentanaFuenteController.idFuente = idFuente;
+    }
+    
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+45);
