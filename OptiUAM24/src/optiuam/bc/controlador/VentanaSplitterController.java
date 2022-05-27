@@ -161,13 +161,13 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     @FXML
     public void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                if(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    Componente comp= controlador.getElementos().get(elemento2);
-                    comp.setConectadoEntrada(false);
-                    comp.setElementoConectadoEntrada("");
-                    System.out.println(comp.getNombre());
-                    break;
-                }
+            if(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
+                Componente comp= controlador.getElementos().get(elemento2);
+                comp.setConectadoEntrada(false);
+                comp.setElementoConectadoEntrada("");
+                System.out.println(comp.getNombre());
+                break;
+            }
         }
         splitterControl.cboxConectarA.getSelectionModel().select(0);
         if(elemG.getComponente().isConectadoSalida()){
@@ -523,6 +523,42 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             "\nNumber of outputs: "+s.getSalidas()+
             "\nInsertion Loss: "+s.getPerdidaInsercion()+" dB");
         elem.getDibujo().setTooltip(proSplitter);
+    }
+     
+     //este metodo conecta la salida n del splitter a un componente
+    public boolean conectarSplitter(int salida,String componente){
+        Splitter splitter = (Splitter) elemG.getComponente();
+        if (splitter.getConexion(salida) != null) { 
+            if (splitter.getConexion(salida).compareTo("") != 0) {
+                splitter.setConectadoSalida(false);
+            }
+            splitter.setConexion(salida, componente);
+            splitter.setConectadoSalida(true);
+            return true;
+        }
+        return false;
+    }
+    
+    @FXML
+    public void btnConectarAction(){
+        int salida = cboxSalidas.getSelectionModel().getSelectedIndex();
+        String componente = cboxConectarA.getSelectionModel().getSelectedItem().toString();
+        if(cboxConectarA.getItems().size() <= 2){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("\nThe splitter cannot be connected to anything");
+            alert.showAndWait();
+        }
+        else{
+            if(conectarSplitter(salida,componente)){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succes");
+                alert.setHeaderText(null);
+                alert.setContentText("\nSplitter output "+(salida+1)+ " was connected to component: "+componente);
+                alert.showAndWait();
+            }
+        }
     }
     
     @FXML
