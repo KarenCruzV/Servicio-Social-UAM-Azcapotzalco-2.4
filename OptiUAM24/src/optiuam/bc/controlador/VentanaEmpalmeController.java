@@ -340,6 +340,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
         });
     }
+    
     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
@@ -426,7 +427,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         menuItem1.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                    //System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
                     Empalme empalmeAux=new Empalme();
                     Empalme aux1=(Empalme)controlador.getElementos().get(elemento);
                     empalmeAux.setConectadoEntrada(false);
@@ -446,24 +447,24 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    System.out.println();
-                    aux.setConectadoEntrada(false);
-                    aux.setElementoConectadoEntrada("");
-                    dibujo.getComponente().getLinea().setVisible(false);
-                }
-            }   
+                    if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        System.out.println();
+                        aux.setConectadoEntrada(false);
+                        aux.setElementoConectadoEntrada("");
+                        dibujo.getComponente().getLinea().setVisible(false);
+                    }
+                }   
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida("");
-                    aux.getLinea().setVisible(false);
+                    if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        aux.setConectadoSalida(false);
+                        aux.setElementoConectadoSalida("");
+                        aux.getLinea().setVisible(false);
+                    }
                 }
-            }
             }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -615,11 +616,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             empalmeControl.cboxConectarA.getItems().add("Desconected");
             empalmeControl.cboxConectarA.getSelectionModel().select(0);
              for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                 if("fiber".equals(controlador.getElementos().get(elemento).getNombre())){
-                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                    empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                if("fiber".equals(controlador.getElementos().get(elemento).getNombre())){
+                    if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                        empalmeControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                    }
                 }
-            }
              }
         }
         
