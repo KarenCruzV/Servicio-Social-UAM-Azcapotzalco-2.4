@@ -544,7 +544,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         int salida = cboxSalidas.getSelectionModel().getSelectedIndex();
         String componente = cboxConectarA.getSelectionModel().getSelectedItem().toString();
         if(cboxConectarA.getItems().size() <= 2){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nThe splitter cannot be connected to anything");
