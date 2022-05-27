@@ -532,21 +532,27 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
         if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("2")){
             salidas = 2;
+            elemG.getDibujo().setGraphic(new ImageView(new Image("images/dibujo_splitter2.png")));
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("4")){
             salidas = 4;
+            elemG.getDibujo().setGraphic(new ImageView(new Image("images/dibujo_splitter4.png")));
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("8")){
             salidas = 8;
+            elemG.getDibujo().setGraphic(new ImageView(new Image("images/dibujo_splitter8.png")));
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("16")){
             salidas = 16;
+            elemG.getDibujo().setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("32")){
             salidas = 32;
+            elemG.getDibujo().setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
         }
         else if(cboxNumeroSalidas.getSelectionModel().getSelectedItem().equals("64")){
             salidas = 64;
+            elemG.getDibujo().setGraphic(new ImageView(new Image("images/dibujo_splitter64.png")));
         }
         else{}
         
