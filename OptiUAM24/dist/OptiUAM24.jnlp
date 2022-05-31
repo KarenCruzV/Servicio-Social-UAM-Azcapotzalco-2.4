@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OptiUAM24.jar" size="754102" download="eager" />
+    <jar href="OptiUAM24.jar" size="741685" download="eager" />
     <jar href="lib\jcommon-1.0.23.jar" size="330246" download="eager" />
     <jar href="lib\jfreechart-1.0.19.jar" size="1570157" download="eager" />
   </resources>
