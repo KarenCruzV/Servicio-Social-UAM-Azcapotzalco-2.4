@@ -552,7 +552,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     public void btnConectarAction(){
         int salida = cboxSalidas.getSelectionModel().getSelectedIndex();
         String componente = cboxConectarA.getSelectionModel().getSelectedItem().toString();
-        if(cboxConectarA.getItems().size() <= 2){
+        if(cboxConectarA.getItems().size() <= 1){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
