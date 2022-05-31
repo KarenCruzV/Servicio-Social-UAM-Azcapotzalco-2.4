@@ -360,36 +360,45 @@ public class VentanaPrincipal implements Initializable {
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    System.out.println();
-                    aux.setElementoConectadoEntrada("");
-                   
-                    dibujo.getComponente().getLinea().setVisible(false);
-                }
-            }   
+                    if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        System.out.println();
+                        aux.setElementoConectadoEntrada("");
+                        dibujo.getComponente().getLinea().setVisible(false);
+                    }
+                }   
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida("");
-                     aux.getLinea().setVisible(false);
-                }
+                    if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        aux.setConectadoSalida(false);
+                        aux.setElementoConectadoSalida("");
+                         aux.getLinea().setVisible(false);
+                    }
                 }
             }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    if(dibujo.getDibujo().getText().contains("power")){ //potencia
+                    if(dibujo.getDibujo().getText().contains("power")){ 
                         MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
                         controlador.getDibujos().remove(dibujo);
                         controlador.getElementos().remove(aux); 
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Succes");
+                        alert.setHeaderText(null);
+                        alert.setContentText("\nRemoved power meter!");
+                        alert.showAndWait();
                     }
                     else{
                         MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
                         controlador.getDibujos().remove(dibujo);
                         controlador.getElementos().remove(aux); 
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Succes");
+                        alert.setHeaderText(null);
+                        alert.setContentText("\nRemoved spectrum meter!");
+                        alert.showAndWait();
                     }
                 }
             }    
@@ -518,7 +527,6 @@ public class VentanaPrincipal implements Initializable {
     } 
     
     public void abrirTrabajo(String ruta) throws InstantiationException, IllegalAccessException{
-        
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;

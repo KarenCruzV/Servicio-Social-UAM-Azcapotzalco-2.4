@@ -186,7 +186,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         elem.getDibujo().setTooltip(proConector1);
     }
     
-    public void guardarConector2(Conector conector,ElementoGrafico el) {
+    public void duplicarConector(Conector conector,ElementoGrafico el) {
         conector.setId(controlador.getContadorElemento());
         controlador.getElementos().add(conector);
         Label dibujo= new Label();
@@ -214,7 +214,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nConnector created!");
+        alert.setContentText("\nDuplicate connector!");
         alert.showAndWait();
         
         Tooltip proConector = new Tooltip();
@@ -339,7 +339,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
         // create menuitems
         MenuItem menuItem1 = new MenuItem("-Duplicate");
-        MenuItem menuItem2 = new MenuItem("-Rotate");
+        //MenuItem menuItem2 = new MenuItem("-Rotate");
         MenuItem menuItem3 = new MenuItem("-Delete");
         
         menuItem1.setOnAction(e ->{
@@ -355,7 +355,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     aux.setModo(aux1.getModo());
                     aux.setNombre("connector");
                     aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
-                    guardarConector2(aux,dibujo);
+                    duplicarConector(aux,dibujo);
                     System.out.println(aux);
                     idConector++;
                     break;
@@ -363,21 +363,21 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
         });
 
-        menuItem2.setOnAction(e ->{
+        /*menuItem2.setOnAction(e ->{
             System.out.println("Girar conector");
-        });
+        });*/
 
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    System.out.println();
-                    aux.setConectadoEntrada(false);
-                    aux.setElementoConectadoEntrada("");
-                    dibujo.getComponente().getLinea().setVisible(false);
-                }
-            }   
+                    if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        System.out.println();
+                        aux.setConectadoEntrada(false);
+                        aux.setElementoConectadoEntrada("");
+                        dibujo.getComponente().getLinea().setVisible(false);
+                    }
+                }   
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -396,14 +396,18 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     controlador.getElementos().remove(aux); 
                 }
             }    
-            
             dibujo.getDibujo().setVisible(false);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succes");
+                alert.setHeaderText(null);
+                alert.setContentText("\nRemoved connector!");
+                alert.showAndWait();
 
         });
 
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
-        contextMenu.getItems().add(menuItem2);
+        //contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
@@ -448,10 +452,15 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         conectorControl.cboxConectarA.getSelectionModel().select(0);
         if(elemG.getComponente().isConectadoSalida()){
-        elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
-        elemG.getComponente().getLinea().setVisible(false);
+            elemG.getComponente().setConectadoSalida(false);
+            elemG.getComponente().setElementoConectadoSalida("");
+            elemG.getComponente().getLinea().setVisible(false);
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nDisconnected connector!");
+            alert.showAndWait();
         cerrarVentana(event);
     }
     

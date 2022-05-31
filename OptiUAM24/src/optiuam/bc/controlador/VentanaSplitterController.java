@@ -171,10 +171,15 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
         splitterControl.cboxConectarA.getSelectionModel().select(0);
         if(elemG.getComponente().isConectadoSalida()){
-        elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
-        elemG.getComponente().getLinea().setVisible(false);
+            elemG.getComponente().setConectadoSalida(false);
+            elemG.getComponente().setElementoConectadoSalida("");
+            elemG.getComponente().getLinea().setVisible(false);
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nDisconnected splitter!");
+            alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -419,7 +424,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     aux.setPerdidaInsercion(aux1.getPerdidaInsercion());
                     aux.setSalidas(aux1.getSalidas());
                     aux.setIdS(idS);
-                    guardarSplitter2(aux,dibujo);
+                    duplicarSplitter(aux,dibujo);
                     //System.out.println(aux);
                     idS++;
                     break;
@@ -456,8 +461,12 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     controlador.getElementos().remove(aux); 
                 }
             }    
-            
             dibujo.getDibujo().setVisible(false);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nRemoved splitter!");
+            alert.showAndWait();
 
         });
 
@@ -467,7 +476,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
-     public void guardarSplitter2(Splitter s, ElementoGrafico el) {
+     public void duplicarSplitter(Splitter s, ElementoGrafico el) {
         s.setId(controlador.getContadorElemento());
         s.setNombre("splitter");
         controlador.getElementos().add(s);
@@ -511,7 +520,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Splitter created!");
+        alert.setContentText("\nDuplicate splitter!");
         alert.showAndWait();
         
         Tooltip proSplitter = new Tooltip();

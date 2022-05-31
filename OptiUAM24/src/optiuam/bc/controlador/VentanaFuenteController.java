@@ -164,7 +164,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             fuente.setAnchura(anchura);
             fuente.setIdFuente(idFuente);
             fuente.setLongitudOnda(longitudOnda);
-            fuente.setNombre("source"); //fuente
+            fuente.setNombre("source"); 
             fuente.setPotencia(potencia);
             fuente.setTipo(tipo);
             fuente.setVelocidad(velocidad);
@@ -220,6 +220,11 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             elemG.getComponente().setElementoConectadoSalida("");
             elemG.getComponente().getLinea().setVisible(false);
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nDisconnected source!");
+            alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -459,7 +464,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         elem.getDibujo().setTooltip(proFuente);
     }
     
-    public void guardarFuente2(Fuente fuente,ElementoGrafico el) {
+    public void duplicarFuente(Fuente fuente,ElementoGrafico el) {
         fuente.setId(controlador.getContadorElemento());
         controlador.getElementos().add(fuente);
         Label dibujo= new Label();
@@ -487,7 +492,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nSource created!");
+        alert.setContentText("\nDuplicate source!");
         alert.showAndWait();
         
         Tooltip proFuente = new Tooltip();
@@ -643,7 +648,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         MenuItem menuItem1 = new MenuItem("-Duplicated");
         //MenuItem menuItem2 = new MenuItem("-Girar");
         MenuItem menuItem3 = new MenuItem("-Delete");
-        MenuItem menuItem4 = new MenuItem("-Properties");
+        //MenuItem menuItem4 = new MenuItem("-Properties");
 
         menuItem1.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -661,55 +666,40 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     fuenteAux.setPulso(fuenteAux1.getA0(),fuenteAux1.getT0(),fuenteAux1.getW0(),fuenteAux1.getC(),fuenteAux1.getM());
                     fuenteAux.setVelocidad(fuenteAux1.getVelocidad());
                     fuenteAux.setIdFuente(idFuente);
-                    guardarFuente2(fuenteAux,dibujo);
+                    duplicarFuente(fuenteAux,dibujo);
                     System.out.println(fuenteAux);
                     idFuente++;
                     break;
                 }
             }
         });
-        
-        menuItem4.setOnAction(e ->{
-            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    Fuente fuente = (Fuente)controlador.getElementos().get(elemento);
-                    String name = "Name: "+fuente.getNombre();
-                    String id = "Id = "+fuente.getIdFuente();
-                    String conE = "Input: "+fuente.getElementoConectadoEntrada();
-                    String conS = "Output: "+fuente.getElementoConectadoSalida();
-                    System.out.println(name+"\n"+id+"\n"+conE+"\n"+conS);
-                    
-                }
-            }
-                
-        });
 
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    System.out.println();
-                    //controlador.getDibujos().remove(dibujo);
-                    //controlador.getElementos().remove(aux); 
-                    aux.setConectadoEntrada(false);
-                    aux.setElementoConectadoEntrada("");
-                   
-                    dibujo.getComponente().getLinea().setVisible(false);
-                }
-            }   
+                    if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        System.out.println();
+                        //controlador.getDibujos().remove(dibujo);
+                        //controlador.getElementos().remove(aux); 
+                        aux.setConectadoEntrada(false);
+                        aux.setElementoConectadoEntrada("");
+
+                        dibujo.getComponente().getLinea().setVisible(false);
+                    }
+                }   
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    //controlador.getDibujos().remove(dibujo);
-                    //controlador.getElementos().remove(aux); 
-                    aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida("");
-                     aux.getLinea().setVisible(false);
+                    if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        //controlador.getDibujos().remove(dibujo);
+                        //controlador.getElementos().remove(aux); 
+                        aux.setConectadoSalida(false);
+                        aux.setElementoConectadoSalida("");
+                         aux.getLinea().setVisible(false);
+                    }
                 }
-            }
             }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -719,14 +709,17 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 }
             }    
             dibujo.getDibujo().setVisible(false);
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nRemoved source!");
+            alert.showAndWait();
         });
 
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
         //contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
-        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
         //dibujo.getDibujo().setTooltip(tt);
     }
@@ -743,10 +736,10 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             fuenteControl.cboxConectarA.getSelectionModel().select(0);
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if("connector".equals(controlador.getElementos().get(elemento).getNombre())){
-                if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                    fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                    if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                        fuenteControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                    }
                 }
-            }
             }
         }
         
@@ -795,13 +788,13 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         line.setStroke(Color.BLACK);
         line.setEndX(aux.getDibujo().getLayoutX());
         line.setEndY(aux.getDibujo().getLayoutY()+8);
-        //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
               
     }
-     public boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
+    
+    public boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
 
@@ -837,6 +830,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         return ! parentBounds.contains(newBounds);
          */
     }
+    
     public boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();

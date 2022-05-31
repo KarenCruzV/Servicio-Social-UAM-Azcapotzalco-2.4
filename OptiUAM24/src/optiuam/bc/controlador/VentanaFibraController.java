@@ -43,7 +43,7 @@ import optiuam.bc.modelo.Fibra;
 /**
  * FXML Controller class
  *
- * @author karen
+ * @author j
  */
 public class VentanaFibraController extends VentanaPrincipal implements Initializable {
     
@@ -133,6 +133,11 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             elemG.getComponente().setElementoConectadoSalida("");
             elemG.getComponente().getLinea().setVisible(false);
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nDisconnected fiber!");
+            alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -196,7 +201,8 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 txtAtenue.setEditable(false);
                 txtDisp.setText("0");
                 txtDisp.setEditable(false);
-            } else { // monomodo 1550
+            } 
+            else { // monomodo 1550
                 txtAtenue.setText("0.18");
                 txtAtenue.setEditable(false);
                 txtDisp.setText("18");
@@ -477,7 +483,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Fiber created!");
+        alert.setContentText("\nFiber created!");
         alert.showAndWait();
         
         Tooltip proFibra = new Tooltip();
@@ -571,7 +577,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         elem.getDibujo().setTooltip(proFibra);
     }
     
-    public void guardarComponente2(Fibra fibra,ElementoGrafico el){
+    public void duplicarFibra(Fibra fibra,ElementoGrafico el){
         fibra.setNombre("fiber"); 
         fibra.setId(controlador.getContadorElemento());
         controlador.getElementos().add(fibra);
@@ -599,7 +605,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\n¡Fiber created!");
+        alert.setContentText("\nDuplicate fiber!");
         alert.showAndWait();
         
         Tooltip proFibra = new Tooltip();
@@ -698,16 +704,16 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
             if(event.getButton()==MouseButton.PRIMARY){
                 double newX=event.getSceneX();
                 double newY=event.getSceneY();
-                int karen=0;
+                int j=0;
                 for(int a=0; a<Pane1.getChildren().size();a++){
                     if(Pane1.getChildren().get(a).toString().contains(elem.getDibujo().getText())){
-                        karen=a;
+                        j=a;
                         break;
                     }
                 }
                 if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                 }else{
-                    elem.getDibujo().setLayoutX(Pane1.getChildren().get(karen).getLayoutX()+event.getX()+1);
+                    elem.getDibujo().setLayoutX(Pane1.getChildren().get(j).getLayoutX()+event.getX()+1);
                 }
                 /*
                 if(elem.getDibujo().getLayoutX()>=0.0){
@@ -727,7 +733,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                 */
                 if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                 }else{
-                elem.getDibujo().setLayoutY(Pane1.getChildren().get(karen).getLayoutY()+event.getY()+1);}
+                elem.getDibujo().setLayoutY(Pane1.getChildren().get(j).getLayoutY()+event.getY()+1);}
 
                 if(elem.getComponente().isConectadoSalida()==true){
                     borrarLinea(elem.getComponente().getLinea());
@@ -817,7 +823,7 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     aux.setIdFibra(idFibra);
                     aux.setConectadoEntrada(false);
                     aux.setConectadoSalida(false);
-                    guardarComponente2(aux,dibujo);
+                    duplicarFibra(aux,dibujo);
                     idFibra++;
                     for(int h=0; h<controlador.getElementos().size(); h++){
                         System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
@@ -835,25 +841,25 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    System.out.println(); 
-                    aux.setConectadoEntrada(false);
-                    aux.setElementoConectadoEntrada("");
-                   
-                    dibujo.getComponente().getLinea().setVisible(false);
-                }
-            }   
+                    if(dibujo.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        System.out.println(); 
+                        aux.setConectadoEntrada(false);
+                        aux.setElementoConectadoEntrada("");
+
+                        dibujo.getComponente().getLinea().setVisible(false);
+                    }
+                }   
             }
             if(dibujo.getComponente().isConectadoEntrada()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
-                if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(elemento);
-                    aux.setConectadoSalida(false);
-                    aux.setElementoConectadoSalida("");
-                     aux.getLinea().setVisible(false);
+                    if(dibujo.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(elemento).getDibujo().getText())){
+                        Componente aux= controlador.getElementos().get(elemento);
+                        aux.setConectadoSalida(false);
+                        aux.setElementoConectadoSalida("");
+                         aux.getLinea().setVisible(false);
+                    }
                 }
-            }
             }
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -862,11 +868,13 @@ public class VentanaFibraController extends VentanaPrincipal implements Initiali
                     controlador.getElementos().remove(aux); 
                 }
             }   
+            
             dibujo.getDibujo().setVisible(false);
-            for(int h=0; h<controlador.getElementos().size(); h++){
-                System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
-                System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
-            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nRemoved fiber!");
+            alert.showAndWait();
         });
         
         // add menu items to menu

@@ -196,7 +196,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         elem.getDibujo().setTooltip(proEmpalme);
     }
     
-    public void guardarEmpalme2(Empalme empalme, ElementoGrafico el) {
+    public void duplicarEmpalme(Empalme empalme, ElementoGrafico el) {
         empalme.setId(controlador.getContadorElemento());
         controlador.getElementos().add(empalme);
         Label dibujo= new Label();
@@ -221,7 +221,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nSplice created!");
+        alert.setContentText("\nDuplicate splice!");
         alert.showAndWait();
         
         Tooltip proEmpalme = new Tooltip();
@@ -437,7 +437,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     empalmeAux.setPerdidaInsercion(aux1.getPerdidaInsercion());
                     empalmeAux.setTipo(aux1.getTipo());
                     empalmeAux.setNombre("splice");
-                    guardarEmpalme2(empalmeAux,dibujo);
+                    duplicarEmpalme(empalmeAux,dibujo);
                     idEmpalme++;
                     break;
                 }
@@ -473,8 +473,12 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     controlador.getElementos().remove(aux); 
                 }
             }    
-            
             dibujo.getDibujo().setVisible(false);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nRemoved splice!");
+            alert.showAndWait();
 
         });
 
@@ -657,10 +661,15 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         empalmeControl.cboxConectarA.getSelectionModel().select(0);
         if(elemG.getComponente().isConectadoSalida()){
-        elemG.getComponente().setConectadoSalida(false);
-        elemG.getComponente().setElementoConectadoSalida("");
-        elemG.getComponente().getLinea().setVisible(false);
+            elemG.getComponente().setConectadoSalida(false);
+            elemG.getComponente().setElementoConectadoSalida("");
+            elemG.getComponente().getLinea().setVisible(false);
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nDisconnected splice!");
+            alert.showAndWait();
         cerrarVentana(event);
     }
     
