@@ -11,8 +11,6 @@ package optiuam.bc.modelo;
  */
 public class MedidorEspectro extends Componente {
     
-    /**Orientacion del medidor de espectros*/
-    private char orientacion ='R';
     /**Identificador del medidor de espectros. Es diferente al identificador del componente*/
     private int idEspectro;
 
@@ -35,11 +33,6 @@ public class MedidorEspectro extends Componente {
         this.id = id;
     }
     
-    /*public float[] calcularEspectro(){
-        float valores[] = null;
-        return valores;
-    }*/
-    
     /**
      * Metodo que muestra el identificador del medidor de espectros, no el del componente
      * @return idEspectro
@@ -57,28 +50,12 @@ public class MedidorEspectro extends Componente {
     }
 
     /**
-     * Metodo que muestra la orientacion del medidor de espectros
-     * @return orientacion
-     */
-    public char getOrientacion() {
-        return orientacion;
-    }
-    
-    /**
-     * Metodo que modifica la orientacion del medidor de espectros
-     * @param orientacion Orientacion del medidor de espectros
-     */
-    public void setOrientacion(char orientacion) {
-        this.orientacion = orientacion;
-    }
-
-    /**
      * Metodo toString que retorna los atributos del medidor de espectros
      * @return nombre, id, conectadoEntrada, conectadoSalida, idEspectro
      */
     @Override
     public String toString() {
-        return super.toString()+","+idEspectro/*orientacion*/; 
+        return super.toString()+","+idEspectro; 
     }
     
 }

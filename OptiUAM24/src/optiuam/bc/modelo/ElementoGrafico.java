@@ -6,7 +6,8 @@ import javafx.scene.control.Label;
 import optiuam.bc.controlador.ControladorGeneral;
 
 /**
- * Clase ElementoGrafico la cual contiene los atributos principales de un elemento grafico
+ * Clase ElementoGrafico la cual contiene los atributos principales de un 
+ * elemento grafico
  * @author Daniel Hernandez
  * Editado por:
  * @author Arturo Borja
@@ -117,7 +118,7 @@ public class ElementoGrafico {
 
     /**
      * Metodo toString que retorna los atributos de un elemento grafico
-     * @return controlador, dibujo, title, id, componente
+     * @return etiqueta, id
      */
     @Override
     public String toString() {

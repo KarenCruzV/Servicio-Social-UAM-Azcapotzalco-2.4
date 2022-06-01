@@ -173,6 +173,7 @@ public class Splitter extends Componente {
     
     /**
      * Metodo que modifica las salidas del divisor optico
+     * @param salidas Salidas del divisor optico
      */
     
     public void modificarSalidas(int salidas){

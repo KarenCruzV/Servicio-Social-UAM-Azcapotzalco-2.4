@@ -33,12 +33,7 @@ public class MedidorPotencia extends Componente {
         this.nombre = nombre;
         this.id = id;
     }
-
-    /*public double calcularPerdidas(){
-        return  0.0;
-    }
-    */
-
+    
     /**
      * Metodo que muestra la sensibilidad del medidor de potencia
      * @return sensibilidad
@@ -77,7 +72,7 @@ public class MedidorPotencia extends Componente {
      */
     @Override
     public String toString() {
-        return super.toString()+","+idPotencia/*sensibilidad*/;
+        return super.toString()+","+idPotencia;
     }
     
 }

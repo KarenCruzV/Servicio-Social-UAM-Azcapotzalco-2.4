@@ -17,8 +17,6 @@ public class Conector extends Componente {
     private int longitudOnda; 
     /*Modo del conector. Puede ser monomodo o multimodo*/
     private int modo;
-    /**Orientacion del conector*/
-    private char orientacion ='R';
     /**Identificador del conector. Es diferente al identificador del componente*/
     private int idConector;
     /**Posicion en el eje X del conector*/
@@ -97,22 +95,6 @@ public class Conector extends Componente {
      */
     public void setModo(int modo) {
         this.modo = modo;
-    }
-
-    /**
-     * Metodo que muestra la orientacion del conector
-     * @return orientacion
-     */
-    public char getOrientacion() {
-        return orientacion;
-    }
-
-    /**
-     * Metodo que modifica la orientacion del conector
-     * @param orientacion Orientacion del conector
-     */
-    public void setOrientacion(char orientacion) {
-        this.orientacion = orientacion;
     }
 
     /**
