@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 public class OptiUAM24 extends Application {
     
     /**
-    *
     * Metodo start, encargado de mostrar la Ventana Principal
     * @throws java.lang.Exception Proporciona diferentes excepciones lanzadas bajo el paquete java lang
     */
@@ -53,6 +52,5 @@ public class OptiUAM24 extends Application {
     public static void main(String[] args) throws Exception {
         launch(args);
     }
-    
     
 }

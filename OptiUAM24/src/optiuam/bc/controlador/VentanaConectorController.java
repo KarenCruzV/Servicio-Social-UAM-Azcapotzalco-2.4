@@ -31,13 +31,16 @@ import optiuam.bc.modelo.ElementoGrafico;
 
 
 /**
- * FXML Controller class
- *
- * @author j
+ * Clase VentanaConectorController la cual se encarga de no se
+ * @author Daniel Hernandez
+ * Editado por:
+ * @author Arturo Borja
+ * @author Karen Cruz
+ * @see ControladorGeneral
  */
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
     
-     static int idConector = 0;
+    static int idConector = 0;
     ControladorGeneral controlador;
     Stage stage;
     ElementoGrafico elemG;
@@ -600,17 +603,18 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
                         }
                     }
-                }else{
-                if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "splitter".contains(controlador.getElementos().get(elemento).getNombre()) ||
-                    "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
-                    "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
-                    if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
-                        
-                        conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                }
+                else{
+                    if("fiber".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                        "splitter".contains(controlador.getElementos().get(elemento).getNombre()) ||
+                        "power".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                        "spectrum".equals(controlador.getElementos().get(elemento).getNombre())){
+                        if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+
+                            conectorControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                        }
                     }
                 }
-            }
             }
         }
         

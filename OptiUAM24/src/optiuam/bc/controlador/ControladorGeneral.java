@@ -19,67 +19,45 @@ import optiuam.bc.modelo.MedidorPotencia;
 import optiuam.bc.modelo.Splitter;
 
 /**
- *
+ * Clase ControladorGeneral la cual contiene los metodos y atributos necesarios 
+ * para hacer funcionar el simulador
+ * @author Daniel Hernandez
+ * Editado por:
  * @author Arturo Borja
+ * @author Karen Cruz
  */
 public class ControladorGeneral {
     
-    public LinkedList<Componente> elementos; // contiene los elementos creados en la simulacion
-    public LinkedList<ElementoGrafico> dibujos; //Contiene los elementos mostrados en el panel
-    public int contadorElemento; // contador para asignar nombre a un elemento
-    public VentanaPrincipal ventana_principal;//para tener la comunicacion vista-controlador
-    public ElementoGrafico manejadorElementos; // para crear los elementos graficos
+    /**Elementos creados en la simulacion*/
+    public LinkedList<Componente> elementos; 
+    /**Elementos mostrados en el area de trabajo*/
+    public LinkedList<ElementoGrafico> dibujos;
+    /**Contador para asignar nombre a un elemento*/
+    public int contadorElemento; 
+    /**Utilizado para tener la comunicacion vista-controlador*/
+    public VentanaPrincipal ventana_principal;
+    /**Utilizado para crear los elementos graficos*/
+    public ElementoGrafico manejadorElementos; 
 
+    /**
+     * Metodo constructor sin parametros encargado de inicializar los atributos
+     de elementos, dibujos y el contador del elemento
+     */
     public ControladorGeneral() {
         elementos = new LinkedList();
         dibujos = new LinkedList();
         contadorElemento=0;
     }
     
-    public ControladorGeneral setControlador(){
-        return this;
-    }
-
-    public LinkedList<Componente> getElementos() {
-        return elementos;
-    }
-
-    public void setElementos(LinkedList<Componente> elementos) {
-        this.elementos = elementos;
-    }
-    
-    public LinkedList<ElementoGrafico> getDibujos() {
-        return dibujos;
-    }
-
-    public void setDibujos(LinkedList<ElementoGrafico> dibujos) {
-        this.dibujos = dibujos;
-    }
-
-    public int getContadorElemento() {
-        return contadorElemento;
-    }
-
-    public void setContadorElemento(int contadorElemento) {
-        this.contadorElemento = contadorElemento;
-    }
-
-    public VentanaPrincipal getVentana_principal() {
-        return ventana_principal;
-    }
-
-    public void setVentana_principal(VentanaPrincipal ventana_principal) {
-        this.ventana_principal = ventana_principal;
-    }
-
-    public ElementoGrafico getManejadorElementos() {
-        return manejadorElementos;
-    }
-
-    public void setManejadorElementos(ElementoGrafico manejadorElementos) {
-        this.manejadorElementos = manejadorElementos;
-    }
-
+    /**
+     * Metodo constructor con parametros
+     * 
+     * @param elementos Elementos creados en la simulacion
+     * @param dibujos Elementos mostrados en el area de trabajo
+     * @param contadorElemento Contador para asignar nombre a un elemento
+     * @param ventana_principal Utilizado para tener la comunicacion vista-controlador
+     * @param manejadorElementos Utilizado para crear los elementos graficos
+     */
     public ControladorGeneral(LinkedList<Componente> elementos, 
             LinkedList<ElementoGrafico> dibujos, int contadorElemento, 
             VentanaPrincipal ventana_principal, ElementoGrafico manejadorElementos) {
@@ -90,6 +68,99 @@ public class ControladorGeneral {
         this.manejadorElementos = manejadorElementos;
     }
     
+    /**
+     * Metodo que modifica el controlador
+     * @return controlador
+     */
+    public ControladorGeneral setControlador(){
+        return this;
+    }
+
+    /**
+     * Metodo que muestra los elementos creados en la simulacion
+     * @return elementos creados
+     */
+    public LinkedList<Componente> getElementos() {
+        return elementos;
+    }
+
+    /**
+     * Metodo que modifica los elementos creados en la simulacion
+     * @param elementos Elementos creados en la simulacion
+     */
+    public void setElementos(LinkedList<Componente> elementos) {
+        this.elementos = elementos;
+    }
+    
+    /**
+     * Metodo que obtiene los elementos mostrados en el area de trabajo
+     * @return elementos mostrados en el area de trabajo
+     */
+    public LinkedList<ElementoGrafico> getDibujos() {
+        return dibujos;
+    }
+
+    /**
+     * Metodo que modifica los elementos mostrados en el area de trabajo
+     * @param dibujos Elementos mostrados en el area de trabajo
+     */
+    public void setDibujos(LinkedList<ElementoGrafico> dibujos) {
+        this.dibujos = dibujos;
+    }
+
+    /**
+     * Metodo que muestra el contador para asignar nombre a un elemento
+     * @return contador del elemento
+     */
+    public int getContadorElemento() {
+        return contadorElemento;
+    }
+
+    /**
+     * Metodo que modifica el contador para asignar nombre a un elemento
+     * @param contadorElemento Contador del elemento
+     */
+    public void setContadorElemento(int contadorElemento) {
+        this.contadorElemento = contadorElemento;
+    }
+
+    /**
+     * Metodo que muestra la ventana principal para tener la comunicacion 
+     * vista-controlador
+     * @return ventana principal
+     */
+    public VentanaPrincipal getVentana_principal() {
+        return ventana_principal;
+    }
+
+    /**
+     * Metodo que modifica la ventana principal para tener la comunicacion 
+     * vista-controlador
+     * @param ventana_principal  ventana principal
+     */
+    public void setVentana_principal(VentanaPrincipal ventana_principal) {
+        this.ventana_principal = ventana_principal;
+    }
+
+    /**
+     * Metodo que muestra la creacion de los elementos graficos
+     * @return manejador de elementos graficos
+     */
+    public ElementoGrafico getManejadorElementos() {
+        return manejadorElementos;
+    }
+
+    /**
+     * Metodo que modifica la creacion de los elementos graficos
+     * @param manejadorElementos Manejador de elementos graficos
+     */
+    public void setManejadorElementos(ElementoGrafico manejadorElementos) {
+        this.manejadorElementos = manejadorElementos;
+    }
+
+    /**
+     * Metodo utilizado para iniciar un nuevo trabajo en el simulador
+     */
     public void nuevoTrabajo() {
         try {
             VentanaPrincipal.stage.close();
@@ -106,6 +177,11 @@ public class ControladorGeneral {
             Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * Metodo utilizado para reiniciar los identificadores de los elementos al
+     * iniciar un nuevo trabajo
+     */
     public void reset(){
         VentanaConectorController.idConector=0;
         VentanaEmpalmeController.idEmpalme=0;
@@ -116,6 +192,12 @@ public class ControladorGeneral {
         VentanaPrincipal.idPotencia=0;
         
     }
+    
+    /**
+     * Metodo que obtiene el elemento grafico de un componente
+     * @param id Identificador del elemento grafico
+     * @return elemento grafico
+     */
     public ElementoGrafico obtenerDibujo(int id){
         for(int i = 0 ; i < dibujos.size();i++)
             if(dibujos.get(i).getId()==id)
@@ -123,11 +205,14 @@ public class ControladorGeneral {
         return null;
     }
     
+    /**
+     * Metodo utilizado para guardar un trabajo realizado en el simulador
+     * @param ruta_archivo Nombre elegido para guardar el archivo
+     */
     public void guardarTrabajo(String ruta_archivo){
         //se comprueba que el usuario no le ponga extension al archivo
         if(ruta_archivo.contains(".opt")){
            ruta_archivo= ruta_archivo.split(".opt")[0];//se le quita el .opt
-            //System.out.println(ruta_archivo);
         }
              
         try {
@@ -185,8 +270,7 @@ public class ControladorGeneral {
             e.printStackTrace();
         } finally {
            try {
-           // aprovechamos el finally para 
-           // asegurarnos que se cierra el fichero.
+           // finally asegura que se cierra el fichero
            if (null != fichero)
               fichero.close();
            } catch (Exception e2) {
@@ -197,6 +281,5 @@ public class ControladorGeneral {
             Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     
 }
