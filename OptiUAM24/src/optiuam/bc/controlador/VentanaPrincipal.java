@@ -712,10 +712,12 @@ public class VentanaPrincipal implements Initializable {
                         
                         String [] conexiones = linea.split(",");
                         for(int i=0;i<splitter.getSalidas()+1; i++){
+                            /*
                             if(conexiones[i].compareTo(" ")==0)
                                 splitter.cargarConexion(i,"");
                             else    
                                 splitter.cargarConexion(i,conexiones[i]);
+                            */
                         }
                         ElementoGrafico elem3 = new ElementoGrafico();
                         elem3.setComponente(splitter);

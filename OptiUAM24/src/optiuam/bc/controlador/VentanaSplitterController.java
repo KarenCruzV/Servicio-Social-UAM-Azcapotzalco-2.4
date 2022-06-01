@@ -2,6 +2,7 @@
 package optiuam.bc.controlador;
 
 import java.io.IOException;
+import static java.lang.Math.sqrt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -239,6 +240,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             s.setLongitudOnda(longitudOnda);
             s.setNombre("splitter");
             s.setIdS(idS);
+            s.modificarSalidas(salidas);
             idS++;
             guardarSplitter(s);
             cerrarVentana(event);
@@ -537,6 +539,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
      //este metodo conecta la salida n del splitter a un componente
     public boolean conectarSplitter(int salida,String componente){
         Splitter splitter = (Splitter) elemG.getComponente();
+        /*
         if (splitter.getConexion(salida) != null) { 
             if (splitter.getConexion(salida).compareTo("") != 0) {
                 splitter.setConectadoSalida(false);
@@ -544,7 +547,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             splitter.setConexion(salida, componente);
             splitter.setConectadoSalida(true);
             return true;
-        }
+        }*/
         return false;
     }
     
@@ -681,6 +684,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         this.splitterControl=splitterController;
         
         if(elemG.getComponente().isConectadoSalida()==true){
+            
             splitterControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }
         else{
@@ -699,10 +703,10 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
             if(elem.getId()==controlador.getElementos().get(elemento).getId()){
                 Splitter spl= (Splitter)controlador.getElementos().get(elemento);
-                System.out.println(spl.getSalidas()+"\t"+spl.getLongitudOnda());
+                //System.out.println(spl.getSalidas()+"\t"+spl.getLongitudOnda());
                 /*No se como poner lo de las salidas xd
                 Actualizacion de hoy 21/05 xd no se si esta bien jsjs*/
-                splitterControl.cboxSalidas.getItems().add("Empty");
+                //splitterControl.cboxSalidas.getItems().add("Empty");
                 cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
                 for(int i = 0; i<spl.getSalidas();i++){
                     cboxSalidas.getItems().addAll(String.valueOf(i+1));
@@ -714,6 +718,21 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     splitterControl.rbtn1550.setSelected(true);
                 }
                 splitterControl.txtPerdidaInsercion.setText(String.valueOf(spl.getPerdidaInsercion()));
+                int salix=0;
+                if(spl.getSalidas()==2){
+                    salix=0;
+                }else if(spl.getSalidas()==4){
+                    salix=1;
+                }else if(spl.getSalidas()==8){
+                    salix=2;
+                }else if(spl.getSalidas()==16){
+                    salix=3;
+                }else if(spl.getSalidas()==32){
+                    salix=4;
+                }else if(spl.getSalidas()==64){
+                    salix=5;
+                }
+                splitterControl.cboxNumeroSalidas.getSelectionModel().select(salix);
             }
         }
     }

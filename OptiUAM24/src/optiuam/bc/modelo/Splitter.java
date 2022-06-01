@@ -2,6 +2,7 @@
 package optiuam.bc.modelo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Clase Splitter la cual contiene los atributos principales de un splitter
@@ -20,18 +21,19 @@ public class Splitter extends Componente {
     /**Longitud de onda del divisor optico*/
     private int longitudOnda;
     /**Conexiones del divisor optico*/
-    private ArrayList<String> conexiones;
+    private LinkedList<PuertoSalida> conexiones;
     /**Identificador del divisor optico. Es diferente al identificador del componente*/
     private int idS;
     /**Posicion en el eje X del divisor opticor*/
     private double posX; 
     /**Posicion en el eje Y del divisor optico*/
     private double posY;
-
+    private StringBuilder cSalidas;
     /**
     * Metodo constructor sin parametros
     */
     public Splitter() {
+        this.conexiones=new LinkedList();
     }
     
     /**
@@ -51,7 +53,7 @@ public class Splitter extends Componente {
         this.longitudOnda = longitudOnda;
         this.nombre = nombre;
         this.id = id;
-        modificarSalidas(salidas); 
+        //modificarSalidas(salidas); 
     }
 
     /**
@@ -67,8 +69,6 @@ public class Splitter extends Componente {
      * @param salidas Numero de salidas del divisor optico
      */
     public void setSalidas(int salidas) {
-        if(this.salidas!=salidas)
-            modificarSalidas(salidas);
         this.salidas = salidas;
     }
 
@@ -105,23 +105,6 @@ public class Splitter extends Componente {
     }
     
     /**
-     * Metodo que muestra el elemento conectado en la salida indicada del divisor optico
-     * @param salida Salida indicada/seleccionada del divisor optico
-     * @return conexiones;
-     */
-    public String getConexion(int salida){
-        return conexiones.get(salida);
-    }
-    
-    /**
-     * Metodo que modifica el elemento conectado en la salida indicada del divisor optico
-     * @param salida Salida indicada/seleccionada del divisor optico
-     * @param componente Nuevo componente que sera conectado a la salida indicada
-     */
-    public void setConexion(int salida,String componente){
-        conexiones.remove(salida);
-        conexiones.add(salida, componente);
-    }
     
     /**
      * Metodo que muestra el identificador del divisor optico, no el del componente
@@ -178,33 +161,33 @@ public class Splitter extends Componente {
      * @param salida Salida indicada/seleccionada del divisor optico
      * @param componente Nuevo componente que sera conectado a la salida indicada
      */
+    /*
     public void cargarConexion(int salida,String componente){
        if(conexiones == null){
            modificarSalidas(salidas);
        }
-        conexiones.remove(salida);
-        conexiones.add(salida, componente);
+        //conexiones.remove(salida);
+        //conexiones.add(salida, componente);
        
-    }
+    }*/
     
     /**
      * Metodo que modifica las salidas del divisor optico
      */
-    private void modificarSalidas(int salidas){
-        this.conexiones = new ArrayList();
-        for(int i=0;i<salidas; i++)
-            conexiones.add("");
+    
+    public void modificarSalidas(int salidas){
+        cSalidas=new StringBuilder();
+        for(int i=0;i<salidas-1; i++){
+            PuertoSalida puerto= new PuertoSalida();
+            conexiones.add(puerto);
+            //System.out.print(conexiones.get(i).toString());
+            cSalidas.append(conexiones.get(i).toString());
+        }
     }
 
-    /**
-     * Metodo que muestra las conexiones del divisor optico
-     * @return conexiones
-     */
-    public ArrayList<String> getConexiones() {
-        return conexiones;
-    }
     
     
+    /*
     public int buscarSalida(String idComponente){
         for(int i = 0;i<conexiones.size();i++)
             if(conexiones.get(i).compareTo(idComponente)==0)
@@ -230,15 +213,17 @@ public class Splitter extends Componente {
         }
         return aux;
     } 
-    
+    */
     /**
      * Metodo toString que retorna los atributos de un divisor optico
      * @return nombre, id, conectadoEntrada, conectadoSalida, salidas, 
      * perdidaInsercio, longitudOnda, idS;
      */
+    
     @Override
     public String toString() {
-        return super.toString()+","+salidas+","+perdidaInsercion+","+longitudOnda+","+idS;
+        return super.toString()+","+salidas+","+perdidaInsercion+","+longitudOnda+","+idS+cSalidas.toString();
+                
     }
     
 }
