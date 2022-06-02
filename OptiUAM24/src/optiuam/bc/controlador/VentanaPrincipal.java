@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,16 +33,13 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Line;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.JFileChooser;
@@ -405,12 +401,12 @@ public class VentanaPrincipal implements Initializable {
                         s.setTitle("OptiUAM BC Properties");
                         s.initModality(Modality.APPLICATION_MODAL);
                         MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
-                        Label label = new Label("Name: "+aux.getNombre()+
-                                "\nId = "+aux.getIdPotencia()+
-                                "\nInput: "+aux.getElementoConectadoEntrada()+
-                                "\nOutput :"+aux.getElementoConectadoSalida());
-                        label.setStyle("-fx-background-color: lavender;");
-                        Scene scene = new Scene(label, 190, 100);
+                        Label label = new Label("  Name: "+aux.getNombre()+
+                                "\n  Id: "+aux.getIdPotencia()+
+                                "\n  Input: "+aux.getElementoConectadoEntrada()+
+                                "\n  Output :"+aux.getElementoConectadoSalida());
+                        //label.setStyle("-fx-background-color: lavender;");
+                        Scene scene = new Scene(label, 190, 80);
                         s.setScene(scene);
                         s.setResizable(false);
                         s.showAndWait();
@@ -422,12 +418,12 @@ public class VentanaPrincipal implements Initializable {
                         s.setTitle("OptiUAM BC Properties");
                         s.initModality(Modality.APPLICATION_MODAL);
                         MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
-                        Label label = new Label("Name: "+aux.getNombre()+
-                                "\nId = "+aux.getIdEspectro()+
-                                "\nInput: "+aux.getElementoConectadoEntrada()+
-                                "\nOutput :"+aux.getElementoConectadoSalida());
-                        label.setStyle("-fx-background-color: lavender;");
-                        Scene scene = new Scene(label, 190, 100);
+                        Label label = new Label("  Name: "+aux.getNombre()+
+                                "\n  Id: "+aux.getIdEspectro()+
+                                "\n  Input: "+aux.getElementoConectadoEntrada()+
+                                "\n  Output :"+aux.getElementoConectadoSalida());
+                        //label.setStyle("-fx-background-color: lavender;");
+                        Scene scene = new Scene(label, 190, 80);
                         s.setScene(scene);
                         s.setResizable(false);
                         s.showAndWait();

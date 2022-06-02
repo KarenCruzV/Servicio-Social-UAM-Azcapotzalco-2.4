@@ -170,30 +170,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         alert.setHeaderText(null);
         alert.setContentText("\nSplice created!");
         alert.showAndWait();
-        
-        Tooltip proEmpalme = new Tooltip();
-        String tip;
-        if(empalme.getTipo() == 0){
-            tip = "Fusion";
-            proEmpalme.setText("Name: "+empalme.getNombre()+
-                "\nId = "+empalme.getIdEmpalme()+
-                "\nInput: "+empalme.getElementoConectadoEntrada()+
-                "\nOutput :"+empalme.getElementoConectadoSalida()+
-                "\nWavelenght: "+empalme.getLongitudOnda()+" nm"+
-                "\nType: "+tip+
-                "\nInsertion Loss: "+empalme.getPerdidaInsercion()+" dB");
-        }
-        else if(empalme.getTipo()== 1){
-            tip = "Mechanic";
-            proEmpalme.setText("Name: "+empalme.getNombre()+
-                "\nId = "+empalme.getIdEmpalme()+
-                "\nInput: "+empalme.getElementoConectadoEntrada()+
-                "\nOutput :"+empalme.getElementoConectadoSalida()+
-                "\nWavelenght: "+empalme.getLongitudOnda()+" nm"+
-                "\nType: "+tip+
-                "\nInsertion Loss: "+empalme.getPerdidaInsercion()+" dB");
-        }
-        elem.getDibujo().setTooltip(proEmpalme);
     }
     
     public void duplicarEmpalme(Empalme empalme, ElementoGrafico el) {
@@ -223,30 +199,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         alert.setHeaderText(null);
         alert.setContentText("\nDuplicate splice!");
         alert.showAndWait();
-        
-        Tooltip proEmpalme = new Tooltip();
-        String tip;
-        if(empalme.getTipo() == 0){
-            tip = "Fusion";
-            proEmpalme.setText("Name: "+empalme.getNombre()+
-                "\nId = "+empalme.getIdEmpalme()+
-                "\nInput: "+empalme.getElementoConectadoEntrada()+
-                "\nOutput :"+empalme.getElementoConectadoSalida()+
-                "\nWavelenght: "+empalme.getLongitudOnda()+" nm"+
-                "\nType: "+tip+
-                "\nInsertion Loss: "+empalme.getPerdidaInsercion()+" dB");
-        }
-        else if(empalme.getTipo()== 1){
-            tip = "Mechanic";
-            proEmpalme.setText("Name: "+empalme.getNombre()+
-                "\nId = "+empalme.getIdEmpalme()+
-                "\nInput: "+empalme.getElementoConectadoEntrada()+
-                "\nOutput :"+empalme.getElementoConectadoSalida()+
-                "\nWavelenght: "+empalme.getLongitudOnda()+" nm"+
-                "\nType: "+tip+
-                "\nInsertion Loss: "+empalme.getPerdidaInsercion()+" dB");
-        }
-        elem.getDibujo().setTooltip(proEmpalme);
     }
 
     public void eventos(ElementoGrafico elem) {
@@ -481,11 +433,55 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             alert.showAndWait();
 
         });
+        
+        MenuItem menuItem4 = new MenuItem("-Properties");
+        menuItem4.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Stage s = new Stage(StageStyle.DECORATED);
+                    Image ico = new Image("images/dibujo_empalme.png");
+                    s.getIcons().add(ico);
+                    s.setTitle("OptiUAM BC Properties");
+                    s.initModality(Modality.APPLICATION_MODAL);
+                    Empalme aux= (Empalme)controlador.getElementos().get(elemento);
+                    String tip;
+                    Label label;
+                    if(aux.getTipo() == 0){
+                        tip = "Fusion";
+                        label = new Label("  Name: "+aux.getNombre()+
+                            "\n  Id: "+aux.getIdEmpalme()+
+                            "\n  Input: "+aux.getElementoConectadoEntrada()+
+                            "\n  Output :"+aux.getElementoConectadoSalida()+
+                            "\n  Wavelenght: "+aux.getLongitudOnda()+" nm"+
+                            "\n  Type: "+tip+
+                            "\n  Insertion Loss: "+aux.getPerdidaInsercion()+" dB");
+                        Scene scene = new Scene(label, 190, 130);
+                        s.setScene(scene);
+                        s.setResizable(false);
+                        s.showAndWait();
+                    }
+                    else if(aux.getTipo()== 1){
+                        tip = "Mechanic";
+                        label = new Label("  Name: "+aux.getNombre()+
+                            "\n  Id: "+aux.getIdEmpalme()+
+                            "\n  Input: "+aux.getElementoConectadoEntrada()+
+                            "\n  Output :"+aux.getElementoConectadoSalida()+
+                            "\n  Wavelenght: "+aux.getLongitudOnda()+" nm"+
+                            "\n  Type: "+tip+
+                            "\n  Insertion Loss: "+aux.getPerdidaInsercion()+" dB");
+                        Scene scene = new Scene(label, 190, 130);
+                        s.setScene(scene);
+                        s.setResizable(false);
+                        s.showAndWait();
+                    }
+                }
+            }
+        });
 
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
-        //contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
+        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
         
@@ -572,30 +568,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             alert.setContentText("\nModified splice!");
             alert.showAndWait();
             
-            Tooltip proEmpalme = new Tooltip();
-            String tip;
-            if(aux.getTipo() == 0){
-                tip = "Fusion";
-                proEmpalme.setText("Name: "+aux.getNombre()+
-                    "\nId = "+aux.getIdEmpalme()+
-                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                    "\nOutput :"+aux.getElementoConectadoSalida()+
-                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
-                    "\nType: "+tip+
-                    "\nInsertion Loss: "+aux.getPerdidaInsercion()+" dB");
-            }
-            else if(aux.getTipo()== 1){
-                tip = "Mechanic";
-                proEmpalme.setText("Name: "+aux.getNombre()+
-                    "\nId = "+aux.getIdEmpalme()+
-                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                    "\nOutput :"+aux.getElementoConectadoSalida()+
-                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
-                    "\nType: "+tip+
-                    "\nInsertion Loss: "+aux.getPerdidaInsercion()+" dB");
-            }
-            elemG.getDibujo().setTooltip(proEmpalme);
-
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());

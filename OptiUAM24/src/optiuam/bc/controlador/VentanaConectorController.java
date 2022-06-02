@@ -24,7 +24,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -219,30 +221,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         alert.setHeaderText(null);
         alert.setContentText("\nDuplicate connector!");
         alert.showAndWait();
-        
-        Tooltip proConector = new Tooltip();
-        String mode;
-        if(conector.getModo() == 0){
-            mode = "Monomode";
-            proConector.setText("Name: "+conector.getNombre()+
-                "\nId = "+conector.getIdConector()+
-                "\nInput: "+conector.getElementoConectadoEntrada()+
-                "\nOutput :"+conector.getElementoConectadoSalida()+
-                "\nWavelenght: "+conector.getLongitudOnda()+" nm"+
-                "\nMode: "+mode+
-                "\nInsertion Loss: "+conector.getPerdidaInsercion()+" dB");
-        }
-        else if(conector.getModo() == 1){
-            mode = "Multimode";
-            proConector.setText("Name: "+conector.getNombre()+
-                "\nId = "+conector.getIdConector()+
-                "\nInput: "+conector.getElementoConectadoEntrada()+
-                "\nOutput :"+conector.getElementoConectadoSalida()+
-                "\nWavelenght: "+conector.getLongitudOnda()+" nm"+
-                "\nMode: "+mode+
-                "\nInsertion Loss: "+conector.getPerdidaInsercion()+" dB");
-        }
-        elem.getDibujo().setTooltip(proConector);
     }
     
     public void eventos(ElementoGrafico elem) {
@@ -342,7 +320,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
         // create menuitems
         MenuItem menuItem1 = new MenuItem("-Duplicate");
-        //MenuItem menuItem2 = new MenuItem("-Rotate");
         MenuItem menuItem3 = new MenuItem("-Delete");
         
         menuItem1.setOnAction(e ->{
@@ -365,10 +342,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 }
             }
         });
-
-        /*menuItem2.setOnAction(e ->{
-            System.out.println("Girar conector");
-        });*/
 
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
@@ -407,11 +380,55 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 alert.showAndWait();
 
         });
-
+        
+        MenuItem menuItem4 = new MenuItem("-Properties");
+        menuItem4.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Stage s = new Stage(StageStyle.DECORATED);
+                    Image ico = new Image("images/dibujo_conectorR.png");
+                    s.getIcons().add(ico);
+                    s.setTitle("OptiUAM BC Properties");
+                    s.initModality(Modality.APPLICATION_MODAL);
+                    Conector aux= (Conector)controlador.getElementos().get(elemento);
+                    String mode;
+                    Label label;
+                    if(aux.getModo() == 0){
+                        mode = "Monomode";
+                        label = new Label("  Name: "+aux.getNombre()+
+                            "\n  Id: "+aux.getIdConector()+
+                            "\n  Input: "+aux.getElementoConectadoEntrada()+
+                            "\n  Output :"+aux.getElementoConectadoSalida()+
+                            "\n  Wavelenght: "+aux.getLongitudOnda()+" nm"+
+                            "\n  Mode: "+mode+
+                            "\n  Insertion Loss: "+aux.getPerdidaInsercion()+" dB");
+                        Scene scene = new Scene(label, 190, 130);
+                        s.setScene(scene);
+                        s.setResizable(false);
+                        s.showAndWait();
+                    }
+                    else if(aux.getModo() == 1){
+                        mode = "Multimode";
+                        label = new Label("  Name: "+aux.getNombre()+
+                            "\n  Id: "+aux.getIdConector()+
+                            "\n  Input: "+aux.getElementoConectadoEntrada()+
+                            "\n  Output :"+aux.getElementoConectadoSalida()+
+                            "\n  Wavelenght: "+aux.getLongitudOnda()+" nm"+
+                            "\n  Mode: "+mode+
+                            "\n  Insertion Loss: "+aux.getPerdidaInsercion()+" dB");
+                        Scene scene = new Scene(label, 190, 130);
+                        s.setScene(scene);
+                        s.setResizable(false);
+                        s.showAndWait();
+                    }
+                        
+                }
+            }
+        });
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
-        //contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
+        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
@@ -536,30 +553,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             alert.setContentText("\nModified connector!");
             alert.showAndWait();
             
-            Tooltip proConector = new Tooltip();
-            String mode;
-            if(aux.getModo() == 0){
-                mode = "Monomode";
-                proConector.setText("Name: "+aux.getNombre()+
-                    "\nId = "+aux.getIdConector()+
-                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                    "\nOutput :"+aux.getElementoConectadoSalida()+
-                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
-                    "\nMode: "+mode+
-                    "\nInsertion Loss: "+aux.getPerdidaInsercion()+" dB");
-            }
-            else if(aux.getModo() == 1){
-                mode = "Multimode";
-                proConector.setText("Name: "+aux.getNombre()+
-                    "\nId = "+aux.getIdConector()+
-                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                    "\nOutput :"+aux.getElementoConectadoSalida()+
-                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
-                    "\nMode: "+mode+
-                    "\nInsertion Loss: "+aux.getPerdidaInsercion()+" dB");
-            }
-            elemG.getDibujo().setTooltip(proConector);
-
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());

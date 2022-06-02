@@ -46,7 +46,7 @@
       <Label layoutX="182.0" layoutY="142.0" text="dB" />
       <Label fx:id="lblConectarA" layoutX="29.0" layoutY="183.0" text="Connect to:" />
       <ComboBox fx:id="cboxConectarA" layoutX="119.0" layoutY="179.0" prefHeight="25.0" prefWidth="135.0" />
-      <Button fx:id="btnDesconectar" layoutX="277.0" layoutY="179.0" mnemonicParsing="false" onAction="#Desconectar"  text="Disconnect" />
+      <Button fx:id="btnDesconectar" layoutX="277.0" layoutY="179.0" mnemonicParsing="false" onAction="#Desconectar" text="Disconnect" />
       <Button fx:id="btnCrear" layoutX="40.0" layoutY="260.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -93,9 +93,6 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Separator layoutX="3.0" layoutY="86.0" opacity="0.5" prefHeight="6.0" prefWidth="400.0" />
-      <Separator layoutX="2.0" layoutY="123.0" opacity="0.5" prefHeight="6.0" prefWidth="400.0" />
-      <Separator layoutX="3.0" layoutY="163.0" opacity="0.51" prefHeight="6.0" prefWidth="400.0" />
    </children>
    <effect>
       <InnerShadow />

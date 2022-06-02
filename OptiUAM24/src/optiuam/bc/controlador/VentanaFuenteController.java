@@ -107,10 +107,9 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
         if(rbtn1310.isSelected()){
             longitudOnda=1310;
-            //System.out.println(1310);
-        }else if(rbtn1550.isSelected()){
+        }
+        else if(rbtn1550.isSelected()){
             longitudOnda=1550;
-            //System.out.println(1550);
         }
         
         potencia = Double.parseDouble(txtPotencia.getText());
@@ -327,42 +326,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             alert.setContentText("\nModified source!");
             alert.showAndWait();
             
-            Tooltip proFuente = new Tooltip();
-            String tip;
-            if(aux.getTipo() == 0){
-                tip = "Laser";
-                proFuente.setText("Name: "+aux.getNombre()+
-                    "\nId = "+aux.getIdFuente()+
-                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                    "\nOutput :"+aux.getElementoConectadoSalida()+
-                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
-                    "\nType: "+tip+
-                    "\nPotency: "+aux.getPotencia()+" dBm"+
-                    "\nSpectral Width: "+aux.getAnchura()+" nm"+
-                    "\nTransmission Speed: "+aux.getVelocidad()+" Gbits/seg"+
-                    "\n----------------Pulse----------------"+
-                    "\nA0: "+aux.getA0() + "\nC: "+aux.getC()+
-                    "\nT0: "+aux.getT0() + "\nW0: "+aux.getW0()+
-                    "\nM: "+aux.getM());
-            }
-            else if(aux.getTipo()== 1){
-                tip = "LED";
-                proFuente.setText("Name: "+aux.getNombre()+
-                    "\nId = "+aux.getIdFuente()+
-                    "\nInput: "+aux.getElementoConectadoEntrada()+
-                    "\nOutput :"+aux.getElementoConectadoSalida()+
-                    "\nWavelenght: "+aux.getLongitudOnda()+" nm"+
-                    "\nType: "+tip+
-                    "\nPotency: "+aux.getPotencia()+" dBm"+
-                    "\nSpectral Width: "+aux.getAnchura()+" nm"+
-                    "\nTransmission Speed: "+aux.getVelocidad()+" Gbits/seg"+
-                    "\n----------------Pulse----------------"+
-                    "\nA0: "+aux.getA0() + "\nC: "+aux.getC()+
-                    "\nT0: "+aux.getT0() + "\nW0: "+aux.getW0()+
-                    "\nM: "+aux.getM());
-            }
-            elemG.getDibujo().setTooltip(proFuente);
-
             for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
@@ -426,42 +389,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         alert.setHeaderText(null);
         alert.setContentText("\nSource created!");
         alert.showAndWait();
-        
-        Tooltip proFuente = new Tooltip();
-        String tipo;
-        if(fuente.getTipo() == 0){
-            tipo = "Laser";
-            proFuente.setText("Name: "+fuente.getNombre()+
-                "\nId = "+fuente.getIdFuente()+
-                "\nInput: "+fuente.getElementoConectadoEntrada()+
-                "\nOutput :"+fuente.getElementoConectadoSalida()+
-                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
-                "\nType: "+tipo+
-                "\nPotency: "+fuente.getPotencia()+" dBm"+
-                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
-                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
-                "\n----------------Pulse----------------"+
-                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
-                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
-                "\nM: "+fuente.getM());
-        }
-        else if(fuente.getTipo()== 1){
-            tipo = "LED";
-            proFuente.setText("Name: "+fuente.getNombre()+
-                "\nId = "+fuente.getIdFuente()+
-                "\nInput: "+fuente.getElementoConectadoEntrada()+
-                "\nOutput :"+fuente.getElementoConectadoSalida()+
-                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
-                "\nType: "+tipo+
-                "\nPotency: "+fuente.getPotencia()+" dBm"+
-                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
-                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
-                "\n----------------Pulse----------------"+
-                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
-                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
-                "\nM: "+fuente.getM());
-        }
-        elem.getDibujo().setTooltip(proFuente);
     }
     
     public void duplicarFuente(Fuente fuente,ElementoGrafico el) {
@@ -494,42 +421,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         alert.setHeaderText(null);
         alert.setContentText("\nDuplicate source!");
         alert.showAndWait();
-        
-        Tooltip proFuente = new Tooltip();
-        String tipo;
-        if(fuente.getTipo() == 0){
-            tipo = "Laser";
-            proFuente.setText("Name: "+fuente.getNombre()+
-                "\nId = "+fuente.getIdFuente()+
-                "\nInput: "+fuente.getElementoConectadoEntrada()+
-                "\nOutput :"+fuente.getElementoConectadoSalida()+
-                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
-                "\nType: "+tipo+
-                "\nPotency: "+fuente.getPotencia()+" dBm"+
-                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
-                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
-                "\n----------------Pulse----------------"+
-                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
-                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
-                "\nM: "+fuente.getM());
-        }
-        else if(fuente.getTipo()== 1){
-            tipo = "LED";
-            proFuente.setText("Name: "+fuente.getNombre()+
-                "\nId = "+fuente.getIdFuente()+
-                "\nInput: "+fuente.getElementoConectadoEntrada()+
-                "\nOutput :"+fuente.getElementoConectadoSalida()+
-                "\nWavelenght: "+fuente.getLongitudOnda()+" nm"+
-                "\nType: "+tipo+
-                "\nPotency: "+fuente.getPotencia()+" dBm"+
-                "\nSpectral Width: "+fuente.getAnchura()+" nm"+
-                "\nTransmission Speed: "+fuente.getVelocidad()+" Gbits/seg"+
-                "\n----------------Pulse----------------"+
-                "\nA0: "+fuente.getA0() + "\nC: "+fuente.getC()+
-                "\nT0: "+fuente.getT0() + "\nW0: "+fuente.getW0()+
-                "\nM: "+fuente.getM());
-        }
-        elem.getDibujo().setTooltip(proFuente);
     }
     
     public void eventos(ElementoGrafico elem) {
@@ -648,7 +539,6 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         MenuItem menuItem1 = new MenuItem("-Duplicated");
         //MenuItem menuItem2 = new MenuItem("-Girar");
         MenuItem menuItem3 = new MenuItem("-Delete");
-        //MenuItem menuItem4 = new MenuItem("-Properties");
 
         menuItem1.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -715,19 +605,73 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             alert.setContentText("\nRemoved source!");
             alert.showAndWait();
         });
+        
+        MenuItem menuItem4 = new MenuItem("-Properties");
+        menuItem4.setOnAction(e ->{
+            for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
+                    Stage s = new Stage(StageStyle.DECORATED);
+                    Image ico = new Image("images/dibujo_fuente.png");
+                    s.getIcons().add(ico);
+                    s.setTitle("OptiUAM BC Properties");
+                    s.initModality(Modality.APPLICATION_MODAL);
+                    Fuente aux= (Fuente)controlador.getElementos().get(elemento);
+                    String tip;
+                    Label label;
+                    if(aux.getTipo() == 0){
+                        tip = "Laser";
+                        label = new Label("  Name: "+aux.getNombre()+
+                            "\n  Id: "+aux.getIdFuente()+
+                            "\n  Input: "+aux.getElementoConectadoEntrada()+
+                            "\n  Output :"+aux.getElementoConectadoSalida()+
+                            "\n  Wavelenght: "+aux.getLongitudOnda()+" nm"+
+                            "\n  Type: "+tip+
+                            "\n  Potency: "+aux.getPotencia()+" dBm"+
+                            "\n  Spectral Width: "+aux.getAnchura()+" nm"+
+                            "\n  Transmission Speed: "+aux.getVelocidad()+" Gbits/seg"+
+                            "\n  ----------------Pulse----------------"+
+                            "\n  A0: "+aux.getA0() + "\n  C: "+aux.getC()+
+                            "\n  T0: "+aux.getT0() + "\n  W0: "+aux.getW0()+
+                            "\n  M: "+aux.getM());
+                        Scene scene = new Scene(label, 190, 250);
+                        s.setScene(scene);
+                        s.setResizable(false);
+                        s.showAndWait();
+                    }
+                    else if(aux.getTipo()== 1){
+                        tip = "LED";
+                        label = new Label("  Name: "+aux.getNombre()+
+                            "\n  Id: "+aux.getIdFuente()+
+                            "\n  Input: "+aux.getElementoConectadoEntrada()+
+                            "\n  Output :"+aux.getElementoConectadoSalida()+
+                            "\n  Wavelenght: "+aux.getLongitudOnda()+" nm"+
+                            "\n  Type: "+tip+
+                            "\n  Potency: "+aux.getPotencia()+" dBm"+
+                            "\n  Spectral Width: "+aux.getAnchura()+" nm"+
+                            "\n  Transmission Speed: "+aux.getVelocidad()+" Gbits/seg"+
+                            "\n  ----------------Pulse----------------"+
+                            "\n  A0: "+aux.getA0() + "\n  C: "+aux.getC()+
+                            "\n  T0: "+aux.getT0() + "\n  W0: "+aux.getW0()+
+                            "\n  M: "+aux.getM());
+                        Scene scene = new Scene(label, 190, 250);
+                        s.setScene(scene);
+                        s.setResizable(false);
+                        s.showAndWait();
+                    }
+                }
+            }
+        });
 
         // add menu items to menu
         contextMenu.getItems().add(menuItem1);
-        //contextMenu.getItems().add(menuItem2);
         contextMenu.getItems().add(menuItem3);
+        contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
-        //dibujo.getDibujo().setTooltip(tt);
     }
         
     public void init2(ElementoGrafico elem, VentanaFuenteController fuenteController) {
         this.elemG = elem;
         this.fuenteControl=fuenteController;
-        //this.scroll=scroll;
         
         if(elemG.getComponente().isConectadoSalida()==true){
             fuenteControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
