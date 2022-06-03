@@ -153,6 +153,22 @@ public class Splitter extends Componente {
     public void setPosY(double posY) {
         this.posY = posY;
     }
+
+    public LinkedList<PuertoSalida> getConexiones() {
+        return conexiones;
+    }
+
+    public void setConexiones(LinkedList<PuertoSalida> conexiones) {
+        this.conexiones = conexiones;
+    }
+
+    public StringBuilder getcSalidas() {
+        return cSalidas;
+    }
+
+    public void setcSalidas(StringBuilder cSalidas) {
+        this.cSalidas = cSalidas;
+    }
     
     /**
      * Metodo que se usa solo cuando se carga un trabajo y contiene un splitter. 
@@ -173,7 +189,6 @@ public class Splitter extends Componente {
     
     /**
      * Metodo que modifica las salidas del divisor optico
-     * @param salidas Salidas del divisor optico
      */
     
     public void modificarSalidas(int salidas){
@@ -185,7 +200,13 @@ public class Splitter extends Componente {
             cSalidas.append(conexiones.get(i).toString());
         }
     }
-
+    public void actuaizarSalidas(int salidas){
+        cSalidas=new StringBuilder();
+        for(int i=0;i<salidas-1; i++){
+            //System.out.print(conexiones.get(i).toString());
+            cSalidas.append(conexiones.get(i).toString());
+        }
+    }
     
     
     /*

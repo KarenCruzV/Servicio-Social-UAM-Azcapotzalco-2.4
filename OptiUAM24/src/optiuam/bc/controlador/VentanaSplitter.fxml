@@ -44,11 +44,10 @@
       <Label layoutX="232.0" layoutY="192.0" text="dB" />
       <Separator fx:id="separator" layoutX="330.0" layoutY="63.0" orientation="VERTICAL" prefHeight="160.0" prefWidth="7.0" />
       <Label fx:id="lblSalida" layoutX="346.0" layoutY="73.0" text="Output" />
-      <ComboBox fx:id="cboxSalidas" layoutX="346.0" layoutY="101.0" prefHeight="25.0" prefWidth="60.0" />
+      <ComboBox fx:id="cboxSalidas" layoutX="346.0" layoutY="101.0" onAction="#actCbox" prefHeight="25.0" prefWidth="30.0" />
       <Label fx:id="lblConectarA" layoutX="422.0" layoutY="73.0" text="Connect to:" />
-      <ComboBox fx:id="cboxConectarA" layoutX="430.0" layoutY="101.0" prefHeight="25.0" prefWidth="60.0" />
-      <Button fx:id="btnConectar" layoutX="385.0" layoutY="152.0" mnemonicParsing="false" onAction="#btnConectarAction"  text="Connect" />
-      <Button fx:id="btnDesconectar" layoutX="378.0" layoutY="188.0" mnemonicParsing="false" onAction="#Desconectar"  text="Disconnect" />
+      <ComboBox fx:id="cboxConectarA" layoutX="416.0" layoutY="101.0" prefHeight="25.0" prefWidth="97.0" />
+      <Button fx:id="btnDesconectar" layoutX="379.0" layoutY="143.0" mnemonicParsing="false" onAction="#Desconectar" text="Disconnect" />
       <Button fx:id="btnCrear" layoutX="75.0" layoutY="247.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />

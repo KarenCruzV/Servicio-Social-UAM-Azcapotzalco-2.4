@@ -1,4 +1,3 @@
-
 package optiuam.bc.controlador;
 
 import java.io.IOException;
@@ -151,7 +150,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         
         separator.setVisible(false);
         btnDesconectar.setVisible(false);
-        btnConectar.setVisible(false);
+        //btnConectar.setVisible(false);
         lblConectarA.setVisible(false);
         cboxConectarA.setVisible(false);
         lblSalida.setVisible(false);
@@ -220,7 +219,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
         for(int i = 0; i<salidas;i++){
             cboxSalidas.getItems().addAll(String.valueOf(i+1));
-            cboxSalidas.getSelectionModel().selectFirst();
+            //cboxSalidas.getSelectionModel().selectFirst();
         }
         
         if (!validarPerdida(Double.parseDouble(txtPerdidaInsercion.getText()),cboxNumeroSalidas.getSelectionModel().getSelectedIndex())) {
@@ -337,10 +336,10 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
                     elem.getDibujo().setLayoutY(Pane1.getChildren().get(j).getLayoutY()+event.getY()+1);}
-                    if(elem.getComponente().isConectadoSalida()==true){
-                        borrarLinea(elem.getComponente().getLinea());
+                    
+                        borrarLineaSplitter(elem);
                         dibujarLinea(elem);
-                    }
+                    
                     if(elem.getComponente().isConectadoEntrada()){
                         ElementoGrafico aux;
                         for(int it=0; it<controlador.getDibujos().size();it++){
@@ -376,16 +375,19 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                             iniciar con los valores del elemento mandado.
                         */
                         splitterController.init2(elem,splitterController);
+                        Splitter spli= (Splitter) elem.getComponente();
                         splitterController.btnCrear.setVisible(false);
                         splitterController.separator.setVisible(true);
-                        splitterController.btnConectar.setVisible(true);
+                        //splitterController.btnConectar.setVisible(true);
                         splitterController.lblSalida.setVisible(true);
                         splitterController.cboxSalidas.setVisible(true);
                         splitterController.btnDesconectar.setVisible(true);
                         splitterController.lblConectarA.setVisible(true);
                         splitterController.cboxConectarA.setVisible(true);
                         splitterController.btnModificar.setVisible(true);
-                        
+                        for(int p=0; p<spli.getConexiones().size();p++){
+                            System.out.println(spli.getConexiones().get(p).isConectadoSalida()+" "+spli.getConexiones().get(p).getElementoConectadoSalida());
+                        }
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
@@ -535,26 +537,81 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             "\nInsertion Loss: "+s.getPerdidaInsercion()+" dB");
         elem.getDibujo().setTooltip(proSplitter);
     }
-     
+     //01062022....  
      //este metodo conecta la salida n del splitter a un componente
     public boolean conectarSplitter(int salida,String componente){
         Splitter splitter = (Splitter) elemG.getComponente();
-        /*
-        if (splitter.getConexion(salida) != null) { 
-            if (splitter.getConexion(salida).compareTo("") != 0) {
-                splitter.setConectadoSalida(false);
+        
+        if (salida==0) { 
+            if(splitter.isConectadoSalida()==false){
+                splitter.setConectadoSalida(true);
+                splitter.setElementoConectadoSalida(componente);
+                Line line= new Line();
+                line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+                ElementoGrafico aux= new ElementoGrafico();
+                for(int it=0; it<controlador.getDibujos().size();it++){
+                    if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                        aux=controlador.getDibujos().get(it);
+                        aux.getComponente().setConectadoEntrada(true);
+                        aux.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                        line.setStrokeWidth(2);
+                        line.setStroke(Color.BLACK);
+                        line.setEndX(aux.getDibujo().getLayoutX()+3);
+                        line.setEndY(aux.getDibujo().getLayoutY()+20);
+                        splitter.setLinea(line);
+                        line.setVisible(true);
+                        Pane1.getChildren().add(line);
+                        return true;
+                    }
+                    
+                }
+            }else{
+                System.out.println("ya esta conectado");
             }
-            splitter.setConexion(salida, componente);
-            splitter.setConectadoSalida(true);
-            return true;
-        }*/
+            
+            
+        }else if(salida>0&&salida<=splitter.getSalidas()){
+            if(splitter.getConexiones().get(salida-1).isConectadoSalida()==false){
+                splitter.getConexiones().get(salida-1).setConectadoSalida(true);
+                splitter.getConexiones().get(salida-1).setElementoConectadoSalida(componente);
+                Line line= new Line();
+                line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(salida))));
+                ElementoGrafico aux= new ElementoGrafico();
+                
+                for(int it=0; it<controlador.getDibujos().size();it++){
+                    if(componente.equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                        aux=controlador.getDibujos().get(it);
+                        aux.getComponente().setConectadoEntrada(true);
+                    aux.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                    System.out.println("cd");
+                    line.setStrokeWidth(2);
+                    line.setStroke(Color.BLACK);
+                    line.setEndX(aux.getDibujo().getLayoutX()+3);
+                    line.setEndY(aux.getDibujo().getLayoutY()+20);
+                    splitter.getConexiones().get(salida-1).setLinea(line);
+                    splitter.actuaizarSalidas(salida);
+                    line.setVisible(true);
+                    Pane1.getChildren().add(line);
+                    return true;
+                    }
+                    
+                }
+            }else{
+                System.out.println("ya esta conectado");
+            }
+            
+        }
         return false;
     }
     
-    @FXML
-    public void btnConectarAction(){
+    
+    public void conectar(){
         int salida = cboxSalidas.getSelectionModel().getSelectedIndex();
+        
         String componente = cboxConectarA.getSelectionModel().getSelectedItem().toString();
+        System.out.println(salida+" "+componente);
         if(cboxConectarA.getItems().size() <= 1){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -574,6 +631,47 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     }
     
     @FXML
+    private void actCbox(ActionEvent event){
+        if(!splitterControl.btnCrear.isVisible()){
+        splitterControl.cboxConectarA.getItems().clear();
+        if(splitterControl.cboxSalidas.getSelectionModel().getSelectedIndex()==0){
+            if(elemG.getComponente().isConectadoSalida()==true){
+                splitterControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
+            }
+            else{
+               
+                splitterControl.cboxConectarA.getItems().add("Desconected");
+                splitterControl.cboxConectarA.getSelectionModel().select(0);
+                for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                    if("connector".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                        "power".equals(controlador.getElementos().get(elemento).getNombre())){
+                        if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                            splitterControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                        }
+                    }
+                }
+            }
+        }else{
+            Splitter aux=(Splitter)elemG.getComponente();
+            if(aux.getConexiones().get(splitterControl.cboxSalidas.getSelectionModel().getSelectedIndex()-1).isConectadoSalida()==true){
+                splitterControl.cboxConectarA.getSelectionModel().select(aux.getConexiones().get(splitterControl.cboxSalidas.getSelectionModel().getSelectedIndex()-1).getElementoConectadoSalida());
+            }
+            else{
+                splitterControl.cboxConectarA.getItems().add("Desconected");
+                splitterControl.cboxConectarA.getSelectionModel().select(0);
+                for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
+                    if("connector".equals(controlador.getElementos().get(elemento).getNombre()) ||
+                        "power".equals(controlador.getElementos().get(elemento).getNombre())){
+                        if(!controlador.getElementos().get(elemento).isConectadoEntrada()){
+                            splitterControl.cboxConectarA.getItems().add(controlador.getDibujos().get(elemento).getDibujo().getText());
+                        }
+                    }
+                }
+            }
+        }
+        }
+    }
+    @FXML
     public void modificar(ActionEvent event){
         Splitter aux = (Splitter) elemG.getComponente();
         int salidas=0, longitudOnda=0, id=0;
@@ -592,26 +690,12 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             Desconectar(event);
         }
         else{
-            if(aux.isConectadoSalida()){}
-            aux.setConectadoSalida(true);
-            
-            for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
-                if(splitterControl.cboxConectarA.getSelectionModel().getSelectedItem().toString().equals(controlador.getDibujos().get(elemento2).getDibujo().getText())){
-                    ElementoGrafico eg= controlador.getDibujos().get(elemento2);
-                    aux.setElementoConectadoSalida(eg.getDibujo().getText());
-                    aux.setConectadoSalida(true);
-                    System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
-                    
-                    eg.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
-                    eg.getComponente().setConectadoEntrada(true);
-                    break;
-                }
-            }
-            dibujarLinea(elemG);
+            conectar();
+            //dibujarLinea(elemG);
         }
         perdida = Double.parseDouble(txtPerdidaInsercion.getText());
         txtPerdidaInsercion.setText(String.valueOf(perdida));
-        cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
+        //cboxSalidas.getItems().removeAll(cboxSalidas.getItems());
         for(int i = 0; i<salidas;i++){
             cboxSalidas.getItems().addAll(String.valueOf(i+1));
             cboxSalidas.getSelectionModel().selectFirst();
@@ -684,7 +768,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         this.splitterControl=splitterController;
         
         if(elemG.getComponente().isConectadoSalida()==true){
-            
             splitterControl.cboxConectarA.getSelectionModel().select(elemG.getComponente().getElementoConectadoSalida());
         }
         else{
@@ -738,23 +821,54 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     }
     
     public void dibujarLinea(ElementoGrafico elemG) {
-        Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
-        line.setStartY(elemG.getDibujo().getLayoutY()+7);
-        ElementoGrafico aux= new ElementoGrafico();
-        for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
-                aux=controlador.getDibujos().get(it);
+        Splitter splitter=(Splitter)elemG.getComponente();
+            if(splitter.isConectadoSalida()){
+            Line line= new Line();   
+            line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+            line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            ElementoGrafico aux= new ElementoGrafico();
+            for(int it=0; it<controlador.getDibujos().size();it++){
+                if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
+                    aux=controlador.getDibujos().get(it);
+                    line.setStrokeWidth(2);
+                    line.setStroke(Color.BLACK);
+                    line.setEndX(aux.getDibujo().getLayoutX());
+                    line.setEndY(aux.getDibujo().getLayoutY());
+                    line.setVisible(true);
+                    Pane1.getChildren().add(line); 
+                    elemG.getComponente().setLinea(line);  
+                }
+            }
+            }
+            for(int lap=0; lap<splitter.getSalidas()-1;lap++){
+            if(splitter.getConexiones().get(lap).isConectadoSalida()){
+                Line line= new Line();
+                line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+                ElementoGrafico aux= new ElementoGrafico();
+                //System.out.println("primer");
+                for(int ir=0; ir<controlador.getDibujos().size();ir++){
+                    if(splitter.getConexiones().get(lap).getElementoConectadoSalida().equals(controlador.getDibujos().get(ir).getDibujo().getText())){
+                        aux=controlador.getDibujos().get(ir);
+                        aux.getComponente().setConectadoEntrada(true);
+                    aux.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
+                    //System.out.println("cd");
+                    line.setStrokeWidth(2);
+                    line.setStroke(Color.BLACK);
+                    line.setEndX(aux.getDibujo().getLayoutX()+3);
+                    line.setEndY(aux.getDibujo().getLayoutY()+20);
+                    splitter.getConexiones().get(lap).setLinea(line);
+                    //splitter.actuaizarSalidas(salida);
+                    line.setVisible(true);
+                    Pane1.getChildren().add(line);
+                    
+                    }
+                    
+                }
             }
         }
-        line.setStrokeWidth(2);
-        line.setStroke(Color.BLACK);
-        line.setEndX(aux.getDibujo().getLayoutX());
-        line.setEndY(aux.getDibujo().getLayoutY());
-        line.setVisible(true);
-        Pane1.getChildren().add(line); 
-        elemG.getComponente().setLinea(line);    
-    }
+        }
+    
     
     public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
@@ -775,7 +889,18 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         aux.getComponente().setLinea(line);
             
     }
-    
+    public void borrarLineaSplitter(ElementoGrafico elem){
+        Splitter splitter=(Splitter)elem.getComponente();
+            if(splitter.isConectadoSalida()){
+                splitter.getLinea().setVisible(false);
+            
+            }
+            for(int po=0; po<splitter.getSalidas()-1;po++){
+                if(splitter.getConexiones().get(po).isConectadoSalida()){
+                    splitter.getConexiones().get(po).getLinea().setVisible(false);
+                }
+            }
+    }
     public void borrarLinea(Line linea){
         linea.setVisible(false);
     }
