@@ -20,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -33,7 +32,7 @@ import optiuam.bc.modelo.ElementoGrafico;
 
 
 /**
- * Clase VentanaConectorController la cual se encarga de no se
+ * Clase VentanaConectorController la cual se encarga de instanciar un conector
  * @author Daniel Hernandez
  * Editado por:
  * @author Arturo Borja
@@ -42,55 +41,137 @@ import optiuam.bc.modelo.ElementoGrafico;
  */
 public class VentanaConectorController extends ControladorGeneral implements Initializable {
     
+    /**Identificador del conector*/
     static int idConector = 0;
+    /**Controlador del simulador*/
     ControladorGeneral controlador;
+    /**Escenario en el cual se agregaran los objetos creados*/
     Stage stage;
+    /**Elemento grafico del conector*/
     ElementoGrafico elemG;
+    /**Controlador del conector*/
     VentanaConectorController conectorControl;
-    static double posX, posY;
-    
+    /**Posicion del conector en el eje X*/
+    static double posX;
+    /**Posicion del conector en el eje Y*/
+    static double posY;
+    /**Panel para agregar objetos*/
     @FXML
     private Pane Pane1;
+    /**Etiqueta de la lista desplegable de elementos disponibles para conectar
+     el conector*/
     @FXML
-        Label lblTitulo, lblLongitudOnda,lblModo, lblPerdida, lbldB, lblConectarA, lblPropiedades;
+    Label lblConectarA;
+    /**RadioButton para la longitud de onda de 1310 nm*/
     @FXML
-        RadioButton rbtn1310, rbtn1550, rbtnMono, rbtnMulti;
+    RadioButton rbtn1310;
+    /**RadioButton para la longitud de onda de 510 nm*/
     @FXML
-        TextField txtPerdida;
+    RadioButton rbtn1550;
+    /**RadioButton para el modo Monomodo del conector*/
     @FXML
-        Button btnDesconectar, btnCancelar, btnCrear, btnModificar;
+    RadioButton rbtnMono;
+    /**RadioButton para el modo Multimodo del conector*/
     @FXML
-        ComboBox cboxConectarA;
+    RadioButton rbtnMulti;
+    /**Caja de texto para ingresar la perdida de insercion del conector*/
     @FXML
-        AnchorPane ConectorVentana;
+    TextField txtPerdida;
+    /**Boton para desconectar el conector*/
+    @FXML
+    Button btnDesconectar;
+    /**Boton para cancelar la operacion*/
+    @FXML
+    Button btnCancelar;
+    /**Boton para crear un conector*/
+    @FXML
+    Button btnCrear;
+    /**Boton para modificar el conector*/
+    @FXML
+    Button btnModificar;
+    /**Lista desplegable de elementos disponibles para conectar el conector*/
+    @FXML
+    ComboBox cboxConectarA;
+    /**Espacio en el cual el usuario puede desplazarse*/
     @FXML
     private ScrollPane scroll;
 
+    /**
+     * Metodo que muestra el identificador del conector
+     * @return idConector
+     */
     public static int getIdConector() {
         return idConector;
     }
 
+    /**
+     * Metodo que modifica el identificador del conector
+     * @param idConector Identificador del conector
+     */
     public static void setIdConector(int idConector) {
         VentanaConectorController.idConector = idConector;
     }
 
+    /**
+     * Metodo que muestra la posicion del conector en el eje X
+     * @return posX
+     */
     public static double getPosX() {
         return posX;
     }
 
+    /**
+     * Metodo que modifica la posicion del conector en el eje X
+     * @param posX Posicion en el eje X
+     */
     public static void setPosX(double posX) {
         VentanaConectorController.posX = posX;
     }
 
+    /**
+     * Metodo que muestra la posicion del conector en el eje Y
+     * @return posY
+     */
     public static double getPosY() {
         return posY;
     }
 
+    /**
+     * Metodo que modifica la posicion del conector en el eje X
+     * @param posY Posicion en el eje Y
+     */
     public static void setPosY(double posY) {
         VentanaConectorController.posY = posY;
     }
+    
+    /**
+     * Metodo el cual inicializa la ventana del conector
+     * @param url La ubicacion utilizada para resolver rutas relativas para 
+     * el objeto raiz, o nula si no se conoce la ubicacion
+     * @param rb Los recursos utilizados para localizar el objeto raiz, o nulo 
+     * si el objeto raiz no se localizo.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        Tooltip perdida = new Tooltip();
+        perdida.setText("Monomode: The loss must be" + " min: 0" + " max: 0.5"
+                + "\nMultimode: The loss must be" + " min: 0" + " max: 1.0");
+        txtPerdida.setTooltip(perdida);
+        
+        btnCrear.setVisible(true);
+        btnDesconectar.setVisible(false);
+        lblConectarA.setVisible(false);
+        cboxConectarA.setVisible(false);
+        btnModificar.setVisible(false);
+        
+    } 
 
-    public void imprimir(ActionEvent event){
+    /**
+     * Metodo el cual captura los datos obtenidos de la ventana del conector y
+     * crea uno
+     * @param event Representa cualquier tipo de accion 
+     */
+    public void enviarDatos(ActionEvent event){
         int modo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax =0.5;
         
@@ -137,6 +218,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
     }
     
+    /**
+     * Metodo que guarda el conector en el panel
+     * @param conector Conector con valores almacenados
+     */
     public void guardarConector(Conector conector) {
         conector.setId(controlador.getContadorElemento());
         controlador.getElementos().add(conector);
@@ -165,33 +250,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         alert.setHeaderText(null);
         alert.setContentText("\nConnector created!");
         alert.showAndWait();
-        
-        Tooltip proConector1 = new Tooltip();
-        String mode;
-        if(conector.getModo() == 0){
-            mode = "Monomode";
-            proConector1.setText("Name: "+conector.getNombre()+
-                "\nId = "+conector.getIdConector()+
-                "\nInput: "+conector.getElementoConectadoEntrada()+
-                "\nOutput :"+conector.getElementoConectadoSalida()+
-                "\nWavelenght: "+conector.getLongitudOnda()+" nm"+
-                "\nMode: "+mode+
-                "\nInsertion Loss: "+conector.getPerdidaInsercion()+" dB");
-        }
-        else if(conector.getModo() == 1){
-            mode = "Multimode";
-            proConector1.setText("Name: "+conector.getNombre()+
-                "\nId = "+conector.getIdConector()+
-                "\nInput: "+conector.getElementoConectadoEntrada()+
-                "\nOutput :"+conector.getElementoConectadoSalida()+
-                "\nWavelenght: "+conector.getLongitudOnda()+" nm"+
-                "\nMode: "+mode+
-                "\nInsertion Loss: "+conector.getPerdidaInsercion()+" dB");
-        }
-        elem.getDibujo().setTooltip(proConector1);
     }
     
-    public void duplicarConector(Conector conector,ElementoGrafico el) {
+    /**
+     * Metodo que duplica un conector
+     * @param conector Conector a duplicar
+     * @param elemGraf Elemento grafico del conector a duplicar
+     */
+    public void duplicarConector(Conector conector,ElementoGrafico elemGraf) {
         conector.setId(controlador.getContadorElemento());
         controlador.getElementos().add(conector);
         Label dibujo= new Label();
@@ -208,8 +274,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         dibujo.setGraphic(new ImageView(new Image("images/dibujo_conectorR.png")));
         dibujo.setText(conector.getNombre() + "_"+ conector.getIdConector());
         dibujo.setContentDisplay(ContentDisplay.TOP);
-            dibujo.setLayoutX(el.getDibujo().getLayoutX()+35);
-            dibujo.setLayoutY(el.getDibujo().getLayoutY()+20);
+        dibujo.setLayoutX(elemGraf.getDibujo().getLayoutX()+35);
+        dibujo.setLayoutY(elemGraf.getDibujo().getLayoutY()+20);
         elem.setDibujo(dibujo);
         controlador.getDibujos().add(elem);
         eventos(elem);
@@ -223,6 +289,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         alert.showAndWait();
     }
     
+    /**
+     * Metodo el cual le proporciona eventos al conector tales como movimiento, 
+     * abrir ventana para modificarlo o mostrar un menu de acciones
+     * @param elem Elemento grafico del conector
+     */
     public void eventos(ElementoGrafico elem) {
         elem.getDibujo().setOnMouseDragged((MouseEvent event) -> {
                 if(event.getButton()==MouseButton.PRIMARY){
@@ -239,22 +310,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     }else{
                         elem.getDibujo().setLayoutX(Pane1.getChildren().get(j).getLayoutX()+event.getX()+1);
                     }
-                    /*
-                    if(elem.getDibujo().getLayoutX()>=0.0){
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutX((scroll.getHvalue()*200)+event.getSceneX()-20);
-                    }else{
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutX(0.0);
-                    }
-                    if(elem.getDibujo().getLayoutY()>=0.0){
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY((scroll.getVvalue()*200)+event.getSceneY()-170);
-                    }else{
-                        elem.getDibujo().setCursor(Cursor.CLOSED_HAND);
-                        elem.getDibujo().setLayoutY(0);
-                    }
-                    */
                     if(outSideParentBoundsY(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
                         elem.getDibujo().setLayoutY(Pane1.getChildren().get(j).getLayoutY()+event.getY()+1);}
@@ -309,19 +364,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         Logger.getLogger(VentanaConectorController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else if(event.getButton()==MouseButton.SECONDARY){
-                    mostrarMenuChiquito(elem);
+                    mostrarMenu(elem);
                 }
         });
     }
     
-    public void mostrarMenuChiquito(ElementoGrafico dibujo){
-        // create a menu
+    /**
+     * Metodo el cual muestra un menu de acciones para duplicar, eliminar o 
+     * ver propiedades del conector
+     * @param dibujo Elemento grafico del conector
+     */
+    public void mostrarMenu(ElementoGrafico dibujo){
         ContextMenu contextMenu = new ContextMenu();
-
-        // create menuitems
         MenuItem menuItem1 = new MenuItem("-Duplicate");
         MenuItem menuItem3 = new MenuItem("-Delete");
-        
+        MenuItem menuItem4 = new MenuItem("-Properties");
+
+        /*Duplicar*/
         menuItem1.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -343,6 +402,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
         });
 
+        /*Eliminar*/
         menuItem3.setOnAction(e ->{
             if(dibujo.getComponente().isConectadoSalida()==true){
                 for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
@@ -381,7 +441,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
         });
         
-        MenuItem menuItem4 = new MenuItem("-Properties");
+        /*Propiedades*/
         menuItem4.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
@@ -425,40 +485,27 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 }
             }
         });
-        // add menu items to menu
+
         contextMenu.getItems().add(menuItem1);
         contextMenu.getItems().add(menuItem3);
         contextMenu.getItems().add(menuItem4);
         dibujo.getDibujo().setContextMenu(contextMenu);
     }
     
+    /**
+     * Metodo para cerrar la ventana del conector
+     * @param event Representa cualquier tipo de accion
+     */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
         Stage s = (Stage) source.getScene().getWindow();
         s.close();
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        Tooltip perdidaMono = new Tooltip();
-        Tooltip perdidaMulti = new Tooltip();
-        if(rbtnMono.isSelected()){
-            perdidaMono.setText("Monomode: The loss must be" + " min: 0" + " max: 0.5"
-                    + "\nMultimode: The loss must be" + " min: 0" + " max: 1.0");
-            txtPerdida.setTooltip(perdidaMono);
-        }
-        else if(rbtnMulti.isSelected()){
-            perdidaMulti.setText("The loss must be" + " min: 0" + " max: 1.0");
-            txtPerdida.setTooltip(perdidaMulti);
-        }   
-        btnCrear.setVisible(true);
-        btnDesconectar.setVisible(false);
-        lblConectarA.setVisible(false);
-        cboxConectarA.setVisible(false);
-        btnModificar.setVisible(false);
-        
-    } 
     
+    /**
+     * Metodo para desconectar el conector
+     * @param event Representa cualquier tipo de accion
+     */
     @FXML
     public void Desconectar(ActionEvent event){
         for(int elemento2=0; elemento2<controlador.getDibujos().size();elemento2++){
@@ -484,10 +531,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         cerrarVentana(event);
     }
     
+    /**
+     * Metodo para modificar el conector
+     * @param event Representa cualquier tipo de accion
+     */
     @FXML
     public void modificar(ActionEvent event){
         Conector aux = (Conector) elemG.getComponente();
-        int modo=0, longitudOnda=0, id = 0;
+        int modo=0, longitudOnda=0;
         double perdidaInsercion, perdidaMax =0.5;
         if(rbtnMono.isSelected()){
             modo=0;
@@ -513,7 +564,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     aux.setElementoConectadoSalida(eg.getDibujo().getText());
                     aux.setConectadoSalida(true);
                     System.out.println(controlador.getDibujos().get(elemento2).getComponente().toString());
-                    
                     eg.getComponente().setElementoConectadoEntrada(elemG.getDibujo().getText());
                     eg.getComponente().setConectadoEntrada(true);
                     break;
@@ -561,6 +611,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         
     }
 
+    /**
+     * Metodo que proporciona lo necesario para que la ventana reconozca a 
+     * que elemento se refiere
+     * @param controlador Controlador del simulador
+     * @param stage Escenario en el cual se agregan los objetos creados
+     * @param Pane1 Panel para agregar objetos
+     * @param scroll Espacio en el cual el usuario puede desplazarse
+     */
     public void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll) {
         this.controlador=controlador;
         this.stage=stage;
@@ -568,9 +626,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         this.scroll=scroll;
     }
 
-    /*
-        Funcion init2: 
-        recibe el elemento y el controlador a partir de estos puede mostrar los valores inciales del elemento 
+    /**
+     * Metodo que recibe el elemento y el controlador y, a partir de estos,
+     * puede mostrar los valores inciales del elemento 
+     * @param controlador Controlador del simulador
+     * @param stage Escenario en el cual se agregan los objetos creados
+     * @param Pane1 Panel para agregar objetos
+     * @param elem Elemento grafico
+     * @param conectorController Controlador del conector
     */
     public void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaConectorController conectorController) {
         this.elemG=elem;
@@ -630,6 +693,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
     }
     
+    /**
+     * Metodo que permite visualizar la conexion hacia delante del conector 
+     * con otro elemento
+     * @param elemG Elemento grafico del conector
+     */
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
         line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
@@ -650,14 +718,18 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             line.setEndX(aux.getDibujo().getLayoutX());
             line.setEndY(aux.getDibujo().getLayoutY()+8);
         }
-        //setLinea(line);
-        //System.out.println("Se dibujo una linea");
+        
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
               
     }
     
+    /**
+     * Metodo que permite visualizar la conexion hacia atras del conector 
+     * con otro elemento
+     * @param elem Elemento grafico del conector
+     */
     public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
         ElementoGrafico aux= new ElementoGrafico();
@@ -672,86 +744,49 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         line.setStartY(aux.getDibujo().getLayoutY()+10);
         line.setEndX(elem.getDibujo().getLayoutX());
         line.setEndY(elem.getDibujo().getLayoutY()+7);
-        //setLinea(line);
-        //System.out.println("Se dibujo una linea");
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         aux.getComponente().setLinea(line);
             
     }
     
-     private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
-
+    /**
+     * Metodo que delimita el movimiento en el eje X en el panel para que el 
+     * elemento grafico no salga del area de trabajo
+     */
+    private boolean outSideParentBoundsX( Bounds childBounds, double newX, double newY) {
         Bounds parentBounds = Pane1.getLayoutBounds();
 
         //check if too left
         if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
             return true ;
         }
-
         //check if too right
         if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
             return true ;
         }
-        /*
-        //check if too down
-        if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
-            return true ;
-        }
-
-        //check if too up
-        if( parentBounds.getMinY()+170 >= (newY + childBounds.getMinY()) ) {
-            return true ;
-        }
-        */
+        
         return false;
-
-        /* Alternative implementation 
-        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
-        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
-        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
-        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
-        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
-
-        return ! parentBounds.contains(newBounds);
-         */
     }
      
+    /**
+     * Metodo que delimita el movimiento en el eje Y en el panel para que el 
+     * elemento grafico no salga del area de trabajo
+     */
     private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
 
         Bounds parentBounds = Pane1.getLayoutBounds();
-        /*
-        //check if too left
-        if( parentBounds.getMaxX() <= (newX + childBounds.getMaxX()) ) {
-            return true ;
-        }
-
-        //check if too right
-        if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
-            return true ;
-        }
-        */
+        
         //check if too down
         if( parentBounds.getMaxY() <= (newY + childBounds.getMaxY()) ) {
             return true ;
         }
-
         //check if too up
         if( parentBounds.getMinY()+179 >= (newY + childBounds.getMinY()) ) {
             return true ;
         }
 
         return false;
-
-        /* Alternative implementation 
-        Point2D topLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMinY());
-        Point2D topRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMinY());
-        Point2D bottomLeft = new Point2D(newX + childBounds.getMinX(), newY + childBounds.getMaxY());
-        Point2D bottomRight = new Point2D(newX + childBounds.getMaxX(), newY + childBounds.getMaxY());
-        Bounds newBounds = BoundsUtils.createBoundingBox(topLeft, topRight, bottomLeft, bottomRight);
-
-        return ! parentBounds.contains(newBounds);
-         */
     }
     
 }
