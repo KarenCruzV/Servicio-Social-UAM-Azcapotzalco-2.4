@@ -46,8 +46,8 @@
       <Label fx:id="lbldB" layoutX="239.0" layoutY="163.0" text="dB" />
       <Label fx:id="lblConectarA" layoutX="54.0" layoutY="207.0" text="Connect to" />
       <ComboBox fx:id="cboxConectarA" layoutX="147.0" layoutY="203.0" prefHeight="25.0" prefWidth="110.0" promptText="-Select-" />
-      <Button fx:id="btnDesconectar" layoutX="274.0" layoutY="203.0" mnemonicParsing="false" onAction="#Desconectar"  text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="46.0" layoutY="262.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnDesconectar" layoutX="274.0" layoutY="203.0" mnemonicParsing="false" onAction="#Desconectar" text="Disconnect" />
+      <Button fx:id="btnCrear" layoutX="46.0" layoutY="262.0" mnemonicParsing="false" onAction="#enviarDatos" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

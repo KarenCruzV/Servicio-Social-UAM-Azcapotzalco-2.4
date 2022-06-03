@@ -788,51 +788,5 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
 
         return false;
     }
-    public void imprimir(ActionEvent event){
-        int modo=0, longitudOnda=0, id = 0;
-        double perdidaInsercion, perdidaMax =0.5;
-        
-        if(rbtnMono.isSelected()){
-            modo=0;
-        }else if(rbtnMulti.isSelected()){
-            perdidaMax=1.0;
-            modo=1;
-        }   
-        if(rbtn1310.isSelected()){
-            longitudOnda=1310;
-        }else if(rbtn1550.isSelected()){
-            longitudOnda=1550;
-        }
-        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
-            System.out.println("\nInvalid loss value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("\nInvalid loss value");
-            alert.showAndWait();
-        }
-        else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
-            System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
-            alert.showAndWait();
-        }
-        else{
-            Conector con= new Conector();
-            con.setConectadoEntrada(false);
-            con.setConectadoSalida(false);
-            con.setIdConector(idConector);
-            con.setLongitudOnda(longitudOnda);
-            con.setNombre("connector");
-            con.setPerdidaInsercion(perdidaInsercion);
-            con.setModo(modo);
-            guardarConector(con);
-            idConector++;
-            cerrarVentana(event);
-        }
-    }
     
 }
