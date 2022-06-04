@@ -65,7 +65,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     /**RadioButton para la longitud de onda de 1310 nm*/
     @FXML
     RadioButton rbtn1310;
-    /**RadioButton para la longitud de onda de 510 nm*/
+    /**RadioButton para la longitud de onda de 1550 nm*/
     @FXML
     RadioButton rbtn1550;
     /**RadioButton para el modo Monomodo del conector*/
@@ -137,7 +137,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     }
 
     /**
-     * Metodo que modifica la posicion del conector en el eje X
+     * Metodo que modifica la posicion del conector en el eje Y
      * @param posY Posicion en el eje Y
      */
     public static void setPosY(double posY) {
@@ -149,7 +149,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
      * @param url La ubicacion utilizada para resolver rutas relativas para 
      * el objeto raiz, o nula si no se conoce la ubicacion
      * @param rb Los recursos utilizados para localizar el objeto raiz, o nulo 
-     * si el objeto raiz no se localizo.
+     * si el objeto raiz no se localizo
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -306,6 +306,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                             break;
                         }
                     }
+                    
                     if( outSideParentBoundsX(elem.getDibujo().getLayoutBounds(), newX, newY) ) {    //return; 
                     }else{
                         elem.getDibujo().setLayoutX(Pane1.getChildren().get(j).getLayoutX()+event.getX()+1);
@@ -384,7 +385,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         menuItem1.setOnAction(e ->{
             for(int elemento=0; elemento<controlador.getElementos().size(); elemento++){
                 if(dibujo.getId()==controlador.getElementos().get(elemento).getId()){
-                    System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
+                    //System.out.println(dibujo.getId()+"----"+controlador.getElementos().get(elemento).getId());
                     Conector aux=new Conector();
                     Conector aux1=(Conector)controlador.getElementos().get(elemento);
                     aux.setConectadoEntrada(false);
@@ -434,10 +435,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }    
             dibujo.getDibujo().setVisible(false);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Succes");
-                alert.setHeaderText(null);
-                alert.setContentText("\nRemoved connector!");
-                alert.showAndWait();
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("\nRemoved connector!");
+            alert.showAndWait();
 
         });
         
@@ -608,7 +609,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).getDibujo().getText());
             }
         }
-        
     }
 
     /**
@@ -774,7 +774,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
      * elemento grafico no salga del area de trabajo
      */
     private boolean outSideParentBoundsY( Bounds childBounds, double newX, double newY) {
-
         Bounds parentBounds = Pane1.getLayoutBounds();
         
         //check if too down

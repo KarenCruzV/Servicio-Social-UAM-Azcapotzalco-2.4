@@ -29,40 +29,68 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
- * FXML Controller class
- *
- * @author karen
+ * Clase VentanaEspectroController la cual se encarga de proporcionar la
+ * funcionalidad al analizador de espectro
+ * @author Daniel Hernandez
+ * Editado por:
+ * @author Arturo Borja
+ * @author Karen Cruz
+ * @see ControladorGeneral
  */
 public class VentanaEspectroController implements Initializable {
+    
+    /**Controlador del simulador*/
     ControladorGeneral controlador;
-    LinkedList<Componente> elementos;
+    /**Elemento grafico del medidor de espectro*/
     ElementoGrafico elem;
+    /**Escenario en el cual se agregaran los objetos creados*/
     Stage stage;
     
+    /**Boton que permite visualizar el pulso a la entrada*/
     @FXML
-    Button btnPulsoEntrada, btnB2;
-    
+    Button btnPulsoEntrada;
+    /**Boton que permite visualizar el pulso a la salida*/
+    @FXML
+    Button btnB2;
+    /**Panel para agregar objetos*/
     @FXML
     private Pane Pane1;
-    
+    /**Espacio en el cual el usuario puede desplazarse*/
     @FXML
     private ScrollPane scroll;
 
     /**
-     * Initializes the controller class.
-     * @param event Representa una accion del usuario en la interfaz
+     * Metodo el cual inicializa la ventana del medidor de espectro
+     * @param url La ubicacion utilizada para resolver rutas relativas para 
+     * el objeto raiz, o nula si no se conoce la ubicacion
+     * @param rb Los recursos utilizados para localizar el objeto raiz, o nulo 
+     * si el objeto raiz no se localizo
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+    }  
+    
+    /**
+     * Metodo para cerrar la ventana del medidor de espectro
+     * @param event Representa cualquier tipo de accion
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
         Stage s = (Stage) source.getScene().getWindow();
         s.close();
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
-    
+      
+    /**
+     * Metodo que realiza los calculos para poder visualizar el pulso a la 
+     * entrada correctamente
+     * @param A0 Amplitud del pulso de la fuente
+     * @param T0 Anchura del pulso de la fuente
+     * @param W0 Frecuencia del pulso de la fuente
+     * @param C Chirp del pulso de la fuente
+     * @param M Pulso de la fuente gausiano o supergausiano
+     * @return corrimiento logico a la derecha
+     */
     public float[] pulsoEntrada(float A0,float T0,float W0,float C,float M){
         int n = 512;
         if(T0 <=35)
@@ -75,8 +103,8 @@ public class VentanaEspectroController implements Initializable {
         NumeroComplejo[] Et= calcularEnvolvente(n,false,A0,T0,W0,C,M);
 
         //se separa de la envolvente las partes reales y las imaginarias
-        //ya que al ser un numero complejo se debe obtener la la fft de cada parte tratandola como real
-        //y despues crear bien en numero complejo resultante
+        //ya que al ser un numero complejo se debe obtener la fft de cada parte tratandola como real
+        //y despues crear bien el numero complejo resultante
         float[] valoresReales = new float [n];
         for(int t=-(n/2); t<(n/2);t++){
             valoresReales[(n/2)+t]= Et[(n/2)+t].getRealPart();
@@ -87,7 +115,7 @@ public class VentanaEspectroController implements Initializable {
             valoresImaginarios[(n/2)+t]= Et[(n/2)+t].getImaginaryPart();
         }
         
-        //calcular la fft de las partes reales y de las imaginrias
+        //calcular la fft de las partes reales y de las imaginarias
         valoresReales=calcularFFT_real(valoresReales, n);
 	valoresImaginarios=calcularFFT_real(valoresImaginarios, n);
         
@@ -102,8 +130,19 @@ public class VentanaEspectroController implements Initializable {
         return fftShift_float(absFFT, n);
     }
     
+    /**
+     * Metodo que realiza los calculos para poder visualizar el pulso a la 
+     * salida correctamente
+     * @param A0 Amplitud del pulso de la fuente
+     * @param T0 Anchura del pulso de la fuente
+     * @param W0 Frecuencia del pulso de la fuente
+     * @param C Chirp del pulso de la fuente
+     * @param M Pulso de la fuente gausiano o supergausiano
+     * @param lista Componentes conectados antes del medidor de potencia
+     * @return corrimiento logico a la derecha
+     */
     public float[] pulsoSalidaB2(float A0,float T0,float W0,float C,float M,LinkedList<Componente> lista){
-        //primero se encuentra la longitud total de la fibra y su wavelength
+        //primero se encuentra la longitud total de la fibra y su longitud de onda
         float z = 0;
         int wavelength =0;
         for(int i=0; i< lista.size();i++){
@@ -239,8 +278,17 @@ public class VentanaEspectroController implements Initializable {
     
     }
     
-    //este metodo calcula la envolvente del puslo 
-    //A0*U(0,T)
+    /**
+     * Metodo que calcula la envolvente del pulso
+     * @param n Para calcular la envolvente
+     * @param salida Precision para el pulso a la salida
+     * @param A0 Amplitud del pulso de la fuente
+     * @param T0 Anchura del pulso de la fuente
+     * @param W0 Frecuencia del pulso de la fuente
+     * @param C Chirp del pulso de la fuente
+     * @param M Pulso de la fuente gausiano o supergausiano
+     * @return arreglo de numeros complejos
+     */
     public NumeroComplejo [] calcularEnvolvente(int n,boolean salida,float A0,float T0,float W0,float C,float M){
         //si es para el pulso de salida se necesita mas presicion
         NumeroComplejo[] Et= null;
@@ -316,8 +364,13 @@ public class VentanaEspectroController implements Initializable {
         return Et;
     } 
     
-    //este metodo aplica un corrimiento logico a la derecha desde la mitad 
-    //del arreglo de valores flotantes
+    /**
+     * Metodo que aplica un corrimiento logico a la derecha desde la mitad 
+     * del arreglo de valores flotantes
+     * @param valores Arreglo de valores flotantes
+     * @param n Para realizar el corrimiento
+     * @return corrimiento logico a la derecha
+     */
     public float[] fftShift_float(float [] valores,int n){
         float [] fftshift = new float[n];
         for(int i = (n/2); i < n; i++){
@@ -329,8 +382,13 @@ public class VentanaEspectroController implements Initializable {
         return fftshift;        
     }
     
-    //este metodo aplica un corrimiento logico a la derecha desde la mitad 
-    //del arreglo de valores flotantes
+    /**
+     * Metodo que aplica un corrimiento logico a la derecha desde la mitad 
+     * del arreglo de valores de numeros complejos
+     * @param valores Arreglo de valores de numeros complejos
+     * @param n Para realizar el corrimiento
+     * @return corrimiento logico a la derecha
+     */
     public NumeroComplejo[] fftShift_complejo(NumeroComplejo [] valores,int n){
         NumeroComplejo [] fftshift = new NumeroComplejo[n];
         for(int i = (n/2); i < n; i++){
@@ -342,16 +400,25 @@ public class VentanaEspectroController implements Initializable {
         return fftshift;        
     }
     
-    //este metodo calcula la FFT y devuelve solo la parte real
+    /**
+     * Metodo que calcula la Transformada Rapida de Fourier y retorna solo la
+     * parte real
+     * @param datos Arreglo de datos para calcular la FFT
+     * @param n Tamaño
+     * @return parte real de la Transformada Rapida de Fourier
+     */
     public float[] calcularFFT_real(float [] datos, int n){
         FFT fft = new FFT(n,0);	
         FFT.NumeroComplejoArray cna = fft.fft(datos);
         return cna.getPartesReales();
     }
     
+    /**
+     * Metodo que muestra la grafica del pulso a la entrada
+     */
     @FXML
     public void btnPulsoEntradaAction(){
-        LinkedList<Componente> ele=verCaminito();
+        LinkedList<Componente> ele=verComponentesConectados();
         Fuente f= new Fuente();
         if(ele.getLast().getNombre().contains("source")){
             f= (Fuente)ele.getLast();
@@ -360,10 +427,7 @@ public class VentanaEspectroController implements Initializable {
         }
         float valores[] = pulsoEntrada(f.getA0(), f.getT0(),
                 f.getW0(), f.getC(), f.getM());
-        //(Float.parseFloat(VentanaPulsoController.A0),
-          //      Float.parseFloat(pulso.txtT0.getText()), Float.parseFloat(pulso.txtW0.getText()),
-            //    Float.parseFloat(pulso.txtC.getText()), Float.parseFloat(pulso.txtM.getText()));
-         
+        
         if(valores != null){
 	 XYSeries series = new XYSeries("xy");
         
@@ -402,48 +466,50 @@ public class VentanaEspectroController implements Initializable {
         }
     }
     
+    /**
+     * Metodo que muestra la grafica del pulso a la salida
+     */
     @FXML
     public void btnB2Action(){
-        LinkedList<Componente> ele=verCaminito();
+        LinkedList<Componente> ele=verComponentesConectados();
         Fuente f= (Fuente)ele.getLast();
         
-        //MedidorEspectro espectro= (MedidorEspectro)elem.getComponente();
         float valores[] = pulsoSalidaB2(f.getA0(), f.getT0(),
                 f.getW0(), f.getC(), f.getM(),ele);
         
         if(valores != null){
-	 XYSeries series = new XYSeries("xy");
-        
-         //Introduccion de datos
-        double naux = valores.length;
-        double t = -((naux/2)/10);
-        for(int i=0; i<valores.length;i++){
-            t= Math.floor(t * 10) / 10;
-            series.add(t,valores[i]);
-            //System.out.println(valores[i]);
-            t = t + 0.1F;
-            //System.out.println(valores[i]);
-        }
+            XYSeries series = new XYSeries("xy");
 
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
+             //Introduccion de datos
+            double naux = valores.length;
+            double t = -((naux/2)/10);
+            for(int i=0; i<valores.length;i++){
+                t= Math.floor(t * 10) / 10;
+                series.add(t,valores[i]);
+                //System.out.println(valores[i]);
+                t = t + 0.1F;
+                //System.out.println(valores[i]);
+            }
 
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Output Pulse", // Título
-                "Time (t)", // Etiqueta Coordenada X
-                "U(z,t)", // Etiqueta Coordenada Y
-                dataset, // Datos
-                PlotOrientation.VERTICAL,
-                true, // Muestra la leyenda de los productos (Producto A)
-                false,
-                false
-        );
-        chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
-        chart.setBackgroundPaint(new Color(173, 216, 230));
-          //Mostramos la grafica en pantalla
-        ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
-        frame.pack();
-        frame.setVisible(true);
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries(series);
+
+            JFreeChart chart = ChartFactory.createXYLineChart(
+                    "Output Pulse", // Título
+                    "Time (t)", // Etiqueta Coordenada X
+                    "U(z,t)", // Etiqueta Coordenada Y
+                    dataset, // Datos
+                    PlotOrientation.VERTICAL,
+                    true, // Muestra la leyenda de los productos (Producto A)
+                    false,
+                    false
+            );
+            chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+            chart.setBackgroundPaint(new Color(173, 216, 230));
+              //Mostramos la grafica en pantalla
+            ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
+            frame.pack();
+            frame.setVisible(true);
         }
         else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -454,26 +520,44 @@ public class VentanaEspectroController implements Initializable {
         }
     }
     
-    public LinkedList verCaminito(){
-        LinkedList<Componente> poyo=new LinkedList();
+    /**
+     * Metodo que permite ver los componentes conectados antes del medidor de espectro
+     * @return Componentes
+     */
+    public LinkedList verComponentesConectados(){
+        LinkedList<Componente> lista=new LinkedList();
         System.out.println(elem.getComponente().getNombre());
-        añadirCaminito(poyo, elem.getComponente());
-        return poyo;
+        añadirComponentesConectados(lista, elem.getComponente());
+        return lista;
     }
     
-    public void añadirCaminito(LinkedList poyo, Componente comp){
-        poyo.add(comp);
+    /**
+     * Metodo que agrega a una lista los componentes conectados antes del medidor de espectro
+     * @param lista Lista de componentes
+     * @param comp Componentes
+     */
+    public void añadirComponentesConectados(LinkedList lista, Componente comp){
+        lista.add(comp);
         if(comp.isConectadoEntrada()){
-            for(int kc=0; kc<controlador.getElementos().size();kc++){
-                if(comp.getElementoConectadoEntrada().equals(controlador.getDibujos().get(kc).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(kc);
-                    añadirCaminito(poyo, aux);
+            for(int i=0; i<controlador.getElementos().size(); i++){
+                if(comp.getElementoConectadoEntrada().equals(controlador.getDibujos().get(i).getDibujo().getText())){
+                    Componente aux= controlador.getElementos().get(i);
+                    añadirComponentesConectados(lista, aux);
                     break;
                 }
             }
         }
     }
 
+    /**
+     * Metodo que proporciona lo necesario para que la ventana reconozca a 
+     * que elemento se refiere
+     * @param controlador Controlador del simulador
+     * @param stage Escenario en el cual se agregan los objetos creados
+     * @param Pane1 Panel para agregar objetos
+     * @param scroll Espacio en el cual el usuario puede desplazarse
+     * @param elem Elemento grafico
+     */
     void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll, ElementoGrafico elem) {
         this.controlador=controlador;
         this.stage=stage;
