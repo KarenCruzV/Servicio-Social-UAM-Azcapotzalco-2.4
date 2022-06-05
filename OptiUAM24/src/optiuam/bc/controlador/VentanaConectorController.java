@@ -55,6 +55,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     static double posX;
     /**Posicion del conector en el eje Y*/
     static double posY;
+    
     /**Panel para agregar objetos*/
     @FXML
     private Pane Pane1;
@@ -186,8 +187,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }else if(rbtn1550.isSelected()){
             longitudOnda=1550;
         }
-        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -204,6 +204,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             alert.showAndWait();
         }
         else{
+            perdidaInsercion= Double.parseDouble(txtPerdida.getText());
             Conector con= new Conector();
             con.setConectadoEntrada(false);
             con.setConectadoSalida(false);
@@ -572,10 +573,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
             dibujarLinea(elemG);
         }
-
-        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-
-        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -592,6 +590,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             alert.showAndWait();
         }
         else{
+            perdidaInsercion= Double.parseDouble(txtPerdida.getText());
             aux.setLongitudOnda(longitudOnda);
             aux.setNombre("connector");
             aux.setPerdidaInsercion(perdidaInsercion);
@@ -747,7 +746,6 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         aux.getComponente().setLinea(line);
-            
     }
     
     /**

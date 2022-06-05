@@ -709,7 +709,6 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         aux.getComponente().setLinea(line);
-            
     }
     
     /**
