@@ -61,9 +61,9 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     ElementoGrafico elemG;
     /**Controlador de la fibra*/
     VentanaFibraController fibraControl;
-    /**Posicion del conector en el eje X*/
+    /**Posicion de la fibra en el eje X*/
     static double posX;
-    /**Posicion del conector en el eje Y*/
+    /**Posicion de la fibra en el eje Y*/
     static double posY;
     
     /**Caja de texto para ingresar la atenuacion de la fibra*/
@@ -290,12 +290,12 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     }
     
     /**
-     * Metodo el cual captura los datos obtenidos de la ventana del conector y
-     * crea uno
+     * Metodo el cual captura los datos obtenidos de la ventana de la fibra y
+     * crea una
      * @param event Representa cualquier tipo de accion 
      * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException{
+    public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
         
@@ -332,7 +332,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             tipo=2;
         }
         
-        if (txtDistancia.getText().isEmpty() || txtDistancia.getText().compareTo("")==0 || !txtDistancia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtDistancia.getText().isEmpty() || txtDistancia.getText().compareTo("")==0 || !txtDistancia.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -341,7 +341,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             alert.showAndWait();
             txtDistancia.setText("");
         }
-        else if (txtAtenue.getText().isEmpty() || txtAtenue.getText().compareTo("")==0 || !txtAtenue.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        else if (txtAtenue.getText().isEmpty() || txtAtenue.getText().compareTo("")==0 || !txtAtenue.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -350,7 +350,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             alert.showAndWait();
             txtAtenue.setText("");
         }
-        else if (txtDisp.getText().isEmpty() || txtDisp.getText().compareTo("")==0 || !txtDisp.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        else if (txtDisp.getText().isEmpty() || txtDisp.getText().compareTo("")==0 || !txtDisp.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -505,7 +505,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
                         Stage stage1 = new Stage();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaFibra.fxml"));
                         Parent root = loader.load();
-                        //Se crea una instancia del controlador del conector
+                        //Se crea una instancia del controlador de la fibra
                         VentanaFibraController fibraController = (VentanaFibraController) loader.getController();
                         fibraController.init(controlador, stage, Pane1,scroll);
                         /*Se necesito usar otro init de forma que el controller sepa cual es el elemento
@@ -790,9 +790,10 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     /**
      * Metodo para modificar la fibra
      * @param event Representa cualquier tipo de accion
+     * @throws java.lang.reflect.InvocationTargetException
      */
     @FXML
-    public void modificar(ActionEvent event){
+    public void modificar(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         Fibra aux = (Fibra) elemG.getComponente();
         int modo=0, longitudOnda=0, tipo=0, id = 0;
         double longitudKm, atenue, dispersion;
@@ -848,7 +849,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             }
             dibujarLinea(elemG);
         }
-        if (txtDistancia.getText().isEmpty() || txtDistancia.getText().isEmpty() || txtDistancia.getText().compareTo("")==0 || !txtDistancia.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtDistancia.getText().isEmpty() || txtDistancia.getText().compareTo("")==0 || !txtDistancia.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -857,7 +858,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             alert.showAndWait();
             txtDistancia.setText("");
         }
-        else if (txtAtenue.getText().isEmpty() || txtAtenue.getText().isEmpty() || txtAtenue.getText().compareTo("")==0 || !txtAtenue.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        else if (txtAtenue.getText().isEmpty() || txtAtenue.getText().compareTo("")==0 || !txtAtenue.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -866,7 +867,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             alert.showAndWait();
             txtAtenue.setText("");
         }
-        else if (txtDisp.getText().isEmpty() || txtDisp.getText().isEmpty() || txtDisp.getText().compareTo("")==0 || !txtDisp.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        else if (txtDisp.getText().isEmpty() || txtDisp.getText().compareTo("")==0 || !txtDisp.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -922,7 +923,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
      * @param stage Escenario en el cual se agregan los objetos creados
      * @param Pane1 Panel para agregar objetos
      * @param elem Elemento grafico
-     * @param fibraController Controlador del conector
+     * @param fibraController Controlador de la fibra
     */
     public void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaFibraController fibraController) {
         this.elemG=elem;

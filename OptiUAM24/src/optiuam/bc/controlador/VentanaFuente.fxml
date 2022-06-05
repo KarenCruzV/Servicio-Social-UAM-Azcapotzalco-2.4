@@ -55,7 +55,7 @@
       <Label fx:id="lblConectarA" layoutX="357.0" layoutY="109.0" text="Connect to:" />
       <ComboBox fx:id="cboxConectarA" layoutX="351.0" layoutY="134.0" prefHeight="25.0" prefWidth="105.0" />
       <Button fx:id="btnDesconectar" layoutX="350.0" layoutY="189.0" mnemonicParsing="false" onAction="#Desconectar" text="Disconnect" />
-      <Button fx:id="btnCrear" layoutX="77.0" layoutY="316.0" mnemonicParsing="false" onAction="#imprimir" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
+      <Button fx:id="btnCrear" layoutX="77.0" layoutY="316.0" mnemonicParsing="false" onAction="#enviarDatos" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #7fff00;" text="CREATE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

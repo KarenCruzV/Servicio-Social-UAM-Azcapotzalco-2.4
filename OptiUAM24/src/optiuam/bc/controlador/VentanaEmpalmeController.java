@@ -2,6 +2,7 @@
 package optiuam.bc.controlador;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -174,8 +175,9 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
      * Metodo el cual captura los datos obtenidos de la ventana del empalme y
      * crea uno
      * @param event Representa cualquier tipo de accion 
+     * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void enviarDatos(ActionEvent event){
+    public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int tipo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax = 0.5;
         if(rbtnMecanico.isSelected()){
@@ -188,16 +190,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }else if(rbtn1550.isSelected()){
             longitudOnda=1550;
         }
-        
-        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-        
-        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
@@ -206,9 +206,11 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             alert.setHeaderText(null);
             alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else{
-            Empalme empalme= new Empalme();
+            perdidaInsercion = Double.parseDouble(txtPerdida.getText());
+            Empalme empalme = new Empalme();
             empalme.setConectadoEntrada(false);
             empalme.setConectadoSalida(false);
             empalme.setIdEmpalme(idEmpalme);
@@ -531,9 +533,10 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     /**
      * Metodo para modificar el empalme
      * @param event Representa cualquier tipo de accion
+     * @throws java.lang.reflect.InvocationTargetException
      */
     @FXML
-    public void modificar(ActionEvent event){
+    public void modificar(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         Empalme aux = (Empalme) elemG.getComponente();
         int tipo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax = 0.5;
@@ -566,15 +569,14 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             }
             dibujarLinea(elemG);
         }
-        perdidaInsercion= Double.parseDouble(txtPerdida.getText());
-
-        if (txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
@@ -583,8 +585,10 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             alert.setHeaderText(null);
             alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else{
+            perdidaInsercion = Double.parseDouble(txtPerdida.getText());
             aux.setLongitudOnda(longitudOnda);
             aux.setNombre("splice");
             aux.setPerdidaInsercion(perdidaInsercion);

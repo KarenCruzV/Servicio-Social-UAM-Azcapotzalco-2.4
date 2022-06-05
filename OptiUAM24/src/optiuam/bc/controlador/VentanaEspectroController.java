@@ -35,7 +35,6 @@ import org.jfree.data.xy.XYSeriesCollection;
  * Editado por:
  * @author Arturo Borja
  * @author Karen Cruz
- * @see ControladorGeneral
  */
 public class VentanaEspectroController implements Initializable {
     

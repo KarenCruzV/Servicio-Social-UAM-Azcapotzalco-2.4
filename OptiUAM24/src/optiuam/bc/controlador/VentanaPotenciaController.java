@@ -24,35 +24,55 @@ import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.Splitter;
 
 /**
- * FXML Controller class
- *
- * @author karen
+ * Clase VentanaPotenciaController la cual se encarga de proporcionar la
+ * funcionalidad al medidor de potencia
+ * @author Daniel Hernandez
+ * Editado por:
+ * @author Arturo Borja
+ * @author Karen Cruz
  */
 public class VentanaPotenciaController implements Initializable {
     
+    /**Controlador del simulador*/
     ControladorGeneral controlador;
+    /**Componentes conectados antes del medidor de potencia*/
     LinkedList<Componente> elementos;
+    /**Elemento grafico del medidor de potencia*/
     ElementoGrafico elem;
+    /**Escenario en el cual se agregaran los objetos creados*/
     Stage stage;
     
+    /**Boton para calcular la potencia*/
     @FXML
     Button btnCalcularPotencia;
-    
+    /**Caja de texto para ingresar la sensibilidad*/
     @FXML
     TextField txtSensibilidad;
-    
+    /**Etiqueta que mostrará el resultado del calculo de la potencia*/
     @FXML
     Label lblPotencia;
-    
+    /**Panel para agregar objetos*/
     @FXML
     private Pane Pane1;
-    
+    /**Espacio en el cual el usuario puede desplazarse*/
     @FXML
     private ScrollPane scroll;
     
     /**
-     * Initializes the controller class.
-     * @param event Representa una accion del usuario en la interfaz
+     * Metodo el cual inicializa la ventana del medidor de potencia
+     * @param url La ubicacion utilizada para resolver rutas relativas para 
+     * el objeto raiz, o nula si no se conoce la ubicacion
+     * @param rb Los recursos utilizados para localizar el objeto raiz, o nulo 
+     * si el objeto raiz no se localizo
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+    }    
+    
+    /**
+     * Metodo para cerrar la ventana del medidor de potencia
+     * @param event Representa cualquier tipo de accion
      */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
@@ -60,11 +80,11 @@ public class VentanaPotenciaController implements Initializable {
         s.close();
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
-    
+    /**
+     * Metodo que calcula la potencia
+     * @param sensibilidad Sensibilidad utilizada para calcular la potencia
+     * @return potencia calculada
+     */
     public double calcularPotencia(Double sensibilidad) {
         double Dt= 0.0; //dispersion cromatica total
         double Pa= 0.0; //perdida por atenuacion de la fibra L*Fa 
@@ -86,7 +106,7 @@ public class VentanaPotenciaController implements Initializable {
         int    Se=0;    //salidas del splitter
        // boolean isSplitter=false; //para saber si hubo un splitter en el enlace
      
-        elementos = verCaminito();
+        elementos = verComponentesConectados();
         for(int o=0; o<elementos.size();o++){
             System.out.println(elementos.get(o).toString());
         }
@@ -152,6 +172,11 @@ public class VentanaPotenciaController implements Initializable {
         return (Math.floor(Pt*100)/100);
     }
     
+    /**
+     * Metodo que muestra la perdida de conectores y empalmes
+     * @param lista Conectores y empalmes
+     * @return perdida total
+     */
     public double perdidaConectores_Empalmes(LinkedList<Double> lista){
         Double perdidaTotal = 0.0;
         if(lista.isEmpty())
@@ -161,9 +186,12 @@ public class VentanaPotenciaController implements Initializable {
         return perdidaTotal;
     }
     
+    /**
+     * Metodo que muestra la potencia calculada
+     */
     @FXML
     public void btnCalcularPotenciaAction(){
-        if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -191,25 +219,45 @@ public class VentanaPotenciaController implements Initializable {
         }
     }
     
-    public LinkedList verCaminito(){
-        LinkedList<Componente> poyo=new LinkedList();
-        añadirCaminito(poyo, elem.getComponente());
-        return poyo;
+    /**
+     * Metodo que permite ver los componentes conectados antes del medidor de 
+     * potencia
+     * @return Componentes
+     */
+    public LinkedList verComponentesConectados(){
+        LinkedList<Componente> lista=new LinkedList();
+        System.out.println(elem.getComponente().getNombre());
+        añadirComponentesConectados(lista, elem.getComponente());
+        return lista;
     }
     
-    public void añadirCaminito(LinkedList poyo, Componente comp){
-        poyo.add(comp);
-        if(elem.getComponente().isConectadoEntrada()){
-            for(int kc=0; kc<controlador.getElementos().size();kc++){
-                if(comp.getElementoConectadoEntrada().equals(controlador.getDibujos().get(kc).getDibujo().getText())){
-                    Componente aux= controlador.getElementos().get(kc);
-                    añadirCaminito(poyo, aux);
+    /**
+     * Metodo que agrega a una lista los componentes conectados antes del medidor de potencia
+     * @param lista Lista de componentes
+     * @param comp Componentes
+     */
+    public void añadirComponentesConectados(LinkedList lista, Componente comp){
+        lista.add(comp);
+        if(comp.isConectadoEntrada()){
+            for(int i=0; i<controlador.getElementos().size();i++){
+                if(comp.getElementoConectadoEntrada().equals(controlador.getDibujos().get(i).getDibujo().getText())){
+                    Componente aux= controlador.getElementos().get(i);
+                    añadirComponentesConectados(lista, aux);
                     break;
                 }
             }
         }
     }
 
+    /**
+     * Metodo que proporciona lo necesario para que la ventana reconozca a 
+     * que elemento se refiere
+     * @param controlador Controlador del simulador
+     * @param stage Escenario en el cual se agregan los objetos creados
+     * @param Pane1 Panel para agregar objetos
+     * @param scroll Espacio en el cual el usuario puede desplazarse
+     * @param elem Elemento grafico
+     */
     void init(ControladorGeneral controlador, Stage stage, Pane Pane1, ScrollPane scroll, ElementoGrafico elem) {
         this.controlador=controlador;
         this.stage=stage;

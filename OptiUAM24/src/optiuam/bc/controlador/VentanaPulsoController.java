@@ -24,111 +24,161 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
- * FXML Controller class
- *
- * @author karen
+ * Clase VentanaPulsoController la cual se encarga de proporcionar la
+ * funcionalidad a la configuracion del pulso de la fuente
+ * @author Daniel Hernandez
+ * Editado por:
+ * @author Arturo Borja
+ * @author Karen Cruz
  */
 public class VentanaPulsoController implements Initializable {
+    
+    /**Fuente optica*/
     Fuente fuente;
-    @FXML
-    Button btnAplicar, btnGraficar;
-    
-    @FXML
-    TextField txtA0, txtC, txtT0, txtW0, txtM;
-    
+    /**Identificador de la ventana de la fuente*/
+    VentanaFuenteController ventanaFuente;
+    /**Tipo de pulso*/
+    String tipo;
+    /**Controlador del simulador*/
+    ControladorGeneral controlador;
+    /**Amplitud*/
     static float A0;
+    /**Anchura*/
     static float T0;
+    /**Frecuencia*/
     static float W0;
+    /**Chirp*/
     static float C;
+    /**Pulso gausiano o supergausiano*/
     static float M;
     
-    private VentanaFuenteController ventanaFuente;//id de la ventana de la fuente !!
-    String tipo="Gaussian";
-    /** Creates new form VentanaPulso */
-    
-    private ControladorGeneral controlador;
+    /**Boton que almacena los datos del pulso de la fuente*/
+    @FXML
+    Button btnAplicar;
+    /**Boton que muestra la grafica del pulso de la fuente*/
+    @FXML
+    Button btnGraficar;
+    /**Caja de texto para ingresar la amplitud*/
+    @FXML
+    TextField txtA0;
+    /**Caja de texto para ingresar el chirp*/
+    @FXML
+    TextField txtC;
+    /**Caja de texto para ingresar la anchura*/
+    @FXML
+    TextField txtT0;
+    /**Caja de texto para ingresar la frecuencia*/
+    @FXML
+    TextField txtW0;
+    /**Caja de texto para ingresar el valor que definira el tipo de pulso*/
+    @FXML
+    TextField txtM;
     
     /**
-     * Initializes the controller class.
-     * @param url Representa un localizador uniforme de recursos, un puntero a un "recurso" en la WWW
-     * @param rb Contiene objetos específicos de la localidad
+     * Metodo el cual inicializa la ventana del pulso
+     * @param url La ubicacion utilizada para resolver rutas relativas para 
+     * el objeto raiz, o nula si no se conoce la ubicacion
+     * @param rb Los recursos utilizados para localizar el objeto raiz, o nulo 
+     * si el objeto raiz no se localizo
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }  
+    
+    /**
+     * Metodo para cerrar la ventana del pulso
+     * @param event Representa cualquier tipo de accion
+     */
     public void cerrarVentana(ActionEvent event){
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
     
-    public void setVentanaFuenteController(VentanaFuenteController ventanaFuente){
-        this.ventanaFuente= ventanaFuente;
-    }
-    
+    /**
+     * Metodo que modifica los atributos del pulso de la fuente
+     * 
+     * @param C Chirp del pulso
+     * @param A0 Amplitud del pulso
+     * @param W0 Frecuencia del pulso
+     * @param T0 Anchura del pulso
+     * @param M Define si el pulso es Gausiano o Supergausiano
+     */
     public void setValores(float C,float A0,float W0,float T0,float M){
-        txtC.setText(String.valueOf(C)); //chirp
+        txtC.setText(String.valueOf(C));   //chirp
         txtA0.setText(String.valueOf(A0)); //amplitud
         txtW0.setText(String.valueOf(W0)); //frecuencia
         txtT0.setText(String.valueOf(T0)); //anchura
-        txtM.setText(String.valueOf(M));
+        txtM.setText(String.valueOf(M));   //pulso gausiano o supergausiano
         if(M > 1){
             tipo="Supergaussian";
         }
+        else if(M == 1){
+            tipo="Gaussian";
+        }
     }
     
-     private boolean validarValores(){
-        if (txtA0.getText().compareTo("")==0 || !txtA0.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+    /**
+     * Metodo encargado de validar los valores ingresados para la configuracion
+     * del pulso
+     */
+    private boolean validarValores(){
+        if (txtA0.getText().isEmpty() || txtA0.getText().compareTo("")==0 || !txtA0.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid amplitude value");
             alert.showAndWait();
+            txtA0.setText("");
             return false;
         }
-        if (txtT0.getText().compareTo("")==0 || !txtT0.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtT0.getText().isEmpty() || txtT0.getText().compareTo("")==0 || !txtT0.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid width value");
             alert.showAndWait();
+            txtT0.setText("");
             return false;
         }
-        if (txtC.getText().compareTo("")==0 || !txtC.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtC.getText().isEmpty() || txtC.getText().compareTo("")==0 || !txtC.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid chirp value");
             alert.showAndWait();
+            txtC.setText("");
             return false;
         }
-        if (txtW0.getText().compareTo("")==0 || !txtW0.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtW0.getText().isEmpty() || txtW0.getText().compareTo("")==0 || !txtW0.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid frequency value");
             alert.showAndWait();
+            txtW0.setText("");
             return false;
         }
-         if (txtM.getText().compareTo("")==0 || !txtM.getText().matches("[+-]?\\d*(\\.\\d+)?") 
+         if (txtM.getText().isEmpty() || txtM.getText().compareTo("")==0 || !txtM.getText().matches("[0-9]*?\\d*(\\.\\d+)?") 
                  || Float.parseFloat(txtM.getText() ) <1){
              Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid M value");
             alert.showAndWait();
+            txtM.setText("");
             return false;
         }
         return true;
     }
     
-    public void setControlador(ControladorGeneral controlador){
-        this.controlador=controlador;
-    }
-    
+    /**
+     * Metodo que almacena los valores ingresados para la configuracion
+     * del pulso
+     */
     @FXML
-    public void btnAplicarAction(ActionEvent event) {
+    public void btnAplicarAction() {
         if(validarValores()){
             A0 = Float.parseFloat(txtA0.getText());
             T0 = Float.parseFloat(txtT0.getText());
@@ -137,8 +187,10 @@ public class VentanaPulsoController implements Initializable {
             M = Float.parseFloat(txtM.getText());
             
             if(M > 1){
-            tipo="Supergaussian";
-            
+                tipo="Supergaussian";
+            }
+            else if(M == 1){
+                tipo="Gaussian";
             }
             fuente.setPulso(A0, T0, W0, C, M);
             System.out.println("C:"+C+" A0:"+A0+" W0:"+W0+ " T0:"+T0);
@@ -150,6 +202,10 @@ public class VentanaPulsoController implements Initializable {
         }
     }
     
+    /**
+     * Metod que calcula el pulso de la fuente
+     * @return pulso calculado
+     */
     public float[] calcularPulso(){
         float A0 = Float.parseFloat(txtA0.getText());
         float T0 = Float.parseFloat(txtT0.getText());
@@ -216,8 +272,11 @@ public class VentanaPulsoController implements Initializable {
         return valoresReales;
     }
     
+    /**
+     * Metodo que muestra la grafica del pulso de la fuente
+     */
     @FXML
-    private void btnGraficarAction(ActionEvent event){
+    private void btnGraficarAction(){
         float [] valores = calcularPulso();
         int n =valores.length;
         
@@ -250,7 +309,12 @@ public class VentanaPulsoController implements Initializable {
         frame.setVisible(true);
     }
 
-    void init(ElementoGrafico elemG) {
+    /**
+     * Metodo que proporciona lo necesario para que la ventana reconozca a 
+     * que elemento se refiere
+     * @param elemG Elemento grafico
+     */
+    public void init(ElementoGrafico elemG) {
        this.fuente=(Fuente)elemG.getComponente();
        if(fuente!=null){
             txtA0.setText(String.valueOf(fuente.getA0()));
