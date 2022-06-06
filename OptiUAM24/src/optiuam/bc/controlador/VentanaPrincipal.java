@@ -52,6 +52,7 @@ import optiuam.bc.modelo.Fibra;
 import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.MedidorEspectro;
 import optiuam.bc.modelo.MedidorPotencia;
+import optiuam.bc.modelo.PuertoSalida;
 import optiuam.bc.modelo.Splitter;
 
 public class VentanaPrincipal implements Initializable {
@@ -593,8 +594,6 @@ public class VentanaPrincipal implements Initializable {
                         conector.setModo(Integer.valueOf(partes[7]));
                         conector.setPerdidaInsercion(Double.valueOf(partes[8]));
                         conector.setIdConector(Integer.valueOf(partes[9]));
-                        
-                        System.out.println(conector.getIdConector());
                         con.getElementos().add(conector);
                         
                         Label dibujo = new Label();
@@ -630,7 +629,7 @@ public class VentanaPrincipal implements Initializable {
                         empalme.setPerdidaInsercion(Double.valueOf(partes[7]));
                         empalme.setLongitudOnda(Integer.valueOf(partes[8]));
                         empalme.setIdEmpalme(Integer.valueOf(partes[9]));
-                        System.out.println(empalme.getIdEmpalme());
+                        //System.out.println(empalme.getIdEmpalme());
                         con.getElementos().add(empalme);
                         
                         Label dibujo1 = new Label();
@@ -652,7 +651,7 @@ public class VentanaPrincipal implements Initializable {
                         Pane1.getChildren().add(dibujo1);
                         aux1.eventos(elem1);
                         aux1.setIdEmpalme(Integer.valueOf(partes[9]+1));
-                                
+                        
                         break;
                         
                     case "fiber":
@@ -670,7 +669,7 @@ public class VentanaPrincipal implements Initializable {
                         fibra.setDispersion(Double.valueOf(partes[10]));
                         fibra.setAtenuacion(Double.valueOf(partes[11]));
                         fibra.setIdFibra(Integer.valueOf(partes[12]));
-                        System.out.println(fibra.getIdFibra());
+                        //System.out.println(fibra.getIdFibra());
                         con.getElementos().add(fibra);
                         
                         Label dibujo2 = new Label();
@@ -706,7 +705,7 @@ public class VentanaPrincipal implements Initializable {
                         splitter.setPerdidaInsercion(Double.valueOf(partes[7]));
                         splitter.setLongitudOnda(Integer.valueOf(partes[8]));
                         splitter.setIdS(Integer.valueOf(partes[9]));
-                        System.out.println(splitter.getIdS());
+                        //System.out.println(splitter.getIdS());
                         con.getElementos().add(splitter);
                         
                         Label dibujo3 = new Label();
@@ -714,15 +713,24 @@ public class VentanaPrincipal implements Initializable {
                         switch (splitter.getSalidas()) {
                             case 2:
                                 dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter2.png")));
+                                dibujo3.setLayoutX(Double.parseDouble(partes[12]));
+                                dibujo3.setLayoutY(Double.parseDouble(partes[13]));
                                 break;
                             case 4:
                                 dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter4.png")));
+                                dibujo3.setLayoutX(Double.parseDouble(partes[16]));
+                                dibujo3.setLayoutY(Double.parseDouble(partes[17]));
                                 break;
+                                
                             case 8:
                                 dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter8.png")));
+                                dibujo3.setLayoutX(Double.parseDouble(partes[24]));
+                                dibujo3.setLayoutY(Double.parseDouble(partes[25]));
                                 break;
                             case 16:
                                 dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter16.png")));
+                                dibujo3.setLayoutX(Double.parseDouble(partes[40]));
+                                dibujo3.setLayoutY(Double.parseDouble(partes[41]));
                                 break;
                             case 32:
                                 dibujo3.setGraphic(new ImageView(new Image("images/dibujo_splitter32.png")));
@@ -735,18 +743,14 @@ public class VentanaPrincipal implements Initializable {
                         }
                         
                         dibujo3.setText(splitter.getNombre() + "_"+ splitter.getIdS());
-                        dibujo3.setLayoutX(Double.parseDouble(partes[10]));
-                        dibujo3.setLayoutY(Double.parseDouble(partes[11]));
                         dibujo3.setContentDisplay(ContentDisplay.TOP);
                         
-                        String [] conexiones = linea.split(",");
-                        for(int i=0;i<splitter.getSalidas()+1; i++){
-                            /*
-                            if(conexiones[i].compareTo(" ")==0)
-                                splitter.cargarConexion(i,"");
-                            else    
-                                splitter.cargarConexion(i,conexiones[i]);
-                            */
+                        //String [] conexiones = linea.split(",");
+                        for(int i=1;i<splitter.getSalidas(); i++){
+                            PuertoSalida puerto= new PuertoSalida();
+                            puerto.setConectadoSalida(Boolean.parseBoolean(partes[(9+(2*i)-1)]));
+                            puerto.setElementoConectadoSalida(partes[(9+(2*i))]);
+                            splitter.getConexiones().add(puerto);
                         }
                         ElementoGrafico elem3 = new ElementoGrafico();
                         elem3.setComponente(splitter);
@@ -947,10 +951,25 @@ public class VentanaPrincipal implements Initializable {
                         for(int it=0; it<controlador.getDibujos().size();it++){
                             if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                                 aux=controlador.getDibujos().get(it);
-                                borrarLinea(aux.getComponente().getLinea());
+                                //Aqui es que ya reviso que esta conectado a un elemento, se va a revisar que sea un splitter
+                                //y no esta conectado a su puerto dafault
+                                if(elem.getComponente().getElementoConectadoEntrada().contains("splitter")&&!aux.getComponente().getElementoConectadoSalida().equals(elem.getDibujo().getText())){
+                                    Splitter sp=(Splitter)aux.getComponente();
+                                    for(int on=0; on<sp.getConexiones().size(); on++){
+                                        if(sp.getConexiones().get(on).isConectadoSalida()){
+                                            if(sp.getConexiones().get(on).getElementoConectadoSalida().equals(elem.getDibujo().getText())){
+                                                //System.out.println("conectado a la salida "+(on+1));
+                                                dibujarLineaAtrasSplitter(elem, aux, on);
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    aux.getComponente().getLinea().setVisible(false);
+                                    dibujarLineaAtras(elem);
+                                }
+                                //borrarLinea(aux.getComponente().getLinea());
                             }
                         }
-                        dibujarLineaAtras(elem);
                     }
                 }
         });
@@ -1109,7 +1128,21 @@ public class VentanaPrincipal implements Initializable {
             }
         });
     }
-    
+    public void dibujarLineaAtrasSplitter(ElementoGrafico elem, ElementoGrafico aux, int puerto){
+        Line line= new Line(); 
+        //aux=controlador.getDibujos().get(it);
+        Splitter sptt=(Splitter) aux.getComponente();
+        sptt.getConexiones().get(puerto).getLinea().setVisible(false);
+                line.setStrokeWidth(2);
+                line.setStroke(javafx.scene.paint.Color.BLACK);
+                line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
+                line.setStartY(aux.getDibujo().getLayoutY()+10+(10*(puerto+1)));
+                line.setEndX(elem.getDibujo().getLayoutX());
+                line.setEndY(elem.getDibujo().getLayoutY()+7);
+                line.setVisible(true);
+                Pane1.getChildren().add(line); 
+                sptt.getConexiones().get(puerto).setLinea(line);
+    }
     public void eventosEspectro(Label dibujo, ElementoGrafico elem){
         eventos(elem);
             
@@ -1142,76 +1175,46 @@ public class VentanaPrincipal implements Initializable {
             ElementoGrafico k24=controlador.getDibujos().get(w);
             if(k24.getComponente().isConectadoSalida()){
                 if(k24.getDibujo().getText().contains("connector")){
-                    dibujarLineaConector(k24);
+                    VentanaConectorController fue= new VentanaConectorController();
+                    fue.init(controlador, stage, Pane1, scroll);
+                    fue.dibujarLinea(k24);
+                    
                 }else if(k24.getDibujo().getText().contains("source")){
                     //dibujarLineaFuente(k24);
                     VentanaFuenteController fue= new VentanaFuenteController();
                     fue.init(controlador, stage, Pane1, scroll);
                     fue.dibujarLinea(k24);
+                    
                 }else if(k24.getDibujo().getText().contains("fiber")){
                     //dibujarLineaFuente(k24);
                     VentanaFibraController fue= new VentanaFibraController();
                     fue.init(controlador, stage, Pane1, scroll);
                     fue.dibujarLinea(k24);
+                    
                 }else if(k24.getDibujo().getText().contains("splice")){
                     //dibujarLineaFuente(k24);
                     VentanaEmpalmeController fue= new VentanaEmpalmeController();
                     fue.init(controlador, stage, Pane1, scroll);
                     fue.dibujarLinea(k24);
-                }else if(k24.getDibujo().getText().contains("splitter")){
+                    
+                }/*else if(k24.getDibujo().getText().contains("splitter")){
                     //dibujarLineaFuente(k24);
                     VentanaSplitterController fue= new VentanaSplitterController();
                     fue.init(controlador, stage, Pane1, scroll);
+                    System.out.println("dibujar lineas splitter");
                     fue.dibujarLinea(k24);
-                }
+                    //fue.dibujarLinea(k24);
+                    //fue.dibujarLineaAtras(k24);
+                }*/
+            }
+            if(k24.getDibujo().getText().contains("splitter")){
+                VentanaSplitterController fue= new VentanaSplitterController();
+                fue.init(controlador, stage, Pane1, scroll);
+                System.out.println("dibujar lineas splitter");
+                fue.dibujarLinea(k24);
+                
             }
         }
-    }
     
-    public void dibujarLineaConector(ElementoGrafico elemG) {
-        Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+60);
-        line.setStartY(elemG.getDibujo().getLayoutY()+8);
-        ElementoGrafico aux= new ElementoGrafico();
-        for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
-                aux=controlador.getDibujos().get(it);
-            }
-        }
-        line.setStrokeWidth(2);
-        line.setStroke(javafx.scene.paint.Color.BLACK);
-        
-        if(aux.getDibujo().getText().contains("fiber")){
-            line.setEndX(aux.getDibujo().getLayoutX()+3);
-            line.setEndY(aux.getDibujo().getLayoutY()+20);
-        }else{
-            line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+8);
-        }
-        line.setVisible(true);
-        Pane1.getChildren().add(line); 
-        elemG.getComponente().setLinea(line);
-              
     }
-    
-    public void dibujarLineaFuente(ElementoGrafico elemG) {
-        Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+45);
-        line.setStartY(elemG.getDibujo().getLayoutY()+7);
-        ElementoGrafico aux= new ElementoGrafico();
-        for(int it=0; it<controlador.getDibujos().size();it++){
-            if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
-                aux=controlador.getDibujos().get(it);
-            }
-        }
-        line.setStrokeWidth(2);
-        line.setStroke(javafx.scene.paint.Color.BLACK);
-        line.setEndX(aux.getDibujo().getLayoutX());
-        line.setEndY(aux.getDibujo().getLayoutY()+8);
-        line.setVisible(true);
-        Pane1.getChildren().add(line); 
-        elemG.getComponente().setLinea(line);
-              
-    }
-
 }

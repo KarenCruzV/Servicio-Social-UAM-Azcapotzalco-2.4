@@ -244,6 +244,11 @@ public class Splitter extends Componente {
     
     @Override
     public String toString() {
+        cSalidas=new StringBuilder();
+        for(int i=0;i<salidas-1; i++){
+            //System.out.print(conexiones.get(i).toString());
+            cSalidas.append(conexiones.get(i).toString());
+        }
         return super.toString()+","+salidas+","+perdidaInsercion+","+longitudOnda+","+idS+cSalidas.toString();
                 
     }
