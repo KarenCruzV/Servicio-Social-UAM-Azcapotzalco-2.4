@@ -2,6 +2,7 @@
 package optiuam.bc.controlador;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -172,8 +173,9 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
      * Metodo el cual captura los datos obtenidos de la ventana del conector y
      * crea uno
      * @param event Representa cualquier tipo de accion 
+     * @throws java.lang.reflect.InvocationTargetException 
      */
-    public void enviarDatos(ActionEvent event){
+    public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int modo=0, longitudOnda=0, id = 0;
         double perdidaInsercion, perdidaMax =0.5;
         
@@ -188,13 +190,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }else if(rbtn1550.isSelected()){
             longitudOnda=1550;
         }
-        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
@@ -203,6 +206,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             alert.setHeaderText(null);
             alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else{
             perdidaInsercion= Double.parseDouble(txtPerdida.getText());
@@ -552,9 +556,10 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
     /**
      * Metodo para modificar el conector
      * @param event Representa cualquier tipo de accion
+     * @throws java.lang.reflect.InvocationTargetException
      */
     @FXML
-    public void modificar(ActionEvent event){
+    public void modificar(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         Conector aux = (Conector) elemG.getComponente();
         int modo=0, longitudOnda=0;
         double perdidaInsercion, perdidaMax =0.5;
@@ -589,13 +594,14 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             }
             dibujarLinea(elemG);
         }
-        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[+-]?\\d*(\\.\\d+)?")){
+        if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
@@ -604,6 +610,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             alert.setHeaderText(null);
             alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
+            txtPerdida.setText("");
         }
         else{
             perdidaInsercion= Double.parseDouble(txtPerdida.getText());
