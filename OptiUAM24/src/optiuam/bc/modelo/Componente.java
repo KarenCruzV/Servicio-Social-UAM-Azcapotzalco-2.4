@@ -37,8 +37,8 @@ public class Componente {
      * Metodo constructor con parametros
      * @param nombre Nombre del componente
      * @param id Identificador del componente
-     * @param conectadoEntrada Nombre del componente el cual se encuentra conectado por la entrada
-     * @param conectadoSalida Nombre del componente el cual se encuentra conectado por la salida
+     * @param conectadoEntrada Indica si el componente esta conectado por la entrada
+     * @param conectadoSalida Indica si el componente esta conectado por la salida
      */
     public Componente(String nombre, int id, boolean conectadoEntrada, boolean conectadoSalida) {
         this.nombre = nombre;
@@ -165,7 +165,8 @@ public class Componente {
     
     /**
      * Metodo toString que retorna los atributos de un componente
-     * @return nombre, id, conectadoEntrada, conectadoSalida
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida
      */
     @Override
     public String toString() {

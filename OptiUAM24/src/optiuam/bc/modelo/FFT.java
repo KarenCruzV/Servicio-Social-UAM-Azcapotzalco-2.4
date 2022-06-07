@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Clase FFT la cual contiene los atributos principales de la Transformada
- * Rapida de Fourier
+ * Rapida de Fourier al igual que otros metodos
  * @author Daniel Hernandez
  * Editado por:
  * @author Arturo Borja

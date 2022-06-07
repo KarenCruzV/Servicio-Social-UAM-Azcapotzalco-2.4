@@ -213,7 +213,8 @@ public class Fibra extends Componente {
     
     /**
      * Metodo toString que retorna los atributos de una fibra
-     * @return nombre, id, conectadoEntrada, conectadoSalida, longitudOnda, modo,
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, longitudOnda, modo,
      * tipo, longitud_km, dispersion, atenuacion, idFibra
      */
     @Override

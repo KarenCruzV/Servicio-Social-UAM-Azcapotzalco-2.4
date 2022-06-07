@@ -147,7 +147,8 @@ public class Conector extends Componente {
     
     /**
      * Metodo toString que retorna los atributos de un conector
-     * @return nombre, id, conectadoEntrada, conectadoSalida, longitudOnda, 
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, longitudOnda, 
      * modo, perdidaInsercion, idConector
      */
     @Override

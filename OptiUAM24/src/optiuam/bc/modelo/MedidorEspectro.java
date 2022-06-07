@@ -51,7 +51,8 @@ public class MedidorEspectro extends Componente {
 
     /**
      * Metodo toString que retorna los atributos del medidor de espectros
-     * @return nombre, id, conectadoEntrada, conectadoSalida, idEspectro
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, idEspectro
      */
     @Override
     public String toString() {

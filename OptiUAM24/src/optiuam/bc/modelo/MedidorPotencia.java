@@ -68,7 +68,8 @@ public class MedidorPotencia extends Componente {
     
     /**
      * Metodo toString que retorna los atributos del medidor de potencia
-     * @return nombre, id, conectadoEntrada, conectadoSalida, idPotencia
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, idPotencia
      */
     @Override
     public String toString() {

@@ -255,7 +255,8 @@ public class Fuente extends Componente {
     
     /**
      * Metodo toString que retorna los atributos de una fuente
-     * @return nombre, id, conectadoEntrada, conectadoSalida, tipo, potencia, 
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, tipo, potencia, 
      * anchura, velocidad, longitudOnda, idFuente
      */
     @Override

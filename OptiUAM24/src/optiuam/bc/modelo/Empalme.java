@@ -158,7 +158,8 @@ public class Empalme extends Componente {
     
     /**
      * Metodo toString que retorna los atributos de un empalme
-     * @return nombre, id, conectadoEntrada, conectadoSalida, tipo, 
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, tipo, 
      * perdidaInsercion, longitudOnda, idEmpalme
      */
     @Override

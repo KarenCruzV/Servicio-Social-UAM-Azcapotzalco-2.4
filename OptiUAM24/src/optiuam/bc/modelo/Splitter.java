@@ -1,11 +1,11 @@
 
 package optiuam.bc.modelo;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- * Clase Splitter la cual contiene los atributos principales de un splitter
+ * Clase Splitter la cual contiene los atributos principales de un divisor 
+ * optico
  * @author Daniel Hernandez
  * Editado por:
  * @author Arturo Borja
@@ -14,8 +14,10 @@ import java.util.LinkedList;
  */
 public class Splitter extends Componente {
     
-    /**Numero de salidas del divisor optico. 0=2; 1=4; 2=8; 3=16; 4=32; 5=64*/                    
+    /**Numero de salidas del divisor optico*/                    
     private int salidas;
+    /**Puertos salida del divisor optico*/
+    private StringBuilder cSalidas;
     /**Perdida de insercion del divisor optico*/
     private double perdidaInsercion;
     /**Longitud de onda del divisor optico*/
@@ -28,7 +30,7 @@ public class Splitter extends Componente {
     private double posX; 
     /**Posicion en el eje Y del divisor optico*/
     private double posY;
-    private StringBuilder cSalidas;
+    
     /**
     * Metodo constructor sin parametros
     */
@@ -37,7 +39,7 @@ public class Splitter extends Componente {
     }
     
     /**
-    * Metodo constructor con parametros
+     * Metodo constructor con parametros
      * @param nombre Nombre del componente
      * @param id Identificador del componente
      * @param elementoConectado Nombre del componente el cual se encuentra conectado con el conector
@@ -45,7 +47,7 @@ public class Splitter extends Componente {
      * @param salidas Numero de salidas del divisor optico
      * @param perdidaInsercion Perdida de insercion del divisor optico
      * @param longitudOnda Longitud de onda del divisor optico
-    */
+     */
     public Splitter(String nombre, int id, String elementoConectado, boolean conectado,
             int salidas, double perdidaInsercion, int longitudOnda) {
         this.salidas = salidas;
@@ -53,7 +55,6 @@ public class Splitter extends Componente {
         this.longitudOnda = longitudOnda;
         this.nombre = nombre;
         this.id = id;
-        //modificarSalidas(salidas); 
     }
 
     /**
@@ -105,8 +106,6 @@ public class Splitter extends Componente {
     }
     
     /**
-    
-    /**
      * Metodo que muestra el identificador del divisor optico, no el del componente
      * @return idS
      */
@@ -154,99 +153,74 @@ public class Splitter extends Componente {
         this.posY = posY;
     }
 
+    /**
+     * Metodo que muestra las conexiones del divisor optico
+     * @return conexiones
+     */
     public LinkedList<PuertoSalida> getConexiones() {
         return conexiones;
     }
 
+    /**
+     * Metodo que modifica las conexiones del divisor optico
+     * @param conexiones Conexiones del divisor optico
+     */
     public void setConexiones(LinkedList<PuertoSalida> conexiones) {
         this.conexiones = conexiones;
     }
 
+    /**
+     * Metodo que muestra la conversion de los puertos salida del divisor optico
+     * a un String
+     * @return salidas
+     */
     public StringBuilder getcSalidas() {
         return cSalidas;
     }
 
+    /**
+     * Metodo que modifica la conversion de los puertos salida del divisor optico
+     * a un String
+     * @param cSalidas Conversion de puertos salida
+     */
     public void setcSalidas(StringBuilder cSalidas) {
         this.cSalidas = cSalidas;
     }
     
     /**
-     * Metodo que se usa solo cuando se carga un trabajo y contiene un splitter. 
-     * Asigna el elemento conectado en la salida indicada.
-     * Es necesario ya que por alguna razon no inicializa el arreglo de conexiones
-     * @param salida Salida indicada/seleccionada del divisor optico
-     * @param componente Nuevo componente que sera conectado a la salida indicada
-     */
-    /*
-    public void cargarConexion(int salida,String componente){
-       if(conexiones == null){
-           modificarSalidas(salidas);
-       }
-        //conexiones.remove(salida);
-        //conexiones.add(salida, componente);
-       
-    }*/
-    
-    /**
      * Metodo que modifica las salidas del divisor optico
+     * @param salidas Salidas del divisor optico
      */
-    
     public void modificarSalidas(int salidas){
         cSalidas=new StringBuilder();
         for(int i=0;i<salidas-1; i++){
             PuertoSalida puerto= new PuertoSalida();
             conexiones.add(puerto);
-            //System.out.print(conexiones.get(i).toString());
             cSalidas.append(conexiones.get(i).toString());
         }
     }
+    
+    /**
+     * Metodo que actualiza las salidas del divisor optico
+     * @param salidas Salidas del divisor optico
+     */
     public void actuaizarSalidas(int salidas){
         cSalidas=new StringBuilder();
         for(int i=0;i<salidas-1; i++){
-            //System.out.print(conexiones.get(i).toString());
             cSalidas.append(conexiones.get(i).toString());
         }
     }
     
-    
-    /*
-    public int buscarSalida(String idComponente){
-        for(int i = 0;i<conexiones.size();i++)
-            if(conexiones.get(i).compareTo(idComponente)==0)
-                return i;
-        return -1;    
-    }
-    
-    public String Conexiones(){
-        String aux="";// variable para guardar las conexiones creadas separadas con una coma;
-        for(int i =0;i < conexiones.size();i++){
-            if(i+1 == conexiones.size()){
-                if(conexiones.get(i).compareTo("")==0)
-                  aux=aux+" ";  
-                else
-                aux=aux + conexiones.get(i);
-            }
-            else{
-                if(conexiones.get(i).compareTo("")==0)
-                    aux=aux+" "+",";  
-                else
-                    aux=aux + conexiones.get(i)+",";
-            }
-        }
-        return aux;
-    } 
-    */
     /**
      * Metodo toString que retorna los atributos de un divisor optico
-     * @return nombre, id, conectadoEntrada, conectadoSalida, salidas, 
-     * perdidaInsercio, longitudOnda, idS;
+     * @return nombre, id, conectadoEntrada, elementoConectadoEntrada, 
+     * conectadoSalida, elementoConectadoSalida, salidas, 
+     * perdidaInsercion, longitudOnda, idS, cSalidas
      */
-    
     @Override
     public String toString() {
         cSalidas=new StringBuilder();
         for(int i=0;i<salidas-1; i++){
-            //System.out.print(conexiones.get(i).toString());
             cSalidas.append(conexiones.get(i).toString());
         }
         return super.toString()+","+salidas+","+perdidaInsercion+","+longitudOnda+","+idS+cSalidas.toString();
