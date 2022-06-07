@@ -863,8 +863,26 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         Splitter splitter=(Splitter)elemG.getComponente();
             if(splitter.isConectadoSalida()){
             Line line= new Line();   
-            line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
-            line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            if(splitter.getSalidas()==2){
+                line.setStartX(elemG.getDibujo().getLayoutX()+50);
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            }else if(splitter.getSalidas()==4){
+                line.setStartX(elemG.getDibujo().getLayoutX()+50);
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            }else if(splitter.getSalidas()==8){
+                line.setStartX(elemG.getDibujo().getLayoutX()+80);
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            }else if(splitter.getSalidas()==16){
+                line.setStartX(elemG.getDibujo().getLayoutX()+94);
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            }else if(splitter.getSalidas()==32){
+                line.setStartX(elemG.getDibujo().getLayoutX()+110);
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            }else if(splitter.getSalidas()==64){
+                line.setStartX(elemG.getDibujo().getLayoutX()+120);
+                line.setStartY(elemG.getDibujo().getLayoutY()+10);
+            }
+            
             ElementoGrafico aux= new ElementoGrafico();
             for(int it=0; it<controlador.getDibujos().size();it++){
                 if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
@@ -872,7 +890,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     line.setStrokeWidth(2);
                     line.setStroke(Color.BLACK);
                     line.setEndX(aux.getDibujo().getLayoutX());
-                    line.setEndY(aux.getDibujo().getLayoutY());
+                    line.setEndY(aux.getDibujo().getLayoutY()+20);
                     line.setVisible(true);
                     Pane1.getChildren().add(line); 
                     elemG.getComponente().setLinea(line);  
@@ -882,8 +900,26 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             for(int lap=0; lap<splitter.getSalidas()-1;lap++){
             if(splitter.getConexiones().get(lap).isConectadoSalida()){
                 Line line= new Line();
-                line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+                
+            if(splitter.getSalidas()==2){
+                line.setStartX(elemG.getDibujo().getLayoutX()+50);
                 line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+            }else if(splitter.getSalidas()==4){
+                line.setStartX(elemG.getDibujo().getLayoutX()+50);
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+            }else if(splitter.getSalidas()==8){
+                line.setStartX(elemG.getDibujo().getLayoutX()+80);
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+            }else if(splitter.getSalidas()==16){
+                line.setStartX(elemG.getDibujo().getLayoutX()+94);
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(5.1*(lap+1))));
+            }else if(splitter.getSalidas()==32){
+                line.setStartX(elemG.getDibujo().getLayoutX()+110);
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(3.2*(lap+1))));
+            }else if(splitter.getSalidas()==64){
+                line.setStartX(elemG.getDibujo().getLayoutX()+120);
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(2*(lap+1))));
+            }
                 ElementoGrafico aux= new ElementoGrafico();
                 //System.out.println("primer");
                 for(int ir=0; ir<controlador.getDibujos().size();ir++){
@@ -910,18 +946,35 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     
     public void dibujarLineaAtras(ElementoGrafico elem) {
         Line line= new Line();   
+        Splitter splitter= (Splitter) elem.getComponente();
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
             }
         }
-        line.setStrokeWidth(2.5);
+        line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
         line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
         line.setStartY(aux.getDibujo().getLayoutY()+10);
-        line.setEndX(elem.getDibujo().getLayoutX());
-        line.setEndY(elem.getDibujo().getLayoutY()+7);
+            if(splitter.getSalidas()==2||splitter.getSalidas()==4){
+            line.setEndX(elem.getDibujo().getLayoutX());
+            line.setEndY(elem.getDibujo().getLayoutY()+26);
+            }else if(splitter.getSalidas()==8){
+            line.setEndX(elem.getDibujo().getLayoutX());
+            line.setEndY(elem.getDibujo().getLayoutY()+41);
+            }else if(splitter.getSalidas()==16){
+            line.setEndX(elem.getDibujo().getLayoutX());
+            line.setEndY(elem.getDibujo().getLayoutY()+50);
+            }else if(splitter.getSalidas()==32){
+            line.setEndX(elem.getDibujo().getLayoutX());
+            line.setEndY(elem.getDibujo().getLayoutY()+60);
+            }else if(splitter.getSalidas()==64){
+            line.setEndX(elem.getDibujo().getLayoutX());
+            line.setEndY(elem.getDibujo().getLayoutY()+70);
+            }
+        //line.setEndX(elem.getDibujo().getLayoutX());
+        //line.setEndY(elem.getDibujo().getLayoutY()+7);
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         aux.getComponente().setLinea(line);

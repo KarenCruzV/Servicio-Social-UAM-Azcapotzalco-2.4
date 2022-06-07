@@ -991,8 +991,8 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
      */
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
-        line.setStartY(elemG.getDibujo().getLayoutY()+7);
+        line.setStartX(elemG.getDibujo().getLayoutX()+125);
+        line.setStartY(elemG.getDibujo().getLayoutY()+20);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
@@ -1021,17 +1021,18 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elem.getComponente().getElementoConectadoEntrada().equals(controlador.getDibujos().get(it).getDibujo().getText())){
                 aux=controlador.getDibujos().get(it);
+                line.setStrokeWidth(2);
+                line.setStroke(Color.BLACK);
+                line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
+                line.setStartY(aux.getDibujo().getLayoutY()+20);
+                line.setEndX(elem.getDibujo().getLayoutX());
+                line.setEndY(elem.getDibujo().getLayoutY()+20);
+                line.setVisible(true);
+                Pane1.getChildren().add(line); 
+                aux.getComponente().setLinea(line);
             }
         }
-        line.setStrokeWidth(2);
-        line.setStroke(Color.BLACK);
-        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
-        line.setStartY(aux.getDibujo().getLayoutY()+10);
-        line.setEndX(elem.getDibujo().getLayoutX());
-        line.setEndY(elem.getDibujo().getLayoutY()+7);
-        line.setVisible(true);
-        Pane1.getChildren().add(line); 
-        aux.getComponente().setLinea(line);
+        
     }
 
     /**

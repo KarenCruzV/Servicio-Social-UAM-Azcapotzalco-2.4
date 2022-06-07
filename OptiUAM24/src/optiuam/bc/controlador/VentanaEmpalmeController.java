@@ -673,7 +673,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
      */
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+        line.setStartX(elemG.getDibujo().getLayoutX()+65);
         line.setStartY(elemG.getDibujo().getLayoutY()+7);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){

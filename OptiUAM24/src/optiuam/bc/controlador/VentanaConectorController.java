@@ -722,7 +722,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
      */
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+        line.setStartX(elemG.getDibujo().getLayoutX()+65);
         line.setStartY(elemG.getDibujo().getLayoutY()+8);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
@@ -736,9 +736,27 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         if(aux.getDibujo().getText().contains("fiber")){
             line.setEndX(aux.getDibujo().getLayoutX()+3);
             line.setEndY(aux.getDibujo().getLayoutY()+20);
+        }else if(aux.getDibujo().getText().contains("splitter")){
+            Splitter auxsp=(Splitter) aux.getComponente();
+            if(auxsp.getSalidas()==2||auxsp.getSalidas()==4){
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+26);
+            }else if(auxsp.getSalidas()==8){
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+41);
+            }else if(auxsp.getSalidas()==16){
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+50);
+            }else if(auxsp.getSalidas()==32){
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+60);
+            }else if(auxsp.getSalidas()==64){
+            line.setEndX(aux.getDibujo().getLayoutX());
+            line.setEndY(aux.getDibujo().getLayoutY()+70);
+            }
         }else{
             line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+8);
+            line.setEndY(aux.getDibujo().getLayoutY()+2);
         }
         
         line.setVisible(true);
@@ -757,6 +775,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 line.setStartY(aux.getDibujo().getLayoutY()+10+(10*(puerto+1)));
                 line.setEndX(elem.getDibujo().getLayoutX());
                 line.setEndY(elem.getDibujo().getLayoutY()+7);
+                
                 line.setVisible(true);
                 Pane1.getChildren().add(line); 
                 sptt.getConexiones().get(puerto).setLinea(line);
