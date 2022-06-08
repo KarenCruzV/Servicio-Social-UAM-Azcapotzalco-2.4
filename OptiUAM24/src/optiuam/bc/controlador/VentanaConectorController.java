@@ -32,7 +32,6 @@ import optiuam.bc.modelo.Conector;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Splitter;
 
-
 /**
  * Clase VentanaConectorController la cual se encarga de instanciar un conector
  * @author Daniel Hernandez
@@ -176,7 +175,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
      * @throws java.lang.reflect.InvocationTargetException 
      */
     public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
-        int modo=0, longitudOnda=0, id = 0;
+        int modo=0, longitudOnda=0;
         double perdidaInsercion, perdidaMax =0.5;
         
         if(rbtnMono.isSelected()){
@@ -192,19 +191,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid loss value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
             txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe loss must be" + " min: 0" + " max: " + perdidaMax,
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
             txtPerdida.setText("");
         }
@@ -251,10 +254,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nConnector created!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nConnector created!");
         alert.showAndWait();
     }
     
@@ -288,10 +293,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDuplicate connector!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nDuplicate connector!");
         alert.showAndWait();
     }
     
@@ -455,12 +462,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 }
             }    
             dibujo.getDibujo().setVisible(false);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nRemoved connector!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nRemoved connector!");
             alert.showAndWait();
-
         });
         
         /*Propiedades*/
@@ -545,11 +553,13 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             elemG.getComponente().setElementoConectadoSalida("");
             elemG.getComponente().getLinea().setVisible(false);
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succes");
-            alert.setHeaderText(null);
-            alert.setContentText("\nDisconnected connector!");
-            alert.showAndWait();
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDisconnected connector!",
+                aceptar);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -596,19 +606,23 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         }
         if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid loss value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
             txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe loss must be" + " min: 0" + " max: " + perdidaMax,
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
             txtPerdida.setText("");
         }
@@ -620,10 +634,12 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
             aux.setModo(modo);
             cerrarVentana(event);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nModified connector!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nModified connector!");
             alert.showAndWait();
             
             for(int h=0; h<controlador.getElementos().size(); h++){
@@ -656,7 +672,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
      * @param Pane1 Panel para agregar objetos
      * @param elem Elemento grafico
      * @param conectorController Controlador del conector
-    */
+     */
     public void init2(ControladorGeneral controlador, Stage stage, Pane Pane1,ElementoGrafico elem, VentanaConectorController conectorController) {
         this.elemG=elem;
         this.conectorControl=conectorController;
@@ -736,25 +752,36 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         if(aux.getDibujo().getText().contains("fiber")){
             line.setEndX(aux.getDibujo().getLayoutX()+3);
             line.setEndY(aux.getDibujo().getLayoutY()+20);
-        }else if(aux.getDibujo().getText().contains("splitter")){
+        }
+        else if(aux.getDibujo().getText().contains("splitter")){
             Splitter auxsp=(Splitter) aux.getComponente();
-            if(auxsp.getSalidas()==2||auxsp.getSalidas()==4){
-            line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+26);
-            }else if(auxsp.getSalidas()==8){
-            line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+41);
-            }else if(auxsp.getSalidas()==16){
-            line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+50);
-            }else if(auxsp.getSalidas()==32){
-            line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+60);
-            }else if(auxsp.getSalidas()==64){
-            line.setEndX(aux.getDibujo().getLayoutX());
-            line.setEndY(aux.getDibujo().getLayoutY()+70);
+            switch (auxsp.getSalidas()) {
+                case 2:
+                case 4:
+                    line.setEndX(aux.getDibujo().getLayoutX());
+                    line.setEndY(aux.getDibujo().getLayoutY()+26);
+                    break;
+                case 8:
+                    line.setEndX(aux.getDibujo().getLayoutX());
+                    line.setEndY(aux.getDibujo().getLayoutY()+41);
+                    break;
+                case 16:
+                    line.setEndX(aux.getDibujo().getLayoutX());
+                    line.setEndY(aux.getDibujo().getLayoutY()+50);
+                    break;
+                case 32:
+                    line.setEndX(aux.getDibujo().getLayoutX());
+                    line.setEndY(aux.getDibujo().getLayoutY()+60);
+                    break;
+                case 64:
+                    line.setEndX(aux.getDibujo().getLayoutX());
+                    line.setEndY(aux.getDibujo().getLayoutY()+70);
+                    break;
+                default:
+                    break;
             }
-        }else{
+        }
+        else{
             line.setEndX(aux.getDibujo().getLayoutX());
             line.setEndY(aux.getDibujo().getLayoutY()+2);
         }
@@ -764,22 +791,30 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         elemG.getComponente().setLinea(line);
               
     }
+    
+    /**
+     * Metodo que permite visualizar la conexion hacia atras del divisor optico
+     * con el conector
+     * @param elem Elemento grafico del conector
+     * @param aux Elemento grafico del divisor optico
+     * @param puerto Puerto salida del divisor optico
+     */
     public void dibujarLineaAtrasSplitter(ElementoGrafico elem, ElementoGrafico aux, int puerto){
         Line line= new Line(); 
-        //aux=controlador.getDibujos().get(it);
         Splitter sptt=(Splitter) aux.getComponente();
         sptt.getConexiones().get(puerto).getLinea().setVisible(false);
-                line.setStrokeWidth(2);
-                line.setStroke(Color.BLACK);
-                line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
-                line.setStartY(aux.getDibujo().getLayoutY()+10+(10*(puerto+1)));
-                line.setEndX(elem.getDibujo().getLayoutX());
-                line.setEndY(elem.getDibujo().getLayoutY()+7);
-                
-                line.setVisible(true);
-                Pane1.getChildren().add(line); 
-                sptt.getConexiones().get(puerto).setLinea(line);
+        line.setStrokeWidth(2);
+        line.setStroke(Color.BLACK);
+        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
+        line.setStartY(aux.getDibujo().getLayoutY()+10+(10*(puerto+1)));
+        line.setEndX(elem.getDibujo().getLayoutX());
+        line.setEndY(elem.getDibujo().getLayoutY()+7);
+
+        line.setVisible(true);
+        Pane1.getChildren().add(line); 
+        sptt.getConexiones().get(puerto).setLinea(line);
     }
+    
     /**
      * Metodo que permite visualizar la conexion hacia atras del conector 
      * con otro elemento

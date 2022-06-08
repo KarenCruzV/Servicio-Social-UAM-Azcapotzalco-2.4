@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ContextMenu;
@@ -334,28 +336,34 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         
         if (txtDistancia.getText().isEmpty() || txtDistancia.getText().compareTo("")==0 || !txtDistancia.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid length value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid value");
             alert.showAndWait();
             txtDistancia.setText("");
         }
         else if (txtAtenue.getText().isEmpty() || txtAtenue.getText().compareTo("")==0 || !txtAtenue.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid attenuation value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid value");
             alert.showAndWait();
             txtAtenue.setText("");
         }
         else if (txtDisp.getText().isEmpty() || txtDisp.getText().compareTo("")==0 || !txtDisp.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid dispersion value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid value");
             alert.showAndWait();
             txtDisp.setText("");
         }
@@ -406,10 +414,12 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nFiber created!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nFiber created!");
         alert.showAndWait();
     }
     
@@ -443,10 +453,12 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDuplicate fiber!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nDuplicate fiber!");
         alert.showAndWait();
     }
     
@@ -609,10 +621,12 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
                 }
             }   
             dibujo.getDibujo().setVisible(false);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nRemoved fiber!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nRemoved fiber!");
             alert.showAndWait();
         });
         
@@ -779,11 +793,13 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             elemG.getComponente().setElementoConectadoSalida("");
             elemG.getComponente().getLinea().setVisible(false);
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succes");
-            alert.setHeaderText(null);
-            alert.setContentText("\nDisconnected fiber!");
-            alert.showAndWait();
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDisconnected fiber!",
+                aceptar);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -851,28 +867,34 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         }
         if (txtDistancia.getText().isEmpty() || txtDistancia.getText().compareTo("")==0 || !txtDistancia.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid length value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid value");
             alert.showAndWait();
             txtDistancia.setText("");
         }
         else if (txtAtenue.getText().isEmpty() || txtAtenue.getText().compareTo("")==0 || !txtAtenue.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid attenuation value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid value");
             alert.showAndWait();
             txtAtenue.setText("");
         }
         else if (txtDisp.getText().isEmpty() || txtDisp.getText().compareTo("")==0 || !txtDisp.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid dispersion value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid value");
             alert.showAndWait();
             txtDisp.setText("");
         }
@@ -888,10 +910,12 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
             aux.setTipo(tipo);
             cerrarVentana(event);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nModified fiber!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nModified fiber!");
             alert.showAndWait();
 
             for(int h=0; h<controlador.getElementos().size(); h++){
@@ -1032,7 +1056,6 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
                 aux.getComponente().setLinea(line);
             }
         }
-        
     }
 
     /**

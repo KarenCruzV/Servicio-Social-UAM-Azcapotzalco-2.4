@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ContextMenu;
@@ -192,19 +194,23 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid loss value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
             txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe loss must be" + " min: 0" + " max: " + perdidaMax,
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
             txtPerdida.setText("");
         }
@@ -247,10 +253,12 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nSplice created!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nSplice created!");
         alert.showAndWait();
     }
     
@@ -281,10 +289,12 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDuplicate splice!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nDuplicate splice!");
         alert.showAndWait();
     }
 
@@ -433,10 +443,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                 }
             }    
             dibujo.getDibujo().setVisible(false);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nRemoved splice!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nRemoved splice!");
             alert.showAndWait();
 
         });
@@ -522,11 +535,13 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             elemG.getComponente().setElementoConectadoSalida("");
             elemG.getComponente().getLinea().setVisible(false);
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succes");
-            alert.setHeaderText(null);
-            alert.setContentText("\nDisconnected splice!");
-            alert.showAndWait();
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDisconnected splice!",
+                aceptar);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -571,19 +586,23 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         if (txtPerdida.getText().isEmpty() || txtPerdida.getText().compareTo("")==0 || !txtPerdida.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("\nInvalid loss value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid loss value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid loss value");
             alert.showAndWait();
             txtPerdida.setText("");
         }
         else if(Double.parseDouble(txtPerdida.getText()) > perdidaMax || Double.parseDouble(txtPerdida.getText()) < 0){
             System.out.println("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe loss must be" + " min: 0" + " max: " + perdidaMax,
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nThe loss must be" + " min: 0" + " max: " + perdidaMax);
             alert.showAndWait();
             txtPerdida.setText("");
         }
@@ -595,10 +614,12 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
             aux.setTipo(tipo);
             cerrarVentana(event);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nModified splice!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nModified splice!");
             alert.showAndWait();
             
             for(int h=0; h<controlador.getElementos().size(); h++){

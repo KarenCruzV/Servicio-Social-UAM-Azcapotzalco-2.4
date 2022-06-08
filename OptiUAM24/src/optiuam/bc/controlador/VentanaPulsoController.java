@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import optiuam.bc.modelo.ElementoGrafico;
@@ -125,47 +127,57 @@ public class VentanaPulsoController implements Initializable {
      */
     private boolean validarValores(){
         if (txtA0.getText().isEmpty() || txtA0.getText().compareTo("")==0 || !txtA0.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid amplitude value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid amplitude value");
             alert.showAndWait();
             txtA0.setText("");
             return false;
         }
         if (txtT0.getText().isEmpty() || txtT0.getText().compareTo("")==0 || !txtT0.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid width value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid width value");
             alert.showAndWait();
             txtT0.setText("");
             return false;
         }
         if (txtC.getText().isEmpty() || txtC.getText().compareTo("")==0 || !txtC.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid chirp value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid chirp value");
             alert.showAndWait();
             txtC.setText("");
             return false;
         }
         if (txtW0.getText().isEmpty() || txtW0.getText().compareTo("")==0 || !txtW0.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid frequency value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid frequency value");
             alert.showAndWait();
             txtW0.setText("");
             return false;
         }
          if (txtM.getText().isEmpty() || txtM.getText().compareTo("")==0 || !txtM.getText().matches("[0-9]*?\\d*(\\.\\d+)?") 
                  || Float.parseFloat(txtM.getText() ) <1){
-             Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid M value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid M value");
             alert.showAndWait();
             txtM.setText("");
             return false;
@@ -193,11 +205,13 @@ public class VentanaPulsoController implements Initializable {
                 tipo="Gaussian";
             }
             fuente.setPulso(A0, T0, W0, C, M);
-            System.out.println("C:"+C+" A0:"+A0+" W0:"+W0+ " T0:"+T0);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            System.out.println("C:"+C+" A0:"+A0+" W0:"+W0+ " T0:"+T0+ " M:"+M);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nModified pulse!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nModified pulse!");
             alert.showAndWait();
         }
     }

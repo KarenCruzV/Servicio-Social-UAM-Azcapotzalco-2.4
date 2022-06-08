@@ -51,7 +51,6 @@ public class ControladorGeneral {
     
     /**
      * Metodo constructor con parametros
-     * 
      * @param elementos Elementos creados en la simulacion
      * @param dibujos Elementos mostrados en el area de trabajo
      * @param contadorElemento Contador para asignar nombre a un elemento

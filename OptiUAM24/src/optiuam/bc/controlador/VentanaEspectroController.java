@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -421,46 +423,46 @@ public class VentanaEspectroController implements Initializable {
         Fuente f= new Fuente();
         if(ele.getLast().getNombre().contains("source")){
             f= (Fuente)ele.getLast();
-        }else{
-            return;
-        }
-        float valores[] = pulsoEntrada(f.getA0(), f.getT0(),
+            float valores[] = pulsoEntrada(f.getA0(), f.getT0(),
                 f.getW0(), f.getC(), f.getM());
         
-        if(valores != null){
-	 XYSeries series = new XYSeries("xy");
-        
-         //Introduccion de datos
-        for(int i = -(valores.length/2); i <(valores.length/2) ; i++){
-                series.add(i,valores[i+(valores.length/2)]);
-                //System.out.println((n/2)+i+" "+series.getY((n/2)+i));
-        }
+            if(valores != null){
+                XYSeries series = new XYSeries("xy");
 
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
+                 //Introduccion de datos
+                for(int i = -(valores.length/2); i <(valores.length/2) ; i++){
+                        series.add(i,valores[i+(valores.length/2)]);
+                        //System.out.println((n/2)+i+" "+series.getY((n/2)+i));
+                }
 
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Input Pulse", // Título
-                "Frequency (w)", // Etiqueta Coordenada X
-                "U(0,w)", // Etiqueta Coordenada Y
-                dataset, // Datos
-                PlotOrientation.VERTICAL,
-                true, // Muestra la leyenda de los productos (Producto A)
-                false,
-                false
-        );
-        chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
-        chart.setBackgroundPaint(new Color(173, 216, 230));
-          //Mostramos la grafica en pantalla
-        ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
-        frame.pack();
-        frame.setVisible(true);
+                XYSeriesCollection dataset = new XYSeriesCollection();
+                dataset.addSeries(series);
+
+                JFreeChart chart = ChartFactory.createXYLineChart(
+                        "Input Pulse", // Título
+                        "Frequency (w)", // Etiqueta Coordenada X
+                        "U(0,w)", // Etiqueta Coordenada Y
+                        dataset, // Datos
+                        PlotOrientation.VERTICAL,
+                        true, // Muestra la leyenda de los productos (Producto A)
+                        false,
+                        false
+                );
+                chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+                chart.setBackgroundPaint(new Color(173, 216, 230));
+                  //Mostramos la grafica en pantalla
+                ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
+                frame.pack();
+                frame.setVisible(true);
+            }
         }
         else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nLink error",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLink error");
             alert.showAndWait();
         }
     }
@@ -471,50 +473,54 @@ public class VentanaEspectroController implements Initializable {
     @FXML
     public void btnB2Action(){
         LinkedList<Componente> ele=verComponentesConectados();
-        Fuente f= (Fuente)ele.getLast();
-        
-        float valores[] = pulsoSalidaB2(f.getA0(), f.getT0(),
+        Fuente f= new Fuente();
+        if(ele.getLast().getNombre().contains("source")){
+            f= (Fuente)ele.getLast();
+            float valores[] = pulsoSalidaB2(f.getA0(), f.getT0(),
                 f.getW0(), f.getC(), f.getM(),ele);
         
-        if(valores != null){
-            XYSeries series = new XYSeries("xy");
+            if(valores != null){
+                XYSeries series = new XYSeries("xy");
 
-             //Introduccion de datos
-            double naux = valores.length;
-            double t = -((naux/2)/10);
-            for(int i=0; i<valores.length;i++){
-                t= Math.floor(t * 10) / 10;
-                series.add(t,valores[i]);
-                //System.out.println(valores[i]);
-                t = t + 0.1F;
-                //System.out.println(valores[i]);
+                 //Introduccion de datos
+                double naux = valores.length;
+                double t = -((naux/2)/10);
+                for(int i=0; i<valores.length;i++){
+                    t= Math.floor(t * 10) / 10;
+                    series.add(t,valores[i]);
+                    //System.out.println(valores[i]);
+                    t = t + 0.1F;
+                    //System.out.println(valores[i]);
+                }
+
+                XYSeriesCollection dataset = new XYSeriesCollection();
+                dataset.addSeries(series);
+
+                JFreeChart chart = ChartFactory.createXYLineChart(
+                        "Output Pulse", // Título
+                        "Time (t)", // Etiqueta Coordenada X
+                        "U(z,t)", // Etiqueta Coordenada Y
+                        dataset, // Datos
+                        PlotOrientation.VERTICAL,
+                        true, // Muestra la leyenda de los productos (Producto A)
+                        false,
+                        false
+                );
+                chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+                chart.setBackgroundPaint(new Color(173, 216, 230));
+                  //Mostramos la grafica en pantalla
+                ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
+                frame.pack();
+                frame.setVisible(true);
             }
-
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries(series);
-
-            JFreeChart chart = ChartFactory.createXYLineChart(
-                    "Output Pulse", // Título
-                    "Time (t)", // Etiqueta Coordenada X
-                    "U(z,t)", // Etiqueta Coordenada Y
-                    dataset, // Datos
-                    PlotOrientation.VERTICAL,
-                    true, // Muestra la leyenda de los productos (Producto A)
-                    false,
-                    false
-            );
-            chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
-            chart.setBackgroundPaint(new Color(173, 216, 230));
-              //Mostramos la grafica en pantalla
-            ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
-            frame.pack();
-            frame.setVisible(true);
         }
         else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nLink error",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nLink error");
             alert.showAndWait();
         }
     }

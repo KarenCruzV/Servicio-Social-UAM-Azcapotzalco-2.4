@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ContextMenu;
@@ -211,48 +213,58 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
         if (txtPotencia.getText().isEmpty() || txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("Invalid power value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid power value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid power value");
             alert.showAndWait();
             txtPotencia.setText("");
         }
         else if(txtAnchuraEspectro.getText().isEmpty() || txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("Invalid width value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid width value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid width value");
             alert.showAndWait();
             txtAnchuraEspectro.setText("");
         }
         else if(txtVelocidad.getText().isEmpty() || txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("Invalid speed value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid speed value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid speed value");
             alert.showAndWait();
             txtVelocidad.setText("");
         }
         else if((tipo==0 && Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
            (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
             System.out.println("\nThe width value must be max 1 nm");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe width value must be max 1 nm",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("The width value must be max 1 nm");
             alert.showAndWait();
             txtAnchuraEspectro.setText("");
         }
         else if((tipo == 1 && Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
            (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
             System.out.println("\nThe width value must be min: 0.01 nm  max: 1.0 nm");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe width value must be min: 0.01 nm  max: 1.0 nm",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("The width value must be min: 0.01 nm  max: 1.0 nm");
             alert.showAndWait();
             txtAnchuraEspectro.setText("");
         } 
@@ -303,10 +315,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nSource created!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nSource created!");
         alert.showAndWait();
     }
     
@@ -340,10 +354,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         Pane1.getChildren().add(elem.getDibujo());
         controlador.setContadorElemento(controlador.getContadorElemento()+1);
         
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDuplicate source!",
+                aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
-        alert.setContentText("\nDuplicate source!");
         alert.showAndWait();
     }
     
@@ -497,10 +513,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                 }
             }    
             dibujo.getDibujo().setVisible(false);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nRemoved source!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nRemoved source!");
             alert.showAndWait();
         });
         
@@ -597,11 +615,13 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             elemG.getComponente().setElementoConectadoSalida("");
             elemG.getComponente().getLinea().setVisible(false);
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succes");
-            alert.setHeaderText(null);
-            alert.setContentText("\nDisconnected source!");
-            alert.showAndWait();
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nDisconnected source!",
+                aceptar);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.showAndWait();
         cerrarVentana(event);
     }
     
@@ -650,48 +670,58 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
         }
         if (txtPotencia.getText().isEmpty() || txtPotencia.getText().compareTo("")==0 || !txtPotencia.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("Invalid power value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid power value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid power value");
             alert.showAndWait();
             txtPotencia.setText("");
         }
         else if(txtAnchuraEspectro.getText().isEmpty() || txtAnchuraEspectro.getText().compareTo("")==0 || !txtAnchuraEspectro.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("Invalid width value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid width value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid width value");
             alert.showAndWait();
             txtAnchuraEspectro.setText("");
         }
         else if(txtVelocidad.getText().isEmpty() || txtVelocidad.getText().compareTo("")==0 || !txtVelocidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
             System.out.println("Invalid speed value");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid speed value",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nInvalid speed value");
             alert.showAndWait();
             txtVelocidad.setText("");
         }
         else if((tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())<=0) ||
            (tipo==0 &&Double.parseDouble(txtAnchuraEspectro.getText())>1)){
             System.out.println("\nThe width value must be max 1 nm");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe width value must be max 1 nm",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("The width value must be max 1 nm");
             alert.showAndWait();
             txtAnchuraEspectro.setText("");
         }
         else if((tipo == 1 &&Double.parseDouble(txtAnchuraEspectro.getText())< (double)(0.01)) ||
            (tipo==1 &&Double.parseDouble(txtAnchuraEspectro.getText())> 1)){
             System.out.println("\nThe width value must be min: 0.01 nm  max: 1.0 nm");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe width value must be min: 0.01 nm  max: 1.0 nm",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("The width value must be min: 0.01 nm  max: 1.0 nm");
             alert.showAndWait();
             txtAnchuraEspectro.setText("");
         } 
@@ -707,10 +737,12 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             aux.setVelocidad(velocidad);
             cerrarVentana(event);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "\nModified source!",
+                    aceptar);
             alert.setTitle("Succes");
             alert.setHeaderText(null);
-            alert.setContentText("\nModified source!");
             alert.showAndWait();
             
             for(int h=0; h<controlador.getElementos().size(); h++){

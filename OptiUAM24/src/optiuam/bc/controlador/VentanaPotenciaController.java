@@ -135,7 +135,7 @@ public class VentanaPotenciaController implements Initializable {
                 conectores = new LinkedList<>();
                 empalmes = new LinkedList<>();
             } 
-            if(elementos.get(i).getNombre().contains("source")){ //fuente
+            if(elementos.get(i).getNombre().contains("source")){
                 Fuente fuente_aux = (Fuente)elementos.get(i);
                 B=fuente_aux.getVelocidad();
                 S=fuente_aux.getAnchura();
@@ -152,12 +152,12 @@ public class VentanaPotenciaController implements Initializable {
                 Fa = fibra_aux.getAtenuacion();
                 L = L + fibra_aux.getLongitud_km();
             }
-            if(elementos.get(i).getNombre().contains("splice")){ //empalme
+            if(elementos.get(i).getNombre().contains("splice")){ 
                 Empalme empalme_aux = (Empalme)elementos.get(i);
                 empalmes.add(empalme_aux.getPerdidaInsercion());
             }
         }
-        Dt = Dc * S *L; // picosegungo x10-12
+        Dt = Dc * S *L; // picosegungo x10^12
         Pd = -10 * Math.log10(1-((0.5)*Math.pow((Math.PI*(B*Math.pow(10, 9))),2)* Math.pow((Dt*Math.pow(10, -12)),2)));
         System.out.println("Perdida por dispersion ="+ Pd);
         Pc=perdidaConectores_Empalmes(conectores);
@@ -191,31 +191,34 @@ public class VentanaPotenciaController implements Initializable {
      */
     @FXML
     public void btnCalcularPotenciaAction(){
-        if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("\nInvalid sensitivity value");
-            alert.showAndWait();
-        }
-        else{
-            Double potencia = calcularPotencia(Double.valueOf(txtSensibilidad.getText()));
-            if(potencia !=-1)
-                lblPotencia.setText(String.valueOf(potencia + " dB"));
-            else if(potencia ==-2){
+        LinkedList<Componente> ele=verComponentesConectados();
+        if(ele.getLast().getNombre().contains("source")){
+            if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Link calculation error");
+                alert.setContentText("\nInvalid sensitivity value");
                 alert.showAndWait();
             }
             else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Link error");
-                alert.showAndWait();
+                Double potencia = calcularPotencia(Double.valueOf(txtSensibilidad.getText()));
+                if(potencia !=-1)
+                    lblPotencia.setText(String.valueOf(potencia + " dB"));
+                else if(potencia ==-2){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Link calculation error");
+                    alert.showAndWait();
+                }
             }
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Link error");
+            alert.showAndWait();
         }
     }
     
