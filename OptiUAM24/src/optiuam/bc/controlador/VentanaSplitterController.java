@@ -1031,11 +1031,11 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
             switch (splitter.getSalidas()) {
                 case 2:
                     line.setStartX(elemG.getDibujo().getLayoutX()+50);
-                    line.setStartY(elemG.getDibujo().getLayoutY()+10);
+                    line.setStartY(elemG.getDibujo().getLayoutY()+24);
                     break;
                 case 4:
                     line.setStartX(elemG.getDibujo().getLayoutX()+50);
-                    line.setStartY(elemG.getDibujo().getLayoutY()+10);
+                    line.setStartY(elemG.getDibujo().getLayoutY()+18);
                     break;
                 case 8:
                     line.setStartX(elemG.getDibujo().getLayoutX()+80);
@@ -1063,8 +1063,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     aux=controlador.getDibujos().get(it);
                     line.setStrokeWidth(2);
                     line.setStroke(Color.BLACK);
-                    line.setEndX(aux.getDibujo().getLayoutX());
-                    line.setEndY(aux.getDibujo().getLayoutY()+20);
+                    line.setEndX(aux.getDibujo().getLayoutX()+3);
+                    line.setEndY(aux.getDibujo().getLayoutY()+10);
                     line.setVisible(true);
                     Pane1.getChildren().add(line); 
                     elemG.getComponente().setLinea(line);  
@@ -1078,15 +1078,15 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 switch (splitter.getSalidas()) {
                     case 2:
                         line.setStartX(elemG.getDibujo().getLayoutX()+50);
-                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(24+(5*(lap+1))));
                         break;
                     case 4:
                         line.setStartX(elemG.getDibujo().getLayoutX()+50);
-                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(18+(5*(lap+1))));
                         break;
                     case 8:
                         line.setStartX(elemG.getDibujo().getLayoutX()+80);
-                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(lap+1))));
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(9*(lap+1))));
                         break;
                     case 16:
                         line.setStartX(elemG.getDibujo().getLayoutX()+94);
@@ -1114,7 +1114,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     line.setStrokeWidth(2);
                     line.setStroke(Color.BLACK);
                     line.setEndX(aux.getDibujo().getLayoutX()+3);
-                    line.setEndY(aux.getDibujo().getLayoutY()+20);
+                    line.setEndY(aux.getDibujo().getLayoutY()+10);
                     //splitter.actuaizarSalidas(salida);
                     line.setVisible(true);
                     Pane1.getChildren().add(line);

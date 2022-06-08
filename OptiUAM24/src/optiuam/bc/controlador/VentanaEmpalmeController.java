@@ -694,8 +694,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
      */
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+65);
-        line.setStartY(elemG.getDibujo().getLayoutY()+7);
+        line.setStartX(elemG.getDibujo().getLayoutX()+55);
+        line.setStartY(elemG.getDibujo().getLayoutY()+15);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){
             if(elemG.getComponente().getElementoConectadoSalida().equals(controlador.getDibujos().get(it).getDibujo().getText())){
@@ -704,8 +704,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
-        line.setEndX(aux.getDibujo().getLayoutX());
-        line.setEndY(aux.getDibujo().getLayoutY());
+        line.setEndX(aux.getDibujo().getLayoutX()+3);
+        line.setEndY(aux.getDibujo().getLayoutY()+20);
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
@@ -727,10 +727,10 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
         }
         line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
-        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
-        line.setStartY(aux.getDibujo().getLayoutY()+10);
+        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth()-3);
+        line.setStartY(aux.getDibujo().getLayoutY()+20);
         line.setEndX(elem.getDibujo().getLayoutX());
-        line.setEndY(elem.getDibujo().getLayoutY()+7);
+        line.setEndY(elem.getDibujo().getLayoutY()+10);
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         aux.getComponente().setLinea(line);
