@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -194,10 +196,12 @@ public class VentanaPotenciaController implements Initializable {
         LinkedList<Componente> ele=verComponentesConectados();
         if(ele.getLast().getNombre().contains("source")){
             if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+                ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nInvalid sensitivity value",
+                    aceptar);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("\nInvalid sensitivity value");
                 alert.showAndWait();
             }
             else{
@@ -205,19 +209,23 @@ public class VentanaPotenciaController implements Initializable {
                 if(potencia !=-1)
                     lblPotencia.setText(String.valueOf(potencia + " dB"));
                 else if(potencia ==-2){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+                    Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "\nLink calculation error",
+                        aceptar);
                     alert.setTitle("Error");
                     alert.setHeaderText(null);
-                    alert.setContentText("Link calculation error");
                     alert.showAndWait();
                 }
             }
         }
         else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                "\nLink error",
+                aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Link error");
             alert.showAndWait();
         }
     }

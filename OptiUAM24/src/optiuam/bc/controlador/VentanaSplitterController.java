@@ -868,18 +868,22 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         
         String componente = cboxConectarA.getSelectionModel().getSelectedItem().toString();
         if(cboxConectarA.getItems().size() <= 1){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "\nThe splitter cannot be connected to anything",
+                    aceptar);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("\nThe splitter cannot be connected to anything");
             alert.showAndWait();
         }
         else{
             if(conectarSplitter(salida,componente)){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        "\nSplitter output "+(salida+1)+ " was connected to component: "+componente,
+                        aceptar);
                 alert.setTitle("Succes");
                 alert.setHeaderText(null);
-                alert.setContentText("\nSplitter output "+(salida+1)+ " was connected to component: "+componente);
                 alert.showAndWait();
             }
         }
