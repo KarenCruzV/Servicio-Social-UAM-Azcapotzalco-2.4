@@ -32,7 +32,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -55,36 +54,108 @@ import optiuam.bc.modelo.MedidorPotencia;
 import optiuam.bc.modelo.PuertoSalida;
 import optiuam.bc.modelo.Splitter;
 
+/**
+ * Clase VentanaPrincipal la cual se encarga de proporcionar la funcionalidad 
+ * al simulador
+ * @author Daniel Hernandez
+ * Editado por:
+ * @author Arturo Borja
+ * @author Karen Cruz
+ * @see ControladorGeneral
+ */
 public class VentanaPrincipal implements Initializable {
 
+    /**Escenario en el cual se agregaran los objetos creados*/
     static Stage stage;
+    /**Controlador del simulador*/
     static ControladorGeneral controlador= new ControladorGeneral();
+    /**Identificador del medidor de potencia*/
     static int idEspectro = 0;
+    /**Identificador del analizador de espectro*/
     static int idPotencia = 0;
-    
+    /**Conexion (linea) entre componentes*/
+    static Line linea;
+    /**Icono de la fibra optica*/
+    Image fibraI;
+    /**Icono de la fuente optica*/
+    Image fuenteI;
+    /**Icono del conector*/
+    Image conectorI;
+    /**Icono del divisor optico*/
+    Image splitterI;
+    /**Icono del empalme*/
+    Image empalmeI;
+    /**Icono del medidor de potencia*/
+    Image potenciaI;
+    /**Icono del analizador de espectro*/
+    Image espectroI;
+    /**Fondo del panel de trabajo*/
+    Image fondo;
+    /**Permite visualizar el icono de la fibra*/
     @FXML
-        private ImageView viewFibra,viewFuente, viewConector,viewSplitter,viewEmpalme, viewPotencia,viewEspectro;
+    ImageView viewFibra;
+    /**Permite visualizar el icono de la fuente*/
     @FXML
-        private Button btnFibra, btnFuente, btnConector, btnSplitter, btnEmpalme, btnPotencia, btnEspectro;
-    
-    private Image fibraI, fuenteI, conectorI, splitterI, empalmeI, potenciaI, espectroI, fondo;
-    
+    ImageView viewFuente;
+    /**Permite visualizar el icono del conector*/
+    @FXML
+    ImageView viewConector;
+    /**Permite visualizar el icono del divisor optico*/
+    @FXML
+    ImageView viewSplitter;
+    /**Permite visualizar el icono del empalme*/
+    @FXML
+    ImageView viewEmpalme;
+    /**Permite visualizar el icono del medidor de potencia*/
+    @FXML
+    ImageView viewPotencia;
+    /**Permite visualizar el icono del analizador de espectro*/
+    @FXML
+    ImageView viewEspectro;
+    /**Boton para abrir la ventana de la fibra y crear una*/
+    @FXML
+    Button btnFibra;
+    /**Boton para abrir la ventana de la fuente y crear una*/
+    @FXML
+    Button btnFuente;
+    /**Boton para abrir la ventana del conector y crear uno*/
+    @FXML
+    Button btnConector;
+    /**Boton para abrir la ventana del divisor optico y crear uno*/
+    @FXML
+    Button btnSplitter;
+    /**Boton para abrir la ventana del empalme y crear uno*/
+    @FXML
+    Button btnEmpalme;
+    /**Boton para abrir la ventana del medidor de potencia y crear uno*/
+    @FXML
+    Button btnPotencia;
+    /**Boton para abrir la ventana del analizador de espectro y crear uno*/
+    @FXML
+    Button btnEspectro;
+    /**Panel para agregar objetos*/    
     @FXML
     public Pane Pane1;
-    
+    /**Espacio en el cual el usuario puede desplazarse*/
     @FXML
     public ScrollPane scroll;
-    
+    /**Permtite crear un nuevo trabajo*/
     @FXML
-    static public TitledPane componentMenu;
-    
+    MenuItem menuItemNew;
+    /**Permite salvar un trabajo*/
     @FXML
-    MenuItem menuItemNew, menuItemSave, menuItemOpen;
-    
+    MenuItem menuItemSave;
+    /**Permite abrir un trabajo*/
     @FXML
-    Menu menuHelp, menuAbout;
+    MenuItem menuItemOpen;
+    /**Proporciona el documento de ayuda del simulador*/
+    @FXML
+    Menu menuHelp;
+    /**Proporciona informacion acerca de la elaboracion del proyecto*/
+    @FXML
+    Menu menuAbout;
     
-    static Line linea;
+    
     
     public static Line getLinea() {
         return linea;
@@ -1128,6 +1199,7 @@ public class VentanaPrincipal implements Initializable {
             }
         });
     }
+    
     public void dibujarLineaAtrasSplitter(ElementoGrafico elem, ElementoGrafico aux, int puerto){
         Line line= new Line(); 
         //aux=controlador.getDibujos().get(it);
@@ -1143,6 +1215,7 @@ public class VentanaPrincipal implements Initializable {
                 Pane1.getChildren().add(line); 
                 sptt.getConexiones().get(puerto).setLinea(line);
     }
+    
     public void eventosEspectro(Label dibujo, ElementoGrafico elem){
         eventos(elem);
             
@@ -1217,4 +1290,5 @@ public class VentanaPrincipal implements Initializable {
         }
     
     }
+
 }
