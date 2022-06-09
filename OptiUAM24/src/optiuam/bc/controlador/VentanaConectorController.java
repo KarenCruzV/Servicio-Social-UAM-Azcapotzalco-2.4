@@ -920,7 +920,11 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         if( parentBounds.getMinX() >= (newX + childBounds.getMinX()) ) {
             return true ;
         }
-        
+        /*
+        if((newX + childBounds.getMaxX())>150){
+            System.out.println((newX + childBounds.getMaxX()));
+        }
+        */
         return false;
     }
      

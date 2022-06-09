@@ -32,10 +32,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.stage.Modality;
@@ -139,6 +141,12 @@ public class VentanaPrincipal implements Initializable {
     /**Espacio en el cual el usuario puede desplazarse*/
     @FXML
     public ScrollPane scroll;
+    /**Espacio en el cual el usuario puede desplazarse*/
+    @FXML
+    public TitledPane componentMenu;
+    /**Espacio en el cual el usuario puede desplazarse*/
+    @FXML
+    public AnchorPane desplegable;
     /**Permtite crear un nuevo trabajo*/
     @FXML
     MenuItem menuItemNew;
@@ -1289,6 +1297,18 @@ public class VentanaPrincipal implements Initializable {
             }
         }
     
+    }
+    @FXML
+    public void panelComponentes(){
+        if(!desplegable.isVisible()){
+            scroll.relocate(0, -90);
+            Pane1.relocate(0, -90);
+        }else{
+            scroll.relocate(0, 0);
+            //Pane1.setLayoutY(0);
+            Pane1.relocate(0, 0);
+        }
+        //NO SE COMO REHUBICAR EL PUÑETAS PANEL JAJAJA 
     }
 
 }
