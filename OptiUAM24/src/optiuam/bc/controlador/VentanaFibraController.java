@@ -295,7 +295,8 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
      * Metodo el cual captura los datos obtenidos de la ventana de la fibra y
      * crea una
      * @param event Representa cualquier tipo de accion 
-     * @throws java.lang.reflect.InvocationTargetException 
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas bajo el paquete java lang 
      */
     public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int modo=0, longitudOnda=0, tipo=0, id = 0;
@@ -806,7 +807,8 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
     /**
      * Metodo para modificar la fibra
      * @param event Representa cualquier tipo de accion
-     * @throws java.lang.reflect.InvocationTargetException
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas bajo el paquete java lang
      */
     @FXML
     public void modificar(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{

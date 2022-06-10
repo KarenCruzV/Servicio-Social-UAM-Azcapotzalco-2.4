@@ -193,7 +193,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
      * Metodo el cual captura los datos obtenidos de la ventana de la fuente y
      * crea una
      * @param event Representa cualquier tipo de accion 
-     * @throws java.lang.reflect.InvocationTargetException 
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas bajo el paquete java lang
      */
     public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int longitudOnda=0, tipo=0, id = 0;
@@ -754,7 +755,8 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
     
     /**
      * Metodo para configurar el pulso de la fuente
-     * @throws java.io.IOException
+     * @throws java.io.IOException Proporciona diferentes excepciones lanzadas 
+     * bajo el paquete java io
      */
     @FXML
     public void configurarPulso() throws IOException {

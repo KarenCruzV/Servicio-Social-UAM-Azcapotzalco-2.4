@@ -236,7 +236,9 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
      * Metodo el cual captura los datos obtenidos de la ventana del divisor 
      * optico y crea uno
      * @param event Representa cualquier tipo de accion 
-     * @throws java.lang.reflect.InvocationTargetException 
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas 
+     * bajo el paquete java lang
      */
     public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int salidas=0, longitudOnda=0, id=0;
@@ -695,7 +697,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
     /**
      * Metodo para modificar el divisor optico
      * @param event Representa cualquier tipo de accion
-     * @throws java.lang.reflect.InvocationTargetException
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas bajo el paquete java lang
      */
     @FXML
     public void modificar(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{

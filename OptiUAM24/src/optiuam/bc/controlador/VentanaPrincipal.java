@@ -63,7 +63,6 @@ import optiuam.bc.modelo.Splitter;
  * Editado por:
  * @author Arturo Borja
  * @author Karen Cruz
- * @see ControladorGeneral
  */
 public class VentanaPrincipal implements Initializable {
 
@@ -812,6 +811,25 @@ public class VentanaPrincipal implements Initializable {
     }
     
     /**
+     * Metodo utilizado para iniciar un nuevo trabajo en el simulador
+     */
+    public void nuevoTrabajo(){
+        Node node= Pane1.getChildren().get(0);
+        Pane1.getChildren().clear();
+        Pane1.getChildren().add(node);
+        controlador.getElementos().clear();
+        controlador.getDibujos().clear();
+        controlador.reset();
+        ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "\nNew job!",
+                aceptar);
+        alert.setTitle("Succes");
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+    
+    /**
      * Metodo que permtite crear un nuevo trabajo
      */
     @FXML
@@ -828,7 +846,7 @@ public class VentanaPrincipal implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if(result.orElse(cancelar) == aceptar) {
-            controlador.nuevoTrabajo();
+            nuevoTrabajo();
         }
         else{}
     }    
@@ -858,8 +876,10 @@ public class VentanaPrincipal implements Initializable {
     /**
      * Metodo utilizado para abrir un trabajo a partir de un archivo
      * @param ruta Nombre del archivo
-     * @throws java.lang.InstantiationException
-     * @throws java.lang.IllegalAccessException
+     * @throws java.lang.InstantiationException Proporciona diferentes excepciones lanzadas 
+     * bajo el paquete java lang
+     * @throws java.lang.IllegalAccessException Proporciona diferentes excepciones lanzadas 
+     * bajo el paquete java lang
      */
     public void abrirTrabajo(String ruta) throws InstantiationException, IllegalAccessException{
         File archivo = null;

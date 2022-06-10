@@ -177,7 +177,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
      * Metodo el cual captura los datos obtenidos de la ventana del empalme y
      * crea uno
      * @param event Representa cualquier tipo de accion 
-     * @throws java.lang.reflect.InvocationTargetException 
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas bajo el paquete java lang
      */
     public void enviarDatos(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{
         int tipo=0, longitudOnda=0, id = 0;
@@ -548,7 +549,8 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
     /**
      * Metodo para modificar el empalme
      * @param event Representa cualquier tipo de accion
-     * @throws java.lang.reflect.InvocationTargetException
+     * @throws java.lang.reflect.InvocationTargetException Proporciona diferentes 
+     * excepciones lanzadas bajo el paquete java lang
      */
     @FXML
     public void modificar(ActionEvent event) throws RuntimeException, InvocationTargetException, NumberFormatException{

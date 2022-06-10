@@ -158,30 +158,11 @@ public class ControladorGeneral {
     }
 
     /**
-     * Metodo utilizado para iniciar un nuevo trabajo en el simulador
-     */
-    public void nuevoTrabajo() {
-        try {
-            VentanaPrincipal.stage.close();
-            ControladorGeneral con = new ControladorGeneral();
-            ventana_principal = VentanaPrincipal.class.newInstance();
-            con.setVentana_principal(ventana_principal);
-            ventana_principal.setControlador(con);
-            reset();
-            OptiUAM24 op = new OptiUAM24();
-            op.start(VentanaPrincipal.stage);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ControladorGeneral.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /**
-     * Metodo utilizado para reiniciar los identificadores de los elementos al
-     * iniciar un nuevo trabajo
+     * Metodo utilizado para reiniciar los identificadores de los elementos y el 
+     * controlador general al iniciar un nuevo trabajo
      */
     public void reset(){
+        VentanaPrincipal.controlador = new ControladorGeneral();
         VentanaConectorController.idConector=0;
         VentanaEmpalmeController.idEmpalme=0;
         VentanaFibraController.idFibra=0;
@@ -189,7 +170,6 @@ public class ControladorGeneral {
         VentanaSplitterController.idS=0;
         VentanaPrincipal.idEspectro=0;
         VentanaPrincipal.idPotencia=0;
-        
     }
     
     /**

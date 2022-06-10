@@ -2,7 +2,6 @@
 package optiuam.bc.controlador;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * Clase principal la cual se encarga de ejecutar la Ventana Principal del
+ * Clase principal la cual se encarga de ejecutar pantalla de inicio del
  * simulador
  * @author Daniel Hernandez
  * Editado por:
@@ -22,7 +21,7 @@ import javafx.stage.StageStyle;
 public class OptiUAM24 extends Application {
     
     /**
-    * Metodo start, encargado de mostrar la Ventana Principal
+    * Metodo start, encargado de mostrar la pantalla de inicio del simulador
     * @throws java.lang.Exception Proporciona diferentes excepciones lanzadas bajo el paquete java lang
     */
     @Override
@@ -38,7 +37,6 @@ public class OptiUAM24 extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
 
     /**
      * Metodo main
