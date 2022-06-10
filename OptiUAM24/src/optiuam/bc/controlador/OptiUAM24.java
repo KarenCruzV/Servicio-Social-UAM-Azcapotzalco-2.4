@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Clase principal la cual se encarga de ejecutar la Ventana Principal del
@@ -26,21 +27,16 @@ public class OptiUAM24 extends Application {
     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("VentanaPrincipal.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
         Parent root = loader.load();
-        //\src\images\ico_aplicar.png
-        VentanaPrincipal ventanaPrincipal= loader.getController();
-        VentanaPrincipal.setStage(primaryStage);
+        
         Image ico = new Image("/images/acercaDe.png"); 
         primaryStage.getIcons().add(ico);
-
-        primaryStage.setTitle("OptiUAM BC");
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
         
         primaryStage.setScene(scene);
         primaryStage.show();
-        primaryStage.setOnCloseRequest(e-> Platform.exit());
-        primaryStage.setOnCloseRequest(e-> System.exit(0));
     }
     
 
