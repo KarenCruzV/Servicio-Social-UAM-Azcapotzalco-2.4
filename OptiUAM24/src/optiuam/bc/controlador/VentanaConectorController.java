@@ -805,39 +805,35 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
         sptt.getConexiones().get(puerto).getLinea().setVisible(false);
         line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
-        //Cambios
+        
         switch (sptt.getSalidas()) {
-                    case 2:
-                        line.setStartX(aux.getDibujo().getLayoutX()+50);
-                        line.setStartY(aux.getDibujo().getLayoutY()+(24+(5*(puerto+1))));
-                        break;
-                    case 4:
-                        line.setStartX(aux.getDibujo().getLayoutX()+50);
-                        line.setStartY(aux.getDibujo().getLayoutY()+(18+(5*(puerto+1))));
-                        break;
-                    case 8:
-                        line.setStartX(aux.getDibujo().getLayoutX()+80);
-                        line.setStartY(aux.getDibujo().getLayoutY()+(10+(9*(puerto+1))));
-                        break;
-                    case 16:
-                        line.setStartX(aux.getDibujo().getLayoutX()+94);
-                        line.setStartY(aux.getDibujo().getLayoutY()+(10+(5.1*(puerto+1))));
-                        break;
-                    case 32:
-                        line.setStartX(aux.getDibujo().getLayoutX()+110);
-                        line.setStartY(aux.getDibujo().getLayoutY()+(10+(3.2*(puerto+1))));
-                        break;
-                    case 64:
-                        line.setStartX(aux.getDibujo().getLayoutX()+120);
-                        line.setStartY(aux.getDibujo().getLayoutY()+(10+(2*(puerto+1))));
-                        break;
-                    default:
-                        break;
-                }
-        /*
-        line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
-        line.setStartY(aux.getDibujo().getLayoutY()+10+(10*(puerto+1)));
-        */
+            case 2:
+                line.setStartX(aux.getDibujo().getLayoutX()+50);
+                line.setStartY(aux.getDibujo().getLayoutY()+(24+(5*(puerto+1))));
+                break;
+            case 4:
+                line.setStartX(aux.getDibujo().getLayoutX()+50);
+                line.setStartY(aux.getDibujo().getLayoutY()+(18+(5*(puerto+1))));
+                break;
+            case 8:
+                line.setStartX(aux.getDibujo().getLayoutX()+80);
+                line.setStartY(aux.getDibujo().getLayoutY()+(10+(9*(puerto+1))));
+                break;
+            case 16:
+                line.setStartX(aux.getDibujo().getLayoutX()+94);
+                line.setStartY(aux.getDibujo().getLayoutY()+(10+(5.1*(puerto+1))));
+                break;
+            case 32:
+                line.setStartX(aux.getDibujo().getLayoutX()+110);
+                line.setStartY(aux.getDibujo().getLayoutY()+(10+(3.2*(puerto+1))));
+                break;
+            case 64:
+                line.setStartX(aux.getDibujo().getLayoutX()+120);
+                line.setStartY(aux.getDibujo().getLayoutY()+(10+(2*(puerto+1))));
+                break;
+            default:
+                break;
+        }
         line.setEndX(elem.getDibujo().getLayoutX()+1);
         line.setEndY(elem.getDibujo().getLayoutY()+7);
 
@@ -899,10 +895,8 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                 line.setVisible(true);
                 Pane1.getChildren().add(line); 
                 aux.getComponente().setLinea(line);
-                
             }
         }
-        
     }
     
     /**

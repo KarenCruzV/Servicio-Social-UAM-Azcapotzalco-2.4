@@ -672,7 +672,8 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 elemG.getComponente().setElementoConectadoSalida("-");
                 elemG.getComponente().getLinea().setVisible(false);
             }
-        }else{
+        }
+        else{
             int salida= Integer.parseInt(splitterControl.cboxSalidas.getSelectionModel().getSelectedItem().toString())-2;
             Splitter aux=(Splitter) elemG.getComponente();
             if(aux.getConexiones().get(salida).isConectadoSalida()){
@@ -680,7 +681,6 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                 aux.getConexiones().get(salida).setElementoConectadoSalida("-");
                 aux.getConexiones().get(salida).getLinea().setVisible(false);
             }
-            
         }
         ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         Alert alert = new Alert(Alert.AlertType.INFORMATION,

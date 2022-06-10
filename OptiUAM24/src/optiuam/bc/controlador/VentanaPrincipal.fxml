@@ -42,7 +42,7 @@
             <InnerShadow choke="0.08" color="#0e5cc3" radius="24.085" width="77.34" />
          </effect>
       </MenuBar>
-      <TitledPane fx:id="componentMenu" animated="false" layoutX="1.0" layoutY="24.0" maxHeight="-Infinity" minHeight="154.0" minWidth="900.0" onMouseClicked="#panelComponentes" text="Components" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <TitledPane fx:id="componentMenu" animated="false" layoutX="1.0" layoutY="24.0" maxHeight="-Infinity" minHeight="154.0" minWidth="900.0" text="Components" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <content>
           <AnchorPane fx:id="desplegable" focusTraversable="false" style="-fx-background-color: lavender;">
                <children>
