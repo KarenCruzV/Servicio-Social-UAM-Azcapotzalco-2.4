@@ -3,6 +3,7 @@ package optiuam.bc.controlador;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.LinkedList;
@@ -16,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.swing.ImageIcon;
@@ -419,6 +419,7 @@ public class VentanaEspectroController implements Initializable {
     
     /**
      * Metodo que muestra la grafica del pulso a la entrada
+     * @param event Representa cualquier tipo de accion
      */
     @FXML
     public void btnPulsoEntradaAction(ActionEvent event){
@@ -451,13 +452,15 @@ public class VentanaEspectroController implements Initializable {
                         false,
                         false
                 );
-                chart.getTitle().setFont(Font.decode("ARIAL red-18"));
+                chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
                   //Mostramos la grafica en pantalla
                 ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
-                ImageIcon icon= new ImageIcon(getClass().getResource("images/acercaDe.png"));
-                //frame.setIconImage(new Image());
-                //frame.setAlwaysOnTop(true);
+                //frame.getChartPanel().hasFocus();
+                frame.setAlwaysOnTop(true);
+                //frame.setUndecorated(true);
+                // Define el icono
+                frame.setIconImage(new ImageIcon(getClass().getResource("acercaDeGraficas.png")).getImage());
                 
                 frame.pack();
                 frame.setVisible(true);
@@ -478,6 +481,7 @@ public class VentanaEspectroController implements Initializable {
     
     /**
      * Metodo que muestra la grafica del pulso a la salida
+     * @param event Representa cualquier tipo de accion
      */
     @FXML
     public void btnB2Action(ActionEvent event){
@@ -516,15 +520,15 @@ public class VentanaEspectroController implements Initializable {
                         false
                 );
                 
-                chart.getTitle().setFont(Font.decode("ARIAL red-18"));
+                chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
                   //Mostramos la grafica en pantalla
                 ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
                 //frame.getChartPanel().hasFocus();
                 frame.setAlwaysOnTop(true);
                 //frame.setUndecorated(true);
-                java.awt.Image ico = Toolkit.getDefaultToolkit().getImage(getClass().getResource("images/acercaDe.png"));
-                frame.setIconImage(ico);
+                // Define el icono
+                frame.setIconImage(new ImageIcon(getClass().getResource("acercaDeGraficas.png")).getImage());
                 
                 frame.pack();
                 frame.setVisible(true);

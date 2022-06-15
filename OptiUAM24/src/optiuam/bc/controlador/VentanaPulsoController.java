@@ -15,6 +15,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.swing.ImageIcon;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.Fuente;
 import optiuam.bc.modelo.NumeroComplejo;
@@ -296,6 +297,12 @@ public class VentanaPulsoController implements Initializable {
      */
     @FXML
     private void btnGraficarAction(){
+        if(fuente.getM() > 1){
+            tipo="Supergaussian";
+        }
+        else if(fuente.getM() == 1){
+            tipo="Gaussian";
+        }
         float [] valores = calcularPulso();
         int n =valores.length;
         
@@ -324,6 +331,12 @@ public class VentanaPulsoController implements Initializable {
         chart.setBackgroundPaint(new Color(173, 216, 230));
          //Mostramos la grafica en pantalla
         ChartFrame frame = new ChartFrame("OptiUAM BC - "+tipo + " Pulse", chart);
+        //frame.getChartPanel().hasFocus();
+        frame.setAlwaysOnTop(true);
+        //frame.setUndecorated(true);
+        // Define el icono
+        frame.setIconImage(new ImageIcon(getClass().getResource("acercaDeGraficas.png")).getImage());
+
         frame.pack();
         frame.setVisible(true);
     }
