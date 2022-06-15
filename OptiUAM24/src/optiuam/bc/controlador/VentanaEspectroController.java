@@ -451,7 +451,7 @@ public class VentanaEspectroController implements Initializable {
                 chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
                   //Mostramos la grafica en pantalla
-                ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
+                ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
                 frame.pack();
                 frame.setVisible(true);
             }
@@ -497,8 +497,8 @@ public class VentanaEspectroController implements Initializable {
                 dataset.addSeries(series);
 
                 JFreeChart chart = ChartFactory.createXYLineChart(
-                        "Output Pulse", // Título
-                        "Time (t)", // Etiqueta Coordenada X
+                        "Output Pulse with B2", // Título
+                        "Time (ms)", // Etiqueta Coordenada X
                         "U(z,t)", // Etiqueta Coordenada Y
                         dataset, // Datos
                         PlotOrientation.VERTICAL,
@@ -506,12 +506,14 @@ public class VentanaEspectroController implements Initializable {
                         false,
                         false
                 );
+                
                 chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
                   //Mostramos la grafica en pantalla
-                ChartFrame frame = new ChartFrame("Gaussian pulse", chart);
+                ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
                 frame.pack();
                 frame.setVisible(true);
+                
             }
         }
         else{

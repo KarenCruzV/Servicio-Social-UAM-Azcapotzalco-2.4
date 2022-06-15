@@ -536,7 +536,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                        stage1.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
@@ -638,7 +638,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
                     Stage s = new Stage(StageStyle.DECORATED);
                     Image ico = new Image("images/dibujo_fibra.png");
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC Properties");
+                    s.setTitle("OptiUAM BC - Properties");
                     s.initModality(Modality.APPLICATION_MODAL);
                     Fibra aux= (Fibra)controlador.getElementos().get(elemento);
                     Label label;
@@ -1017,7 +1017,7 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
      */
     public void dibujarLinea(ElementoGrafico elemG) {
         Line line= new Line();   
-        line.setStartX(elemG.getDibujo().getLayoutX()+125);
+        line.setStartX(elemG.getDibujo().getLayoutX()+70);
         line.setStartY(elemG.getDibujo().getLayoutY()+20);
         ElementoGrafico aux= new ElementoGrafico();
         for(int it=0; it<controlador.getDibujos().size();it++){

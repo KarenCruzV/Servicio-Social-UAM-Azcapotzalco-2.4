@@ -40,7 +40,7 @@ public class VentanaPulsoController implements Initializable {
     /**Identificador de la ventana de la fuente*/
     VentanaFuenteController ventanaFuente;
     /**Tipo de pulso*/
-    String tipo;
+    static String tipo;
     /**Controlador del simulador*/
     ControladorGeneral controlador;
     /**Amplitud*/
@@ -85,7 +85,12 @@ public class VentanaPulsoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        if(M > 1){
+            tipo="Supergaussian";
+        }
+        else if(M == 1){
+            tipo="Gaussian";
+        }
     }  
     
     /**
@@ -318,7 +323,7 @@ public class VentanaPulsoController implements Initializable {
         chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
         chart.setBackgroundPaint(new Color(173, 216, 230));
          //Mostramos la grafica en pantalla
-        ChartFrame frame = new ChartFrame("OptiUAM BC Pulse Graph "+tipo, chart);
+        ChartFrame frame = new ChartFrame("OptiUAM BC - "+tipo + " Pulse", chart);
         frame.pack();
         frame.setVisible(true);
     }

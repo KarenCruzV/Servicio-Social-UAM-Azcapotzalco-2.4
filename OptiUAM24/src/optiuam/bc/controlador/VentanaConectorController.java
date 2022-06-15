@@ -385,7 +385,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                         Image ico = new Image("images/acercaDe.png");
                         Stage stage1 = new Stage();
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                        stage1.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                         stage1.setScene(scene);
                         stage1.setResizable(false);
                         stage1.showAndWait();
@@ -479,7 +479,7 @@ public class VentanaConectorController extends ControladorGeneral implements Ini
                     Stage s = new Stage(StageStyle.DECORATED);
                     Image ico = new Image("images/dibujo_conectorR.png");
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC Properties");
+                    s.setTitle("OptiUAM BC - Properties");
                     s.initModality(Modality.APPLICATION_MODAL);
                     Conector aux= (Conector)controlador.getElementos().get(elemento);
                     String mode;

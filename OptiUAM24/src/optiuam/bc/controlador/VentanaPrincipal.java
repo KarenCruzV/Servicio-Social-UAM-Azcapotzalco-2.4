@@ -264,7 +264,7 @@ public class VentanaPrincipal implements Initializable {
             Scene scene = new Scene(root);
             Image ico = new Image("images/acercaDe.png");
             s.getIcons().add(ico);
-            s.setTitle("OptiUAM BC New Fiber");
+            s.setTitle("OptiUAM BC - New Fiber");
             s.initModality(Modality.APPLICATION_MODAL);
             s.setScene(scene);
             s.setResizable(false);
@@ -293,7 +293,7 @@ public class VentanaPrincipal implements Initializable {
             Scene scene = new Scene(root);
             Image ico = new Image("images/acercaDe.png");
             s.getIcons().add(ico);
-            s.setTitle("OptiUAM BC New Source");
+            s.setTitle("OptiUAM BC - New Source");
             s.initModality(Modality.APPLICATION_MODAL);
             s.setScene(scene);
             s.setResizable(false);
@@ -321,7 +321,7 @@ public class VentanaPrincipal implements Initializable {
             Scene scene = new Scene(root);
             Image ico = new Image("images/acercaDe.png");
             s.getIcons().add(ico);
-            s.setTitle("OptiUAM BC New Splitter");
+            s.setTitle("OptiUAM BC - New Splitter");
             s.initModality(Modality.APPLICATION_MODAL);
             s.setScene(scene);
             s.setResizable(false);
@@ -350,7 +350,7 @@ public class VentanaPrincipal implements Initializable {
             Scene scene = new Scene(root);
             Image ico = new Image("images/acercaDe.png");
             s.getIcons().add(ico);
-            s.setTitle("OptiUAM BC New Connector");
+            s.setTitle("OptiUAM BC - New Connector");
             s.initModality(Modality.APPLICATION_MODAL);
             s.setScene(scene);
             s.setResizable(false);
@@ -379,7 +379,7 @@ public class VentanaPrincipal implements Initializable {
             Scene scene = new Scene(root);
             Image ico = new Image("images/acercaDe.png");
             s.getIcons().add(ico);
-            s.setTitle("OptiUAM BC New Splice");
+            s.setTitle("OptiUAM BC - New Splice");
             s.initModality(Modality.APPLICATION_MODAL);
             s.setScene(scene);
             s.setResizable(false);
@@ -441,7 +441,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                     s.setScene(scene);
                     s.showAndWait();
                     s.setResizable(false);
@@ -506,7 +506,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                     s.setScene(scene);
                     s.showAndWait();
                     s.setResizable(false);
@@ -609,7 +609,7 @@ public class VentanaPrincipal implements Initializable {
                     Image ico = new Image("images/acercaDe.png");
                     Stage s = new Stage(StageStyle.UTILITY);
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                     s.setScene(scene);
                     s.showAndWait();
                     s.setResizable(false);
@@ -642,7 +642,7 @@ public class VentanaPrincipal implements Initializable {
                 Image ico = new Image("images/acercaDe.png");
                 Stage s = new Stage(StageStyle.UTILITY);
                 s.getIcons().add(ico);
-                s.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                 s.setScene(scene);
                 s.showAndWait();
                 s.setResizable(false);
@@ -726,7 +726,7 @@ public class VentanaPrincipal implements Initializable {
                         Stage s = new Stage(StageStyle.DECORATED);
                         Image ico = new Image("images/dibujo_potencia.png");
                         s.getIcons().add(ico);
-                        s.setTitle("OptiUAM BC Properties");
+                        s.setTitle("OptiUAM BC - Properties");
                         s.initModality(Modality.APPLICATION_MODAL);
                         MedidorPotencia aux= (MedidorPotencia)controlador.getElementos().get(elemento);
                         Label label = new Label("  Name: "+aux.getNombre()+
@@ -743,7 +743,7 @@ public class VentanaPrincipal implements Initializable {
                         Stage s = new Stage(StageStyle.DECORATED);
                         Image ico = new Image("images/dibujo_espectro.png");
                         s.getIcons().add(ico);
-                        s.setTitle("OptiUAM BC Properties");
+                        s.setTitle("OptiUAM BC - Properties");
                         s.initModality(Modality.APPLICATION_MODAL);
                         MedidorEspectro aux= (MedidorEspectro)controlador.getElementos().get(elemento);
                         Label label = new Label("  Name: "+aux.getNombre()+
@@ -788,7 +788,7 @@ public class VentanaPrincipal implements Initializable {
             Image ico = new Image("images/acercaDe.png");
             Stage st = new Stage(StageStyle.UTILITY);
             st.getIcons().add(ico);
-            st.setTitle("OptiUAM BC About");
+            st.setTitle("OptiUAM BC - About");
             st.setScene(scene);
             st.showAndWait();
             st.setResizable(false);
@@ -1296,35 +1296,35 @@ public class VentanaPrincipal implements Initializable {
      */
     public void redibujarLinea(){
         for(int w=0; w<controlador.getDibujos().size();w++){
-            ElementoGrafico k24=controlador.getDibujos().get(w);
-            if(k24.getComponente().isConectadoSalida()){
-                if(k24.getDibujo().getText().contains("connector")){
+            ElementoGrafico elem=controlador.getDibujos().get(w);
+            if(elem.getComponente().isConectadoSalida()){
+                if(elem.getDibujo().getText().contains("connector")){
                     VentanaConectorController fue= new VentanaConectorController();
                     fue.init(controlador, stage, Pane1, scroll);
-                    fue.dibujarLinea(k24);
+                    fue.dibujarLinea(elem);
                 }
-                else if(k24.getDibujo().getText().contains("source")){
+                else if(elem.getDibujo().getText().contains("source")){
                     VentanaFuenteController fue= new VentanaFuenteController();
                     fue.init(controlador, stage, Pane1, scroll);
-                    fue.dibujarLinea(k24);
+                    fue.dibujarLinea(elem);
                 }
-                else if(k24.getDibujo().getText().contains("fiber")){
+                else if(elem.getDibujo().getText().contains("fiber")){
                     VentanaFibraController fue= new VentanaFibraController();
                     fue.init(controlador, stage, Pane1, scroll);
-                    fue.dibujarLinea(k24);
+                    fue.dibujarLinea(elem);
                 }
-                else if(k24.getDibujo().getText().contains("splice")){
+                else if(elem.getDibujo().getText().contains("splice")){
                     VentanaEmpalmeController fue= new VentanaEmpalmeController();
                     fue.init(controlador, stage, Pane1, scroll);
-                    fue.dibujarLinea(k24);
+                    fue.dibujarLinea(elem);
                     
                 }
             }
-            if(k24.getDibujo().getText().contains("splitter")){
+            if(elem.getDibujo().getText().contains("splitter")){
                 VentanaSplitterController fue= new VentanaSplitterController();
                 fue.init(controlador, stage, Pane1, scroll);
                 System.out.println("dibujar lineas splitter");
-                fue.dibujarLinea(k24);
+                fue.dibujarLinea(elem);
             }
         }
     }

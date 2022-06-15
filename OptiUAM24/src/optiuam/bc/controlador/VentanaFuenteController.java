@@ -432,7 +432,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     Scene scene = new Scene(root);
                     Image ico = new Image("images/acercaDe.png");
                     stage1.getIcons().add(ico);
-                    stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                    stage1.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                     stage1.initModality(Modality.APPLICATION_MODAL);
                     stage1.setScene(scene);
                     stage1.setResizable(false);
@@ -530,7 +530,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
                     Stage s = new Stage(StageStyle.DECORATED);
                     Image ico = new Image("images/dibujo_fuente.png");
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC Properties");
+                    s.setTitle("OptiUAM BC - Properties");
                     s.initModality(Modality.APPLICATION_MODAL);
                     Fuente aux= (Fuente)controlador.getElementos().get(elemento);
                     String tip;
@@ -770,7 +770,7 @@ public class VentanaFuenteController extends ControladorGeneral implements Initi
             Image ico = new Image("images/acercaDe.png");
             Stage st = new Stage(StageStyle.UTILITY);
             st.getIcons().add(ico);
-            st.setTitle("OptiUAM BC Pulse Configuration");
+            st.setTitle("OptiUAM BC - Pulse Configuration");
             st.setScene(scene);
             st.showAndWait();
             st.setResizable(false);

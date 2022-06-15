@@ -366,7 +366,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                        stage1.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
@@ -462,7 +462,7 @@ public class VentanaEmpalmeController extends ControladorGeneral implements Init
                     Stage s = new Stage(StageStyle.DECORATED);
                     Image ico = new Image("images/dibujo_empalme.png");
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC Properties");
+                    s.setTitle("OptiUAM BC - Properties");
                     s.initModality(Modality.APPLICATION_MODAL);
                     Empalme aux= (Empalme)controlador.getElementos().get(elemento);
                     String tip;

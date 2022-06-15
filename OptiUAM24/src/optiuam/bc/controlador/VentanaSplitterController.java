@@ -496,7 +496,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                         Scene scene = new Scene(root);
                         Image ico = new Image("images/acercaDe.png");
                         stage1.getIcons().add(ico);
-                        stage1.setTitle("OptiUAM BC "+elem.getDibujo().getText().toUpperCase());
+                        stage1.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                         stage1.initModality(Modality.APPLICATION_MODAL);
                         stage1.setScene(scene);
                         stage1.setResizable(false);
@@ -617,7 +617,7 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
                     Stage s = new Stage(StageStyle.DECORATED);
                     Image ico = new Image("images/ico_splitter.png");
                     s.getIcons().add(ico);
-                    s.setTitle("OptiUAM BC Properties");
+                    s.setTitle("OptiUAM BC - Properties");
                     s.initModality(Modality.APPLICATION_MODAL);
                     Splitter aux= (Splitter)controlador.getElementos().get(elemento);
                     Label label;
