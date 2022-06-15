@@ -3,6 +3,7 @@ package optiuam.bc.controlador;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -15,8 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javax.swing.ImageIcon;
 import optiuam.bc.modelo.Componente;
 import optiuam.bc.modelo.ElementoGrafico;
 import optiuam.bc.modelo.FFT;
@@ -418,7 +421,7 @@ public class VentanaEspectroController implements Initializable {
      * Metodo que muestra la grafica del pulso a la entrada
      */
     @FXML
-    public void btnPulsoEntradaAction(){
+    public void btnPulsoEntradaAction(ActionEvent event){
         LinkedList<Componente> ele=verComponentesConectados();
         Fuente f= new Fuente();
         if(ele.getLast().getNombre().contains("source")){
@@ -448,13 +451,18 @@ public class VentanaEspectroController implements Initializable {
                         false,
                         false
                 );
-                chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+                chart.getTitle().setFont(Font.decode("ARIAL red-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
                   //Mostramos la grafica en pantalla
                 ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
+                ImageIcon icon= new ImageIcon(getClass().getResource("images/acercaDe.png"));
+                //frame.setIconImage(new Image());
+                //frame.setAlwaysOnTop(true);
+                
                 frame.pack();
                 frame.setVisible(true);
             }
+            cerrarVentana(event);
         }
         else{
             ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
@@ -465,13 +473,14 @@ public class VentanaEspectroController implements Initializable {
             alert.setHeaderText(null);
             alert.showAndWait();
         }
+        
     }
     
     /**
      * Metodo que muestra la grafica del pulso a la salida
      */
     @FXML
-    public void btnB2Action(){
+    public void btnB2Action(ActionEvent event){
         LinkedList<Componente> ele=verComponentesConectados();
         Fuente f= new Fuente();
         if(ele.getLast().getNombre().contains("source")){
@@ -507,14 +516,21 @@ public class VentanaEspectroController implements Initializable {
                         false
                 );
                 
-                chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
+                chart.getTitle().setFont(Font.decode("ARIAL red-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
                   //Mostramos la grafica en pantalla
                 ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
+                //frame.getChartPanel().hasFocus();
+                frame.setAlwaysOnTop(true);
+                //frame.setUndecorated(true);
+                java.awt.Image ico = Toolkit.getDefaultToolkit().getImage(getClass().getResource("images/acercaDe.png"));
+                frame.setIconImage(ico);
+                
                 frame.pack();
                 frame.setVisible(true);
                 
             }
+            cerrarVentana(event);
         }
         else{
             ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
@@ -572,4 +588,6 @@ public class VentanaEspectroController implements Initializable {
         this.scroll=scroll;
         this.elem=elem;
     }
+    
+    
 }
