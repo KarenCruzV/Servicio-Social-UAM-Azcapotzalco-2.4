@@ -832,11 +832,40 @@ public class VentanaSplitterController extends ControladorGeneral implements Ini
         }
         else if(salida>0&&salida<=splitter.getSalidas()){
             if(splitter.getConexiones().get(salida-1).isConectadoSalida()==false){
+                //dibujarLinea(elemG);
                 splitter.getConexiones().get(salida-1).setConectadoSalida(true);
                 splitter.getConexiones().get(salida-1).setElementoConectadoSalida(componente);
                 Line line= new Line();
-                line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
-                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(salida))));
+                /*line.setStartX(elemG.getDibujo().getLayoutX()+elemG.getDibujo().getWidth());
+                line.setStartY(elemG.getDibujo().getLayoutY()+(10+(10*(salida))));*/
+                switch (splitter.getSalidas()) {
+                    case 2:
+                        line.setStartX(elemG.getDibujo().getLayoutX()+50);
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(24+(5*(salida))));
+                        break;
+                    case 4:
+                        line.setStartX(elemG.getDibujo().getLayoutX()+50);
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(18+(5*(salida))));
+                        break;
+                    case 8:
+                        line.setStartX(elemG.getDibujo().getLayoutX()+80);
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(9*(salida))));
+                        break;
+                    case 16:
+                        line.setStartX(elemG.getDibujo().getLayoutX()+94);
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(5.1*(salida))));
+                        break;
+                    case 32:
+                        line.setStartX(elemG.getDibujo().getLayoutX()+110);
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(3.2*(salida))));
+                        break;
+                    case 64:
+                        line.setStartX(elemG.getDibujo().getLayoutX()+120);
+                        line.setStartY(elemG.getDibujo().getLayoutY()+(10+(2*(salida))));
+                        break;
+                    default:
+                        break;
+                }
                 ElementoGrafico aux= new ElementoGrafico();
                 
                 for(int it=0; it<controlador.getDibujos().size();it++){
