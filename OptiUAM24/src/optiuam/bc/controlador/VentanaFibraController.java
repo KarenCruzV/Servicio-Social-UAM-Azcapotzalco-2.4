@@ -1027,8 +1027,8 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
         }
         line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
-        line.setEndX(aux.getDibujo().getLayoutX()+3);
-        line.setEndY(aux.getDibujo().getLayoutY()+10);
+        line.setEndX(aux.getDibujo().getLayoutX()+1);
+        line.setEndY(aux.getDibujo().getLayoutY()+5);
         line.setVisible(true);
         Pane1.getChildren().add(line); 
         elemG.getComponente().setLinea(line);
@@ -1050,9 +1050,9 @@ public class VentanaFibraController extends ControladorGeneral implements Initia
                 line.setStrokeWidth(2);
                 line.setStroke(Color.BLACK);
                 line.setStartX(aux.getDibujo().getLayoutX()+aux.getDibujo().getWidth());
-                line.setStartY(aux.getDibujo().getLayoutY()+10);
+                line.setStartY(aux.getDibujo().getLayoutY()+12);
                 line.setEndX(elem.getDibujo().getLayoutX());
-                line.setEndY(elem.getDibujo().getLayoutY()+20);
+                line.setEndY(elem.getDibujo().getLayoutY()+23);
                 line.setVisible(true);
                 Pane1.getChildren().add(line); 
                 aux.getComponente().setLinea(line);
