@@ -822,7 +822,7 @@ public class VentanaPrincipal implements Initializable {
         controlador.reset();
         ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "\nNew job!",
+                "\nNew work!",
                 aceptar);
         alert.setTitle("Succes");
         alert.setHeaderText(null);
@@ -837,10 +837,9 @@ public class VentanaPrincipal implements Initializable {
         ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         Alert alert = new Alert(AlertType.CONFIRMATION,
-                "Do you want to create a new job?",
+                "Do you want to create a new work?",
                 aceptar,
                 cancelar);
-
         alert.setTitle("Confirmation");
         alert.setHeaderText(null);
         Optional<ButtonType> result = alert.showAndWait();

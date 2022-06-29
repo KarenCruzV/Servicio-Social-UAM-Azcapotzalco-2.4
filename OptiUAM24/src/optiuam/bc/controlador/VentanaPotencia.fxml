@@ -29,7 +29,7 @@
       <Separator layoutY="48.0" prefHeight="7.0" prefWidth="414.0" />
       <Pane layoutX="14.0" layoutY="69.0" prefHeight="100.0" prefWidth="384.0" style="-fx-background-color: aliceblue;">
          <children>
-            <Label fx:id="lblPotencia" layoutX="101.0" layoutY="15.0" text="00.00 dB">
+            <Label fx:id="lblPotencia" layoutX="101.0" layoutY="15.0" text="00.00 dBm">
                <font>
                   <Font size="48.0" />
                </font>

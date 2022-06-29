@@ -3,8 +3,6 @@ package optiuam.bc.controlador;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -511,7 +509,7 @@ public class VentanaEspectroController implements Initializable {
 
                 JFreeChart chart = ChartFactory.createXYLineChart(
                         "Output Pulse with B2", // Título
-                        "Time (ms)", // Etiqueta Coordenada X
+                        "Time in ms (t)", // Etiqueta Coordenada X
                         "U(z,t)", // Etiqueta Coordenada Y
                         dataset, // Datos
                         PlotOrientation.VERTICAL,
@@ -522,7 +520,7 @@ public class VentanaEspectroController implements Initializable {
                 
                 chart.getTitle().setFont(Font.decode("ARIAL BLACK-18"));
                 chart.setBackgroundPaint(new Color(173, 216, 230));
-                  //Mostramos la grafica en pantalla
+                //Mostramos la grafica en pantalla
                 ChartFrame frame = new ChartFrame("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase(), chart);
                 //frame.getChartPanel().hasFocus();
                 frame.setAlwaysOnTop(true);

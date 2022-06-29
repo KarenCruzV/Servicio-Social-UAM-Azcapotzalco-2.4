@@ -190,9 +190,10 @@ public class VentanaPotenciaController implements Initializable {
     
     /**
      * Metodo que muestra la potencia calculada
+     * @param event Representa cualquier tipo de accion
      */
     @FXML
-    public void btnCalcularPotenciaAction(){
+    public void btnCalcularPotenciaAction(ActionEvent event){
         LinkedList<Componente> ele=verComponentesConectados();
         if(ele.getLast().getNombre().contains("source")){
             if (txtSensibilidad.getText().compareTo("")==0 || !txtSensibilidad.getText().matches("[0-9]*?\\d*(\\.\\d+)?")){
@@ -207,7 +208,7 @@ public class VentanaPotenciaController implements Initializable {
             else{
                 Double potencia = calcularPotencia(Double.valueOf(txtSensibilidad.getText()));
                 if(potencia !=-1)
-                    lblPotencia.setText(String.valueOf(potencia + " dB"));
+                    lblPotencia.setText(String.valueOf(potencia + " dBm"));
                 else if(potencia ==-2){
                     ButtonType aceptar = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
                     Alert alert = new Alert(Alert.AlertType.ERROR,
