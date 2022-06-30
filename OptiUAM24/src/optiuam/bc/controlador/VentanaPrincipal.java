@@ -298,11 +298,12 @@ public class VentanaPrincipal implements Initializable {
             s.setScene(scene);
             s.setResizable(false);
             s.showAndWait();
+            
             //System.out.print(controlador.getContadorElemento());
-            for(int h=0; h<controlador.getElementos().size(); h++){
+            /*for(int h=0; h<controlador.getElementos().size(); h++){
                 System.out.print("\telemento: "+controlador.getElementos().get(h).toString());
                 System.out.println("\tdibujo: "+controlador.getDibujos().get(h).toString());
-            }
+            }*/
         } catch (IOException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -443,6 +444,7 @@ public class VentanaPrincipal implements Initializable {
                     s.getIcons().add(ico);
                     s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                     s.setScene(scene);
+                    s.initModality(Modality.APPLICATION_MODAL);
                     s.showAndWait();
                     s.setResizable(false);
                 } catch (IOException ex) {
@@ -508,6 +510,9 @@ public class VentanaPrincipal implements Initializable {
                     s.getIcons().add(ico);
                     s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                     s.setScene(scene);
+                    
+                    //s.initOwner(VentanaPrincipal.getStage());
+                    s.initModality(Modality.APPLICATION_MODAL);
                     s.showAndWait();
                     s.setResizable(false);
                 } catch (IOException ex) {
@@ -644,6 +649,7 @@ public class VentanaPrincipal implements Initializable {
                 s.getIcons().add(ico);
                 s.setTitle("OptiUAM BC - "+elem.getDibujo().getText().toUpperCase());
                 s.setScene(scene);
+                s.initModality(Modality.APPLICATION_MODAL);
                 s.showAndWait();
                 s.setResizable(false);
             } catch (IOException ex) {
